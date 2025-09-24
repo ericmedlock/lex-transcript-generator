@@ -1,0 +1,103 @@
+# Processing Node Configuration Profile
+
+node:
+  type: "processing"
+  role: "quality_processor"
+  capabilities:
+    - "quality_scoring"
+    - "deduplication"
+    - "data_validation"
+    - "format_conversion"
+    - "gan_discrimination"
+
+services:
+  quality_scorer:
+    enabled: true
+    models:
+      - "semantic_similarity"
+      - "conversation_flow"
+      - "medical_accuracy"
+    batch_size: 50
+  
+  deduplicator:
+    enabled: true
+    similarity_threshold: 0.85
+    embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+    batch_size: 100
+  
+  data_validator:
+    enabled: true
+    phi_scrubbing: true
+    format_compliance: true
+    content_filtering: true
+  
+  gan_discriminator:
+    enabled: true
+    feedback_generation: true
+    continuous_learning: true
+
+processing:
+  pipeline_stages:
+    - "quality_scoring"
+    - "deduplication"
+    - "validation"
+    - "format_conversion"
+  
+  quality_metrics:
+    - "coherence"
+    - "realism"
+    - "completeness"
+    - "medical_accuracy"
+    - "conversation_flow"
+  
+  thresholds:
+    min_quality_score: 0.7
+    max_similarity: 0.85
+    min_conversation_length: 10
+    max_conversation_length: 500
+
+gan_system:
+  discriminator:
+    model_type: "transformer"
+    training_interval: 1000  # conversations
+    feedback_weight: 0.3
+  
+  generator_feedback:
+    enabled: true
+    improvement_suggestions: true
+    scenario_refinement: true
+
+data_sources:
+  supported_formats:
+    - "json"
+    - "csv"
+    - "xml"
+    - "plain_text"
+  
+  preprocessing:
+    - "format_detection"
+    - "structure_analysis"
+    - "content_extraction"
+    - "metadata_enrichment"
+
+output:
+  formats:
+    - "contact_lens_v110"
+    - "dialogflow_v2"
+    - "rasa_training"
+    - "custom_json"
+  
+  validation:
+    schema_compliance: true
+    content_verification: true
+    metadata_completeness: true
+
+resource_limits:
+  max_cpu_usage: 85
+  max_memory_usage: 80
+  priority: "normal"
+  
+batch_processing:
+  default_batch_size: 50
+  max_concurrent_batches: 3
+  processing_timeout: 300  # seconds
