@@ -1,0 +1,58 @@
+# Master Node Configuration Profile
+
+node:
+  type: "master"
+  role: "orchestrator"
+  capabilities:
+    - "node_discovery"
+    - "work_distribution"
+    - "health_monitoring"
+    - "web_dashboard"
+    - "configuration_management"
+
+services:
+  web_dashboard:
+    enabled: true
+    port: 8080
+    host: "0.0.0.0"
+  
+  api_server:
+    enabled: true
+    port: 8000
+    host: "0.0.0.0"
+  
+  node_discovery:
+    enabled: true
+    multicast_group: "224.0.0.1"
+    multicast_port: 9999
+  
+  work_distributor:
+    enabled: true
+    distribution_interval: 5  # seconds
+    max_queue_size: 10000
+  
+  health_monitor:
+    enabled: true
+    check_interval: 30  # seconds
+    node_timeout: 120  # seconds
+
+database:
+  host_database: true
+  backup_interval: 3600  # seconds
+  cleanup_old_data: true
+  retention_days: 30
+
+storage:
+  manage_shared_storage: true
+  cleanup_temp_files: true
+  archive_old_conversations: true
+
+monitoring:
+  prometheus_metrics: true
+  detailed_logging: true
+  performance_tracking: true
+
+resource_limits:
+  max_cpu_usage: 50  # Reserve CPU for coordination tasks
+  max_memory_usage: 70
+  priority: "high"

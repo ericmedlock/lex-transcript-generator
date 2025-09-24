@@ -1,0 +1,92 @@
+# Generation Node Configuration Profile
+
+node:
+  type: "generation"
+  role: "conversation_generator"
+  capabilities:
+    - "llm_inference"
+    - "conversation_generation"
+    - "scenario_processing"
+    - "batch_generation"
+
+services:
+  llm_manager:
+    enabled: true
+    auto_discovery: true
+    model_health_checks: true
+    load_balancing: true
+  
+  conversation_generator:
+    enabled: true
+    batch_size: 10
+    concurrent_jobs: 5
+    quality_threshold: 0.7
+  
+  thermal_monitor:
+    enabled: true
+    check_interval: 10  # seconds
+    throttle_on_overheat: true
+  
+  activity_detector:
+    enabled: true
+    detection_interval: 5  # seconds
+    gaming_mode_detection: true
+
+models:
+  preferred_types:
+    - "llm"
+    - "conversation"
+  
+  endpoints:
+    scan_ports: [8000, 8080, 11434, 5000, 7860]
+    timeout: 30
+    retry_attempts: 3
+  
+  performance:
+    benchmark_on_startup: true
+    track_response_times: true
+    adaptive_batch_sizing: true
+
+generation:
+  scenarios:
+    - "healthcare_appointment"
+    - "customer_service"
+    - "technical_support"
+  
+  complexity_levels:
+    - "simple"
+    - "medium"
+    - "complex"
+  
+  output_formats:
+    - "contact_lens_v110"
+    - "custom_json"
+
+thermal_management:
+  cpu_temp_limit: 80
+  gpu_temp_limit: 85
+  throttle_factor: 0.5
+  recovery_threshold: 75
+
+activity_modes:
+  idle:
+    max_concurrent_jobs: 10
+    batch_size: 20
+  
+  light_use:
+    max_concurrent_jobs: 5
+    batch_size: 10
+  
+  gaming:
+    max_concurrent_jobs: 1
+    batch_size: 2
+  
+  work:
+    max_concurrent_jobs: 3
+    batch_size: 5
+
+resource_limits:
+  max_cpu_usage: 90
+  max_memory_usage: 85
+  max_gpu_usage: 90
+  priority: "normal"

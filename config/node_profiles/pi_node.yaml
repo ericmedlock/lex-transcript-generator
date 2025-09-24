@@ -1,0 +1,109 @@
+# Raspberry Pi Node Configuration Profile
+
+node:
+  type: "generation"  # Can be generation or processing
+  role: "lightweight_worker"
+  hardware_profile: "raspberry_pi"
+  capabilities:
+    - "llm_inference"
+    - "basic_processing"
+    - "always_on_operation"
+
+services:
+  llm_manager:
+    enabled: true
+    preferred_models:
+      - "llama2-7b-chat"
+      - "mistral-7b"
+      - "phi-2"
+    quantization: "4bit"  # Use quantized models for Pi
+  
+  conversation_generator:
+    enabled: true
+    batch_size: 2  # Small batches for Pi
+    concurrent_jobs: 1
+    simple_scenarios_only: true
+  
+  thermal_monitor:
+    enabled: true
+    check_interval: 5  # More frequent checks
+    aggressive_throttling: true
+  
+  power_monitor:
+    enabled: true
+    voltage_monitoring: true
+    usb_power_detection: true
+
+hardware_optimization:
+  cpu_cores: 4  # Pi 4/5 typical
+  memory_limit: "6GB"  # Leave 2GB for system on 8GB Pi
+  swap_usage: "minimal"
+  
+  thermal:
+    cpu_temp_limit: 70  # Lower limit for Pi
+    throttle_temp: 65
+    fan_control: true
+  
+  power:
+    low_power_mode: true
+    usb_power_monitoring: true
+    voltage_threshold: 4.8  # Volts
+
+models:
+  preferred_sizes:
+    - "7b"
+    - "3b"
+    - "1b"
+  
+  quantization:
+    enabled: true
+    precision: "4bit"
+    offload_to_cpu: true
+  
+  endpoints:
+    ollama_port: 11434
+    local_only: true
+
+generation:
+  scenarios:
+    simple_only: true
+    max_turns: 50
+    basic_templates: true
+  
+  batch_processing:
+    small_batches: true
+    sequential_processing: true
+    memory_efficient: true
+
+activity_modes:
+  always_on:
+    max_concurrent_jobs: 1
+    batch_size: 1
+    low_priority: true
+  
+  peak_hours:  # Reduce activity during peak home usage
+    time_range: "19:00-23:00"
+    max_concurrent_jobs: 0
+    pause_generation: true
+
+network:
+  bandwidth_limit: "10MB/s"  # Respect home network
+  peak_hour_throttling: true
+  wifi_optimization: true
+
+resource_limits:
+  max_cpu_usage: 70  # Conservative for Pi
+  max_memory_usage: 75
+  max_temperature: 70
+  priority: "low"
+
+reliability:
+  auto_restart: true
+  watchdog_enabled: true
+  graceful_shutdown: true
+  state_persistence: true
+
+monitoring:
+  lightweight_metrics: true
+  essential_logging_only: true
+  periodic_health_reports: true

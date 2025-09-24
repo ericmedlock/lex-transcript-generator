@@ -1,0 +1,145 @@
+# Default Configuration for Distributed Transcript Generation System
+
+# Database Configuration
+database:
+  type: "postgresql"  # postgresql, sqlite
+  host: "localhost"
+  port: 5432
+  name: "transcript_gen"
+  user: "transcript_user"
+  password: "${DB_PASSWORD}"  # Environment variable
+  pool_size: 20
+  max_overflow: 30
+
+# Master Node Configuration
+master:
+  host: "0.0.0.0"
+  port: 8000
+  max_nodes: 50
+  heartbeat_interval: 30  # seconds
+  node_timeout: 120  # seconds
+  work_distribution_interval: 5  # seconds
+
+# Node Discovery
+discovery:
+  method: "multicast"  # multicast, static, consul
+  multicast_group: "224.0.0.1"
+  multicast_port: 9999
+  scan_ports: [8000, 8080, 11434, 5000, 7860]
+
+# Generation Settings
+generation:
+  default_batch_size: 10
+  max_concurrent_jobs: 100
+  conversation_length:
+    simple: [20, 40]
+    medium: [40, 80]
+    complex: [80, 150]
+    extended: [150, 300]
+
+# Quality Control
+quality:
+  min_score_threshold: 0.7
+  duplicate_similarity_threshold: 0.85
+  enable_gan_feedback: true
+  quality_check_interval: 100  # conversations
+
+# Thermal Management
+thermal:
+  cpu_temp_limit: 80  # Celsius
+  gpu_temp_limit: 85  # Celsius
+  check_interval: 10  # seconds
+  throttle_factor: 0.5  # Reduce workload by 50% when overheating
+
+# Activity Detection
+activity:
+  detection_interval: 5  # seconds
+  modes:
+    idle:
+      cpu_limit: 95
+      gpu_limit: 90
+      priority: "low"
+    light_use:
+      cpu_limit: 70
+      gpu_limit: 60
+      priority: "background"
+    gaming:
+      cpu_limit: 20
+      gpu_limit: 10
+      priority: "minimal"
+    work:
+      cpu_limit: 40
+      gpu_limit: 30
+      priority: "background"
+    sleep:
+      cpu_limit: 100
+      gpu_limit: 100
+      priority: "maximum"
+
+# Model Configuration
+models:
+  auto_discovery: true
+  health_check_interval: 60  # seconds
+  timeout: 30  # seconds
+  retry_attempts: 3
+
+# Data Pipeline
+pipeline:
+  max_queue_size: 10000
+  batch_processing_size: 50
+  processing_timeout: 300  # seconds
+  enable_streaming: true
+
+# Output Formats
+output:
+  default_format: "contact_lens_v110"
+  supported_formats:
+    - "contact_lens_v110"
+    - "dialogflow_v2"
+    - "rasa_training"
+    - "custom_json"
+  file_naming: "transcript_{timestamp}_{id}"
+
+# Storage
+storage:
+  base_path: "./data"
+  raw_data: "raw"
+  processed_data: "processed"
+  outputs: "outputs"
+  models: "models"
+  cache: "cache"
+  max_file_size: "100MB"
+  cleanup_interval: 86400  # seconds (24 hours)
+
+# API Configuration
+api:
+  rate_limit_per_minute: 1000
+  max_request_size: "10MB"
+  enable_cors: true
+  cors_origins: ["*"]
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/transcript_gen.log"
+  max_size: "100MB"
+  backup_count: 5
+
+# Monitoring
+monitoring:
+  enable_metrics: true
+  metrics_port: 9090
+  dashboard_port: 8080
+  alert_thresholds:
+    cpu_usage: 90
+    memory_usage: 85
+    disk_usage: 80
+    error_rate: 0.05
+
+# Security
+security:
+  enable_auth: false
+  jwt_secret: "${JWT_SECRET}"
+  token_expiry: 3600  # seconds
+  allowed_ips: []  # Empty means all IPs allowed
