@@ -1326,3 +1326,421 @@ Format output for any target system (Lex, Dialogflow, etc.)
 Feed processed transcripts into the main generation pipeline
 
 The system becomes a universal conversation data factory - feed it YouTube URLs of customer service calls, podcast interviews, or meeting recordings, and it automatically processes them into training-ready transcript data!
+
+
+I can see you have a detailed architectural plan for a sophisticated distributed medical transcript generation system. Let me read the file to understand the full context and then create the implementation.
+
+Perfect! I can see you have an incredibly sophisticated architectural plan for a distributed medical transcript generation system. This is a comprehensive design that includes:
+
+Core Features:
+
+Distributed processing across multiple nodes (Pi 4/5, GPU machines)
+
+Master/child architecture with intelligent work distribution
+
+Thermal throttling and resource management
+
+GAN-style quality improvement
+
+RAG integration with massive public datasets
+
+YouTube audio processing pipeline
+
+Streaming data processing with reactive work assignment
+
+Key Innovations:
+
+Idle usage detection (gaming mode, work hours, etc.)
+
+Multi-domain model specialization (healthcare, retail, telecom)
+
+Natural language query interface
+
+Continuous learning and model optimization
+
+Real-time web dashboard
+
+Multiple output formats (Lex, Dialogflow, etc.)
+
+This is truly a sophisticated AI-powered transcript intelligence platform that goes far beyond simple generation - it's a complete ecosystem for creating, processing, and optimizing conversational training data at massive scale.
+
+The architecture you've outlined would create a Netflix-style streaming system for transcript processing where data continuously flows through the pipeline, nodes automatically consume available work, and users see results in real-time.
+
+When you're ready to start implementing, we could begin with any of these core components:
+
+Master node orchestration - Central coordination and node discovery
+
+Streaming pipeline architecture - Event-driven work distribution
+
+YouTube processing pipeline - URL to transcript conversion
+
+RAG integration - Public dataset ingestion and indexing
+
+Web frontend - Dashboard and query interface
+
+Which component would you like to tackle first when you're ready to start coding?
+
+First, lets be smart, modular, use configs (in DB where reasonable) to manage things (no hard coding right) and decide on a good directory structure for this project now.
+
+Perfect approach! Let's design a clean, modular architecture with proper configuration management and directory structure.
+
+Project Directory Structure
+Creating the project directory structure documentation
+
+Now let's create the core configuration management system:
+
+Creating the database schema for configuration and system management
+
+Creating the main directory structure
+
+by which I mean, create it IN the project directories/on disk
+
+Creating the main directory structure
+
+Creating subdirectories for the project structure
+
+Creating the database schema for configuration and system management
+
+Creating the default YAML configuration file
+
+Creating the core configuration manager with database-first approach
+
+Creating the database management utilities with connection pooling and data access objects
+
+Creating the requirements.txt file with all necessary dependencies
+
+Creating the environment variables template file
+
+Creating the master node configuration profile
+
+Creating the generation node configuration profile
+
+Creating the processing node configuration profile
+
+Creating the Raspberry Pi node configuration profile with hardware-specific optimizations
+
+Creating the comprehensive README file for the project
+
+Perfect! I've created a comprehensive, modular project structure with:
+
+✅ Created Structure & Files:
+Directory Structure
+Complete modular architecture with logical separation
+
+Core, master, nodes, pipeline, models, data, utils, api modules
+
+Configuration, web interface, data storage, scripts, tests, docs
+
+Configuration Management
+Database-first approach with YAML fallbacks
+
+ConfigManager class for dynamic configuration
+
+Node profiles for different hardware types (master, generation, processing, Pi)
+
+Environment variables template
+
+Database Schema
+Complete PostgreSQL schema with all necessary tables
+
+Node registry, work queue, conversations, quality metrics
+
+Proper indexing and relationships
+
+Default configuration seeding
+
+Core Components
+ConfigManager: Database-first configuration with hot reloading
+
+DatabaseManager: Connection pooling and data access objects
+
+Node profiles: Specialized configs for different node types
+
+Key Design Principles
+✅ No hardcoding - All settings in database/config files
+✅ Modular architecture - Clean separation of concerns
+✅ Configuration-driven - Behavior controlled by config
+✅ Scalable structure - Easy to extend and maintain
+✅ Environment-aware - Different configs for different deployments
+
+The structure supports:
+
+Distributed processing across multiple machine types
+
+Intelligent resource management with thermal/activity detection
+
+Database-driven configuration with real-time updates
+
+Specialized node profiles (desktop, Pi, server)
+
+Clean modular design for easy development and testing
+
+Ready to start implementing the core components! Which module would you like to tackle first - the master orchestrator, node discovery, or the streaming pipeline?
+
+include mp4 process as well, coverting to "audio" and using... and mp3
+
+Creating audio processor for MP4, MP3 and other formats
+
+Creating YouTube processor that uses the audio processor
+
+Creating YouTube processor that integrates with audio processor
+
+Adding moviepy and ffmpeg dependencies for video processing
+
+Updating database schema to support audio/video file processing
+
+Updating database schema to support audio/video file processing
+
+Updating database schema to support audio/video file processing
+
+Creating media ingestion pipeline that handles all formats
+
+✅ Added MP4/MP3 Processing Support:
+
+New Components:
+AudioProcessor (src/data/audio_processor.py)
+
+Handles MP4, MP3, WAV, M4A, FLAC, OGG, AAC formats
+
+Extracts audio from video files using MoviePy
+
+Converts to normalized WAV format
+
+Uses FFmpeg for format conversion
+
+YouTubeProcessor (src/data/youtube_processor.py)
+
+Integrates with AudioProcessor
+
+Processes YouTube URLs and playlists
+
+Extracts metadata and audio
+
+MediaIngestionPipeline (src/data/media_ingestion.py)
+
+Unified interface for all media types
+
+Batch processing capabilities
+
+Auto-detects format from file extension
+
+Updated:
+Database schema - Added support for audio/video file paths and metadata
+
+Requirements - Added MoviePy and FFmpeg dependencies
+
+Supported Formats:
+Video: MP4, AVI, MOV, MKV, WebM → Extract audio
+
+Audio: MP3, WAV, M4A, FLAC, OGG, AAC → Direct processing
+
+URLs: YouTube videos and playlists
+
+The system now accepts any media file or YouTube URL, automatically extracts/processes audio, normalizes to 16kHz WAV, and feeds into the transcript generation pipeline.
+
+You are my project scaffolding co-developer. Update the existing repo created earlier to the following exact spec. Use config-driven patterns (no hardcoding), write minimal, runnable code stubs with TODOs where needed, and keep everything ASCII-safe.
+
+GOALS (this weekend)
+1) Use a Healthcare Appointments dataset from Hugging Face (HF) as the ONLY data source for now.
+2) Build a clean pipeline: HF ingest -> normalize -> embed -> pgvector index -> retrieval-primed generation -> score -> store.
+3) Keep media->audio utilities in place (mp4/mp3->wav), but do NOT implement VAD/Whisper this weekend.
+4) Provide a passing smoke test that runs end-to-end with one small HF slice.
+
+DIRECTORY LAYOUT (update/confirm)
+- Keep the structure you created, then ensure these subtrees/files exist:
+.
+├─ config/
+│  ├─ default_config.yaml
+│  ├─ node_profiles/
+│  │  ├─ master.yaml
+│  │  ├─ generation_node.yaml
+│  │  ├─ processing_node.yaml
+│  │  └─ pi_node.yaml
+├─ src/
+│  ├─ core/
+│  │  ├─ config_manager.py
+│  │  └─ database.py
+│  ├─ data/
+│  │  ├─ audio_processor.py           # keep; mp4/mp3->16k wav utility
+│  │  ├─ youtube_processor.py         # keep, but do not call in smoke test
+│  │  └─ media_ingestion.py           # keep; but not required in smoke test
+│  ├─ ingest/
+│  │  └─ hf_loader.py                 # NEW: loads HF appointments dataset
+│  ├─ pipeline/
+│  │  ├─ normalize.py                 # NEW: split calls to turns, basic tagging
+│  │  ├─ embeddings.py                # NEW: embed and write to DB
+│  │  ├─ retrieval_primed_generate.py # NEW: RAG + few-shot prompt builder
+│  │  ├─ score_and_filter.py          # NEW: structure/slot/alternation checks
+│  │  └─ smoke_test.py                # NEW: end-to-end script (HF small slice)
+│  ├─ models/
+│  │  └─ registry.py                  # NEW: resolves embedding models, LLM endpoints
+│  ├─ utils/
+│  │  ├─ logging_setup.py             # NEW: standard logger
+│  │  └─ timing.py                    # NEW: simple timers/KPIs
+├─ data/
+│  ├─ raw/
+│  ├─ processed/
+│  ├─ outputs/
+│  └─ cache/
+├─ scripts/
+│  ├─ init_db.sh                      # NEW: applies SQL, enables pgvector
+│  └─ run_smoke.sh                    # NEW: venv + run smoke test
+├─ tests/
+│  ├─ unit/
+│  └─ integration/
+├─ docs/
+│  └─ RUNBOOK.md                      # NEW: quick “how to run the smoke test”
+├─ requirements.txt
+├─ database_schema.sql
+├─ README.md
+└─ .env.example
+
+DATABASE CHANGES (idempotent migrations; do not break existing tables)
+1) Ensure pgvector is enabled:
+   - create extension if not exists vector;
+
+2) Create/ensure these tables/columns exist (adjust if already present, do NOT duplicate):
+   a) calls
+      - id uuid pk default gen_random_uuid()
+      - source text not null  -- 'hf' or 'synthetic'
+      - split text            -- 'train','test','validation' if present
+      - specialty text
+      - intent text
+      - meta jsonb
+      - created_at timestamptz default now()
+
+   b) call_chunks
+      - id uuid pk default gen_random_uuid()
+      - call_id uuid references calls(id) on delete cascade
+      - turn_no int
+      - role text              -- 'agent' | 'customer'
+      - text text
+      - slots jsonb            -- optional
+      - emb vector(384)        -- for BAAI/bge-small-en-v1.5
+      - created_at timestamptz default now()
+      indexes:
+        * ivfflat on emb vector_cosine_ops with (lists=100)
+        * (call_id, turn_no)
+        * (intent, specialty) on calls
+
+3) Optional media table (keep if already created; not used in smoke test):
+   - media_ingest(id uuid pk, source_path text, out_wav_path text, duration_sec numeric, codec text, status text, created_at timestamptz default now())
+
+CONFIG UPDATES
+- default_config.yaml: add sections for:
+  embeddings:
+    model_name: "BAAI/bge-small-en-v1.5"
+    dim: 384
+  hf:
+    dataset_name: "REPLACE_WITH_ACTUAL"   # just a placeholder key for now
+    split: "train"
+    sample_limit: 200                     # used by smoke test
+  db:
+    dsn: "${DB_DSN}"
+  generation:
+    provider: "local-llm"                 # stub, not required to be fully working
+    model_hint: "7B-or-larger"
+    max_turns: [10, 16]
+  scoring:
+    cosine_near_dup_thresh: 0.93
+    max_turn_len_chars: 600
+    avg_turn_len_range: [30, 240]
+    enforce_turn_alternation: true
+
+MODELS REGISTRY (src/models/registry.py)
+- Provide functions:
+  - get_embedder(): returns sentence-transformers model for embedding
+  - get_llm_client(): returns a callable that takes prompt and returns text (stub OK; return canned text with TODO if real LLM not available)
+
+HF INGEST (src/ingest/hf_loader.py)
+- Use datasets.load_dataset(config.hf.dataset_name, split=config.hf.split)
+- For the smoke test, apply sample_limit
+- Return a list of items with fields:
+  { "call_id": uuid, "turns": [ { "role": "agent"|"customer", "text": "..." }, ... ],
+    "specialty": optional, "intent": optional, "meta": {...} }
+
+NORMALIZE (src/pipeline/normalize.py)
+- Input: list of HF items
+- Output: normalized list of (call, chunks)
+  - Calls: (source='hf', split=config.hf.split, specialty, intent, meta)
+  - Chunks: (call_id, turn_no, role, text, slots={})
+
+EMBEDDINGS (src/pipeline/embeddings.py)
+- Insert calls, then insert call_chunks with emb = embed(text)
+- Use batch inserts where easy
+- Create IVFFLAT index if missing (safe to run multiple times)
+
+RETRIEVAL-PRIMED GENERATION (src/pipeline/retrieval_primed_generate.py)
+- Build a simple retrieval for few-shot exemplars from the HF chunks by intent+specialty if present; otherwise generic semantic nearest neighbors.
+- Build a prompt template:
+  System: "Generate realistic medical appointment scheduling calls..."
+  Context: top-4 short exemplars (role/text pairs), truncated to keep token count low
+  User: "Generate a {intent} call for {specialty}. 10-16 turns. Concise and realistic. Do not copy exemplars."
+- For smoke test, if no real LLM client is configured, return a stub synthetic call (programmatically created) with alternating roles and realistic slot mentions. Mark source='synthetic' when stored.
+
+SCORING (src/pipeline/score_and_filter.py)
+- Implement the following checks:
+  - turn alternation (agent/customer)
+  - average turn length within [min,max]
+  - longest turn <= max
+  - if intent in ('schedule','reschedule'): require date/time/provider strings somewhere (regex placeholder OK)
+- Return accept/reject boolean and metrics dict
+
+SMOKE TEST (src/pipeline/smoke_test.py)
+- Steps:
+  1) Load config and DB
+  2) Ingest small HF slice (sample_limit)
+  3) Normalize and store calls/chunks (embed + write)
+  4) Do one retrieval-primed generation (stub OK) for an example intent
+  5) Score; if accepted, embed and store synthetic chunks
+  6) Print summary KPIs: counts of calls/chunks, synthetic_accept=0/1
+
+UTILS
+- logging_setup.py: configure a sane console logger
+- timing.py: context manager for simple timing and logging
+
+SCRIPTS
+- scripts/init_db.sh:
+  - psql apply database_schema.sql
+  - ensure "create extension if not exists vector;"
+- scripts/run_smoke.sh:
+  - python -m venv .venv
+  - source .venv/bin/activate (or Windows note)
+  - pip install -r requirements.txt
+  - python -m src.pipeline.smoke_test
+
+REQUIREMENTS.TXT
+- Ensure these are present (pin loosely if needed):
+  datasets
+  sentence-transformers
+  psycopg2-binary
+  pydantic
+  PyYAML
+  python-dotenv
+  moviepy
+  ffmpeg-python
+  numpy
+  pandas
+  rich
+  uvicorn
+  fastapi
+
+ENV TEMPLATE (.env.example)
+- DB_DSN=postgresql://user:pass@host:5432/dbname
+- HF_HOME=./data/cache/hf
+
+ACCEPTANCE CRITERIA
+- `scripts/init_db.sh` runs without errors.
+- `scripts/run_smoke.sh` creates venv, installs deps, and runs the smoke test.
+- After smoke test:
+  - calls >= 1 from source='hf'
+  - call_chunks >= number of hf turns embedded (emb not null)
+  - 1 synthetic call generated (stub ok), accepted by scoring, stored as source='synthetic'
+  - vector index exists and can be used in a simple similarity query (optional quick check)
+
+NON-GOALS (this weekend)
+- No VAD/ASR/Whisper or phone/tablet workers.
+- No private transcript ingestion.
+- No Hailo/Coral integration.
+
+Please implement or update all listed files with minimal runnable code and TODOs where appropriate. Keep everything config-driven and idempotent. Report back with a concise changelog of created/modified files.
