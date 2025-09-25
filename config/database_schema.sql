@@ -103,13 +103,15 @@ CREATE TABLE quality_metrics (
 CREATE TABLE data_sources (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL,
-    source_type VARCHAR(50) NOT NULL, -- 'kaggle', 'huggingface', 'youtube', 'upload'
+    source_type VARCHAR(50) NOT NULL, -- 'kaggle', 'huggingface', 'youtube', 'upload', 'mp4', 'mp3', 'audio'
     url VARCHAR(1000),
+    file_path VARCHAR(1000),
     domain VARCHAR(100),
     total_records INTEGER DEFAULT 0,
     processed_records INTEGER DEFAULT 0,
     status VARCHAR(20) DEFAULT 'pending', -- 'pending', 'processing', 'completed', 'failed'
     metadata JSONB DEFAULT '{}',
+    audio_metadata JSONB DEFAULT '{}',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
