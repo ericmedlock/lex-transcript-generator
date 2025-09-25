@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
