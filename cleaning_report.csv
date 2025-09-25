@@ -1,0 +1,740 @@
+filename,directory,status,has_agent,has_patient_content,speaker_count,reason
+2024-03-22T03_55_53Zcall866848c6-6c0c-4eac-be0c-04fa115f48ea.json,22,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-22T13_38_16Zcall110f7808-011a-42d7-b884-226a7c861338.json,22,HAS_PATIENT,False,False,2,Two speakers + conversational
+2024-03-22T13_38_25Zcallc1e9f04d-f8c5-49e4-bf48-16d2ee912f26.json,22,HAS_PATIENT,False,False,2,Two speakers + conversational
+2024-03-22T15_04_43Zcallb3f29a39-a486-4e9b-ba4c-aaaaef48f9a2.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_04_54Zcalla399df5f-b46a-4892-a0ec-9be8c717c47e.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_17_33Zcall6d6cb84c-ba78-47a1-a766-8e3c0e792d21.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_17_46Zcallddc9ecc5-053a-4009-bcb9-7f3663ff9a1e.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_19_59Zcall6da58926-004a-4a41-8785-cc2e803a1ccb.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_20_07Zcall115ba300-08bd-4624-8099-140b6a4873af.json,22,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-22T15_31_11Zcall6f188290-b6bc-4e44-8128-cde03c460529.json,22,NO_PATIENT,False,True,2,No patient content
+2024-03-22T15_31_17Zcall6c22179a-be5c-4790-a61d-dc1161551465.json,22,NO_PATIENT,False,True,2,No patient content
+2024-03-22T15_37_40Zcall12d9c5b7-e772-4725-8f92-0eeefa308e8c.json,22,NO_PATIENT,False,False,2,No patient content
+2024-03-22T15_37_45Zcall5b077e86-550d-4454-8c9b-829c1603225d.json,22,NO_PATIENT,False,False,2,No patient content
+2024-03-22T15_46_13Zcall9176a11c-ba66-4c0b-aa37-35a10c13c200.json,22,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-22T15_46_27Zcall44dc7eeb-0436-4b0f-a9f6-b31fab6a8276.json,22,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-22T15_47_50Zcalle6c226ca-abb8-49d3-a224-1b6c8166a029.json,22,NO_PATIENT,False,True,2,No patient content
+2024-03-22T15_47_59Zcallc84d1c0a-4d5d-49bb-ba5f-e8ce200c8d22.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_51_02Zcall7fb17b95-0a8e-44d3-bdc9-20d228772e26.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-22T15_51_13Zcall8df9ac8e-f951-40d9-a880-0c03cd828e00.json,22,NO_PATIENT,False,True,1,No patient content
+2024-03-27T15_00_59Zcallbb0f8753-6103-4417-a5c6-98742add6fd7.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_02_31Zcallfb3b4f06-2244-44a9-8ab2-f867dab03c24.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_03_12Zcall9f3c6ae4-b1f6-4d4b-a16f-7e127ada55cb.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T15_05_53Zcalld7fdeeb5-389b-454a-9e1f-b4ead86785a4.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_06_39Zcallfd272602-5a24-4350-9b92-e105168b9e2c.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_07_35Zcall46e66ddb-8704-4b07-88eb-97477e984d3b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_08_24Zcall4f9c4c9b-3f40-4634-8e50-ad83c1463802.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_14_37Zcall90832659-c400-4b8c-955e-be532d3aded6.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_15_08Zcall7eb0f1ac-ad6f-4844-a82d-98d26b4a0ff5.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_16_22Zcall98e7fd0b-aa40-4b45-b1fa-d4c28ce92b0b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_17_18Zcall3571047e-6dac-4f60-8393-0ba1bbeebe93.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_29_51Zcall97254477-30d5-498a-8811-b3a1de555298.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_30_41Zcall90ffdcbd-de7e-4505-9ad8-edf681420353.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_32_01Zcalldc994903-d3a4-4aa3-8088-3b96ec227807.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_32_50Zcallad94c7ae-2b35-4047-82b1-920f83b2a13d.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_34_22Zcall0e0464d8-d61e-4983-a7e7-b6756335c923.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T15_43_29Zcall947095fa-2c69-4325-b56a-07505c6ba094.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_44_09Zcall4ccd5351-cf4c-48b8-91df-54fb5f5b097b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_51_33Zcallb33f17e6-a0bf-44f7-a497-ae086770ee41.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T15_53_42Zcalle5cc6171-29c3-422b-902b-fd45f67f2677.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_02_37Zcall1f3ad4fc-90a2-45a1-bd06-1df329c4e53e.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_03_48Zcallf443c6dd-a3ac-4e17-bd88-ea966c8341f7.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_06_45Zcall0581b2e8-1108-47dd-8e83-fb7d8d7abb65.json,27,NO_PATIENT,False,False,1,No patient content
+2024-03-27T16_08_03Zcalle3d0d7f7-361b-4821-b9bd-59d7a5960b12.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T16_08_51Zcall900a2c7d-44a3-4b65-9936-79967984e0d6.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_16_33Zcall569241a8-07dc-476b-9445-e8e247eaa0ed.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_17_50Zcallc6c95588-132f-4968-bf4f-935e576d91fa.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_23_13Zcall1dd6fd97-f395-41fd-bf1d-41fcea33093d.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_23_49Zcallaa66e78d-3a6f-45be-9b90-4cc9c9cc7c6f.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_24_16Zcallb108edc0-c2f2-4461-bb38-e6a483bcde12.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_25_15Zcallf7aab97b-6f4f-4312-aa47-46cf3570f37f.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_25_43Zcalle17905cd-e4dd-486f-82bf-bb1187c265ee.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T16_28_12Zcallfdcbe9b1-645f-4bd9-8f7b-10d2328428c9.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_28_54Zcall8a324685-44f4-4067-b58c-8b7d728c2690.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_29_52Zcall2669f921-2a8e-4f1c-aa64-b38756bb5662.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_31_03Zcall79957490-bdd1-4f01-aebb-cb15ba9194a2.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_38_21Zcall9dd709c7-84d7-4987-97ec-22974f964112.json,27,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-27T16_39_07Zcall3c83ac5a-dde9-4ae0-99b7-eed9e0b63263.json,27,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-27T16_42_45Zcall6b638fa9-bea9-4a95-8da5-5113e3b250fa.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T16_43_29Zcallc6e3d6b3-30b5-4152-9020-6e2c36c63792.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_16_48Zcalle9923ae5-cdcf-43be-af13-cce7be30ba24.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T17_18_50Zcall60cc46f6-8f9e-43dc-8f2c-280f42e55e1b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_19_27Zcalldce7d0e9-54d4-4ede-b2b0-558a1787980a.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_28_09Zcall48c416d3-ccab-4c18-bb6e-bfd865babc9f.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T17_32_36Zcallac86b325-00ae-4b69-9365-55e587dd556a.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_33_22Zcall7537f3b7-32a2-4231-a7c3-9baa046ad294.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_33_27Zcallc6d248b6-6980-451c-bf43-8f75131f9cc9.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T17_34_12Zcall2612098a-4d89-4bad-90a7-3b4453948289.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_40_17Zcalld23ec2ac-513c-4bff-a2ee-40de99400659.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_41_02Zcall8c488c65-89d8-4dc7-81d8-a157dc429efe.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T17_57_35Zcall08147d49-39ce-4ca4-ab2e-2ad5841c5d30.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T17_58_17Zcallf0f96caa-a56f-45c2-b77c-0c8a59ae836b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_15_56Zcall0cc0205a-5e93-4195-9843-a0e2cc3194f4.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_16_43Zcalla21916da-ed3f-4a77-984d-a8df11a307b1.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_19_04Zcallc8320061-9a94-4ed1-9a30-38be32defb18.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T18_19_50Zcallefae112e-bfd5-4fcd-a799-5ed5812fa52f.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T18_20_46Zcall20080127-4a77-4de1-b35b-f859c9fda933.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T18_22_10Zcallb00f1304-9cbd-4a78-b8c2-39c831864ee1.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T18_32_24Zcall39765dda-4348-484b-a8ae-7b56a9370622.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_33_01Zcall655bb108-a330-498a-a8fd-7b674292afb5.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T18_33_06Zcalld2dddf15-71ba-487d-b4bb-ec20aaf229b1.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T18_36_56Zcall3772a956-4bee-4a30-be9d-b1255fce97ca.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_37_36Zcall90dce4cf-19c0-4df2-bdea-021e1d8e4958.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_42_53Zcallea54af33-068f-427b-9880-3b993744c105.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_43_40Zcalld4665d1d-e8e9-4a1f-9cbb-a0e30240ef6e.json,27,NO_PATIENT,False,True,1,No patient content
+2024-03-27T18_52_20Zcall76564dc5-975e-44b8-88fe-f8fedf17c8f6.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T18_53_35Zcall36a397d2-d571-41fd-8247-e5e44883bb4c.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T19_31_34Zcall458c2c0c-2105-4b99-98d2-2f7e91d21105.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T19_32_16Zcall98e62297-8a59-4ca0-b99a-61021132029b.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T19_57_32Zcall36722bd7-f5ee-4aa4-bbd5-1f13165070e2.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T19_58_15Zcall66837e3f-bac1-4c95-a0ce-e0dabcc8f849.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T19_59_12Zcallb42b23f0-c7d9-46e4-9a09-5af96615bc02.json,27,NO_PATIENT,False,False,1,No patient content
+2024-03-27T20_03_49Zcall5d2ee8e7-e103-4255-9c43-aedea7741a9b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_04_27Zcalleb0ecb06-4bb3-4e39-b57d-e97a68339491.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_10_07Zcallc80fb385-1f13-4fcd-9a5e-e4945265c976.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T20_11_09Zcall78ba9cc4-91a8-494a-a2cc-91bbf235a3a6.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T20_25_42Zcall84658259-3997-46ea-8a54-e8eb8c801901.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_26_07Zcall5cc5c1b2-7266-4dce-b5ff-f3720a839b9f.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_26_26Zcall4bb7f37c-f4b4-4aea-b012-4cf3fbc36066.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_27_26Zcall0160d38a-38e4-4aa4-8df9-504ce25f9312.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_27_52Zcallc8b7a4d3-d562-4b5e-ab6c-63d2ff0271a7.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T20_29_49Zcall9a348f44-a995-4218-8103-a9f56d657e22.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T20_36_27Zcall7c7debd8-664d-48a9-a44e-627fd6bf59a6.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_37_15Zcall255b9970-5f68-4cc1-8a10-58628a1ed67a.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_49_16Zcalld77b60e5-f454-432a-88ea-e00c527ac749.json,27,NO_PATIENT,False,False,1,No patient content
+2024-03-27T20_49_55Zcall078228f1-e4f1-4690-b7d2-adba41f040fe.json,27,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-27T20_50_00Zcall0c91a064-651a-46bd-8a6d-9d0bd785c645.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_50_33Zcalle87b9e1a-5760-4608-8e4a-becf402cabb0.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_50_39Zcallec3d23df-1130-44ab-b1fb-6e9a1c0af026.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T20_51_09Zcalldbdfd343-e6c5-42d5-9734-9959b3aebd41.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T20_51_14Zcalle3a45c15-346e-46ee-890f-41bf360bff03.json,27,NO_PATIENT,False,False,1,No patient content
+2024-03-27T20_53_55Zcalle16b85db-a261-4b85-a331-97d2751ef253.json,27,NO_PATIENT,False,False,2,No patient content
+2024-03-27T20_55_07Zcallc2dbb5b2-a1fc-4805-89fc-117c055f8b13.json,27,NO_PATIENT,False,False,1,No patient content
+2024-03-27T21_02_40Zcalld98eb93f-2717-44f5-9697-69fb4d1a5fc8.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_03_14Zcalld993bf43-24da-466b-ae9e-46248f98cd3b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_03_21Zcallfaf8cec7-b46b-46aa-8ae1-7dd51861451c.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_03_50Zcall1554361c-cdee-4b03-81a1-54fab57c2660.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_06_38Zcall5b6e384f-50df-48e8-9f8a-9d71e3a5cc36.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T21_07_14Zcall3eab44dd-e407-48c5-9460-39ed246fb416.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T21_12_35Zcall8064c0f9-b530-426e-8c40-9967cf22c665.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_13_24Zcalla1a3c5f0-e5bf-4bd0-ab3e-92a558b104cc.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_19_36Zcall39174a53-a2ef-45f5-88aa-db4a2602573d.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_20_11Zcallcdf609cb-254d-4120-9e22-ea6c4a0981e9.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_26_48Zcalldefce9bd-404e-4ced-9195-0998d2bf1ecb.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_27_01Zcall70d57711-df08-4f02-8337-84bbc91c364f.json,27,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-27T21_27_32Zcallf1e4ccb7-f506-4d56-a433-f09dcbad6cc1.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_28_25Zcallf57fb034-63ba-4aa2-8743-cee70aa15215.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_29_05Zcall52080d15-8102-47bf-a4de-d44b369209a3.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_37_42Zcall70fd3b41-37c8-4cff-81c0-4d33c64db05b.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_38_32Zcallb30d6f00-ac0a-4600-94cc-f4846e81ad1d.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_49_51Zcall09451ebf-bbcd-4a1b-95ce-b605c615aa08.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_50_27Zcallae6e70a4-1773-41d9-908b-8719f639d4c0.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_53_47Zcall2806ecb4-d389-4a7e-a5f5-aef129bb55cc.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_54_47Zcalldf735110-3b37-4a87-a94b-9b4ee680d3ed.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_55_10Zcall01df8aae-f060-47a0-9d19-33e54c275b77.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T21_56_01Zcall84fb9a7b-e756-4ed3-b565-81a44b09ca0b.json,27,HAS_PATIENT,True,False,2,Two speakers + conversational
+2024-03-27T22_01_41Zcall4c0e99e0-fcae-4060-8759-1ca7b86d05b2.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T22_02_26Zcall720b44d9-8458-48b0-b929-cfb0675c20c3.json,27,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-27T22_10_16Zcalla0cd9ced-d769-44bc-bd9d-fe5ce0b3aa49.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T22_10_47Zcall2e64a50f-3014-4e21-93b0-3f6f5afb3d1c.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T22_12_54Zcallaedc204f-bdd5-4c79-98d9-67a6ed451dc8.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T22_13_33Zcallcdd6d72d-32f5-494b-a391-d44900ec0708.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T22_46_29Zcall276bb01c-2773-424d-a552-1804c94bfc8a.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T22_47_10Zcalld1a82306-2971-44fb-a216-0bfeca5036d0.json,27,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-27T22_56_59Zcalld104b9a9-bd56-43f2-80f5-41e0dfcea927.json,27,NO_PATIENT,False,False,1,No patient content
+2024-03-26T14_28_16Zcalla0bb8022-eccf-4d12-ba70-31ac90534578.json,26,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-26T15_06_19Zcallfc4beedb-76db-41d7-94fb-efc1690b5628.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T15_09_34Zcall47d9ee0a-4864-46c7-975d-6ce9e107332b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_10_10Zcall55957a27-fab9-4346-bc49-cb7f694b6047.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_14_03Zcallaed30d07-a77c-4e8b-b705-1d0893ad822d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_14_39Zcalla78097d1-3628-4b78-9a18-0cf0910a2091.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_14_55Zcallb5b92fec-7680-44f2-bf31-8fc4e3205371.json,26,NO_PATIENT,False,False,1,No patient content
+2024-03-26T15_17_55Zcalle62a3a96-b9a3-4ec8-967f-b23df2244c10.json,26,NO_PATIENT,False,False,1,No patient content
+2024-03-26T15_24_41Zcalla9d03dc7-6dfd-409b-8ce2-cd3fdb015e06.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_25_29Zcall25988390-e5bc-4a0f-b8dd-497af26f2c81.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_26_33Zcall265ead63-27e1-4d72-aa29-d54c59fc7b26.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_27_21Zcalle0046dbd-9d9d-4119-8adb-e81e35e2c3fc.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_34_28Zcall0e135077-537a-4ba6-9c4e-76fc197d0f26.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T15_34_55Zcall756440b0-10fe-4837-82e0-621ae169b825.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_35_13Zcalle3116aa7-f58e-4562-8c09-2d04720f4020.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T15_36_26Zcall1dee8081-2e49-4084-b35e-c04d5cd0ae7b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_44_35Zcall956d963f-7898-430b-8427-5c1bf19992d4.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_45_14Zcall9369ba0e-61fd-4378-9613-6c50bbb0dbe6.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_47_20Zcallb6b620d9-bc88-4f2e-9962-dde6f779786b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_48_20Zcalla16e1c85-11c4-4615-b2bc-ca9ad121ba2a.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_50_19Zcalla0335d19-cd69-4b4b-93bd-a50b2856d1e5.json,26,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-26T15_50_27Zcall62f1b916-5dbf-4fcc-86fe-b5bdd9ed5e92.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_52_00Zcalla17b129c-a96b-41fc-9979-436803b81597.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_53_06Zcall4c1e61bb-e20d-4d04-a902-d476aa493687.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_54_02Zcall31eade6a-a515-435b-8bad-035f7371a291.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_55_31Zcallbb957aba-2b06-43b7-8134-8ed48fb1f3c8.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_55_47Zcall7ef2ec11-da1c-466b-b7f5-d54013c3c8f8.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T15_56_20Zcall434dbaf4-842e-40a9-852e-c085dd1ea234.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_03_24Zcallff8a7a6e-8899-483a-aac8-879a796f70ea.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T16_03_58Zcall1c77cfe5-9867-4eb6-a868-d2f07665c1c1.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_12_43Zcallddc982e7-bd47-4d5c-bdf1-9299eafed6fe.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_13_21Zcallc460b267-c742-45ec-bb9e-a352cba62f07.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_13_43Zcall59e7afc5-56fa-42fe-bcbb-0501643719ec.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_14_41Zcall4f490ff6-f6c9-45c4-b3b8-7331cf3ae0b7.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_17_15Zcalle581c790-d907-409f-ba0c-4d74324f5357.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T16_17_52Zcall6007ab98-777c-446d-804f-53277868a5bf.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T16_33_43Zcall8c8e3db2-aad9-44df-a097-abb94661ccab.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_34_21Zcall8f6e5196-d81d-42da-8497-8420486d31c9.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_35_58Zcall2032975c-dda2-4efc-b84c-e96f1e73a4c8.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_36_34Zcall5e7a6c2e-b7cf-4bcd-ad28-3bb1c79c79e0.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_37_04Zcallaebf2470-1883-471c-93ee-4b794854347c.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_37_40Zcalla0dfc837-768b-4223-b3bd-b68c36acc466.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_39_16Zcall42815fbf-74a4-4c8b-a271-c67d7591ebd2.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T16_39_46Zcalladaffbfd-c24e-4f51-abc7-a0f8429bfe2c.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T16_40_20Zcall1f61b5d0-858c-40f3-a173-c31780cd1173.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_41_17Zcallb682357b-d40b-41fc-ad93-773304af9da8.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_41_34Zcall705f30e9-8b76-4510-8681-e2b05b24fc7a.json,26,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-26T16_41_35Zcall7e016171-a1a2-4289-a448-8b5be3bc5c6b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_41_54Zcallabc8022f-8bdf-46a4-b92e-d68c86db7a06.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_47_18Zcalld9e5355b-1022-4332-aee8-29552130c082.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_47_54Zcall969d8d15-2692-45d4-a51b-2776f44409b1.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T16_50_31Zcallaae29c13-5710-430d-bfbf-afc893c93d55.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T16_51_17Zcall3e3082dd-9815-4aa5-a4a3-a919de5df596.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T16_56_29Zcall81876456-58a8-402b-814d-0d043bfb5d28.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T16_57_17Zcall5b3650ef-b04b-452e-ba6b-0dc7b123889d.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T17_00_12Zcallbdd1dd27-8c6e-4261-812d-694823876ec4.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_01_22Zcall566b04ec-dfcd-4bc0-84a0-d46bcf314a6a.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_06_41Zcall324c97c3-ed06-4ec6-9349-1c06d002ff26.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T17_07_02Zcalld2679881-ebba-4e94-810e-6f01eb9fb872.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T17_07_27Zcalle69e25dd-fcb1-4a3d-8fc2-9a1809251450.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_07_36Zcall66e18b7c-810a-4eae-b2d2-04a4f7d55333.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_08_09Zcall690521fc-4c11-4818-8b3a-7403fcb9cdee.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T17_08_50Zcalla13906ec-13c0-4512-81d1-b78b718cfd06.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T17_18_09Zcallfec604ab-d467-4435-9ef6-631daa0de086.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T17_18_49Zcalla19c8104-09e9-4f29-a07f-8e0109045157.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T17_29_19Zcall7d16c31a-d29c-45de-afd4-67a3a830c969.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T17_30_07Zcall8b2c3cfc-e85d-4de0-8635-b7f9055965d5.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T17_35_07Zcall4d5f86a9-93fd-4d0c-bf39-91c02add9e07.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_36_50Zcall30b07c95-e59f-4d20-8911-6f94e103011f.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_37_30Zcall48f3b093-25d7-4a61-b191-c3cdc3aa1fa7.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_37_37Zcallc544622c-bbc6-4c98-bbdc-80c36006f6a5.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T17_38_02Zcall84da06e0-0906-4bb0-bad4-edde6b46e23e.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T17_38_04Zcall938bbe0e-6974-4b22-8cb6-b82ca9f50c92.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_38_44Zcall6168e593-9b1f-46ca-9404-230a5b7b7b4f.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T17_42_48Zcalld936fb6b-ce02-47b6-bbc4-2735529407a3.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_43_04Zcallf444044b-0f03-406e-a3b9-b077f10310da.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T17_43_33Zcall34998542-420c-49b8-a615-3a9c1bd0bccd.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_44_31Zcall9a7ee636-6953-4e75-ab4c-e718e32bada1.json,26,NO_PATIENT,False,False,2,No patient content
+2024-03-26T17_44_31Zcallb7dd49e6-01a0-4bea-9162-66bf9ac3384a.json,26,NO_PATIENT,False,False,2,No patient content
+2024-03-26T17_52_30Zcall72e1d339-9a19-43b6-ba71-7410c04851be.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_53_14Zcall5124d1d1-5453-44d8-b2b0-2e3fc9112cfb.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_55_44Zcallf3ef49eb-679e-4ff6-9b2b-78a03c871ec0.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_56_21Zcall4943b8ff-6c64-43da-b739-0babf59fd686.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_57_44Zcall22af4a04-7adb-4ea9-b347-7325ff4cca2f.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T17_58_28Zcall4330ab77-4593-4bc5-ad39-b8175b3639da.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_04_10Zcall035fdda4-24be-4709-8b14-13fc2ae81568.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_05_02Zcall84699a24-a087-48ef-999e-2ab7b7a87aa0.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_25_06Zcall8be3c902-59c3-4724-bbf7-5c55bba48a13.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_25_13Zcallc48187cc-17eb-48c5-aac1-ad54c8f7010c.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T18_25_44Zcall26bff576-2acf-4a15-b0d2-939b535067bd.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_25_51Zcall92302a3f-61cb-4c9d-8e5e-90217f8366f2.json,26,NO_PATIENT,False,True,1,No patient content
+2024-03-26T18_35_42Zcalld1db42e1-b7f9-4674-a637-33eae797b715.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_36_23Zcall78449e62-1b16-44e8-a3d0-0c9043ea5aa9.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_50_57Zcallf6ba002d-81d1-499e-904d-f2fefc42df43.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T18_51_37Zcall9fcccdbc-cd6d-42f6-a1ab-c41280ada6b9.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T18_55_52Zcall8ff96c33-7b80-43fb-922f-fb595e9610c2.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_56_30Zcall211bd2f9-c38f-4ee3-aa1d-60836d89269b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T18_57_51Zcall425817a5-049d-4aac-b6c8-f666052ca1dd.json,26,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-26T19_01_00Zcall66807b9c-5f9e-4e50-9f0c-43a0fa3aadbd.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_01_35Zcall7fe85786-63f6-456b-a3eb-88b73d0c84a2.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_07_48Zcall154183d5-ae00-4478-abe9-6cab8a9cc06b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_08_43Zcalle8825b10-d487-4509-8657-c78ba988d3d5.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_18_11Zcallde6c6a52-8a01-4ee9-b501-20ee388fd1bf.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_18_37Zcalldccc3111-6e63-4e79-b231-d2f3ec9e98ae.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T19_18_57Zcall6a74e187-981a-47a1-ae8f-3fe03cde2cd3.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_19_13Zcallb1ff0dd7-82eb-4a1f-a429-2434a121abcd.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T19_24_16Zcallf0d69729-c4b6-468a-aeae-c26856489bd3.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_24_55Zcall954c5053-4101-40df-b6db-6786eb205139.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T19_25_22Zcall4e42c5f5-3126-4feb-b63c-ee7da6f11570.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T19_26_03Zcall58b00412-08e9-4c36-b5f4-fde26599bdb1.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T20_18_09Zcall4d4d80c6-83c0-476b-a034-e121b3e6703d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T20_19_08Zcall5844783a-dd65-486a-b374-4575aeb07183.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T20_50_30Zcallfb3c576f-f3a9-4eab-b30f-4154dd9e8f4a.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T20_50_40Zcallfa386a02-6150-44ba-bd7f-ab1bf022386c.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T20_51_16Zcall3dda96e9-fdc9-44dc-bfaf-87a55f564e55.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T20_51_24Zcall060bbc92-c51e-4341-8ea0-d6ba38803805.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T20_57_21Zcallaae32bce-d2ed-47b0-8b18-33ef80b34d10.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T20_57_59Zcall6c00aba0-2692-4a92-bcfc-368f23b13324.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_02_10Zcall359a337b-d53d-4e26-a281-0f5338bf217d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_02_59Zcall6779a24f-f8ab-4f83-ad85-b429e455449f.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_12_36Zcall671f6758-83ed-4995-8700-80dfcf46070d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_13_14Zcall77bb69ad-370f-4896-80a3-1eeec09356b5.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_16_12Zcallf64a5140-cb5d-4eea-b03a-3bbd540452ca.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_16_49Zcalla02eacca-1f0f-4b54-83b5-d9cac1e3d806.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_18_11Zcall5684e044-2184-450d-825a-830ad4490c47.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_18_49Zcall5b1866d3-fff6-4cde-ac40-fe63c5d623b0.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_20_42Zcallb0f8f884-b635-4e58-bada-a2271a8d817d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_22_43Zcall15db8577-b62e-4b65-bb65-1e96266f6880.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_25_04Zcall0d16707b-be8e-4245-9123-ab69ad0e56d2.json,26,NO_PATIENT,False,False,1,No patient content
+2024-03-26T21_26_53Zcallcdf9a1a2-1e3d-4680-bfe1-3fb95b6b14ab.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T21_27_53Zcalla69c9fce-c0c2-4397-ace3-8ee10b1862d7.json,26,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-26T21_31_19Zcallfcf51aea-5499-403a-a994-30a481143917.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_31_56Zcallbba952d0-12c5-4bb1-aba5-2c6e13a84ead.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_32_27Zcall6a8c088a-1a7d-4a8d-9bb2-e4db82347f3d.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T21_33_23Zcall340c61fa-b15d-4ab7-947b-b454c2c6df59.json,26,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-26T21_37_55Zcalle92a7eaa-aac3-4797-b0e6-39348031ff5d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_38_34Zcall51430ddf-e83a-40ee-8f52-32612075377b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_49_05Zcall72696895-f306-4390-9459-f9c1b94e20d9.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_49_54Zcallaf696f40-2fbe-4ab9-8299-255cb3dfa502.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_50_46Zcalla3b7da11-5e60-4efc-8355-0244de670c9e.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_51_20Zcall4985108b-f2c0-4b0b-ba7b-e253eaf902a5.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_53_29Zcall09b40060-a3b0-44cc-a4b0-fc1aa89e7e98.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T21_54_10Zcall0b427350-1b31-4d11-abe1-ca552ccba6c7.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_10_21Zcall51f51a2f-9ccf-43e7-8c79-54814a977f8c.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_11_07Zcallc54e5175-7710-4ffa-af8c-a61a1dff2740.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_11_32Zcall20075d45-4700-4a88-9df1-7621e976c7cf.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_12_35Zcall39fabb4d-e90e-402d-a233-e5fa8c0f69b7.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_13_02Zcall6a6f3a14-299e-4bb7-8583-2f2d0aecbd77.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_15_07Zcallebfc9c49-cfb5-4bfc-be60-65bec92c9404.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_28_47Zcall2529d686-02b0-4e7f-9693-7acc655e457b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_29_26Zcall54cf4b83-d00f-4e86-9ec0-74cb574676b6.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_30_49Zcall20bc1ed2-8b26-4797-82df-3d77c53db5c3.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_31_39Zcall41135cc5-7184-4057-9b97-a67fa005d5b2.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_35_33Zcall89074265-ebff-4e87-bb8f-763ffbdb3ae0.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_36_26Zcall804a2a80-e4e0-494b-bca2-0140a3fa3b2d.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_43_12Zcall777c7281-035a-488d-9e24-d25bfcbcf0e1.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_44_00Zcall01332acb-37f8-4333-afc9-01e1cefb6731.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_50_42Zcall9be0ff77-04ea-4af8-9a16-d3ba7ecea33c.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-26T22_52_07Zcallf6332e31-d8cd-4e67-bf97-1117b9f3010b.json,26,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T13_39_51Zcall89e31fb9-de06-42a3-a8c3-6c9744c2000c.json,25,NO_PATIENT,False,True,1,No patient content
+2024-03-25T13_39_57Zcall55b4e937-5fd4-45ef-8c0d-28ae39f0b758.json,25,NO_PATIENT,False,True,1,No patient content
+2024-03-25T13_42_23Zcall6604a2b8-3139-4435-bade-fb063f8f7f20.json,25,NO_PATIENT,False,False,1,No patient content
+2024-03-25T13_43_30Zcall39997b30-e668-4572-aabc-6fff2e4a02c9.json,25,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-25T14_33_52Zcall6cf4f790-b512-426d-bb84-a59979df5d94.json,25,NO_PATIENT,False,False,1,No patient content
+2024-03-25T14_34_18Zcall31613a5b-48b3-497c-86d7-a8c95215ee92.json,25,NO_PATIENT,False,False,1,No patient content
+2024-03-25T14_36_46Zcallc9b7dedf-ab50-4872-9771-7976602a410d.json,25,NO_PATIENT,False,False,1,No patient content
+2024-03-25T15_01_54Zcall1dcf1cf6-d214-4596-9b0e-63e3ac8516dc.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_02_26Zcall769032d0-861c-4999-946e-b703c41e0324.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_02_34Zcalleeb608b7-e279-44d8-86ef-929133bb9133.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_03_55Zcall9cd59633-099d-428c-a897-17f4676dee8a.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_09_50Zcall8fb5e6da-aca6-4d64-a273-521da9ba59db.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_10_40Zcall10d970b0-48ff-4b0e-b948-eff14f199921.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_14_23Zcalla218abbd-3007-47e1-b31b-cf38ccc455d7.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_15_06Zcall08961314-f97b-4a58-a68f-a2fc077347d9.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_16_31Zcall45115889-d5c5-4332-98ca-31e7bf19f4f2.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_17_21Zcall2c307d69-e46f-4bd3-8905-d17c3c1203ec.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_18_23Zcalld0ba3ead-e0f7-4771-8f29-d06acd08829c.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T15_18_42Zcalleb13f1cf-1f7b-405d-a4a0-10342c7e4bf1.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T15_19_43Zcallf2322461-622c-41f5-818d-db92d0030a23.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_20_31Zcallc6f8ab3b-09ac-47d7-ab9b-23509a8fdc32.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_24_20Zcall38c0f5e2-b715-4184-b81f-cfa4a089b54f.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_24_56Zcall18b13639-2445-4a0b-a820-3b30d75186f6.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_39_18Zcall4cb6f9d1-742a-4b67-bdc3-84c08fe9441e.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_39_55Zcalla6c33ff6-1d91-46f8-8aa4-7ff15f703ae4.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_40_17Zcall3daa7782-702d-4613-a48f-7b4dd6df58a3.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_40_53Zcall05cb761f-21f1-4699-9a2f-452f3f153a28.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_42_30Zcall2e6747a2-b5cf-4727-bd5e-f1396a136bb9.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_43_12Zcalla87eb34f-f425-4d16-b222-5ddbe27fcbcb.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_44_52Zcall00bd7c22-08f0-4d16-a7a4-bfa7aa2feeb4.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_45_29Zcall10c4f422-edf1-4bfb-9df9-3557cc92c293.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_49_54Zcalla624b578-ea26-419b-8f1e-72cc467f3b3f.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_50_30Zcall463b21ad-ee1f-4b47-b5e2-95ff63f6951f.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_50_37Zcallf3ca895d-b975-4806-b77c-cacbf62248e1.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T15_51_23Zcallf590d055-04ca-4166-9d43-6b6dcc5acf4b.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_52_51Zcall8a1dc6bc-c6fd-4a18-9a78-9f51b525af65.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_53_07Zcall465ac84f-9d0e-4c96-9b16-dc981581f0f9.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T15_53_27Zcall9a1a1aea-c609-499e-900f-05a37a61a7d6.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_54_06Zcalld111e759-7df5-4c81-93f2-e9a1dcaceb97.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T15_54_32Zcallb5c91781-f2f8-4ffe-bdbd-e408ba69ef92.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_55_59Zcall335e06ac-02d4-47b7-9db9-fdc61da8b2df.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_57_08Zcall7af6685a-c072-42c7-8715-eab8ab18c7c7.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T15_57_54Zcall44cc9c14-131a-41cc-a872-5588ec452974.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_03_57Zcalla9e6b34c-9ca2-4092-8eba-c586f68edbef.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T16_04_50Zcall6386158b-84b2-43a9-8476-0cd9e8029415.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T16_06_08Zcall5fe9e578-363d-4b3e-87b5-6a6f2e63f681.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T16_07_09Zcallec0c5dcd-bec2-4b42-a9a6-37bf49f22eb3.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T16_21_46Zcall1b329e13-1926-4c44-8a1d-9d9524b0a0e5.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_22_31Zcall953e507a-1ebc-401d-8ab8-4b83ffd899e0.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_27_40Zcall23fd8158-70b3-4fc0-a2fd-88476b8fd86c.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_28_15Zcall787ddf72-44ed-4c7a-9c5b-0a2f6adbe839.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_28_15Zcall8ec864f2-d9a7-49ce-b396-efaaa65eba93.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_29_08Zcall59fec396-9d3f-40b9-8e0d-3c16d83f45db.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_32_33Zcalle2f92c1a-f9da-4a9b-ae13-9af9bffccd4a.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_33_20Zcallde02ee9d-ad8d-4cdb-bb9f-8cd1914b089e.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_39_19Zcall778da3bf-ff7e-483a-9343-d08303949ccd.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_39_55Zcallfc953d03-40ba-4542-9d82-f94bf1685a88.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_40_11Zcall184b394f-23ef-4366-9cdd-29112d96ee82.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T16_41_48Zcall828f078e-230d-4fbd-88cc-5e95f9929893.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T16_45_28Zcall881632a8-3049-467a-8bc5-6cf354e9c2a9.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T16_45_57Zcalle91cb928-2537-4698-b391-6a770e016626.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_46_15Zcalle18a6c6e-4446-4037-a4aa-01e2cddb56f2.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T16_47_02Zcall55807b8f-de26-4717-8fc2-9b041a298abc.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_48_40Zcallf81ef4c2-ac27-4a0f-8344-c37308c0eb04.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_49_17Zcall293f5b5e-f67f-409c-8b42-a3c13df103de.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_50_21Zcall114abee8-575c-443e-8fbd-378d5bf5d7e2.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T16_51_01Zcallb6668335-5ae4-43c0-90c2-c86e771eed7c.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_01_51Zcallddaebd85-5c37-4bce-a2d8-71b712c8348f.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_02_31Zcalle3034df1-0b88-4e16-bf19-95a3d12912c8.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_04_37Zcall0d710072-2cdf-4649-967d-a25f55a1b31c.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T17_04_41Zcall789edec9-0d8c-4312-ba5d-e0447ff8ff96.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_05_12Zcall92c2c4d4-666d-4ac2-83ac-35fea875f491.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_05_53Zcallce60cad5-2be8-40a2-88a3-a5b85d65dc8b.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T17_15_30Zcallfaf5fbcb-7dd7-40b5-a6a4-ca77a1e09634.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_16_12Zcall8028487e-b186-472e-83f3-961ece45a798.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_17_55Zcall9a53bb14-fba0-48c1-8ba7-1861632efc6e.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_18_53Zcallc08dba9f-cd1a-47d2-9879-576148809d06.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_26_14Zcallba905ff2-e816-4bf5-95de-32e67cd32a22.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_26_48Zcallf54077ad-2ece-4d7b-8cf5-4a7b2b675f15.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_27_45Zcall37334ffa-1800-4915-94cc-b966600e4eac.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T17_27_47Zcall9964dd8c-983d-4811-bedf-cdce6fdb36bf.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_28_21Zcalla2b6d9cb-6e87-4008-8fb4-3e937a88fbc2.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T17_29_14Zcalled68e875-537b-449e-9681-5968defe03d8.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_39_41Zcall328f68c0-5612-4be0-800a-b287cefa86b8.json,25,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-25T17_42_31Zcallcb51090b-3415-48ca-bbb4-9ca6c155a339.json,25,NO_PATIENT,False,False,2,No patient content
+2024-03-25T17_46_01Zcalleac1a0d9-ee50-4a9e-b768-f43c1793aa1a.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_46_37Zcall27759f74-bd01-4b4c-a0c5-946a553a53e2.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_53_48Zcall46d61598-4e4f-4539-ac50-0686a1b995a6.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_54_29Zcall6528646e-0534-43a9-b7bc-e51e8aea2fba.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_54_34Zcall1bb9bdf5-e22e-408d-bc6d-237d1b878b2f.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_55_28Zcall80ffa83e-31b4-4ac2-8dff-7ba75051bd8a.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_55_30Zcall32619716-5cc3-4c56-8e8e-14d388d79d12.json,25,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-25T17_56_24Zcall925c7d15-a69c-4567-9add-61347fcab643.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T17_58_09Zcalla54cfa31-63a9-4826-a7b4-ef71537a0c2b.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T18_03_50Zcall9b1cf4f6-96bc-4217-9d33-f8b183768263.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T18_04_31Zcall3c2eed2c-2076-49a2-ac6e-cd9f291c8164.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T18_24_26Zcall421790c5-2d7d-40ca-be52-250f36ffd659.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T18_25_04Zcalleb95d7c8-a2ac-4258-9094-81b5e74fb971.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T18_40_46Zcall9372c026-a1fd-43bd-86ce-796d2a3f67df.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T18_41_26Zcall32f58855-37c6-4a26-b976-cb380705a562.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_04_24Zcall3fd4c890-2de5-4517-a3db-8d09c72c3aa2.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_05_05Zcall8f9bfe3b-0dca-49e9-94a2-3017481fbf01.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T19_07_06Zcall35a538e4-0e52-4b75-bef3-be43d74c26fe.json,25,HAS_PATIENT,False,False,2,Two speakers + conversational
+2024-03-25T19_07_16Zcall6497eb29-d3d3-43dc-91b6-a7941ae0abaf.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T19_08_00Zcalla252e9d2-4df2-442c-98f0-248c51109625.json,25,NO_PATIENT,False,False,1,No patient content
+2024-03-25T19_08_57Zcall36758f91-5add-4bfc-b0a9-59714f9ae2e9.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T19_20_07Zcall1ad85a1b-c922-4179-bec1-db7cbad41e2b.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_21_04Zcallc6c1d465-ef5f-4a58-8658-a8edcecab49b.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_31_37Zcall0e6a041f-fe58-409e-9e87-e4478f94d138.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_32_19Zcall1d68687a-1c73-499e-a881-e6e3208af815.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_47_10Zcallbe1a3cf4-83de-4c6f-af43-8d342ddbff14.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_47_48Zcall0cc2d50c-edfa-47bd-8d45-9ab9d728ab62.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_58_28Zcall29c154bf-e28c-4eab-aa02-2c717fd3df27.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T19_59_07Zcallb5f402ca-dd42-42fb-b617-319d9c55b572.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_04_11Zcall815f992b-ab1d-4418-86e6-a1cbdff030a7.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T20_05_05Zcall1938592d-3237-441e-8bc7-bda5fa3edc0e.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_08_53Zcalld761df27-f8cf-4389-b56e-9bf47c47dffc.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_09_36Zcallabcbe65e-0b22-4732-a230-e6e912914e5d.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_17_37Zcall04ac01b9-7f46-479a-9753-77720598fde0.json,25,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-25T20_19_48Zcallc504a0b0-5a2d-49ad-9e4d-c6e982ad9461.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T20_20_35Zcall010fb8d7-52f2-41b2-8db9-8438705737e3.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T20_28_19Zcall31e35620-187a-43f1-9b43-899a7eb81e5a.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_30_39Zcall597e10fc-1287-4aac-9489-a06a00445196.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_38_35Zcall48011d20-0b5f-4e72-83c8-1c354f267b18.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T20_41_36Zcall33bb89bc-95f5-4a54-aa88-f2f9fe5b902b.json,25,HAS_PATIENT,False,False,2,Two speakers + conversational
+2024-03-25T20_42_52Zcall4f80aa4e-dcee-4aa9-9aea-73e12b177d8e.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T20_43_03Zcall7b9906c7-0869-4f1b-9f48-a80245c6a554.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_44_05Zcall2c2f52e8-aefb-41e9-ab27-c6188b16ff3b.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T20_53_48Zcall5a3e15e5-f5c6-44f4-bbef-90a11cc1b8ac.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_54_32Zcallf82475d6-d6d9-499a-9c88-a8b161204bda.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_55_54Zcalla24aa4fc-b8dd-4b89-b5fa-9cd1bc060cac.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_57_12Zcall5e89605a-566d-48b9-8797-5cf99a9013f9.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_58_37Zcallf6d6d2a1-c994-4f00-a386-4c73518bae75.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T20_59_36Zcall6ab1a73f-ef2e-44eb-adf7-af7d44afd1fd.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T21_09_53Zcallb393268d-2ea8-4160-a620-f73b3675a7b0.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T21_10_43Zcall54b6d193-f6a4-4980-bbd2-d1826409daea.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T21_14_09Zcall536a9ac3-79ed-4a2f-ac81-5c761f5a0fee.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T21_14_49Zcall60437275-928f-4047-9ccb-f5313c52c886.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T21_17_43Zcallefb90dd2-2276-4786-b684-ede3fb515bff.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T21_18_21Zcall02438416-1406-4873-b1f5-5ede42c22cdb.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T21_44_26Zcall4d23f8c5-ead8-4e14-9fc1-31eedd1fb2a8.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T21_44_58Zcallee3301e4-c068-45ac-ba93-207b29c48de5.json,25,NO_PATIENT,False,False,1,No patient content
+2024-03-25T21_46_02Zcalla92b375f-68cd-4c77-bb70-073908f7a390.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T21_46_17Zcall06a00ea7-3fa2-4e2a-bc34-586057c53f0a.json,25,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-25T21_47_48Zcall55a05f96-f673-4f04-86e0-e7f275a52143.json,25,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-25T21_48_32Zcall95d3338b-b580-4f63-9729-9e6d56334edb.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T21_49_33Zcallf4aeee20-3e46-49f6-950b-0da82f1002f0.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T21_56_33Zcall94460115-64a0-4dd2-a3d0-7062ace4558a.json,25,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-25T21_56_39Zcall03fb2f05-04c3-4535-a4a5-29fecba9cc9a.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T21_57_14Zcallfb9468a9-2408-41a2-ae89-48fb87a8f8ec.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_03_43Zcall6ebb3b10-942b-4c76-866b-fc414745fc54.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T22_04_19Zcall66bbe9c7-8750-4321-a71a-8aebcca4aa1e.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T22_12_07Zcall5e6b75e7-3311-47db-8899-970715a6fffa.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_12_13Zcall465f9473-3f75-4284-824c-c77e0fb6a0a3.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_12_43Zcallb01f154e-45e6-4ffd-8239-a5be5cbb0ecc.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_13_39Zcall303309be-fe40-4cea-84f2-182d6f264563.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_18_50Zcallbdcc515f-9484-47a5-811e-b19206017f74.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_21_02Zcall1210d563-af2b-40a7-9081-25f0af1c4539.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_37_13Zcall6d81fee4-d654-4220-b2f5-8f4ae34e148d.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_38_32Zcall0d91e130-ea1e-4035-b8b6-178b47d5e051.json,25,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-25T22_43_09Zcallcf890b0d-143a-4a23-82be-9cb2ad627474.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T22_43_55Zcallf0f8482f-1b43-4b4f-a75d-77f3ab3fe53d.json,25,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-25T22_56_44Zcalla0b619d1-1a45-476b-97f2-8ffbac3260c8.json,25,NO_PATIENT,False,True,1,No patient content
+2024-03-21T14_07_15Zcalld23bf55a-4267-4c08-b514-069e6a722a15.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T14_08_11Zcall4ab69f3f-a118-40c6-b342-ee1ca8190272.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T14_26_15Zcallf09309b9-302c-4dc5-af57-9911d0d20d6c.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T14_38_01Zcall9e5850f1-26f1-459f-9c00-52e769f3126a.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T14_42_00Zcall9e7eb980-3544-41c1-87d1-74518d9c2357.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T15_03_18Zcallf435ad93-ba77-4bdc-ac42-314e928da67a.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_03_53Zcall0643d832-68fb-4193-a7f3-60f3f25e8a27.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_05_02Zcall51035ac3-6c91-4b22-99cd-55804f4e059f.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_06_59Zcalldbab1557-a077-4b41-a05e-5c40d96012e6.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_07_16Zcall7272af3e-d7b2-4579-a213-a159a296b167.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_08_30Zcall5f6176a7-31b9-4e7c-8330-00455938023c.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_09_13Zcall3bd650e4-1d0c-4277-8b2e-fdd7e59d8b8f.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T15_09_47Zcall2ae2555e-5d43-439c-8274-d61b3ad94f53.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T15_17_21Zcalled52176f-2609-4f9d-aa5b-ec6fff77666e.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T15_18_02Zcallaae273a0-6a81-400c-9d29-c18253ac9d94.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_27_37Zcall27dbdd2c-1cc9-4976-b220-e12740e9172e.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_27_53Zcall573cdfd3-c874-43b5-bcc1-4f1eaa88db58.json,21,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-21T15_34_35Zcall3b8c3064-53d9-44c2-b9a8-2dd17d4e0ead.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_34_59Zcalla7001fd5-9997-4bbf-9292-d6ae70854d75.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_35_43Zcall20bc91b1-6cc9-4eab-ab62-1a0079cd3a44.json,21,NO_PATIENT,False,False,2,IVR-only markers
+2024-03-21T15_37_09Zcall96da1e0e-b643-422b-af4a-c300fff387e1.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_38_03Zcall217d356b-f423-487f-966f-b4b8712faea9.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_42_57Zcall56aebecc-e9b9-4ede-8bb7-ffbaab4b8976.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_43_33Zcalle0280838-0a1d-4599-9263-cbc48ed2bc73.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_45_13Zcall6d399b34-2cab-4cda-a730-cd118cf80b31.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_45_35Zcall3a24e336-2b44-45d6-b733-24d5bfb76942.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_46_29Zcall621cee23-af28-44a5-9df4-ae5e7d7f6c4b.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_51_59Zcallba352549-2f24-4c94-baa0-d4e0b5e41fdd.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_53_06Zcall79cb8594-8e36-4dd1-a0a3-5d31e06b74f5.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T15_54_45Zcall1aa9faf2-1d0c-4bf8-88bb-67180c30538a.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T15_55_18Zcall8eb5b4cc-1c0a-4aa2-a6a7-749d38087f38.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_01_37Zcall4e890f79-ef37-4c13-9bd7-b227864702d3.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T16_03_25Zcall3ecf6f32-0b43-4be7-b03f-a7c05896776c.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T16_05_38Zcall9b130952-e0fc-406c-83b0-5ceed2c47e7b.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_06_09Zcall2e6ded3e-0e40-4cd2-a44b-162ab68cee27.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T16_10_38Zcallf91d2ad4-35cc-453b-bcea-6250450dba32.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T16_11_10Zcall42d9eee8-ace7-4889-8275-e1a4588410d9.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T16_13_02Zcall4b079398-31b5-4078-9bdc-b39486713c1a.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_13_09Zcall2e02afe3-d10f-41c0-b0ec-6c1df38d4249.json,21,NO_PATIENT,True,False,2,No patient content
+2024-03-21T16_14_35Zcalla664c4ec-bec5-410a-83e8-9afb1abe2a03.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_18_07Zcallbcec6f52-b116-4942-a13a-ac27795603ff.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_18_39Zcall2e73f0e5-c351-4b82-a9f1-bd5daad6e6d3.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_20_57Zcall982c6326-90f8-48cf-9395-5b460854ec5a.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T16_22_52Zcall36c5b470-3c4a-4d3e-b2f2-7952a38c4b56.json,21,HAS_PATIENT,True,False,2,Two speakers + conversational
+2024-03-21T16_23_30Zcalle51d6794-f2e4-4115-b713-31f1d7635f93.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T16_23_58Zcall91354f78-770b-47a0-921f-8782c81e98c9.json,21,NO_PATIENT,False,False,2,No patient content
+2024-03-21T16_32_13Zcall91535ed0-2cf9-4fb2-98f8-9b6d18eb82a9.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_32_49Zcall3d7f367d-b465-4026-9a67-bc8e2f4f27b3.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_57_40Zcall04cc44df-e8e2-4a2f-a721-bdb0627fc321.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T16_57_55Zcalld6829bde-c496-4793-884e-3937970a97b6.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T16_57_59Zcallac1926c6-7622-4a0c-adcd-89f1f37e3311.json,21,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-21T17_06_42Zcall8c9c1d3a-424b-49e9-a262-f75aa896750f.json,21,NO_PATIENT,True,False,2,No patient content
+2024-03-21T17_15_14Zcalle18cae63-2453-49cc-b450-723b521de204.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T17_15_29Zcalld97aecce-7881-4fa0-8bc3-d2980c111ebe.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T17_19_51Zcall4f284146-da7f-449c-9c3b-403a6b6457c7.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T17_26_50Zcalld91f4aca-1b95-4370-aff6-8cc607955edc.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T17_27_18Zcalld895a869-256c-477a-a3cf-4426ba9b3464.json,21,NO_PATIENT,False,True,1,No patient content
+2024-03-21T17_27_24Zcall9d7fc02d-21f6-4385-9f30-52f230078839.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T17_29_31Zcall69d2870d-724d-4e7d-8583-b60fe199d161.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T17_29_57Zcall3e4a7b53-83ce-4bdd-b769-94f4ad938dba.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T17_32_17Zcalldffba243-9e91-4910-9a80-5786bf1dcb7c.json,21,NO_PATIENT,False,False,1,IVR-only markers
+2024-03-21T18_02_04Zcall41d5c4a0-f710-4aad-b128-1be7c918a775.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_02_34Zcalla8e1a138-0106-499c-a5cd-1596b18c8659.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_07_15Zcallc4a02ebd-2921-4666-a1bf-0bcbf94b83eb.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_07_26Zcall740e7b64-cfab-4c8d-ba07-ac02bcfc178c.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_08_18Zcalla6112e09-2ddb-448c-92a6-a95ecefb87f8.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_08_25Zcall96a6b519-04d4-4527-b804-468d56ae9f18.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T18_20_55Zcall84d3ecb7-c4c1-418f-8d52-0a3548e444a4.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_21_19Zcalla03b82dd-fd62-46a7-9e76-d960a8caf36a.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T18_22_30Zcall6cab692a-bb9a-491b-9818-c7d516b081ed.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_24_41Zcallb331f9d0-8ab5-451e-bdc5-636a439519bd.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_26_27Zcall81bcc795-921b-4fd5-a59e-9d0a7ebb7d1c.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_27_10Zcall8443fb0b-622e-43ea-ac03-96519d2b8298.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_39_02Zcalld2b3424d-1b00-4ce9-892a-79cb33c770e3.json,21,NO_PATIENT,False,False,2,IVR-only markers
+2024-03-21T18_40_44Zcalla3d167ea-81df-4ba0-a3e8-0d5737892c00.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_41_15Zcall49a28e48-4bd2-47e6-ac04-dc96739f3f15.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_41_15Zcall88c4902c-853f-46dc-85d7-d7504880062a.json,21,NO_PATIENT,False,False,2,IVR-only markers
+2024-03-21T18_54_07Zcall49678e36-9a4d-4f4d-bcf9-78e623c34aca.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_55_08Zcalle5032169-e395-44a8-bd7a-5bb2cae167c7.json,21,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-21T18_57_34Zcallc8b23270-8590-4f6a-8fbb-b5176594473d.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_58_04Zcalla3a4ade8-61f8-462c-ba96-0778463a9511.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_59_23Zcall58ff920c-22ed-4f08-bdf7-381f37ac252a.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T18_59_40Zcall0d194298-91ca-4ecf-9440-be168ef8bf90.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_09_36Zcall8255e0f1-47e1-4e77-8233-d60553a464c4.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_09_52Zcallbda84d0b-7bd3-469e-9333-0b454080090f.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_14_58Zcallbc2e2601-577e-4da2-ad46-84fea205bebd.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_15_16Zcall8d6da292-7810-4ab2-846e-53ca9196bbf2.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_27_18Zcall89ba4aca-fa33-472d-85fc-91be64a08ae8.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_27_38Zcall245bb4c8-1345-4ebc-b925-f92993f8100e.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_30_16Zcall160b03a9-128d-417f-8dff-83c0303c4ff9.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_30_31Zcallfe58096f-a80c-441e-a35b-d6e2049e0818.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_32_19Zcallb3296b7d-d857-49ff-b902-b6e18123edb7.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_32_52Zcall2014372a-0138-4357-8cdb-adf6d8029e16.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_41_49Zcallf4f2bb11-edeb-4764-aaea-ae59c9363871.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_42_03Zcalle540e8d2-9b96-4409-9d14-4f961d5a36aa.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_42_08Zcall309025c7-6f93-45c3-9ad7-7e515080e985.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T19_42_28Zcall8a673194-a883-4eea-a084-8df91d6fa960.json,21,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-21T19_51_55Zcall63495242-33b8-49fc-b237-6cbfe86c0d19.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T19_53_29Zcall7734a9fe-a5e5-40ad-9421-05185f8d42a1.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_53_47Zcalla2913b27-bd10-47d4-8139-709bb95b3920.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T19_56_14Zcalld5826671-816b-45ef-8702-aa0af46986a1.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T19_56_50Zcall5aafe8d9-4505-4d3a-951f-5b420f8dc89e.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_12_30Zcallc6ea5c04-7521-45ec-9d63-502a82fe8715.json,21,NO_PATIENT,False,False,1,No patient content
+2024-03-21T20_20_34Zcall1d48942f-b060-41d2-9ab8-e57be0ba17b7.json,21,NO_PATIENT,True,False,1,No patient content
+2024-03-21T20_22_15Zcall100460c7-f2ab-4257-9ffe-6111a5fb3a2e.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_22_35Zcalle304d44d-8b46-4e0c-9b9a-eb3aacbef1bb.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T20_32_05Zcall7acd2c81-b8bf-430e-9465-cb9aaf495414.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_32_39Zcall72133ae1-d6ee-49a3-9672-03c1c9f49d1d.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_35_48Zcall25622e56-370b-4635-a235-c603d735bd0f.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_36_07Zcall51924b90-e77f-4f20-9c43-398ff07c884f.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_41_26Zcallcb271df3-7a37-4a1e-afdf-9e5f685b518d.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_42_16Zcalla01e8c69-8473-4c7b-b704-f3422c8957c7.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_51_13Zcallfc97f63a-80c8-4edf-b4fa-f6c9d5c4ad63.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_51_47Zcall2ba93eaf-99c5-460f-821e-db95fc50dbd0.json,21,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-21T20_54_10Zcallf73ecd8e-dfc5-4c84-9006-14a948933e5d.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_54_38Zcall2b6c1168-4364-441d-8a5e-38ad6f44cea5.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_57_25Zcall08f5922a-d67a-4866-9b03-920f1fba46c9.json,21,NO_PATIENT,True,False,2,No patient content
+2024-03-21T20_59_20Zcallad8b3b7b-8d61-40e8-a36e-2afa4a60f854.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T20_59_39Zcall0e9327b7-a520-481c-9d17-8f46b3f2ae78.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T21_02_23Zcall8bd637e4-2553-4db5-9853-b1548b6a737c.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_02_47Zcall60d940c3-e753-4ee1-83c7-cd884ad88f11.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_06_50Zcallf6533370-2822-4237-ab4e-826aff0c2350.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_07_24Zcall35af8b57-1950-4935-9902-11e2c89d8b1c.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_07_26Zcall24af8ce4-7d60-44ac-8e1b-c8fc842be88c.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_08_14Zcallc6ba9a1f-ae1d-4232-932d-081d96870236.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_10_24Zcall5dd0777c-3def-4bf3-85a0-d93ee1546d68.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_13_27Zcall5b6161ce-214d-4136-87f5-e686f159da0a.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_13_54Zcall0e46c81f-3937-4a2f-8495-ede7ae55cb87.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_27_12Zcallac483ce8-af90-4696-bbd5-de1aa3b6fa2d.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_27_46Zcalld3155720-5976-4ba8-ba7a-3dc8f337a9bf.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_43_41Zcallc4bd3807-bdf0-45a3-bfaa-2a229b627578.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_44_09Zcallcc795538-0630-41f0-9bd2-51c292a6361b.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_45_59Zcall7ea862a0-f45e-400a-919d-6f60177d8f1e.json,21,NO_PATIENT,False,False,2,IVR-only markers
+2024-03-21T21_46_00Zcall9b7d0aaa-994c-4a46-ad34-03ee5d7143c0.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_46_31Zcallb4ab4242-479e-45a3-b787-2fd00b5fcea6.json,21,NO_PATIENT,False,False,1,No patient content
+2024-03-21T21_46_32Zcall421a84e8-c46a-4e50-8015-af17cdd9e42e.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_46_52Zcallc89ef167-c27b-402f-b3d2-84fe64d06aed.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_47_35Zcall0f98abe5-9020-4331-8a8d-aaddadd0c91e.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_55_00Zcall362bf8ea-fbd0-41c4-a337-7be1ffff8810.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T21_55_19Zcall4a54214a-3417-4866-a8c5-bfe551ac9c81.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_16_11Zcalld4bbbfca-1d0b-427b-bacd-f54b4dd2c3ab.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_16_36Zcallef4d61c3-c939-4a2f-9c6e-c7c1b6acdfb4.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_24_15Zcall9d844f55-1be9-44ac-9928-d13fabe6b370.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_24_44Zcallab9005e8-7651-4f64-87b7-91b5ed8e1f12.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_36_39Zcalla7623ff3-5f50-4b1d-9487-b561ab0914f4.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_37_09Zcall73d02bb0-14c5-412f-85b6-3975d231474b.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_38_08Zcall6bc79234-c537-492a-9db6-fe73fa76d970.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_38_29Zcall7e3496cd-bfcd-48dc-9d4d-08c1a801a4ae.json,21,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-21T22_52_18Zcalleb7f87bf-7e25-4430-8f15-263301b48363.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_52_42Zcall40d7bf08-9e63-4d2e-a3c5-6f1b9670bf76.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-21T22_57_46Zcall3d9b0802-c166-4ff8-95e0-6c293c0ad0a0.json,21,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T14_20_37Zcall660c8fd4-6773-4d47-b29f-5644e7fec74d.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T14_59_58Zcallf41782a0-e87e-4f1f-aa53-1169891ea9c1.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_00_43Zcall867690bc-1241-4432-8c57-08ae1acb1cc5.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T15_06_43Zcall28eef5ef-e19f-44a5-84f4-6618481a2fae.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_07_19Zcallbf9a2ff1-dbb1-46a9-8268-73351b3b2b2a.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T15_07_27Zcall2be73fe0-eb31-41a7-9183-198c0de998be.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_08_12Zcall2801540f-46d1-4e2d-b359-623c0b00db00.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_09_42Zcallb88cfd80-cd96-4c94-931b-c18526dff297.json,28,NO_PATIENT,False,True,1,No patient content
+2024-03-28T15_19_28Zcall4b776515-f8fe-4ad9-8ccc-a1f58c149929.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T15_21_14Zcalld9350c8c-8d4e-4f41-b928-5af57be3db3c.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_21_42Zcalldafb1a8c-a1fb-460e-9a33-cb232aea43a0.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_22_02Zcall4b08c62d-b43d-48b4-b402-4e90e0fd7b3a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_23_04Zcallf58b41cd-3c74-41c2-a08c-81adcb7f396f.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_25_25Zcalle6bc6e36-46fb-4a65-98f8-2c92268fe425.json,28,HAS_PATIENT,False,False,2,Two speakers + conversational
+2024-03-28T15_25_55Zcall2d4bd946-393f-4632-9174-e60fa06220ad.json,28,NO_PATIENT,False,True,1,No patient content
+2024-03-28T15_26_17Zcall131f830f-a661-491e-b7f7-198e3a171468.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_27_03Zcallcc58d029-9454-4992-978d-a48475088341.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_31_55Zcallf24301eb-8922-4db2-985d-192a739121d1.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T15_32_23Zcalla83e0102-b44a-49bb-9a34-6cbfd73b2e94.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_32_34Zcall12618ccd-39bc-42f6-bd27-7b7d0cb9dc20.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T15_33_00Zcall85eb2e30-0aba-4939-ac50-a41e03a05852.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_37_49Zcall7c9db5b2-5855-4828-bd6c-e92c3ef24db3.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T15_38_40Zcallfdeecf29-6c9b-435d-9c1f-1952a2e1dbdd.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T15_56_14Zcallf1222673-b585-4dfb-a7a1-78ab7f952410.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T15_57_02Zcall21ad1799-d099-4bc6-8147-3b2d7a7ee832.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T16_05_19Zcall50280495-b8c9-4009-8a99-b78bb6ea7d1a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_05_37Zcall9cdccf11-4f96-4a2a-83c9-9a4f3b1aa04a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_05_58Zcall4e685fd4-51ae-4dde-b470-91a4a6584ed1.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_07_19Zcallce1beb8f-65e8-4d3b-9f5f-c4886dff3604.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_12_46Zcall05bddbe6-4a24-4bae-bcff-c1d094ed3c23.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_13_21Zcall72d77f32-e55d-4373-a1b2-b3c6dbfc5b4f.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_16_48Zcall56116f8c-cd47-49d8-8116-edaf08f8159a.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T16_26_18Zcall68d45904-7a9f-4fcf-9755-5cf41804b43f.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_27_46Zcall36be391a-595e-49fe-96db-0cd1a2147e11.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_30_35Zcallfa630f63-2a2b-4c05-b0d1-26ee05ff4622.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_31_12Zcalla7047b6e-984e-4f6d-988e-36e41e83f080.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_39_06Zcall3ad357ac-fa6b-4e1f-85f4-148ed17722eb.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_39_48Zcall3bf9800e-54ef-4333-af40-0df0b6ba930a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T16_41_42Zcalla0e4bb12-ac8d-4872-a8c6-7e658bb01c23.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T16_43_08Zcall36f8ab2a-801f-459e-8f8c-72b50caa7da1.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T17_00_48Zcallf231e219-d297-42f7-bc67-5ded6f2d3d20.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T17_01_27Zcall5e1e54f5-2451-49dc-b07f-d1aa76ecc7da.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T17_03_02Zcallc56cca8e-7b4d-4f5d-84d7-dcb4c12a3cb0.json,28,NO_PATIENT,False,True,1,No patient content
+2024-03-28T17_05_57Zcall99e7195e-8620-411e-8aed-3c8c1e87cf21.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T17_11_02Zcall4f724be8-d399-488d-99a0-b72965881833.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T17_23_00Zcall142ebc77-8a78-4a91-9daf-2a4017189cb3.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_23_35Zcall6328ae02-c73d-4852-8877-cf5accd66e72.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_24_14Zcall562e4688-32a0-4d23-bd92-87a435ae94b6.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T17_24_51Zcall83d7e4c9-549b-453c-ad32-b19f4e59896b.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T17_25_34Zcallc9e62cf5-e157-4988-a75a-75fd8335511a.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T17_29_07Zcall1e16f341-fd9f-4bf1-a320-72584aa8476e.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_29_41Zcall51b01b5e-abee-4f3c-a043-1793c9e09120.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_42_29Zcall74f0e0fe-5557-4084-a224-336450d5fcbe.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_43_07Zcall51200c81-f22e-4733-a473-812db6a9e5db.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_43_34Zcalle7da0cbc-2698-4af5-8a94-3964fa7ec5f7.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T17_44_08Zcall2b5467e2-9380-4ef8-8575-c3f36d03efe6.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T17_48_47Zcall6239c438-66f3-4832-ad87-41efbad2204d.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T17_49_27Zcallb2f77dd8-b6aa-447b-9265-d9161d10790f.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T18_07_49Zcall4fa7b288-7905-4761-91aa-963c74a6b77b.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_08_25Zcalla03edf37-e6ad-4d19-b654-bfcb84e7c890.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_09_08Zcall934a768f-f9b7-40df-aee2-bf35eeae3f67.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_10_59Zcall41ad9961-a25e-40b4-9084-6fac650bd5dd.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_25_55Zcalle5ccf21c-671b-45a4-ac26-0ee9bb7b5cf0.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T18_29_25Zcall0eae8752-cae1-4b21-84e4-24c5998e2dda.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_30_05Zcall22b0bf2b-6ccf-4936-87ea-fe26fd16d2ac.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_30_34Zcalla015af78-4d41-4862-9bae-ff828595f94f.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_32_11Zcall6b9be2a2-5234-46fa-af7b-afbf039921eb.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T18_33_52Zcall453834fe-5f96-4b5d-9710-05544c658e9b.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T18_35_54Zcall144db8d4-99d9-4c20-ab82-1a1fdbab1291.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_45_09Zcall2c89a95c-cffd-4287-8bbf-ad0859d61c1a.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T18_50_16Zcall5c7dbeb3-f3b0-419b-841e-f1b04716b711.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_50_56Zcalla1562993-13fe-47a0-bd73-ed457ba7b90a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_52_56Zcall909073dc-5549-428d-ab97-8a41e4bb8545.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T18_53_37Zcall6cedd03c-4804-46df-96e3-d03bfcd62c4d.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_02_26Zcall4b0248d8-7cf2-4324-9f8c-424acd40190f.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T19_03_36Zcallcc3be171-a361-476f-b89b-16d03268aa70.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_18_52Zcall387c1b69-cb6d-456c-bea8-2f0ee3cab4fd.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_19_43Zcalla5380f2a-3953-4249-9ee3-0c1feca4b756.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_21_43Zcalla7d07cb3-204a-43c5-8a5c-932e10bac63d.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_22_29Zcalled23feb5-fe16-416f-8e64-0b6c18c8628a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_22_56Zcall25eff640-08ca-4121-a7d5-7a18b6c065c6.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_24_09Zcall2fe34748-8fde-47bf-bf35-9e833d26b98a.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_31_30Zcall2a0f1da7-8e21-4ea6-9c0d-1ef7bd24d22d.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T19_32_13Zcall66e38838-97b6-41a0-902b-64b605254c6f.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T19_38_02Zcall19a5cd52-1a9a-4fd2-999f-2b255e949155.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_38_50Zcallabcbfcfd-754e-4b0c-af80-ce948a04df08.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_49_44Zcall4dc01b7a-517c-4161-a812-e66961014d6c.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_50_40Zcallcf2f2c9a-65ef-4e35-b65b-75139567a6ac.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T19_51_38Zcallfa142ed5-a41a-4ee9-8938-0d7a34da35af.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T19_52_47Zcall3e295bc7-52f8-4267-bd3a-ec0bc4fea0ce.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T20_04_30Zcalld6f41c79-8900-4f9a-99b4-b99289c2b0fa.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T20_05_17Zcall50556851-2c75-406b-b7e5-c6446cc04f63.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T20_07_06Zcall61c44e42-027a-4755-83b7-85888cc3c077.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T20_08_02Zcalla55a1f53-44cc-4bef-ad65-c8d6c3787496.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T20_19_54Zcallecb4b4e8-1e12-457d-8b37-498c1b8fdc10.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T20_20_37Zcall0db50d34-781c-4b4e-bf6a-848bdf89985d.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T20_34_09Zcall318e544d-45f1-418c-95ae-08f8aef7bceb.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T20_35_53Zcall699c47cb-fe9f-4b71-83bd-83e886974903.json,28,ERROR,False,False,0,Error: 'NoneType' object has no attribute 'get'
+2024-03-28T20_49_49Zcall71fefabe-b787-4e8f-a50e-7016d34c7b14.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T20_50_26Zcall86d557f3-d458-4d75-9cd1-553e743393df.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T20_53_30Zcall16414dfc-b90a-4261-ae08-dbbdca23a0a2.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T20_54_48Zcall32876e2e-036d-4b21-b299-aabd291fdac3.json,28,NO_PATIENT,False,False,1,No patient content
+2024-03-28T20_54_58Zcall8796bab3-668a-404c-9567-655366bd0fb9.json,28,NO_PATIENT,False,True,1,No patient content
+2024-03-28T20_55_07Zcall2a4e65a4-c663-4af8-9703-dbc11bb2b962.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T20_56_00Zcall8c3c07d6-b745-4657-b224-3eaef6f180de.json,28,NO_PATIENT,False,False,1,No patient content
+2024-03-28T21_07_50Zcall95379e43-6b9e-4c74-81e1-4f75b6cad61e.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T21_08_28Zcall362d39ce-eb70-41dd-a23a-2ce979464757.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T21_14_13Zcall13de2d43-c064-4465-9268-a04d4a47aee5.json,28,NO_PATIENT,False,False,1,No patient content
+2024-03-28T21_15_39Zcallff822909-1769-48b2-b2a7-9cc46733d972.json,28,NO_PATIENT,False,True,1,No patient content
+2024-03-28T21_17_15Zcall88b0d16a-3018-416f-8860-04d106e64c48.json,28,NO_PATIENT,False,True,1,No patient content
+2024-03-28T21_29_41Zcall85185a69-9457-433f-a220-3bc3501a1339.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T21_31_00Zcallf5f9b42e-ebf4-4d58-81a6-7b24799bb0ee.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T21_38_25Zcallea9f88a1-ade5-4a4d-a200-e9c2e88ff4de.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T21_39_03Zcall76541b27-00f3-4948-8b58-14d04bbe4b9f.json,28,HAS_PATIENT,True,True,1,Agent + patient content
+2024-03-28T21_42_39Zcall2b2ab817-f810-4f98-8d98-981b98ed04ba.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T21_43_13Zcallba6a5195-978e-4920-a722-48ffa9bdbbed.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T21_48_04Zcall4cdce676-cd78-4ee6-8b70-5a0c0d9fd8df.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T21_48_47Zcall537179d3-f013-4bca-90c4-d69a70639164.json,28,HAS_PATIENT,False,True,2,Two speakers + conversational
+2024-03-28T22_07_05Zcall4e669df7-e2e9-40d3-ba70-2c6dd1e22281.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T22_08_26Zcallc8bde222-9abe-47f5-a91a-9a31535b2691.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T22_28_09Zcall1a434682-e192-4c5e-89de-7e7eab4aa3c7.json,28,HAS_PATIENT,True,True,2,Agent + patient content
+2024-03-28T22_29_23Zcallcee1e92e-04dd-46e8-80ce-b82575b1ed8f.json,28,HAS_PATIENT,True,True,2,Agent + patient content
