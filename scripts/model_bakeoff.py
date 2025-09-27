@@ -14,6 +14,7 @@ import socket
 from datetime import datetime
 from pathlib import Path
 import requests
+from openai import OpenAI
 
 def load_config(config_path):
     """Load configuration with defaults"""
@@ -128,6 +129,78 @@ def estimate_tokens(text):
     """Simple token estimation"""
     return len(text.split())
 
+def grade_conversation_with_openai(conversation_text, trial_id):
+    """Grade conversation using OpenAI API"""
+    try:
+        # Check for OpenAI API key
+        openai_key = os.getenv('OPENAI_API_KEY')
+        if not openai_key:
+            print("WARNING: OPENAI_API_KEY not found in environment variables")
+            return {
+                "trial_id": trial_id,
+                "realness_score": None,
+                "coherence_score": None, 
+                "naturalness_score": None,
+                "overall_score": None,
+                "grading_error": "No OpenAI API key"
+            }
+        
+        client = OpenAI(api_key=openai_key)
+        
+        grading_prompt = f"""Grade this AI-generated conversation on a scale of 1-10 for each metric:
+
+1. REALNESS: How realistic and believable is this conversation? (1=obviously AI, 10=indistinguishable from human)
+2. COHERENCE: How well does the conversation flow logically? (1=nonsensical, 10=perfect flow)
+3. NATURALNESS: How natural do the speech patterns sound? (1=robotic, 10=completely natural)
+4. OVERALL: Overall quality for training chatbot systems (1=unusable, 10=excellent training data)
+
+Conversation to grade:
+{conversation_text[:2000]}...
+
+Respond ONLY with JSON format:
+{{
+  "realness_score": X,
+  "coherence_score": X,
+  "naturalness_score": X,
+  "overall_score": X,
+  "brief_feedback": "one sentence explanation"
+}}"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": grading_prompt}],
+            temperature=0.1,
+            max_tokens=200
+        )
+        
+        result_text = response.choices[0].message.content.strip()
+        
+        # Parse JSON response
+        try:
+            grades = json.loads(result_text)
+            grades["trial_id"] = trial_id
+            grades["grading_error"] = None
+            return grades
+        except json.JSONDecodeError:
+            return {
+                "trial_id": trial_id,
+                "realness_score": None,
+                "coherence_score": None,
+                "naturalness_score": None, 
+                "overall_score": None,
+                "grading_error": f"Invalid JSON: {result_text[:100]}"
+            }
+            
+    except Exception as e:
+        return {
+            "trial_id": trial_id,
+            "realness_score": None,
+            "coherence_score": None,
+            "naturalness_score": None,
+            "overall_score": None,
+            "grading_error": str(e)
+        }
+
 def run_trial(base_url, api_key, model, prompt, temperature, max_tokens, timeout_s):
     """Run single trial and return results"""
     start_time = time.time()
@@ -177,7 +250,8 @@ def run_trial(base_url, api_key, model, prompt, temperature, max_tokens, timeout
             "latency_s": latency_s,
             "completion_tokens": completion_tokens,
             "tokens_per_sec": tokens_per_sec,
-            "sample_output": content[:500]
+            "sample_output": content[:500],
+            "full_output": content
         }
         
     except Exception as e:
@@ -217,7 +291,7 @@ def unload_models():
             "stderr": str(e)
         }
 
-def run_trials_for_model(config, model, trial_writer, system_info):
+def run_trials_for_model(config, model, trial_writer, gan_writer, system_info):
     """Run all trials for a single model"""
     print(f"Running model: {model}")
     
@@ -236,9 +310,13 @@ def run_trials_for_model(config, model, trial_writer, system_info):
             config["timeout_s"]
         )
         
+        # Generate unique trial ID for linking
+        trial_id = f"{model}_{trial}_{int(time.time())}"
+        
         # Write trial row
         timestamp = datetime.now().isoformat()
         trial_writer.writerow([
+            trial_id,
             timestamp,
             config["machine_name"],
             system_info["gpu_info"],
@@ -256,6 +334,30 @@ def run_trials_for_model(config, model, trial_writer, system_info):
             print(f"    ERROR: {result['error']}")
         else:
             print(f"    {result['latency_s']:.2f}s, {result['tokens_per_sec']:.1f} tok/s")
+            
+            # Grade with OpenAI if we have output
+            if result.get("full_output"):
+                print(f"    Grading with OpenAI...")
+                grades = grade_conversation_with_openai(result["full_output"], trial_id)
+                
+                # Write GAN grading row
+                gan_writer.writerow([
+                    trial_id,
+                    timestamp,
+                    model,
+                    trial,
+                    grades.get("realness_score"),
+                    grades.get("coherence_score"),
+                    grades.get("naturalness_score"),
+                    grades.get("overall_score"),
+                    grades.get("brief_feedback", ""),
+                    grades.get("grading_error", "")
+                ])
+                
+                if grades.get("grading_error"):
+                    print(f"    Grading error: {grades['grading_error']}")
+                else:
+                    print(f"    Grades: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
         
         results.append(result)
     
@@ -312,6 +414,7 @@ def main():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     summary_csv = args.out_csv or f"bakeoff_{timestamp}.csv"
     trials_csv = args.out_trials_csv or f"bakeoff_trials_{timestamp}.csv"
+    gan_csv = f"bakeoff_gan_{timestamp}.csv"
     
     # Detect system info
     system_info = detect_system_info()
@@ -352,16 +455,23 @@ def main():
     
     # Open CSV files
     with open(trials_csv, 'w', newline='', encoding='utf-8') as trials_file, \
-         open(summary_csv, 'w', newline='', encoding='utf-8') as summary_file:
+         open(summary_csv, 'w', newline='', encoding='utf-8') as summary_file, \
+         open(gan_csv, 'w', newline='', encoding='utf-8') as gan_file:
         
         # CSV writers
         trial_writer = csv.writer(trials_file)
         summary_writer = csv.writer(summary_file)
+        gan_writer = csv.writer(gan_file)
         
         # Write headers
         trial_writer.writerow([
-            "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
+            "trial_id", "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
             "model", "trial", "latency_s", "completion_tokens", "tokens_per_sec", "sample_output"
+        ])
+        
+        gan_writer.writerow([
+            "trial_id", "timestamp", "model", "trial", "realness_score", "coherence_score",
+            "naturalness_score", "overall_score", "brief_feedback", "grading_error"
         ])
         
         summary_writer.writerow([
@@ -385,13 +495,17 @@ def main():
                 
                 # Write mock trial rows
                 for trial in range(1, config["trials"] + 1):
+                    trial_id = f"{model}_{trial}_mock"
                     trial_writer.writerow([
-                        datetime.now().isoformat(), config["machine_name"], 
+                        trial_id, datetime.now().isoformat(), config["machine_name"], 
                         system_info["gpu_info"], system_info["gpu_memory"], system_info["platform"],
                         model, trial, 2.5, 150, 60, "Mock response"
                     ])
+                    gan_writer.writerow([
+                        trial_id, datetime.now().isoformat(), model, trial, 8, 9, 7, 8, "Mock grading", ""
+                    ])
             else:
-                results = run_trials_for_model(config, model, trial_writer, system_info)
+                results = run_trials_for_model(config, model, trial_writer, gan_writer, system_info)
             
             # Calculate summary
             summary = calculate_summary(results)
@@ -431,6 +545,7 @@ def main():
     print(f"Results written to:")
     print(f"  Summary: {summary_csv}")
     print(f"  Trials: {trials_csv}")
+    print(f"  GAN Grades: {gan_csv}")
     
     return 0
 
