@@ -149,6 +149,43 @@ def detect_system_info():
     
     return system_info
 
+def randomize_prompt(config):
+    """Generate randomized prompt from template"""
+    import random
+    
+    scenarios = [
+        "New patient scheduling first appointment",
+        "Existing patient rescheduling appointment", 
+        "Patient calling for urgent same-day appointment",
+        "Patient scheduling follow-up after procedure",
+        "Patient calling to cancel and reschedule"
+    ]
+    
+    patient_types = [
+        "Elderly patient with hearing difficulties",
+        "Busy working parent with limited availability", 
+        "Anxious first-time patient",
+        "Regular patient who knows the system",
+        "Patient with insurance questions"
+    ]
+    
+    issues = [
+        "Insurance verification needed",
+        "Specific doctor preference",
+        "Transportation limitations", 
+        "Work schedule conflicts",
+        "Multiple family members need appointments"
+    ]
+    
+    if "prompt_template" in config:
+        return config["prompt_template"].format(
+            scenario=random.choice(scenarios),
+            patient_type=random.choice(patient_types), 
+            issue=random.choice(issues)
+        )
+    else:
+        return config.get("prompt", "Generate a healthcare conversation")
+
 def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
     """Run single trial with deduplication"""
     start_time = time.time()
@@ -159,9 +196,12 @@ def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
             "Content-Type": "application/json"
         }
         
+        # Generate randomized prompt
+        prompt = randomize_prompt(config)
+        
         payload = {
             "model": model,
-            "messages": [{"role": "user", "content": config["prompt"]}],
+            "messages": [{"role": "user", "content": prompt}],
             "temperature": config["temperature"],
             "max_tokens": config["max_tokens"]
         }
