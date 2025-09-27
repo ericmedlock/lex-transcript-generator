@@ -16,8 +16,9 @@
 
 ## Configuration
 **Database Schema**: postgres_schema.sql, rag_schema.sql, dedupe_schema.sql
-**Config**: config.json with deduplication, resource_management sections
+**Config**: config/config.json with deduplication (hash_only), resource_management, debug_mode sections
 **Dependencies**: psycopg2-binary, aiohttp, requests, psutil, openai
+**Hash-Only Deduplication**: Semantic similarity disabled, exact hash matching only
 
 ## Quick Commands (Chat Interface)
 
@@ -73,11 +74,25 @@ python scripts/model_bakeoff_with_dedupe.py
 - **Temperature Protection**: Auto-throttles at 80°C
 - **Heartbeat**: 10-second intervals, 60-second failover timeout
 
+## Quick Config Commands
+
+### Machine Setup
+**MSI Config**: `python -c "import json; c=json.load(open('config/config.json')); c['machine_name']='MSI-Laptop-4050'; json.dump(c,open('config/config.json','w'),indent=2)"`
+**DELL Config**: `python -c "import json; c=json.load(open('config/config.json')); c['machine_name']='EPM_DELL'; json.dump(c,open('config/config.json','w'),indent=2)"`
+
+### Debug vs Production
+**Debug Mode (1x1, gemma only)**: `python -c "import json; c=json.load(open('config/config.json')); c.update({'debug_mode':True,'trials':1,'conversations_per_trial':1}); json.dump(c,open('config/config.json','w'),indent=2)"`
+**Production Mode (10x10, all models)**: `python -c "import json; c=json.load(open('config/config.json')); c.update({'debug_mode':False,'trials':10,'conversations_per_trial':10}); json.dump(c,open('config/config.json','w'),indent=2)"`
+
+### Run Commands
+**Debug Run**: `python scripts/model_bakeoff_with_dedupe.py --config config/config.json`
+**Production Run**: Same command (config determines behavior)
+
 ## Chat Command Mapping
 - **"confirm DELL is ready"** → Execute ready check command
-- **"run 1 debug cycle on DELL"** → Set trials=1, run bakeoff
-- **"update config for full run"** → Set trials=50+
-- **"give me command to do full run from terminal"** → Return: `python scripts/model_bakeoff_with_dedupe.py`
+- **"run 1 debug cycle on DELL"** → Set debug mode, run bakeoff
+- **"update config for full run"** → Set production mode
+- **"give me command to do full run from terminal"** → Return: `python scripts/model_bakeoff_with_dedupe.py --config config/config.json`
 - **"check system status"** → Show current config and component status
 - **"view latest results"** → Run `python scripts/view_results.py`
 - **"initialize schemas"** → Run `python scripts/init_dedupe_schema.py`

@@ -112,7 +112,7 @@ class DedupeManager:
         
         return hashlib.sha256(content_text.encode()).hexdigest()
     
-    def is_duplicate(self, run_number, conversation_content, node_id, similarity_threshold=0.85):
+    def is_duplicate(self, run_number, conversation_content, node_id, similarity_threshold=0.85, hash_only=False):
         """Check if conversation is duplicate in current run"""
         conn = self.get_db()
         cur = conn.cursor()
@@ -130,24 +130,29 @@ class DedupeManager:
             conn.close()
             return True, "exact_hash"
         
-        # Check semantic similarity
-        if isinstance(conversation_content, dict):
-            transcript = conversation_content.get("Transcript", [])
-            content_text = " ".join([turn.get("Content", "") for turn in transcript])
+        # Skip semantic similarity if hash_only mode
+        if not hash_only:
+            # Check semantic similarity
+            if isinstance(conversation_content, dict):
+                transcript = conversation_content.get("Transcript", [])
+                content_text = " ".join([turn.get("Content", "") for turn in transcript])
+            else:
+                content_text = str(conversation_content)
+            
+            embedding = self.generate_embedding(content_text)
+            if embedding:
+                cur.execute(
+                    "SELECT * FROM check_similarity(%s, %s::vector, %s)",
+                    (run_number, embedding, similarity_threshold)
+                )
+                similar = cur.fetchone()
+                if similar:
+                    cur.close()
+                    conn.close()
+                    return True, f"semantic_similarity_{similar[1]:.3f}"
         else:
+            embedding = None
             content_text = str(conversation_content)
-        
-        embedding = self.generate_embedding(content_text)
-        if embedding:
-            cur.execute(
-                "SELECT * FROM check_similarity(%s, %s::vector, %s)",
-                (run_number, embedding, similarity_threshold)
-            )
-            similar = cur.fetchone()
-            if similar:
-                cur.close()
-                conn.close()
-                return True, f"semantic_similarity_{similar[1]:.3f}"
         
         # Not duplicate - store it
         content_preview = content_text[:200] + "..." if len(content_text) > 200 else content_text

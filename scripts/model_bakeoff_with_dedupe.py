@@ -191,8 +191,9 @@ def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
         
         if dedupe_manager and config.get("deduplication", {}).get("enabled", True):
             similarity_threshold = config.get("deduplication", {}).get("similarity_threshold", 0.85)
+            hash_only = config.get("deduplication", {}).get("hash_only", False)
             is_duplicate, duplicate_reason = dedupe_manager.is_duplicate(
-                run_number, content, model, similarity_threshold
+                run_number, content, model, similarity_threshold, hash_only
             )
         
         usage = data.get("usage", {})
@@ -304,6 +305,10 @@ def main():
     available_models = fetch_available_models(config["base_url"], config["api_key"], config["timeout_s"])
     candidate_models = get_candidate_models(available_models)
     
+    # Apply models filter only in debug mode
+    if config.get("debug_mode", False) and "models_filter" in config and config["models_filter"]:
+        candidate_models = [m for m in candidate_models if m in config["models_filter"]]
+    
     if not candidate_models:
         print("ERROR: No models available")
         return 1
@@ -313,10 +318,12 @@ def main():
     
     # Use machine-specific run for bakeoff testing
     machine_name = config.get("machine_name", "unknown")
+    debug_mode = config.get("debug_mode", False)
+    run_prefix = f"debug_{machine_name}" if debug_mode else f"bakeoff_{machine_name}"
     run_id, run_number = dedupe_manager.get_or_create_run(
         target_conversations, 
         similarity_threshold,
-        run_prefix=f"bakeoff_{machine_name}"
+        run_prefix=run_prefix
     )
     print(f"Using per-node deduplication run: {run_number} ({machine_name})")
     
