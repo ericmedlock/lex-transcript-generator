@@ -303,6 +303,15 @@ Respond ONLY with JSON format:
         
         result_text = response.choices[0].message.content.strip()
         
+        # Remove markdown code blocks if present
+        if result_text.startswith('```json'):
+            result_text = result_text[7:]  # Remove ```json
+        if result_text.startswith('```'):
+            result_text = result_text[3:]   # Remove ```
+        if result_text.endswith('```'):
+            result_text = result_text[:-3]  # Remove trailing ```
+        result_text = result_text.strip()
+        
         try:
             grades = json.loads(result_text)
             grades["grading_error"] = None
