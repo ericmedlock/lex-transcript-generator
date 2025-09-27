@@ -157,7 +157,8 @@ class GradingWorker:
             'trial': trial
         }
         self.grading_queue.put(job)
-        print(f"    [GRADER] Queued grading for {trial_id}")
+        print(f"    [GRADER] Queue size now: {self.grading_queue.qsize()}")
+        print(f"    [GRADER] Queued grading for {trial_id} ({len(conversation_text)} chars)")
         
     def _worker_loop(self):
         """Main worker loop - processes one job at a time with rate limiting"""
@@ -166,7 +167,7 @@ class GradingWorker:
                 # Get job with timeout
                 job = self.grading_queue.get(timeout=5)
                 
-                print(f"    [GRADER] Processing {job['trial_id']}...")
+                print(f"    [GRADER] Processing {job['trial_id']} (queue: {self.grading_queue.qsize()} remaining)...")
                 
                 # Grade the conversation
                 grades = grade_conversation_with_openai(
@@ -174,8 +175,9 @@ class GradingWorker:
                     job['trial_id']
                 )
                 
-                # Write result
-                self.gan_writer.writerow([
+                # Write result (with error handling)
+                try:
+                    self.gan_writer.writerow([
                     job['trial_id'],
                     datetime.now().isoformat(),
                     job['model'],
@@ -186,17 +188,24 @@ class GradingWorker:
                     grades.get("overall_score"),
                     grades.get("brief_feedback", ""),
                     grades.get("grading_error", "")
-                ])
+                    ])
+                except ValueError as e:
+                    print(f"    [GRADER] CSV write error for {job['trial_id']}: {e}")
+                    continue
                 
                 if grades.get("grading_error"):
                     print(f"    [GRADER] Error for {job['trial_id']}: {grades['grading_error']}")
                 else:
                     print(f"    [GRADER] Completed {job['trial_id']}: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
                 
-                # Rate limiting - wait between API calls
-                time.sleep(2)  # 2 second delay between OpenAI calls
-                
                 self.grading_queue.task_done()
+                
+                # Rate limiting - wait between API calls (skip if queue empty)
+                if not self.grading_queue.empty():
+                    print(f"    [GRADER] Waiting 2s before next API call...")
+                    time.sleep(2)  # 2 second delay between OpenAI calls
+                else:
+                    print(f"    [GRADER] Queue empty, skipping delay")
                 
             except queue.Empty:
                 # No jobs in queue, continue checking
@@ -214,7 +223,7 @@ class GradingWorker:
         # Stop worker
         self.running = False
         if self.worker_thread and self.worker_thread.is_alive():
-            self.worker_thread.join(timeout=10)
+            self.worker_thread.join(timeout=30)  # Increased timeout
             
         print("[GRADER] Shutdown complete")
 
@@ -414,12 +423,12 @@ def unload_models():
 
 def run_trials_for_model(config, model, trial_writer, grading_worker, system_info):
     """Run all trials for a single model"""
-    print(f"Running model: {model}")
+    print(f"Running model: {model} (expecting {config.get('conversations_per_trial', 1)} conversations per trial)")
     
     results = []
     
     for trial in range(1, config["trials"] + 1):
-        print(f"  Trial {trial}/{config['trials']}")
+        print(f"  Trial {trial}/{config['trials']} - calling LLM API...")
         
         result = run_trial(
             config["base_url"],
@@ -453,7 +462,8 @@ def run_trials_for_model(config, model, trial_writer, grading_worker, system_inf
                 result["sample_output"]
             ])
         else:
-            print(f"    {result['latency_s']:.2f}s, {result['tokens_per_sec']:.1f} tok/s, {result['conversations_count']} conversations")
+            print(f"    API completed: {result['latency_s']:.2f}s, {result['tokens_per_sec']:.1f} tok/s")
+            print(f"    Parsing {result['conversations_count']} conversations...")
             
             # Write one row per conversation
             conversations = result.get("conversations", [result.get("full_output", "")])
@@ -483,6 +493,7 @@ def run_trials_for_model(config, model, trial_writer, grading_worker, system_inf
                 ])
                 
                 # Queue for grading
+                print(f"      Conversation {conv_num}: {len(conversation)} chars, queued for grading")
                 grading_worker.add_grading_job(
                     conversation,
                     trial_id,
@@ -529,6 +540,7 @@ def main():
     parser.add_argument("--out_csv", help="Summary CSV output path")
     parser.add_argument("--out_trials_csv", help="Trials CSV output path")
     parser.add_argument("--dry-run", action="store_true", help="Test mode with mocked responses")
+    parser.add_argument("--debug-models", type=int, help="Debug mode: only test first N models")
     
     args = parser.parse_args()
     
@@ -563,6 +575,8 @@ def main():
     if args.dry_run:
         print("DRY RUN MODE - Using mock responses")
         candidate_models = ["mock-model-1", "mock-model-2"]
+        if args.debug_models:
+            candidate_models = candidate_models[:args.debug_models]
     else:
         # Fetch available models
         available_models = fetch_available_models(
@@ -580,14 +594,23 @@ def main():
         if not candidate_models:
             print("ERROR: No models are available")
             return 1
+        
+        # Debug mode: limit models
+        if args.debug_models:
+            candidate_models = candidate_models[:args.debug_models]
+            print(f"DEBUG MODE: Testing only first {args.debug_models} models")
     
-    print(f"Testing models: {candidate_models}")
+    if args.debug_models:
+        print(f"DEBUG: Testing {len(candidate_models)} of {len(available_models) if not args.dry_run else 'mock'} available models: {candidate_models}")
+    else:
+        print(f"Testing models: {candidate_models}")
     print()
     
-    # Open CSV files
+    # Open CSV files (keep GAN file open until grading completes)
+    gan_file = open(gan_csv, 'w', newline='', encoding='utf-8')
+    
     with open(trials_csv, 'w', newline='', encoding='utf-8') as trials_file, \
-         open(summary_csv, 'w', newline='', encoding='utf-8') as summary_file, \
-         open(gan_csv, 'w', newline='', encoding='utf-8') as gan_file:
+         open(summary_csv, 'w', newline='', encoding='utf-8') as summary_file:
         
         # CSV writers
         trial_writer = csv.writer(trials_file)
@@ -675,8 +698,12 @@ def main():
             print(f"  Summary: {summary['latency_avg_s']:.2f}s avg, {summary['tokens_per_sec_avg']:.1f} tok/s avg")
             print()
     
-    # Shutdown grading worker
+    # Keep files open during grading shutdown
+    print("[MAIN] Waiting for grading to complete...")
     grading_worker.shutdown()
+    
+    # Now safe to close GAN file
+    gan_file.close()
     
     print(f"Results written to:")
     print(f"  Summary: {summary_csv}")

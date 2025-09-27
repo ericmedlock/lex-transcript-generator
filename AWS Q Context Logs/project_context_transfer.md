@@ -1,5 +1,13 @@
 # LLM Transcript Data Generation Platform - Full Context Transfer
 
+## Conversation Summary
+- **Model Bakeoff Tool**: Built comprehensive benchmarking system for testing multiple LLM models with performance metrics, OpenAI grading, and CSV output generation
+- **Multi-conversation Generation**: Enhanced bakeoff to generate multiple conversations per API call (10 conversations per trial) with separate CSV rows for each
+- **Database Migration**: Converted system from SQLite to PostgreSQL with proper schema for conversations, jobs, scenarios, and nodes
+- **RAG System Setup**: Created vector database system with pgvector extension for embedding storage and similarity search
+- **Data Processing Pipeline**: Built modular translator system to process Kaggle health dataset (AWS Transcribe JSON format) into RAG embeddings
+- **RAG Preprocessor Issues**: Fixed translator detection and vector search type casting for PostgreSQL pgvector compatibility
+
 ## Project Overview
 **Base Directory**: `C:\Users\ericm\PycharmProjects\LLM-Transcript-Data-Gen\`
 **Goal**: Distributed system for generating high-quality conversation transcripts using AI for training chatbots/conversational AI systems.
@@ -12,16 +20,23 @@
 
 ## Key Files & Components
 
-### Database Schema (`config/database/postgres_schema.sql`)
+### Database Schema
+**Main Schema** (`config/database/postgres_schema.sql`):
 - **nodes**: Worker node registration and status
 - **scenarios**: Conversation templates (healthcare, retail, telecom)
 - **jobs**: Generation job queue with status tracking
 - **conversations**: Generated transcripts with metadata (model_name, timing, evaluation_metrics)
 
+**RAG Schema** (`config/database/rag_schema.sql`):
+- **document_chunks**: Text chunks with pgvector embeddings for similarity search
+- **rag_sources**: Source file metadata and processing information
+
 ### Core Scripts
 - **Master**: `src/master/orchestrator.py` - Job scheduler and node coordinator
 - **Generation Node**: `src/nodes/generation_node.py` - LLM worker that processes jobs
 - **Model Bakeoff**: `scripts/model_bakeoff.py` - Multi-model benchmarking tool
+- **RAG Preprocessor**: `src/data/rag_preprocessor.py` - RAG preprocessing system for Kaggle health dataset
+- **AWS Transcribe Translator**: `src/data/translators/aws_transcribe_translator.py` - Converts AWS Transcribe JSON to conversation text
 - **Utilities**: `scripts/view_results.py`, `scripts/dump_results.py`, `scripts/check_jobs.py`
 
 ### Configuration (`config.json`)
@@ -99,11 +114,15 @@ db_config = {
 3. **Enhanced Metadata**: Added model_name, timing, evaluation_metrics to conversations table
 4. **System Detection**: GPU/platform info in bakeoff tool
 5. **Job Counter Fix**: Only counts successful completions, not failures
+6. **RAG System**: Added pgvector extension, embedding generation via LM Studio
+7. **Modular Translators**: Created translator system for processing different data formats
+8. **Vector Search Fix**: Fixed PostgreSQL vector type casting for similarity queries
 
 ## Current Commands
 - **Start Master**: `python -m src.master.orchestrator`
 - **Start Generation Node**: `python src/nodes/generation_node.py 10` (for 10 jobs)
 - **Run Bakeoff**: `python scripts/model_bakeoff.py`
+- **Process RAG Data**: `python src/data/rag_preprocessor.py`
 - **View Results**: `python scripts/view_results.py`
 - **Check Jobs**: `python scripts/check_jobs.py`
 - **Clear DB**: `TRUNCATE TABLE conversations, jobs RESTART IDENTITY CASCADE;`
@@ -111,7 +130,8 @@ db_config = {
 ## Dependencies Installed
 - psycopg2-binary (PostgreSQL driver)
 - aiohttp (async HTTP client)
-- Standard libraries: asyncio, json, uuid, datetime
+- requests (HTTP client for LM Studio API)
+- Standard libraries: asyncio, json, uuid, datetime, pathlib
 
 ## Next Steps Context
 User is moving to desktop machine and will need to:
