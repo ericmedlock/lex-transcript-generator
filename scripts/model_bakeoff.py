@@ -25,7 +25,7 @@ def load_config(config_path):
         "temperature": 0.7,
         "max_tokens": 512,
         "timeout_s": 120,
-        "unload_between_models": False,
+        "unload_between_models": True,
         "prompt": "Summarize the Fermi paradox in 3 bullets."
     }
     

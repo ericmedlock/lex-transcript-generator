@@ -1,0 +1,10 @@
+timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,sample_output
+2025-09-27T13:17:24.847991,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,microsoft/phi-4-mini-reasoning,1,15.755587339401245,512,32.496408351569414,"<think>
+Okay, so I need to summarize the Fermi Paradox in three bullet points. Let me start by recalling what the Fermi Paradox is about. From what I remember, it's a question about the apparent contradiction between two observations: the vast number of galaxies estimated by modern astronomy, and the lack of evidence or contact with many extra planets that we'd expect given the age of the universe.
+
+Wait, Eric Fermi asked why, if there are so many stars and planets forming around them, we haven'"
+2025-09-27T13:17:36.448387,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,microsoft/phi-4-mini-reasoning,2,11.596039295196533,512,44.1530066401282,"<think>
+
+Okay, let's see. I need to summarize the Fermi Paradox in three bullet points. First, what is the Fermi Paradox? From what I remember, it's a question about the contradiction between ordinary star formation and the lack of evidence for repeating ultra-diffuse civilizations. Enrico Fermi posed the questions: ""Where are they?"" meaning if there are so many stars with potential for intelligent life, why haven't we seen any contact or signs of them?
+
+So the paradox arises because big numbers"
