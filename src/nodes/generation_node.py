@@ -30,6 +30,9 @@ class GenerationNode:
         self.max_jobs = max_jobs
         self.jobs_processed = 0
         self.rag_preprocessor = self.init_rag()
+        self.dedupe_manager = self.init_dedupe()
+        self.current_run_id = None
+        self.current_run_number = None
         
     def get_db(self):
         """Get database connection"""
@@ -44,6 +47,30 @@ class GenerationNode:
         except Exception as e:
             print(f"Warning: RAG not available: {e}")
             return None
+    
+    def init_dedupe(self):
+        """Initialize deduplication manager"""
+        try:
+            sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
+            from dedupe_manager import DedupeManager
+            return DedupeManager()
+        except Exception as e:
+            print(f"Warning: Deduplication not available: {e}")
+            return None
+    
+    def get_or_create_run(self):
+        """Get current deduplication run"""
+        if not self.dedupe_manager:
+            return None, None
+        
+        if not self.current_run_id:
+            self.current_run_id, self.current_run_number = self.dedupe_manager.get_or_create_run(
+                target_conversations=1000,  # Default target
+                similarity_threshold=0.85
+            )
+            print(f"Using deduplication run: {self.current_run_number}")
+        
+        return self.current_run_id, self.current_run_number
     
     def rag_search(self, query, limit=3):
         """Search for similar conversations using RAG"""
@@ -158,33 +185,47 @@ class GenerationNode:
                         # Extract metadata
                         metadata = conversation.pop("_metadata", {})
                         
-                        # Save conversation
-                        conv_id = str(uuid.uuid4())
-                        cur.execute(
-                            """INSERT INTO conversations 
-                               (id, job_id, scenario_id, content, quality_score, model_name, 
-                                generation_start_time, generation_end_time, generation_duration_ms, evaluation_metrics) 
-                               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                            (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
-                             metadata.get("model_name"), metadata.get("start_time"), 
-                             metadata.get("end_time"), metadata.get("duration_ms"), 
-                             json.dumps({"realness_score": None, "speed_score": None, "gan_score": None}))
-                        )
+                        # Check for duplicates if deduplication enabled
+                        run_id, run_number = self.get_or_create_run()
+                        is_duplicate = False
+                        duplicate_reason = "unique"
                         
-                        # Mark job complete
-                        cur.execute(
-                            "UPDATE jobs SET status = 'completed', completed_at = %s WHERE id = %s",
-                            (datetime.now(), job_id)
-                        )
+                        if self.dedupe_manager and run_number:
+                            is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
+                                run_number, conversation, self.hostname, 0.85
+                            )
                         
-                        print(f"Completed job: {job_id[:8]} -> conversation: {conv_id[:8]}")
-                        
-                        # Check if we've hit the job limit (only count successful jobs)
-                        self.jobs_processed += 1
-                        if self.max_jobs and self.jobs_processed >= self.max_jobs:
-                            print(f"Reached job limit ({self.max_jobs}), shutting down...")
-                            self.running = False
-                            return
+                        if is_duplicate:
+                            print(f"Duplicate conversation detected ({duplicate_reason}), retrying job: {job_id[:8]}")
+                            # Don't mark job complete, let it retry
+                        else:
+                            # Save unique conversation
+                            conv_id = str(uuid.uuid4())
+                            cur.execute(
+                                """INSERT INTO conversations 
+                                   (id, job_id, scenario_id, content, quality_score, model_name, 
+                                    generation_start_time, generation_end_time, generation_duration_ms, evaluation_metrics) 
+                                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                                (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
+                                 metadata.get("model_name"), metadata.get("start_time"), 
+                                 metadata.get("end_time"), metadata.get("duration_ms"), 
+                                 json.dumps({"realness_score": None, "speed_score": None, "gan_score": None, "duplicate_status": duplicate_reason}))
+                            )
+                            
+                            # Mark job complete
+                            cur.execute(
+                                "UPDATE jobs SET status = 'completed', completed_at = %s WHERE id = %s",
+                                (datetime.now(), job_id)
+                            )
+                            
+                            print(f"Completed job: {job_id[:8]} -> conversation: {conv_id[:8]} (unique)")
+                            
+                            # Check if we've hit the job limit (only count successful jobs)
+                            self.jobs_processed += 1
+                            if self.max_jobs and self.jobs_processed >= self.max_jobs:
+                                print(f"Reached job limit ({self.max_jobs}), shutting down...")
+                                self.running = False
+                                return
                     else:
                         # Mark job failed (don't increment counter)
                         cur.execute(
