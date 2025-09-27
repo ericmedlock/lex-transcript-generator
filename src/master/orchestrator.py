@@ -174,7 +174,7 @@ class MasterOrchestrator:
         cur.close()
         conn.close()
         
-        print(f"✅ Created job: {job_id}")
+        print(f"Created job: {job_id}")
         return job_id
 
 async def main():

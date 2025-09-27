@@ -1,0 +1,11 @@
+{
+  "base_url": "http://localhost:1234/v1",
+  "api_key": "lm-studio",
+  "machine_name": "MSI-Laptop-4050",
+  "trials": 10,
+  "temperature": 0.7,
+  "max_tokens": 512,
+  "timeout_s": 120,
+  "unload_between_models": true,
+  "prompt": "Generate a realistic conversation for: Healthcare Appointment Scheduling\n\nGenerate a medical appointment scheduling conversation between a patient and receptionist.\n\nRequirements:\n- Length: 20 to 40 turns\n- Format: alternating User: and Agent: lines\n- Natural, realistic dialogue\n- Include realistic hesitations and corrections\n\nGenerate ONLY the conversation, no commentary:"
+}

@@ -110,7 +110,7 @@ class GenerationNode:
             
             if job:
                 job_id, scenario_id, parameters = job
-                params = json.loads(parameters or "{}")
+                params = parameters if isinstance(parameters, dict) else json.loads(parameters or "{}")
                 
                 print(f"🔄 Processing job: {job_id[:8]}")
                 
@@ -143,24 +143,25 @@ class GenerationNode:
                         
                         print(f"✅ Completed job: {job_id[:8]} -> conversation: {conv_id[:8]}")
                         
-                        # Check if we've hit the job limit
+                        # Check if we've hit the job limit (only count successful jobs)
                         self.jobs_processed += 1
                         if self.max_jobs and self.jobs_processed >= self.max_jobs:
                             print(f"🎯 Reached job limit ({self.max_jobs}), shutting down...")
                             self.running = False
                             return
                     else:
-                        # Mark job failed
+                        # Mark job failed (don't increment counter)
                         cur.execute(
                             "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                         )
-                        print(f"❌ Failed job: {job_id[:8]}")
+                        print(f"❌ Failed job: {job_id[:8]} - not counting toward limit")
                 
                 except Exception as e:
                     print(f"❌ Error processing job {job_id[:8]}: {e}")
                     cur.execute(
                         "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                     )
+                    print(f"❌ Job failed due to exception - not counting toward limit")
                 
                 conn.commit()
             
@@ -169,8 +170,9 @@ class GenerationNode:
             await asyncio.sleep(5)  # Check every 5 seconds
     
     async def get_available_model(self):
-        """Get first available model from LM Studio"""
+        """Get first available model from LM Studio using config"""
         try:
+            # Get first available model from API
             async with aiohttp.ClientSession() as session:
                 async with session.get(f"{self.llm_endpoint.replace('/chat/completions', '/models')}", timeout=10) as resp:
                     if resp.status == 200:
@@ -304,31 +306,11 @@ Generate ONLY the conversation, no commentary:"""
             await asyncio.sleep(30)  # Heartbeat every 30 seconds
     
     async def shutdown(self):
-        """Shutdown node gracefully"""
+        """Shutdown the node"""
         self.running = False
-        
-        conn = self.get_db()
-        conn.execute(
-            "UPDATE nodes SET status = 'offline' WHERE id = ?", (self.node_id,)
-        )
-        conn.commit()
-        conn.close()
-        
-        print("👋 Generation node offline")
-
-async def main():
-    """Main entry point"""
-    import sys
-    import argparse
-    
-    parser = argparse.ArgumentParser(description="Generation Node")
-    parser.add_argument("--endpoint", default="http://127.0.0.1:1234/v1/chat/completions", help="LLM endpoint URL")
-    parser.add_argument("--max-jobs", type=int, help="Maximum jobs to process (debug mode)")
-    
-    args = parser.parse_args()
-    
-    node = GenerationNode(llm_endpoint=args.endpoint, max_jobs=args.max_jobs)
-    await node.start()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    import sys
+    max_jobs = int(sys.argv[1]) if len(sys.argv) > 1 else None
+    node = GenerationNode(max_jobs=max_jobs)
+    asyncio.run(node.start())
