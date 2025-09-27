@@ -23,6 +23,10 @@ config/config.json
 bakeoff_*.csv
 bakeoff_trials_*.csv
 
+# Bakeoff results
+bakeoff_*.csv
+bakeoff_trials_*.csv
+
 # PyCharm / JetBrains
 .idea/
 *.iml
@@ -33,3 +37,6 @@ bakeoff_trials_*.csv
 # OS junk
 .DS_Store
 Thumbs.db
+
+# Generated outputs
+conversation_dump_*.txt
