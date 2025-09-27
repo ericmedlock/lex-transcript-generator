@@ -175,7 +175,8 @@ class DedupeManager:
         stored_count = cur.fetchone()[0]
         
         cur.execute("SELECT target_conversations FROM dedupe_runs WHERE run_number = %s", (run_number,))
-        target = cur.fetchone()[0] if cur.fetchone() else 0
+        result = cur.fetchone()
+        target = result[0] if result else 0
         
         cur.close()
         conn.close()
