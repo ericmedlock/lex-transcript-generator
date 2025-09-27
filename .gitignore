@@ -16,6 +16,9 @@ env/
 .env
 .env.*
 
+# Configuration files
+config/config.json
+
 # PyCharm / JetBrains
 .idea/
 *.iml
