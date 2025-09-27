@@ -21,6 +21,7 @@ from openai import OpenAI
 
 # Add src to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'core'))
+from activity_monitor import ActivityMonitor
 
 def load_config(config_path):
     """Load configuration with defaults"""
@@ -217,8 +218,8 @@ def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
             "duplicate_reason": "error"
         }
 
-def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, system_info):
-    """Run trials for model with deduplication and retry logic"""
+def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, system_info, activity_monitor):
+    """Run trials for model with deduplication, retry logic, and activity monitoring"""
     print(f"Running model: {model}")
     
     results = []
@@ -229,7 +230,21 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
     
     trial = 1
     while unique_conversations < target_conversations and trial <= target_conversations + max_retries:
-        print(f"  Trial {trial} (need {target_conversations - unique_conversations} more unique)...", end=" ")
+        # Check activity and throttle if needed
+        limits = activity_monitor.get_resource_limits()
+        mode = activity_monitor.get_activity_mode()
+        
+        if mode in ["gaming", "thermal_throttle"]:
+            print(f"  Pausing due to {mode}, waiting {limits['delay']}s...")
+            time.sleep(limits["delay"])
+            continue
+        
+        if activity_monitor.should_throttle():
+            print(f"  Throttling due to high resource usage, waiting {limits['delay']}s...")
+            time.sleep(limits["delay"])
+            continue
+        
+        print(f"  Trial {trial} (need {target_conversations - unique_conversations} more unique, mode: {mode})...", end=" ")
         
         result = run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number)
         
@@ -285,7 +300,7 @@ def main():
         print("ERROR: Could not initialize deduplication system")
         return 1
     
-    # Create deduplication run
+    # Create per-node deduplication run
     available_models = fetch_available_models(config["base_url"], config["api_key"], config["timeout_s"])
     candidate_models = get_candidate_models(available_models)
     
@@ -296,15 +311,22 @@ def main():
     target_conversations = len(candidate_models) * config["trials"]
     similarity_threshold = config.get("deduplication", {}).get("similarity_threshold", 0.85)
     
-    run_id, run_number = dedupe_manager.get_or_create_run(target_conversations, similarity_threshold)
-    print(f"Using deduplication run: {run_number}")
+    # Use machine-specific run for bakeoff testing
+    machine_name = config.get("machine_name", "unknown")
+    run_id, run_number = dedupe_manager.get_or_create_run(
+        target_conversations, 
+        similarity_threshold,
+        run_prefix=f"bakeoff_{machine_name}"
+    )
+    print(f"Using per-node deduplication run: {run_number} ({machine_name})")
     
     # Setup output directory
     output_dir = setup_run_directory(config, run_number)
     print(f"Output directory: {output_dir}")
     
-    # Detect system info
+    # Detect system info and initialize activity monitor
     system_info = detect_system_info()
+    activity_monitor = ActivityMonitor(config)
     
     print(f"Machine: {config['machine_name']}")
     print(f"GPU: {system_info['gpu_info']} ({system_info['gpu_memory']})")
@@ -338,7 +360,7 @@ def main():
         # Run trials for each model
         for model in candidate_models:
             results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
-                config, model, dedupe_manager, run_number, trial_writer, system_info
+                config, model, dedupe_manager, run_number, trial_writer, system_info, activity_monitor
             )
             
             # Calculate summary

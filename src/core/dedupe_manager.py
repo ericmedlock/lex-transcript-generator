@@ -57,14 +57,25 @@ class DedupeManager:
             pass
         return None
     
-    def get_or_create_run(self, target_conversations, similarity_threshold=0.85):
+    def get_or_create_run(self, target_conversations, similarity_threshold=0.85, run_prefix=None):
         """Get current active run or create new one"""
         conn = self.get_db()
         cur = conn.cursor()
         
-        # Check for active run
-        cur.execute("SELECT id, run_number FROM dedupe_runs WHERE status = 'active' ORDER BY created_at DESC LIMIT 1")
-        active_run = cur.fetchone()
+        # For bakeoff, create machine-specific runs
+        if run_prefix:
+            # Check for active run with this prefix
+            cur.execute(
+                "SELECT id, run_number FROM dedupe_runs WHERE status = 'active' AND metadata->>'prefix' = %s ORDER BY created_at DESC LIMIT 1",
+                (run_prefix,)
+            )
+            active_run = cur.fetchone()
+        else:
+            # Check for active run without prefix
+            cur.execute(
+                "SELECT id, run_number FROM dedupe_runs WHERE status = 'active' AND (metadata->>'prefix' IS NULL OR metadata->>'prefix' = '') ORDER BY created_at DESC LIMIT 1"
+            )
+            active_run = cur.fetchone()
         
         if active_run:
             run_id, run_number = active_run
@@ -74,9 +85,11 @@ class DedupeManager:
             run_number = cur.fetchone()[0]
             
             run_id = str(uuid.uuid4())
+            metadata = {"prefix": run_prefix} if run_prefix else {}
+            
             cur.execute(
-                "INSERT INTO dedupe_runs (id, run_number, target_conversations, similarity_threshold) VALUES (%s, %s, %s, %s)",
-                (run_id, run_number, target_conversations, similarity_threshold)
+                "INSERT INTO dedupe_runs (id, run_number, target_conversations, similarity_threshold, metadata) VALUES (%s, %s, %s, %s, %s)",
+                (run_id, run_number, target_conversations, similarity_threshold, json.dumps(metadata))
             )
             
             # Create run-specific table

@@ -12,6 +12,22 @@
     "enabled": true,
     "similarity_threshold": 0.85,
     "max_retries": 3,
+    "output_directory": "output/tool_runs",
+    "per_node_runs": true
+  },
+  "resource_management": {
+    "activity_detection": true,
+    "cpu_limit_active": 30,
+    "cpu_limit_idle": 80,
+    "gpu_limit_active": 20,
+    "gpu_limit_idle": 70,
+    "temp_limit": 80,
+    "check_interval": 5
+  },
+  "deduplication": {
+    "enabled": true,
+    "similarity_threshold": 0.85,
+    "max_retries": 3,
     "output_directory": "output/tool_runs"
   }
 }
