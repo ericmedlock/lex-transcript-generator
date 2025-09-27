@@ -3,35 +3,46 @@
 Check job queue status
 """
 
-import sqlite3
-from pathlib import Path
+import psycopg2
 
-DB_PATH = "data/transcript_platform.db"
+DB_CONFIG = {
+    'host': 'EPM_DELL',
+    'port': 5432,
+    'database': 'calllab',
+    'user': 'postgres',
+    'password': 'pass'
+}
 
 def check_jobs():
-    if not Path(DB_PATH).exists():
-        print("❌ Database not found")
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+    except Exception as e:
+        print(f"❌ Database connection failed: {e}")
         return
     
-    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
     
     # Job status breakdown
-    statuses = conn.execute(
+    cur.execute(
         "SELECT status, COUNT(*) FROM jobs GROUP BY status"
-    ).fetchall()
+    )
+    statuses = cur.fetchall()
     
     print("📋 Job Queue Status:")
     for status, count in statuses:
         print(f"  {status}: {count}")
     
     # Recent jobs
-    recent = conn.execute(
-        "SELECT id, job_type, status, created_at FROM jobs ORDER BY created_at DESC LIMIT 5"
-    ).fetchall()
+    cur.execute(
+        "SELECT id, scenario_id, status, created_at FROM jobs ORDER BY created_at DESC LIMIT 5"
+    )
+    recent = cur.fetchall()
+    
+    cur.close()
     
     print("\n🕒 Recent Jobs:")
-    for job_id, job_type, status, created_at in recent:
-        print(f"  {job_id[:8]} | {job_type} | {status} | {created_at}")
+    for job_id, scenario_id, status, created_at in recent:
+        print(f"  {job_id[:8]} | {scenario_id[:8]} | {status} | {created_at}")
     
     conn.close()
 

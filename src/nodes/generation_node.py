@@ -4,7 +4,7 @@ Generation Node - Handles LLM conversation generation
 """
 
 import asyncio
-import sqlite3
+import psycopg2
 import json
 import uuid
 import socket
@@ -13,8 +13,14 @@ from datetime import datetime
 from pathlib import Path
 
 class GenerationNode:
-    def __init__(self, db_path="data/transcript_platform.db", llm_endpoint="http://127.0.0.1:1234/v1/chat/completions", max_jobs=None):
-        self.db_path = db_path
+    def __init__(self, llm_endpoint="http://127.0.0.1:1234/v1/chat/completions", max_jobs=None):
+        self.db_config = {
+            'host': 'EPM_DELL',
+            'port': 5432,
+            'database': 'calllab',
+            'user': 'postgres',
+            'password': 'pass'
+        }
         self.llm_endpoint = llm_endpoint
         self.node_id = str(uuid.uuid4())
         self.hostname = socket.gethostname()
@@ -24,31 +30,36 @@ class GenerationNode:
         
     def get_db(self):
         """Get database connection"""
-        return sqlite3.connect(self.db_path)
+        return psycopg2.connect(**self.db_config)
     
     async def register_node(self):
         """Register this node with the master"""
         conn = self.get_db()
         
+        cur = conn.cursor()
+        
         # Check if node already exists
-        existing = conn.execute(
-            "SELECT id FROM nodes WHERE hostname = ? AND node_type = 'generation'", 
+        cur.execute(
+            "SELECT id FROM nodes WHERE hostname = %s AND node_type = 'generation'", 
             (self.hostname,)
-        ).fetchone()
+        )
+        existing = cur.fetchone()
         
         if existing:
             self.node_id = existing[0]
             # Update status
-            conn.execute(
-                "UPDATE nodes SET status = 'online', last_seen = ? WHERE id = ?",
-                (datetime.now().isoformat(), self.node_id)
+            cur.execute(
+                "UPDATE nodes SET status = 'online', last_seen = %s WHERE id = %s",
+                (datetime.now(), self.node_id)
             )
         else:
             # Register new node
-            conn.execute(
-                "INSERT INTO nodes (id, hostname, node_type, status, capabilities) VALUES (?, ?, ?, ?, ?)",
+            cur.execute(
+                "INSERT INTO nodes (id, hostname, node_type, status, capabilities) VALUES (%s, %s, %s, %s, %s)",
                 (self.node_id, self.hostname, "generation", "online", json.dumps(["llm_generation"]))
             )
+        
+        cur.close()
         
         conn.commit()
         conn.close()
@@ -59,8 +70,11 @@ class GenerationNode:
         """Start the generation node"""
         print("🤖 Starting Generation Node")
         
-        if not Path(self.db_path).exists():
-            print("❌ Database not found. Run: python scripts/db_setup.py init")
+        try:
+            conn = self.get_db()
+            conn.close()
+        except Exception as e:
+            print(f"❌ Database connection failed: {e}")
             return
         
         await self.register_node()
@@ -85,12 +99,14 @@ class GenerationNode:
         """Process assigned generation jobs"""
         while self.running:
             conn = self.get_db()
+            cur = conn.cursor()
             
             # Get jobs assigned to this node
-            job = conn.execute(
-                "SELECT id, scenario_id, parameters FROM jobs WHERE assigned_node_id = ? AND status = 'running' LIMIT 1",
+            cur.execute(
+                "SELECT id, scenario_id, parameters FROM jobs WHERE assigned_node_id = %s AND status = 'running' LIMIT 1",
                 (self.node_id,)
-            ).fetchone()
+            )
+            job = cur.fetchone()
             
             if job:
                 job_id, scenario_id, parameters = job
@@ -103,17 +119,26 @@ class GenerationNode:
                     conversation = await self.generate_conversation(scenario_id, params)
                     
                     if conversation:
+                        # Extract metadata
+                        metadata = conversation.pop("_metadata", {})
+                        
                         # Save conversation
                         conv_id = str(uuid.uuid4())
-                        conn.execute(
-                            "INSERT INTO conversations (id, job_id, scenario_id, content, quality_score) VALUES (?, ?, ?, ?, ?)",
-                            (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8)  # Default quality score
+                        cur.execute(
+                            """INSERT INTO conversations 
+                               (id, job_id, scenario_id, content, quality_score, model_name, 
+                                generation_start_time, generation_end_time, generation_duration_ms, evaluation_metrics) 
+                               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                            (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
+                             metadata.get("model_name"), metadata.get("start_time"), 
+                             metadata.get("end_time"), metadata.get("duration_ms"), 
+                             json.dumps({"realness_score": None, "speed_score": None, "gan_score": None}))
                         )
                         
                         # Mark job complete
-                        conn.execute(
-                            "UPDATE jobs SET status = 'completed', completed_at = ? WHERE id = ?",
-                            (datetime.now().isoformat(), job_id)
+                        cur.execute(
+                            "UPDATE jobs SET status = 'completed', completed_at = %s WHERE id = %s",
+                            (datetime.now(), job_id)
                         )
                         
                         print(f"✅ Completed job: {job_id[:8]} -> conversation: {conv_id[:8]}")
@@ -126,31 +151,50 @@ class GenerationNode:
                             return
                     else:
                         # Mark job failed
-                        conn.execute(
-                            "UPDATE jobs SET status = 'failed' WHERE id = ?", (job_id,)
+                        cur.execute(
+                            "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                         )
                         print(f"❌ Failed job: {job_id[:8]}")
                 
                 except Exception as e:
                     print(f"❌ Error processing job {job_id[:8]}: {e}")
-                    conn.execute(
-                        "UPDATE jobs SET status = 'failed' WHERE id = ?", (job_id,)
+                    cur.execute(
+                        "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                     )
                 
                 conn.commit()
             
+            cur.close()
             conn.close()
             await asyncio.sleep(5)  # Check every 5 seconds
+    
+    async def get_available_model(self):
+        """Get first available model from LM Studio"""
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(f"{self.llm_endpoint.replace('/chat/completions', '/models')}", timeout=10) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        models = data.get("data", [])
+                        if models:
+                            return models[0]["id"]
+        except Exception as e:
+            print(f"⚠️ Could not get models, using default: {e}")
+        
+        return "microsoft/phi-4-mini-reasoning"  # Fallback
     
     async def generate_conversation(self, scenario_id, parameters):
         """Generate a conversation using LLM"""
         conn = self.get_db()
+        cur = conn.cursor()
         
         # Get scenario template
-        scenario = conn.execute(
-            "SELECT name, template FROM scenarios WHERE id = ?", (scenario_id,)
-        ).fetchone()
+        cur.execute(
+            "SELECT name, template FROM scenarios WHERE id = %s", (scenario_id,)
+        )
+        scenario = cur.fetchone()
         
+        cur.close()
         conn.close()
         
         if not scenario:
@@ -159,6 +203,9 @@ class GenerationNode:
         scenario_name, template = scenario
         min_turns = parameters.get("min_turns", 20)
         max_turns = parameters.get("max_turns", 40)
+        
+        # Get available model
+        model_name = await self.get_available_model()
         
         # Build prompt
         prompt = f"""Generate a realistic conversation for: {scenario_name}
@@ -173,23 +220,36 @@ Requirements:
 
 Generate ONLY the conversation, no commentary:"""
         
+        start_time = datetime.now()
+        
         try:
             # Call LLM
             async with aiohttp.ClientSession() as session:
                 payload = {
-                    "model": "google/gemma-3-1b",  # LM Studio model
+                    "model": model_name,
                     "messages": [{"role": "user", "content": prompt}],
                     "temperature": 0.9,
                     "max_tokens": 2000
                 }
                 
                 async with session.post(self.llm_endpoint, json=payload, timeout=60) as resp:
+                    end_time = datetime.now()
+                    duration_ms = int((end_time - start_time).total_seconds() * 1000)
+                    
                     if resp.status == 200:
                         data = await resp.json()
                         text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
                         
-                        # Convert to Contact Lens format
-                        return self.format_conversation(text, scenario_name)
+                        # Convert to Contact Lens format and add metadata
+                        conversation = self.format_conversation(text, scenario_name)
+                        conversation["_metadata"] = {
+                            "model_name": model_name,
+                            "start_time": start_time.isoformat(),
+                            "end_time": end_time.isoformat(),
+                            "duration_ms": duration_ms
+                        }
+                        
+                        return conversation
                     else:
                         print(f"❌ LLM API error: {resp.status}")
                         return None
@@ -232,11 +292,13 @@ Generate ONLY the conversation, no commentary:"""
         """Send heartbeat to master"""
         while self.running:
             conn = self.get_db()
-            conn.execute(
-                "UPDATE nodes SET last_seen = ? WHERE id = ?",
-                (datetime.now().isoformat(), self.node_id)
+            cur = conn.cursor()
+            cur.execute(
+                "UPDATE nodes SET last_seen = %s WHERE id = %s",
+                (datetime.now(), self.node_id)
             )
             conn.commit()
+            cur.close()
             conn.close()
             
             await asyncio.sleep(30)  # Heartbeat every 30 seconds

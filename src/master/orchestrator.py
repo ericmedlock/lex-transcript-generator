@@ -4,29 +4,37 @@ Master Node Orchestrator - Main system coordinator
 """
 
 import asyncio
-import sqlite3
+import psycopg2
 import json
 import uuid
 from datetime import datetime
-from pathlib import Path
 
 class MasterOrchestrator:
-    def __init__(self, db_path="data/transcript_platform.db"):
-        self.db_path = db_path
+    def __init__(self):
+        self.db_config = {
+            'host': 'EPM_DELL',
+            'port': 5432,
+            'database': 'calllab',
+            'user': 'postgres',
+            'password': 'pass'
+        }
         self.running = False
         self.nodes = {}  # node_id -> last_seen
         
     def get_db(self):
         """Get database connection"""
-        return sqlite3.connect(self.db_path)
+        return psycopg2.connect(**self.db_config)
     
     async def start(self):
         """Start the master orchestrator"""
         print("🚀 Starting Master Orchestrator")
         
-        # Verify database exists
-        if not Path(self.db_path).exists():
-            print("❌ Database not found. Run: python scripts/db_setup.py init")
+        # Verify database connection
+        try:
+            conn = self.get_db()
+            conn.close()
+        except Exception as e:
+            print(f"❌ Database connection failed: {e}")
             return
         
         self.running = True
@@ -54,9 +62,12 @@ class MasterOrchestrator:
             # For now, just check database
             
             conn = self.get_db()
-            nodes = conn.execute(
+            cur = conn.cursor()
+            cur.execute(
                 "SELECT id, hostname, status, last_seen FROM nodes WHERE node_type != 'master'"
-            ).fetchall()
+            )
+            nodes = cur.fetchall()
+            cur.close()
             
             active_nodes = len([n for n in nodes if n[2] == 'online'])
             print(f"📡 Active nodes: {active_nodes}")
@@ -69,31 +80,36 @@ class MasterOrchestrator:
         while self.running:
             conn = self.get_db()
             
+            cur = conn.cursor()
+            
             # Get pending jobs
-            pending_jobs = conn.execute(
-                "SELECT id, job_type, priority FROM jobs WHERE status = 'pending' ORDER BY priority DESC, created_at ASC"
-            ).fetchall()
+            cur.execute(
+                "SELECT id, scenario_id FROM jobs WHERE status = 'pending' ORDER BY created_at ASC"
+            )
+            pending_jobs = cur.fetchall()
             
             # Get available nodes
-            available_nodes = conn.execute(
+            cur.execute(
                 "SELECT id, node_type FROM nodes WHERE status = 'online' AND node_type != 'master'"
-            ).fetchall()
+            )
+            available_nodes = cur.fetchall()
             
             # Assign jobs to nodes
-            for job_id, job_type, priority in pending_jobs[:len(available_nodes)]:
+            for job_id, scenario_id in pending_jobs[:len(available_nodes)]:
                 # Simple assignment - first available node
                 if available_nodes:
                     node_id, node_type = available_nodes.pop(0)
                     
                     # Update job status
-                    conn.execute(
-                        "UPDATE jobs SET status = 'running', assigned_node_id = ?, started_at = ? WHERE id = ?",
-                        (node_id, datetime.now().isoformat(), job_id)
+                    cur.execute(
+                        "UPDATE jobs SET status = 'running', assigned_node_id = %s, started_at = %s WHERE id = %s",
+                        (node_id, datetime.now(), job_id)
                     )
                     
                     print(f"📋 Assigned job {job_id[:8]} to node {node_id[:8]}")
             
             conn.commit()
+            cur.close()
             conn.close()
             await asyncio.sleep(10)  # Check every 10 seconds
     
@@ -102,14 +118,29 @@ class MasterOrchestrator:
         while self.running:
             conn = self.get_db()
             
+            cur = conn.cursor()
+            
             # Get system stats
+            cur.execute("SELECT COUNT(*) FROM nodes WHERE status = 'online'")
+            nodes_count = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'pending'")
+            pending_count = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'running'")
+            running_count = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'completed'")
+            completed_count = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM conversations")
+            conv_count = cur.fetchone()[0]
+            
             stats = {
-                'nodes': conn.execute("SELECT COUNT(*) FROM nodes WHERE status = 'online'").fetchone()[0],
-                'pending_jobs': conn.execute("SELECT COUNT(*) FROM jobs WHERE status = 'pending'").fetchone()[0],
-                'running_jobs': conn.execute("SELECT COUNT(*) FROM jobs WHERE status = 'running'").fetchone()[0],
-                'completed_jobs': conn.execute("SELECT COUNT(*) FROM jobs WHERE status = 'completed'").fetchone()[0],
-                'conversations': conn.execute("SELECT COUNT(*) FROM conversations").fetchone()[0]
+                'nodes': nodes_count,
+                'pending_jobs': pending_count,
+                'running_jobs': running_count,
+                'completed_jobs': completed_count,
+                'conversations': conv_count
             }
+            
+            cur.close()
             
             print(f"💊 Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations")
             
@@ -120,10 +151,13 @@ class MasterOrchestrator:
         """Create a new job"""
         conn = self.get_db()
         
+        cur = conn.cursor()
+        
         # Get scenario ID
-        scenario = conn.execute(
-            "SELECT id FROM scenarios WHERE name = ?", (scenario_name,)
-        ).fetchone()
+        cur.execute(
+            "SELECT id FROM scenarios WHERE name = %s", (scenario_name,)
+        )
+        scenario = cur.fetchone()
         
         if not scenario:
             print(f"❌ Scenario not found: {scenario_name}")
@@ -131,12 +165,13 @@ class MasterOrchestrator:
         
         job_id = str(uuid.uuid4())
         
-        conn.execute(
-            "INSERT INTO jobs (id, job_type, scenario_id, parameters) VALUES (?, ?, ?, ?)",
-            (job_id, job_type, scenario[0], json.dumps(parameters or {}))
+        cur.execute(
+            "INSERT INTO jobs (id, scenario_id, parameters) VALUES (%s, %s, %s)",
+            (job_id, scenario[0], json.dumps(parameters or {}))
         )
         
         conn.commit()
+        cur.close()
         conn.close()
         
         print(f"✅ Created job: {job_id}")
