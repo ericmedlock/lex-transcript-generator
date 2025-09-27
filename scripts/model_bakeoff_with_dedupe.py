@@ -225,7 +225,7 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
     results = []
     unique_conversations = 0
     duplicates_found = 0
-    target_conversations = config["trials"]
+    target_conversations = config["conversations_per_trial"]
     max_retries = config.get("deduplication", {}).get("max_retries", 3)
     
     trial = 1
@@ -308,7 +308,7 @@ def main():
         print("ERROR: No models available")
         return 1
     
-    target_conversations = len(candidate_models) * config["trials"]
+    target_conversations = len(candidate_models) * config["conversations_per_trial"]
     similarity_threshold = config.get("deduplication", {}).get("similarity_threshold", 0.85)
     
     # Use machine-specific run for bakeoff testing
