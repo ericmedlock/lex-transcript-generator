@@ -11,6 +11,8 @@ import argparse
 import os
 import platform
 import socket
+import threading
+import queue
 from datetime import datetime
 from pathlib import Path
 import requests
@@ -23,6 +25,7 @@ def load_config(config_path):
         "api_key": "lm-studio",
         "machine_name": socket.gethostname(),
         "trials": 5,
+        "conversations_per_trial": 1,
         "temperature": 0.7,
         "max_tokens": 512,
         "timeout_s": 120,
@@ -129,6 +132,92 @@ def estimate_tokens(text):
     """Simple token estimation"""
     return len(text.split())
 
+class GradingWorker:
+    """Single-threaded grading worker with rate limiting"""
+    
+    def __init__(self, gan_writer):
+        self.gan_writer = gan_writer
+        self.grading_queue = queue.Queue()
+        self.worker_thread = None
+        self.running = False
+        
+    def start(self):
+        """Start the grading worker thread"""
+        self.running = True
+        self.worker_thread = threading.Thread(target=self._worker_loop, daemon=False)
+        self.worker_thread.start()
+        print("[GRADER] Started grading worker thread")
+        
+    def add_grading_job(self, conversation_text, trial_id, model, trial):
+        """Add grading job to queue"""
+        job = {
+            'conversation_text': conversation_text,
+            'trial_id': trial_id,
+            'model': model,
+            'trial': trial
+        }
+        self.grading_queue.put(job)
+        print(f"    [GRADER] Queued grading for {trial_id}")
+        
+    def _worker_loop(self):
+        """Main worker loop - processes one job at a time with rate limiting"""
+        while self.running:
+            try:
+                # Get job with timeout
+                job = self.grading_queue.get(timeout=5)
+                
+                print(f"    [GRADER] Processing {job['trial_id']}...")
+                
+                # Grade the conversation
+                grades = grade_conversation_with_openai(
+                    job['conversation_text'], 
+                    job['trial_id']
+                )
+                
+                # Write result
+                self.gan_writer.writerow([
+                    job['trial_id'],
+                    datetime.now().isoformat(),
+                    job['model'],
+                    job['trial'],
+                    grades.get("realness_score"),
+                    grades.get("coherence_score"),
+                    grades.get("naturalness_score"),
+                    grades.get("overall_score"),
+                    grades.get("brief_feedback", ""),
+                    grades.get("grading_error", "")
+                ])
+                
+                if grades.get("grading_error"):
+                    print(f"    [GRADER] Error for {job['trial_id']}: {grades['grading_error']}")
+                else:
+                    print(f"    [GRADER] Completed {job['trial_id']}: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
+                
+                # Rate limiting - wait between API calls
+                time.sleep(2)  # 2 second delay between OpenAI calls
+                
+                self.grading_queue.task_done()
+                
+            except queue.Empty:
+                # No jobs in queue, continue checking
+                continue
+            except Exception as e:
+                print(f"    [GRADER] Worker error: {e}")
+                
+    def shutdown(self):
+        """Shutdown worker and wait for completion"""
+        print(f"[GRADER] Shutting down, {self.grading_queue.qsize()} jobs remaining...")
+        
+        # Wait for queue to empty
+        self.grading_queue.join()
+        
+        # Stop worker
+        self.running = False
+        if self.worker_thread and self.worker_thread.is_alive():
+            self.worker_thread.join(timeout=10)
+            
+        print("[GRADER] Shutdown complete")
+
 def grade_conversation_with_openai(conversation_text, trial_id):
     """Grade conversation using OpenAI API"""
     try:
@@ -201,7 +290,22 @@ Respond ONLY with JSON format:
             "grading_error": str(e)
         }
 
-def run_trial(base_url, api_key, model, prompt, temperature, max_tokens, timeout_s):
+def parse_multiple_conversations(text, conversations_count):
+    """Parse multiple conversations from LLM output"""
+    if conversations_count == 1:
+        return [text.strip()]
+    
+    # Split by separator
+    conversations = text.split('---CONVERSATION---')
+    conversations = [conv.strip() for conv in conversations if conv.strip()]
+    
+    # Ensure we have the expected count
+    while len(conversations) < conversations_count:
+        conversations.append(f"[Missing conversation {len(conversations) + 1}]")
+    
+    return conversations[:conversations_count]
+
+def run_trial(base_url, api_key, model, prompt, temperature, max_tokens, timeout_s, conversations_per_trial=1):
     """Run single trial and return results"""
     start_time = time.time()
     
@@ -211,9 +315,21 @@ def run_trial(base_url, api_key, model, prompt, temperature, max_tokens, timeout
             "Content-Type": "application/json"
         }
         
+        # Modify prompt for multiple conversations
+        if conversations_per_trial > 1:
+            modified_prompt = prompt.replace(
+                "Generate a realistic conversation", 
+                f"Generate {conversations_per_trial} realistic conversations"
+            ).replace(
+                "Generate ONLY the conversation", 
+                f"Generate ONLY the {conversations_per_trial} conversations, separated by '---CONVERSATION---'"
+            )
+        else:
+            modified_prompt = prompt
+        
         payload = {
             "model": model,
-            "messages": [{"role": "user", "content": prompt}],
+            "messages": [{"role": "user", "content": modified_prompt}],
             "temperature": temperature,
             "max_tokens": max_tokens
         }
@@ -245,13 +361,18 @@ def run_trial(base_url, api_key, model, prompt, temperature, max_tokens, timeout
         
         tokens_per_sec = completion_tokens / latency_s if latency_s > 0 else 0
         
+        # Parse conversations
+        conversations = parse_multiple_conversations(content, conversations_per_trial)
+        
         return {
             "error": None,
             "latency_s": latency_s,
             "completion_tokens": completion_tokens,
             "tokens_per_sec": tokens_per_sec,
             "sample_output": content[:500],
-            "full_output": content
+            "full_output": content,
+            "conversations": conversations,
+            "conversations_count": len(conversations)
         }
         
     except Exception as e:
@@ -291,7 +412,7 @@ def unload_models():
             "stderr": str(e)
         }
 
-def run_trials_for_model(config, model, trial_writer, gan_writer, system_info):
+def run_trials_for_model(config, model, trial_writer, grading_worker, system_info):
     """Run all trials for a single model"""
     print(f"Running model: {model}")
     
@@ -307,57 +428,67 @@ def run_trials_for_model(config, model, trial_writer, gan_writer, system_info):
             config["prompt"],
             config["temperature"],
             config["max_tokens"],
-            config["timeout_s"]
+            config["timeout_s"],
+            config.get("conversations_per_trial", 1)
         )
-        
-        # Generate unique trial ID for linking
-        trial_id = f"{model}_{trial}_{int(time.time())}"
-        
-        # Write trial row
-        timestamp = datetime.now().isoformat()
-        trial_writer.writerow([
-            trial_id,
-            timestamp,
-            config["machine_name"],
-            system_info["gpu_info"],
-            system_info["gpu_memory"],
-            system_info["platform"],
-            model,
-            trial,
-            result["latency_s"],
-            result["completion_tokens"],
-            result["tokens_per_sec"],
-            result["sample_output"]
-        ])
         
         if result["error"]:
             print(f"    ERROR: {result['error']}")
+            # Write single error row
+            trial_id = f"{model}_{trial}_{int(time.time())}"
+            timestamp = datetime.now().isoformat()
+            trial_writer.writerow([
+                trial_id,
+                timestamp,
+                config["machine_name"],
+                system_info["gpu_info"],
+                system_info["gpu_memory"],
+                system_info["platform"],
+                model,
+                trial,
+                1,  # conversation number
+                result["latency_s"],
+                result["completion_tokens"],
+                result["tokens_per_sec"],
+                result["sample_output"]
+            ])
         else:
-            print(f"    {result['latency_s']:.2f}s, {result['tokens_per_sec']:.1f} tok/s")
+            print(f"    {result['latency_s']:.2f}s, {result['tokens_per_sec']:.1f} tok/s, {result['conversations_count']} conversations")
             
-            # Grade with OpenAI if we have output
-            if result.get("full_output"):
-                print(f"    Grading with OpenAI...")
-                grades = grade_conversation_with_openai(result["full_output"], trial_id)
+            # Write one row per conversation
+            conversations = result.get("conversations", [result.get("full_output", "")])
+            per_conv_latency = result["latency_s"] / len(conversations)
+            per_conv_tokens = result["completion_tokens"] / len(conversations)
+            per_conv_tok_per_sec = per_conv_tokens / per_conv_latency if per_conv_latency > 0 else 0
+            
+            for conv_num, conversation in enumerate(conversations, 1):
+                trial_id = f"{model}_{trial}_{conv_num}_{int(time.time())}"
+                timestamp = datetime.now().isoformat()
                 
-                # Write GAN grading row
-                gan_writer.writerow([
+                # Write trial row for this conversation
+                trial_writer.writerow([
                     trial_id,
                     timestamp,
+                    config["machine_name"],
+                    system_info["gpu_info"],
+                    system_info["gpu_memory"],
+                    system_info["platform"],
                     model,
                     trial,
-                    grades.get("realness_score"),
-                    grades.get("coherence_score"),
-                    grades.get("naturalness_score"),
-                    grades.get("overall_score"),
-                    grades.get("brief_feedback", ""),
-                    grades.get("grading_error", "")
+                    conv_num,
+                    per_conv_latency,
+                    per_conv_tokens,
+                    per_conv_tok_per_sec,
+                    conversation[:500]
                 ])
                 
-                if grades.get("grading_error"):
-                    print(f"    Grading error: {grades['grading_error']}")
-                else:
-                    print(f"    Grades: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
+                # Queue for grading
+                grading_worker.add_grading_job(
+                    conversation,
+                    trial_id,
+                    model,
+                    f"{trial}.{conv_num}"
+                )
         
         results.append(result)
     
@@ -463,10 +594,14 @@ def main():
         summary_writer = csv.writer(summary_file)
         gan_writer = csv.writer(gan_file)
         
+        # Start grading worker
+        grading_worker = GradingWorker(gan_writer)
+        grading_worker.start()
+        
         # Write headers
         trial_writer.writerow([
             "trial_id", "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
-            "model", "trial", "latency_s", "completion_tokens", "tokens_per_sec", "sample_output"
+            "model", "trial", "conversation_num", "latency_s", "completion_tokens", "tokens_per_sec", "sample_output"
         ])
         
         gan_writer.writerow([
@@ -501,11 +636,9 @@ def main():
                         system_info["gpu_info"], system_info["gpu_memory"], system_info["platform"],
                         model, trial, 2.5, 150, 60, "Mock response"
                     ])
-                    gan_writer.writerow([
-                        trial_id, datetime.now().isoformat(), model, trial, 8, 9, 7, 8, "Mock grading", ""
-                    ])
+                    grading_worker.add_grading_job("Mock conversation", trial_id, model, trial)
             else:
-                results = run_trials_for_model(config, model, trial_writer, gan_writer, system_info)
+                results = run_trials_for_model(config, model, trial_writer, grading_worker, system_info)
             
             # Calculate summary
             summary = calculate_summary(results)
@@ -541,6 +674,9 @@ def main():
             
             print(f"  Summary: {summary['latency_avg_s']:.2f}s avg, {summary['tokens_per_sec_avg']:.1f} tok/s avg")
             print()
+    
+    # Shutdown grading worker
+    grading_worker.shutdown()
     
     print(f"Results written to:")
     print(f"  Summary: {summary_csv}")
