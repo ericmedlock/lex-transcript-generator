@@ -325,8 +325,89 @@ Respond ONLY with JSON format:
             "grading_error": str(e)
         }
 
-def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, gan_writer, system_info, activity_monitor):
-    """Run trials for model with deduplication, retry logic, activity monitoring, and grading"""
+class GradingWorker:
+    """Single-threaded grading worker with rate limiting"""
+    
+    def __init__(self, gan_writer):
+        self.gan_writer = gan_writer
+        self.grading_queue = queue.Queue()
+        self.worker_thread = None
+        self.running = False
+        
+    def start(self):
+        """Start the grading worker thread"""
+        self.running = True
+        self.worker_thread = threading.Thread(target=self._worker_loop, daemon=False)
+        self.worker_thread.start()
+        print("[GRADER] Started grading worker thread")
+        
+    def add_grading_job(self, conversation_text, trial_id, model, trial):
+        """Add grading job to queue"""
+        job = {
+            'conversation_text': conversation_text,
+            'trial_id': trial_id,
+            'model': model,
+            'trial': trial
+        }
+        self.grading_queue.put(job)
+        print(f"    [GRADER] Queued grading for {trial_id} (queue: {self.grading_queue.qsize()})")
+        
+    def _worker_loop(self):
+        """Main worker loop - processes one job at a time with rate limiting"""
+        while self.running:
+            try:
+                job = self.grading_queue.get(timeout=5)
+                
+                print(f"    [GRADER] Processing {job['trial_id']} (queue: {self.grading_queue.qsize()} remaining)...")
+                
+                grades = grade_conversation_with_openai(
+                    job['conversation_text'], 
+                    job['trial_id']
+                )
+                
+                try:
+                    self.gan_writer.writerow([
+                        job['trial_id'],
+                        datetime.now().isoformat(),
+                        job['model'],
+                        job['trial'],
+                        grades.get("realness_score"),
+                        grades.get("coherence_score"),
+                        grades.get("naturalness_score"),
+                        grades.get("overall_score"),
+                        grades.get("brief_feedback", ""),
+                        grades.get("grading_error", "")
+                    ])
+                except ValueError as e:
+                    print(f"    [GRADER] CSV write error for {job['trial_id']}: {e}")
+                    continue
+                
+                if grades.get("grading_error"):
+                    print(f"    [GRADER] Error for {job['trial_id']}: {grades['grading_error']}")
+                else:
+                    print(f"    [GRADER] Completed {job['trial_id']}: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
+                
+                self.grading_queue.task_done()
+                
+                if not self.grading_queue.empty():
+                    time.sleep(2)  # Rate limiting
+                
+            except queue.Empty:
+                continue
+            except Exception as e:
+                print(f"    [GRADER] Worker error: {e}")
+                
+    def shutdown(self):
+        """Shutdown worker and wait for completion"""
+        print(f"[GRADER] Shutting down, {self.grading_queue.qsize()} jobs remaining...")
+        self.grading_queue.join()
+        self.running = False
+        if self.worker_thread and self.worker_thread.is_alive():
+            self.worker_thread.join(timeout=30)
+        print("[GRADER] Shutdown complete")
+
+def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, grading_worker, system_info, activity_monitor):
+    """Run trials for model with deduplication, retry logic, activity monitoring, and threaded grading"""
     print(f"Running model: {model}")
     
     results = []
@@ -361,31 +442,16 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
             unique_conversations += 1
             print(f"UNIQUE ({unique_conversations}/{target_conversations})")
             
-            # Grade the unique conversation
+            # Queue for threaded grading
             conversation_content = result.get("content", "")
             trial_id = f"{model}_{trial}_{int(time.time())}"
             
-            print(f"    Grading conversation...")
-            grades = grade_conversation_with_openai(conversation_content, trial_id)
-            
-            if grades.get("grading_error"):
-                print(f"    Grading error: {grades['grading_error']}")
-            else:
-                print(f"    Grades: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
-            
-            # Write grading result
-            gan_writer.writerow([
+            grading_worker.add_grading_job(
+                conversation_content,
                 trial_id,
-                datetime.now().isoformat(),
                 model,
-                trial,
-                grades.get("realness_score"),
-                grades.get("coherence_score"),
-                grades.get("naturalness_score"),
-                grades.get("overall_score"),
-                grades.get("brief_feedback", ""),
-                grades.get("grading_error", "")
-            ])
+                trial
+            )
         else:
             duplicates_found += 1
             print(f"DUPLICATE ({result['duplicate_reason']})")
@@ -496,22 +562,27 @@ def main():
             "duplicate_rate", "avg_latency_s", "avg_tokens_per_sec"
         ])
         
-        # Open GAN CSV file
-        gan_csv = output_dir / "bakeoff_gan.csv"
-        with open(gan_csv, 'w', newline='', encoding='utf-8') as gan_file:
-            gan_writer = csv.writer(gan_file)
-            
-            # Write GAN header
-            gan_writer.writerow([
-                "trial_id", "timestamp", "model", "trial", "realness_score", "coherence_score",
-                "naturalness_score", "overall_score", "brief_feedback", "grading_error"
-            ])
-            
-            # Run trials for each model
-            for model in candidate_models:
-                results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
-                    config, model, dedupe_manager, run_number, trial_writer, gan_writer, system_info, activity_monitor
-                )
+    # Open GAN CSV file (keep open for threaded grading)
+    gan_csv = output_dir / "bakeoff_gan.csv"
+    gan_file = open(gan_csv, 'w', newline='', encoding='utf-8')
+    gan_writer = csv.writer(gan_file)
+    
+    # Write GAN header
+    gan_writer.writerow([
+        "trial_id", "timestamp", "model", "trial", "realness_score", "coherence_score",
+        "naturalness_score", "overall_score", "brief_feedback", "grading_error"
+    ])
+    
+    # Start grading worker
+    grading_worker = GradingWorker(gan_writer)
+    grading_worker.start()
+    
+    try:
+        # Run trials for each model
+        for model in candidate_models:
+            results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
+                config, model, dedupe_manager, run_number, trial_writer, grading_worker, system_info, activity_monitor
+            )
             
             # Calculate summary
             valid_results = [r for r in results if not r["error"] and r["unique"]]
@@ -523,23 +594,28 @@ def main():
                 avg_latency = 0
                 avg_tokens_per_sec = 0
             
-                duplicate_rate = (duplicate_count / (unique_count + duplicate_count) * 100) if (unique_count + duplicate_count) > 0 else 0
-                
-                # Write summary
-                summary_writer.writerow([
-                    datetime.now().isoformat(),
-                    config["machine_name"],
-                    system_info["gpu_info"],
-                    system_info["gpu_memory"],
-                    system_info["platform"],
-                    model,
-                    len(results),
-                    unique_count,
-                    duplicate_count,
-                    duplicate_rate,
-                    avg_latency,
-                    avg_tokens_per_sec
-                ])
+            duplicate_rate = (duplicate_count / (unique_count + duplicate_count) * 100) if (unique_count + duplicate_count) > 0 else 0
+            
+            # Write summary
+            summary_writer.writerow([
+                datetime.now().isoformat(),
+                config["machine_name"],
+                system_info["gpu_info"],
+                system_info["gpu_memory"],
+                system_info["platform"],
+                model,
+                len(results),
+                unique_count,
+                duplicate_count,
+                duplicate_rate,
+                avg_latency,
+                avg_tokens_per_sec
+            ])
+    
+    finally:
+        # Wait for grading to complete
+        grading_worker.shutdown()
+        gan_file.close()
     
     # Close deduplication run
     dedupe_manager.close_run(run_number)
