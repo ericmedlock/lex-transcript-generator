@@ -18,6 +18,7 @@ from datetime import datetime
 from pathlib import Path
 import requests
 from openai import OpenAI
+import os
 
 # Add src to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'core'))
@@ -219,8 +220,73 @@ def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
             "duplicate_reason": "error"
         }
 
-def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, system_info, activity_monitor):
-    """Run trials for model with deduplication, retry logic, and activity monitoring"""
+def grade_conversation_with_openai(conversation_text, trial_id):
+    """Grade conversation using OpenAI API"""
+    try:
+        openai_key = os.getenv('OPENAI_API_KEY')
+        if not openai_key:
+            return {
+                "realness_score": None,
+                "coherence_score": None, 
+                "naturalness_score": None,
+                "overall_score": None,
+                "grading_error": "No OpenAI API key"
+            }
+        
+        client = OpenAI(api_key=openai_key)
+        
+        grading_prompt = f"""Grade this AI-generated conversation on a scale of 1-10 for each metric:
+
+1. REALNESS: How realistic and believable is this conversation? (1=obviously AI, 10=indistinguishable from human)
+2. COHERENCE: How well does the conversation flow logically? (1=nonsensical, 10=perfect flow)
+3. NATURALNESS: How natural do the speech patterns sound? (1=robotic, 10=completely natural)
+4. OVERALL: Overall quality for training chatbot systems (1=unusable, 10=excellent training data)
+
+Conversation to grade:
+{conversation_text[:2000]}...
+
+Respond ONLY with JSON format:
+{{
+  "realness_score": X,
+  "coherence_score": X,
+  "naturalness_score": X,
+  "overall_score": X,
+  "brief_feedback": "one sentence explanation"
+}}"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": grading_prompt}],
+            temperature=0.1,
+            max_tokens=200
+        )
+        
+        result_text = response.choices[0].message.content.strip()
+        
+        try:
+            grades = json.loads(result_text)
+            grades["grading_error"] = None
+            return grades
+        except json.JSONDecodeError:
+            return {
+                "realness_score": None,
+                "coherence_score": None,
+                "naturalness_score": None, 
+                "overall_score": None,
+                "grading_error": f"Invalid JSON: {result_text[:100]}"
+            }
+            
+    except Exception as e:
+        return {
+            "realness_score": None,
+            "coherence_score": None,
+            "naturalness_score": None,
+            "overall_score": None,
+            "grading_error": str(e)
+        }
+
+def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, gan_writer, system_info, activity_monitor):
+    """Run trials for model with deduplication, retry logic, activity monitoring, and grading"""
     print(f"Running model: {model}")
     
     results = []
@@ -254,6 +320,32 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
         elif result["unique"]:
             unique_conversations += 1
             print(f"UNIQUE ({unique_conversations}/{target_conversations})")
+            
+            # Grade the unique conversation
+            conversation_content = result.get("content", "")
+            trial_id = f"{model}_{trial}_{int(time.time())}"
+            
+            print(f"    Grading conversation...")
+            grades = grade_conversation_with_openai(conversation_content, trial_id)
+            
+            if grades.get("grading_error"):
+                print(f"    Grading error: {grades['grading_error']}")
+            else:
+                print(f"    Grades: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
+            
+            # Write grading result
+            gan_writer.writerow([
+                trial_id,
+                datetime.now().isoformat(),
+                model,
+                trial,
+                grades.get("realness_score"),
+                grades.get("coherence_score"),
+                grades.get("naturalness_score"),
+                grades.get("overall_score"),
+                grades.get("brief_feedback", ""),
+                grades.get("grading_error", "")
+            ])
         else:
             duplicates_found += 1
             print(f"DUPLICATE ({result['duplicate_reason']})")
@@ -364,11 +456,22 @@ def main():
             "duplicate_rate", "avg_latency_s", "avg_tokens_per_sec"
         ])
         
-        # Run trials for each model
-        for model in candidate_models:
-            results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
-                config, model, dedupe_manager, run_number, trial_writer, system_info, activity_monitor
-            )
+        # Open GAN CSV file
+        gan_csv = output_dir / "bakeoff_gan.csv"
+        with open(gan_csv, 'w', newline='', encoding='utf-8') as gan_file:
+            gan_writer = csv.writer(gan_file)
+            
+            # Write GAN header
+            gan_writer.writerow([
+                "trial_id", "timestamp", "model", "trial", "realness_score", "coherence_score",
+                "naturalness_score", "overall_score", "brief_feedback", "grading_error"
+            ])
+            
+            # Run trials for each model
+            for model in candidate_models:
+                results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
+                    config, model, dedupe_manager, run_number, trial_writer, gan_writer, system_info, activity_monitor
+                )
             
             # Calculate summary
             valid_results = [r for r in results if not r["error"] and r["unique"]]
@@ -382,21 +485,21 @@ def main():
             
             duplicate_rate = (duplicate_count / (unique_count + duplicate_count) * 100) if (unique_count + duplicate_count) > 0 else 0
             
-            # Write summary
-            summary_writer.writerow([
-                datetime.now().isoformat(),
-                config["machine_name"],
-                system_info["gpu_info"],
-                system_info["gpu_memory"],
-                system_info["platform"],
-                model,
-                len(results),
-                unique_count,
-                duplicate_count,
-                duplicate_rate,
-                avg_latency,
-                avg_tokens_per_sec
-            ])
+                # Write summary
+                summary_writer.writerow([
+                    datetime.now().isoformat(),
+                    config["machine_name"],
+                    system_info["gpu_info"],
+                    system_info["gpu_memory"],
+                    system_info["platform"],
+                    model,
+                    len(results),
+                    unique_count,
+                    duplicate_count,
+                    duplicate_rate,
+                    avg_latency,
+                    avg_tokens_per_sec
+                ])
     
     # Close deduplication run
     dedupe_manager.close_run(run_number)
@@ -406,6 +509,7 @@ def main():
     print(f"  Unique conversations stored: {stats['stored']}")
     print(f"  Target: {stats['target']}")
     print(f"  Results saved to: {output_dir}")
+    print(f"  Files: bakeoff_summary.csv, bakeoff_trials.csv, bakeoff_gan.csv")
     
     return 0
 
