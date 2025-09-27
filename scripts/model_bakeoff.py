@@ -292,7 +292,7 @@ def calculate_summary(results):
 
 def main():
     parser = argparse.ArgumentParser(description="Model benchmarking tool")
-    parser.add_argument("--config", default="config.json", help="Config file path")
+    parser.add_argument("--config", default="config/config.json", help="Config file path")
     parser.add_argument("--out_csv", help="Summary CSV output path")
     parser.add_argument("--out_trials_csv", help="Trials CSV output path")
     parser.add_argument("--dry-run", action="store_true", help="Test mode with mocked responses")
