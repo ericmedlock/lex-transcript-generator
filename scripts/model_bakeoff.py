@@ -25,7 +25,7 @@ def load_config(config_path):
         "temperature": 0.7,
         "max_tokens": 512,
         "timeout_s": 120,
-        "unload_between_models": True,
+        "unload_between_models": False,
         "prompt": "Summarize the Fermi paradox in 3 bullets."
     }
     
@@ -118,7 +118,7 @@ def get_candidate_models(available_models):
     chat_models = []
     for model in available_models:
         model_lower = model.lower()
-        if any(skip in model_lower for skip in ['embedding', 'embed', 'bge-', 'e5-']):
+        if any(skip in model_lower for skip in ['embedding', 'embed', 'bge-', 'e5-', 'nomic-embed']):
             print(f"Skipping embedding model: {model}")
             continue
         chat_models.append(model)
