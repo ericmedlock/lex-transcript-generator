@@ -483,8 +483,8 @@ def main():
                 avg_latency = 0
                 avg_tokens_per_sec = 0
             
-            duplicate_rate = (duplicate_count / (unique_count + duplicate_count) * 100) if (unique_count + duplicate_count) > 0 else 0
-            
+                duplicate_rate = (duplicate_count / (unique_count + duplicate_count) * 100) if (unique_count + duplicate_count) > 0 else 0
+                
                 # Write summary
                 summary_writer.writerow([
                     datetime.now().isoformat(),
