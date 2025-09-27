@@ -113,8 +113,16 @@ def detect_system_info():
     return system_info
 
 def get_candidate_models(available_models):
-    """Return all available models"""
-    return available_models
+    """Return only chat-capable models (filter out embeddings)"""
+    # Filter out embedding models
+    chat_models = []
+    for model in available_models:
+        model_lower = model.lower()
+        if any(skip in model_lower for skip in ['embedding', 'embed', 'bge-', 'e5-']):
+            print(f"Skipping embedding model: {model}")
+            continue
+        chat_models.append(model)
+    return chat_models
 
 def estimate_tokens(text):
     """Simple token estimation"""
