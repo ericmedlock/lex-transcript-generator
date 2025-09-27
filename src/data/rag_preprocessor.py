@@ -240,7 +240,7 @@ class RAGPreprocessor:
         cur.close()
         conn.close()
         
-        return [{"content": r[0], "metadata": json.loads(r[1]), "distance": r[2]} for r in results]
+        return [{"content": r[0], "metadata": r[1], "distance": r[2]} for r in results]
 
 def main():
     preprocessor = RAGPreprocessor()

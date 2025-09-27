@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS document_chunks (
     source_file VARCHAR(255) NOT NULL,
     chunk_index INTEGER NOT NULL,
     content TEXT NOT NULL,
-    embedding vector(1536), -- OpenAI ada-002 embedding size
+    embedding vector(768), -- Nomic embed text v1.5 embedding size
     metadata JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
