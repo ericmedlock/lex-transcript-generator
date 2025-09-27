@@ -543,31 +543,29 @@ def main():
     summary_csv = output_dir / "bakeoff_summary.csv"
     trials_csv = output_dir / "bakeoff_trials.csv"
     
-    with open(trials_csv, 'w', newline='', encoding='utf-8') as trials_file, \
-         open(summary_csv, 'w', newline='', encoding='utf-8') as summary_file:
-        
-        trial_writer = csv.writer(trials_file)
-        summary_writer = csv.writer(summary_file)
-        
-        # Write headers
-        trial_writer.writerow([
-            "trial_id", "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
-            "model", "trial", "latency_s", "completion_tokens", "tokens_per_sec", 
-            "unique", "duplicate_reason", "sample_output"
-        ])
-        
-        summary_writer.writerow([
-            "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
-            "model", "trials_run", "unique_conversations", "duplicates_found", 
-            "duplicate_rate", "avg_latency_s", "avg_tokens_per_sec"
-        ])
-        
-    # Open GAN CSV file (keep open for threaded grading)
+    # Open all CSV files (keep open for threaded grading)
+    trials_file = open(trials_csv, 'w', newline='', encoding='utf-8')
+    summary_file = open(summary_csv, 'w', newline='', encoding='utf-8')
     gan_csv = output_dir / "bakeoff_gan.csv"
     gan_file = open(gan_csv, 'w', newline='', encoding='utf-8')
+    
+    trial_writer = csv.writer(trials_file)
+    summary_writer = csv.writer(summary_file)
     gan_writer = csv.writer(gan_file)
     
-    # Write GAN header
+    # Write headers
+    trial_writer.writerow([
+        "trial_id", "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
+        "model", "trial", "latency_s", "completion_tokens", "tokens_per_sec", 
+        "unique", "duplicate_reason", "sample_output"
+    ])
+    
+    summary_writer.writerow([
+        "timestamp", "machine_name", "gpu_info", "gpu_memory", "platform",
+        "model", "trials_run", "unique_conversations", "duplicates_found", 
+        "duplicate_rate", "avg_latency_s", "avg_tokens_per_sec"
+    ])
+    
     gan_writer.writerow([
         "trial_id", "timestamp", "model", "trial", "realness_score", "coherence_score",
         "naturalness_score", "overall_score", "brief_feedback", "grading_error"
@@ -615,6 +613,9 @@ def main():
     finally:
         # Wait for grading to complete
         grading_worker.shutdown()
+        # Close all files
+        trials_file.close()
+        summary_file.close()
         gan_file.close()
     
     # Close deduplication run
