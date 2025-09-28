@@ -47,7 +47,22 @@ def clean_tables():
         "dedupe_hashes"
     ]
     
+    # Reset run counter
+    try:
+        cur.execute("UPDATE run_counter SET current_run = 0")
+        print("[OK] Reset run counter")
+    except Exception as e:
+        print(f"[WARN] Could not reset run counter: {e}")
+    
     print("Cleaning transaction tables...")
+    
+    # Reset run counter first
+    try:
+        cur.execute("UPDATE run_counter SET current_run = 0")
+        print("[OK] Reset run counter")
+    except Exception as e:
+        print(f"[WARN] Could not reset run counter: {e}")
+    
     for table in tables_to_clean:
         try:
             cur.execute(f"TRUNCATE TABLE {table} CASCADE")
