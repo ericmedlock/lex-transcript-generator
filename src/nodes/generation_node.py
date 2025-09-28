@@ -229,6 +229,7 @@ class GenerationNode:
             if not self.pi_manager.setup():
                 print("[PI] Environment setup failed")
                 self.llama_model = None
+                self.pi_manager = None
                 return
             
             # Import and load llama.cpp
@@ -480,7 +481,7 @@ class GenerationNode:
         try:
             sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
             from conversation_grader import ConversationGrader
-            return ConversationGrader()
+            return ConversationGrader(db_config=self.db_config)
         except Exception as e:
             print(f"Warning: Grader not available: {e}")
             return None

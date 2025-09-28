@@ -28,12 +28,16 @@ class PiStartupManager:
         print("[PI] Setting up Raspberry Pi environment...")
         
         # Find models in available directories
+        print(f"[PI] Searching for models in: {self.models_dirs}")
         for models_dir in self.models_dirs:
+            print(f"[PI] Checking directory: {models_dir}")
             if not models_dir.exists():
+                print(f"[PI] Directory does not exist: {models_dir}")
                 continue
                 
             for model_name in self.expected_models:
                 model_path = models_dir / model_name
+                print(f"[PI] Looking for: {model_path}")
                 if model_path.exists():
                     if "embed" not in model_name.lower():
                         self.model_path = model_path
@@ -41,10 +45,13 @@ class PiStartupManager:
                     else:
                         self.embedding_path = model_path
                         print(f"[PI] Found embedding model: {model_name} in {models_dir}")
+                else:
+                    print(f"[PI] Model not found: {model_path}")
         
         if not self.model_path:
-            print(f"[PI] No chat models found in {self.models_dirs}")
-            print(f"[PI] Looking for: {self.expected_models}")
+            print(f"[PI] No chat models found in any directory")
+            print(f"[PI] Searched directories: {self.models_dirs}")
+            print(f"[PI] Expected models: {self.expected_models}")
             return False
         
         print("[PI] Chat model ready")
