@@ -30,23 +30,31 @@ class ModelManager:
         """Robust model detection with fallbacks"""
         print(f"[MODEL] Discovering models from {self.llm_endpoint}")
         
-        try:
-            async with aiohttp.ClientSession() as session:
-                models_url = self.llm_endpoint.replace('/chat/completions', '/models')
-                async with session.get(models_url, timeout=10) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        self.available_models = [model["id"] for model in data.get("data", [])]
-                        print(f"[MODEL] Found {len(self.available_models)} models: {self.available_models}")
-                    else:
-                        print(f"[MODEL] API error {resp.status}, using fallback")
-                        self.available_models = ["microsoft/phi-4-mini-reasoning"]
-        except Exception as e:
-            print(f"[MODEL] Discovery failed: {e}, using fallback")
-            self.available_models = ["microsoft/phi-4-mini-reasoning"]
+        # Special handling for Pi with llama.cpp
+        if self.llm_endpoint == "llama.cpp":
+            self.available_models = ["gemma-1.1-2b-it-Q4_K_M"]
+            print(f"[MODEL] Pi llama.cpp model: {self.available_models}")
+        else:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    models_url = self.llm_endpoint.replace('/chat/completions', '/models')
+                    async with session.get(models_url, timeout=10) as resp:
+                        if resp.status == 200:
+                            data = await resp.json()
+                            self.available_models = [model["id"] for model in data.get("data", [])]
+                            print(f"[MODEL] Found {len(self.available_models)} models: {self.available_models}")
+                        else:
+                            print(f"[MODEL] API error {resp.status}, using fallback")
+                            self.available_models = ["microsoft/phi-4-mini-reasoning"]
+            except Exception as e:
+                print(f"[MODEL] Discovery failed: {e}, using fallback")
+                self.available_models = ["microsoft/phi-4-mini-reasoning"]
         
-        # Filter embedding models
-        self.chat_models = self._filter_chat_models()
+        # Filter embedding models (skip for Pi)
+        if self.llm_endpoint == "llama.cpp":
+            self.chat_models = self.available_models
+        else:
+            self.chat_models = self._filter_chat_models()
         self.last_discovery = datetime.now()
         
         return self.chat_models
