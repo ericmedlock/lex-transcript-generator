@@ -270,14 +270,14 @@ class MasterOrchestrator:
             return True
         
         # Check if EPM_DELL is already running master
-        epm_dell_running = any(master[0] == 'EPM_DELL' for master in existing_masters)
+        epm_dell_running = any(master[0] == 'EPM_DELL' for master in active_masters)
         
         if epm_dell_running and self.hostname != 'EPM_DELL':
             print(f"Master already running on EPM_DELL, shutting down {self.hostname}")
             return False
         
-        if not epm_dell_running and self.hostname == 'EPM_DELL':
-            print(f"EPM_DELL taking over master role from {existing_masters[0][0]}")
+        if not epm_dell_running and self.hostname == 'EPM_DELL' and active_masters:
+            print(f"EPM_DELL taking over master role from {active_masters[0][0]}")
             # Signal other masters to shutdown gracefully
             conn = self.get_db()
             cur = conn.cursor()
@@ -290,12 +290,15 @@ class MasterOrchestrator:
             conn.close()
             return True
         
-        if self.hostname in [master[0] for master in existing_masters]:
+        if self.hostname in [master[0] for master in active_masters]:
             print(f"Master already running on {self.hostname}, continuing")
             return True
         
-        print(f"Master already running on {existing_masters[0][0]}, shutting down {self.hostname}")
-        return False
+        if active_masters:
+            print(f"Master already running on {active_masters[0][0]}, shutting down {self.hostname}")
+            return False
+        
+        return True
     
     def register_master(self):
         """Register this instance as master node"""
