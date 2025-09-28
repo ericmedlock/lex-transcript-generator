@@ -177,12 +177,10 @@ if python scripts/health_check.py; then
     echo "📋 NEXT STEPS:"
     if [ "$LLAMA_CPP_INSTALLED" = "true" ]; then
         echo "🍓 Raspberry Pi Setup:"
-        echo "1. Start llama.cpp server:"
-        echo "   cd ~/llama.cpp"
-        echo "   ./start_server.sh"
+        echo "1. Pi uses direct llama.cpp calls (no server needed)"
         echo ""
-        echo "2. In another terminal, test the setup:"
-        echo "   cd ~/lex-transcript-generator"
+        echo "2. Test the setup:"
+        echo "   cd ~/LLM-Transcript-Data-Gen"
         echo "   source .venv/bin/activate"
         echo "   python src/nodes/generation_node.py 1"
         echo ""
@@ -202,7 +200,7 @@ if python scripts/health_check.py; then
         echo "   - Go to 'Local Server' tab and click 'Start Server'"
         echo ""
         echo "3. Test the setup:"
-        echo "   cd ~/lex-transcript-generator"
+        echo "   cd ~/LLM-Transcript-Data-Gen"
         echo "   source .venv/bin/activate"
         echo "   python src/nodes/generation_node.py 1"
         echo ""
@@ -219,7 +217,7 @@ else
     echo ""
     echo "📋 Manual setup steps:"
     if [ "$LLAMA_CPP_INSTALLED" = "true" ]; then
-        echo "1. Start llama.cpp server: cd ~/llama.cpp && ./start_server.sh"
+        echo "1. Pi uses direct llama.cpp calls (no server needed)"
     else
         echo "1. Start LM Studio and load models"
     fi

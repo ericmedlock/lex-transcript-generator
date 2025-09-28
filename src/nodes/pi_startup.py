@@ -8,40 +8,44 @@ from pathlib import Path
 
 class PiStartupManager:
     def __init__(self):
-        # Look in project's pi install scripts/models directory
-        project_root = Path(__file__).parent.parent.parent
-        self.models_dir = project_root / "pi install scripts" / "models"
-        # Look for the actual model files you have
-        self.expected_models = [
-            "gemma-2-2b-it-q4_k_m.gguf",
-            "nomic-embed-text-v1.5-q8_0.gguf"
+        # Check llama.cpp models directory first
+        self.models_dirs = [
+            Path("/home/ericm/llama.cpp/models"),
+            Path("/home/ericm/models")
         ]
-        self.model_path = self.models_dir / "gemma-2-2b-it-q4_k_m.gguf"
-        self.embedding_path = self.models_dir / "nomic-embed-text-v1.5-q8_0.gguf"
+        # Look for the actual model files from setup script
+        self.expected_models = [
+            "gemma-1.1-2b-it-Q4_K_M.gguf",
+            "nomic-embed-text-v1.5.f16.gguf"
+        ]
+        self.model_path = None
+        self.embedding_path = None
     
     def setup(self):
         """Setup Pi environment"""
         print("[PI] Setting up Raspberry Pi environment...")
         
-        # Create models directory
-        self.models_dir.mkdir(parents=True, exist_ok=True)
+        # Find models in available directories
+        for models_dir in self.models_dirs:
+            if not models_dir.exists():
+                continue
+                
+            for model_name in self.expected_models:
+                model_path = models_dir / model_name
+                if model_path.exists():
+                    if "embed" not in model_name.lower():
+                        self.model_path = model_path
+                        print(f"[PI] Found chat model: {model_name} in {models_dir}")
+                    else:
+                        self.embedding_path = model_path
+                        print(f"[PI] Found embedding model: {model_name} in {models_dir}")
         
-        # Check for expected models
-        missing_models = []
-        for model_name in self.expected_models:
-            model_path = self.models_dir / model_name
-            if not model_path.exists():
-                missing_models.append(model_name)
-            else:
-                print(f"[PI] Found model: {model_name}")
-        
-        if missing_models:
-            print(f"[PI] No chat models found in {self.models_dir}")
+        if not self.model_path:
+            print(f"[PI] No chat models found in {self.models_dirs}")
             print(f"[PI] Looking for: {self.expected_models}")
-            print("[PI] Environment setup failed")
             return False
         
-        print("[PI] All required models found")
+        print("[PI] Chat model ready")
         
         # Set CPU governor to performance
         try:
@@ -54,7 +58,7 @@ class PiStartupManager:
     
     def get_model_path(self):
         """Get path to model file"""
-        return str(self.model_path)
+        return str(self.model_path) if self.model_path else None
     
     def teardown(self):
         """Cleanup Pi resources"""
