@@ -829,38 +829,38 @@ Now generate a conversation using this guidance:
                     else:
                         # LM Studio HTTP format
                         async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
-                        end_time = datetime.now()
-                        duration_ms = int((end_time - start_time).total_seconds() * 1000)
-                        
-                        if resp.status == 200:
-                            data = await resp.json()
-                            text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
-                            print(f"[DEBUG] LLM response received: {len(text)} chars, model: {model_name}")
+                            end_time = datetime.now()
+                            duration_ms = int((end_time - start_time).total_seconds() * 1000)
                             
-                            # Calculate performance metrics
-                            usage = data.get("usage", {})
-                            completion_tokens = usage.get("completion_tokens", len(text.split()))
-                            tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
-                            
-                            # Convert to Contact Lens format and add metadata
-                            conversation = self.format_conversation(text, scenario_name)
-                            conversation["_metadata"] = {
-                                "model_name": model_name,
-                                "start_time": start_time.isoformat(),
-                                "end_time": end_time.isoformat(),
-                                "duration_ms": duration_ms,
-                                "completion_tokens": completion_tokens,
-                                "tokens_per_sec": tokens_per_sec,
-                                "rag_examples_used": bool(rag_examples),
-                                "attempt": attempt + 1
-                            }
-                            
-                            return conversation
-                        else:
-                            error_text = await resp.text()
-                            print(f"[DEBUG] LLM API error: {resp.status} - {error_text[:200]} (attempt {attempt + 1}/{max_retries})")
-                            if attempt == max_retries - 1:
-                                return None
+                            if resp.status == 200:
+                                data = await resp.json()
+                                text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                                print(f"[DEBUG] LLM response received: {len(text)} chars, model: {model_name}")
+                                
+                                # Calculate performance metrics
+                                usage = data.get("usage", {})
+                                completion_tokens = usage.get("completion_tokens", len(text.split()))
+                                tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
+                                
+                                # Convert to Contact Lens format and add metadata
+                                conversation = self.format_conversation(text, scenario_name)
+                                conversation["_metadata"] = {
+                                    "model_name": model_name,
+                                    "start_time": start_time.isoformat(),
+                                    "end_time": end_time.isoformat(),
+                                    "duration_ms": duration_ms,
+                                    "completion_tokens": completion_tokens,
+                                    "tokens_per_sec": tokens_per_sec,
+                                    "rag_examples_used": bool(rag_examples),
+                                    "attempt": attempt + 1
+                                }
+                                
+                                return conversation
+                            else:
+                                error_text = await resp.text()
+                                print(f"[DEBUG] LLM API error: {resp.status} - {error_text[:200]} (attempt {attempt + 1}/{max_retries})")
+                                if attempt == max_retries - 1:
+                                    return None
             
             except Exception as e:
                 print(f"[DEBUG] LLM call exception: {type(e).__name__}: {e} (attempt {attempt + 1}/{max_retries})")

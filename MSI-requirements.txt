@@ -1,0 +1,7 @@
+psycopg2-binary
+aiohttp
+requests
+psutil
+openai
+PyYAML
+llama-cpp-python
