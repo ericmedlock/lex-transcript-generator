@@ -18,7 +18,8 @@ class TranscriptDashboard:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Transcript Intelligence Dashboard")
-        self.root.geometry("1200x800")
+        self.root.geometry("1200x900")
+        self.root.minsize(1000, 700)
         
         # Database config
         self.db_config = {
@@ -87,7 +88,7 @@ class TranscriptDashboard:
         
         # Bottom charts
         bottom_frame = ttk.Frame(main_frame)
-        bottom_frame.pack(fill=tk.BOTH, expand=True, pady=(10, 0))
+        bottom_frame.pack(fill=tk.X, pady=(10, 0))
         
         # Quality metrics chart
         self.setup_quality_chart(bottom_frame)
@@ -139,7 +140,7 @@ class TranscriptDashboard:
         chart_frame = ttk.LabelFrame(parent, text="Quality Metrics", padding=5)
         chart_frame.pack(fill=tk.BOTH, expand=True)
         
-        self.quality_fig, self.quality_ax = plt.subplots(figsize=(12, 3))
+        self.quality_fig, self.quality_ax = plt.subplots(figsize=(12, 2.5))
         self.quality_canvas = FigureCanvasTkAgg(self.quality_fig, chart_frame)
         self.quality_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
         

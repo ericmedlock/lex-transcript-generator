@@ -522,12 +522,49 @@ class MasterOrchestrator:
             cur.execute("SELECT COUNT(*) FROM conversations WHERE run_id = %s", (self.current_run_id,))
             conv_count = cur.fetchone()[0]
             
-            # Check if all jobs completed - shutdown orchestrator
+            # Check if all jobs completed - but verify conversation count
             if self.target_jobs > 0 and completed_count >= self.target_jobs:
-                print(f"\n🏁 All {self.target_jobs} jobs completed! Run {self.current_run_id} finished.")
-                print(f"Generated {conv_count} total conversations. Shutting down orchestrator.")
-                self.running = False
-                return
+                # Check actual conversation count vs target
+                job_config = self.config_manager.get("job_creation", {})
+                target_conversations = job_config.get("total_conversations", 100)
+                conversations_per_job = job_config.get("conversations_per_job", 10)
+                
+                if conv_count < target_conversations:
+                    # Need more conversations - create additional jobs
+                    conversations_needed = target_conversations - conv_count
+                    additional_jobs = (conversations_needed + conversations_per_job - 1) // conversations_per_job
+                    
+                    print(f"\n⚠️  Only {conv_count}/{target_conversations} conversations exist (some may have been deleted)")
+                    print(f"Creating {additional_jobs} additional jobs to reach target...")
+                    
+                    # Get scenarios
+                    cur.execute("SELECT id, name FROM scenarios")
+                    scenarios = cur.fetchall()
+                    
+                    for i in range(additional_jobs):
+                        scenario_id, scenario_name = scenarios[i % len(scenarios)]
+                        job_id = str(uuid.uuid4())
+                        
+                        job_params = {
+                            "conversations_per_job": conversations_per_job,
+                            "min_turns": 2,
+                            "max_turns": 40,
+                            "run_id": self.current_run_id,
+                            "variability": "realistic_mix"
+                        }
+                        
+                        cur.execute(
+                            "INSERT INTO jobs (id, scenario_id, status, parameters) VALUES (%s, %s, 'pending', %s)",
+                            (job_id, scenario_id, json.dumps(job_params))
+                        )
+                    
+                    self.target_jobs += additional_jobs
+                    print(f"Added {additional_jobs} jobs. New target: {self.target_jobs} jobs")
+                else:
+                    print(f"\n🏁 All {self.target_jobs} jobs completed! Run {self.current_run_id} finished.")
+                    print(f"Generated {conv_count} total conversations. Shutting down orchestrator.")
+                    self.running = False
+                    return
             
             # Debug: Check what nodes and jobs we have
             cur.execute("SELECT hostname, node_type, status FROM nodes")
