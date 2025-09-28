@@ -604,10 +604,10 @@ class GenerationNode:
             conn = self.get_db()
             cur = conn.cursor()
             
-            # Atomically claim next available job
+            # Atomically claim next available job with randomization to prevent hogging
             cur.execute(
                 """UPDATE jobs SET status = 'running', assigned_node_id = %s, started_at = %s 
-                   WHERE id = (SELECT id FROM jobs WHERE status = 'pending' ORDER BY created_at ASC LIMIT 1) 
+                   WHERE id = (SELECT id FROM jobs WHERE status = 'pending' ORDER BY RANDOM() LIMIT 1) 
                    RETURNING id, scenario_id, parameters""",
                 (self.node_id, datetime.now())
             )
@@ -722,13 +722,13 @@ class GenerationNode:
                     self.running = False
                     break
                 
-                # No jobs available, wait longer
-                await asyncio.sleep(10)
+                # No jobs available, wait briefly
+                await asyncio.sleep(2)
                 continue
             
             cur.close()
             conn.close()
-            await asyncio.sleep(1)  # Brief pause between jobs
+            await asyncio.sleep(0.1)  # Very brief pause between jobs
     
     async def get_available_model(self):
         """Get best available model using ModelManager"""
