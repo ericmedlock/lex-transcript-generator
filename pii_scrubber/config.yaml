@@ -1,9 +1,10 @@
 default_mode: "safe"
 default_strategy: "llm"
+fallback_to_regex: true
 
 llm:
-  endpoint: "http://127.0.0.1:11434/api/generate"
-  model: "redactor-7b-gguf"
+  endpoint: "http://127.0.0.1:1234/v1/chat/completions"
+  model: "google/gemma-3-1b"
   timeout_s: 20
 
 scrub:

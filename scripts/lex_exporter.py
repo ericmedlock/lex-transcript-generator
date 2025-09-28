@@ -11,11 +11,15 @@ import yaml
 import logging
 from datetime import datetime, date
 from pathlib import Path
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 try:
     from pii_scrubber.engine import scrub_text, detect_pii_regex
     from pii_scrubber.llm_client import LLMUnavailableError
     PII_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     PII_AVAILABLE = False
     def scrub_text(text, mode, strategy, config): return text
     def detect_pii_regex(text): return {}
@@ -197,7 +201,7 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
                     
                     except LLMUnavailableError as e:
                         if pii_strategy == "llm" and not config_with_fallback.get('fallback_to_regex', True):
-                            print(f"❌ SAFE mode requires a working local LLM. {e}")
+                            print(f"ERROR: SAFE mode requires a working local LLM. {e}")
                             print("Start LLM server or rerun with --pii-strategy regex or --mode raw.")
                             return 0, len(conversations)
                         else:
@@ -355,12 +359,15 @@ def main():
     
     # Check PII availability
     if not PII_AVAILABLE and pii_mode == "safe":
-        print("⚠️ PII scrubber not available, switching to raw mode")
-        pii_mode = "raw"
+        print("ERROR: PII scrubber not available. Cannot use safe mode without PII protection.")
+        print("Options:")
+        print("  1. Install PII scrubber: pip install pyyaml")
+        print("  2. Use raw mode explicitly: --mode raw")
+        return 1
     
     # Validate PII settings
     if pii_mode == "safe" and pii_strategy == "off" and not args.force_unsafe:
-        print("❌ Cannot use strategy=off in safe mode. Use --force-unsafe or change strategy.")
+        print("ERROR: Cannot use strategy=off in safe mode. Use --force-unsafe or change strategy.")
         return 1
     
     print(f"Connecting to database: {db_config['host']}:{db_config['port']}/{db_config['database']}")
@@ -390,13 +397,13 @@ def main():
         )
         
         if exported > 0:
-            print(f"\n✅ Successfully exported {exported} conversations for LEX training")
-            print(f"📁 Files ready in: {args.output_dir}")
+            print(f"\nSuccessfully exported {exported} conversations for LEX training")
+            print(f"Files ready in: {args.output_dir}")
         else:
-            print("❌ No conversations were exported")
+            print("ERROR: No conversations were exported")
     
     except Exception as e:
-        print(f"❌ Export failed: {e}")
+        print(f"ERROR: Export failed: {e}")
         return 1
     
     return 0

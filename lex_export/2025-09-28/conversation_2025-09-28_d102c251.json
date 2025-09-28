@@ -1,0 +1,124 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Okay, here's the redacted text with placeholders for PII:\n\n<<<Hi, I’d like to cancel and reschedule my appointment. It’s been a really stressful week.>>\n\n<NAME> would like to cancel and reschedule my appointment. It’s been a really stressful week.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Certainly! Thank you for calling. Can I just confirm your <NAME> and <DATE> of birth?>>>\n\nREDACTED: \n\n<NAME> , <PHONE> , <EMAIL> , <DATE> , <ADDRESS> , <ID> , <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<NAME> is Sarah Miller.\n<PHONE> is <PHONE>.\n<EMAIL> is <EMAIL>.\n<DATE> is October 26th.\n<ADDRESS> is <ADDRESS>.\n<ID> is <ID>.\n<INSURANCEID> is <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Okay, thank you, <NAME>, let me pull up your record… Alright, we have an opening on <DATE>, at <TIME>. Would that work for you?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Hmm… I don’t know. It’s a bit late. I just had a really difficult day with my commute – it’s been awful lately.>>>\n\n<NAME> is not available.\n<PHONE> is not available.\n<EMAIL> is not available.\n<DATE> is not available.\n<ADDRESS> is not available.\n<ID> is not available.\n<INSURANCEID> is not available.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<I understand completely. That sounds incredibly challenging. You mentioned transportation limitations, which is good to know. Could you tell me a little more about what that looks like? Are you relying on public transport, driving, or something else?>>>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Here’s the redacted text, replacing the placeholders with placeholders:\n\n<<<It's mostly driving. My car’s been unreliable lately – constantly breaking down. I feel so vulnerable when I’m stuck in traffic.>>\n\n<NAME> is driving.\n<PHONE> is unreliable.\n<EMAIL> is broken down.\n<DATE> is lately.\n<ADDRESS> is stuck in traffic.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Okay, that really does impact your schedule. Let me see… <NAME> would like to come in for the entire appointment. Would you prefer to come in for the entire appointment or just a shorter session?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Okay, here's the redacted text with placeholders for PII:\n\n<<<Just a short session would be great. I don’t want to spend an entire day there.>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Alright, let’s do that. We can adjust the time to fit your needs. Do you have any specific concerns about what we can address today?>>>\n\n<NAME> is not present.\n<PHONE> is not present.\n<EMAIL> is not present.\n<DATE> is not present.\n<ADDRESS> is not present.\n<ID> is not present.\n<INSURANCEID> is not present.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Okay, here's the redacted text based on your instructions:\n\n<<<Well, I was hoping for some help with managing my blood pressure, but honestly, I’m just really overwhelmed by everything. It feels like I need a little bit of peace and quiet.>>>\n\n<NAME> is not present.\n<PHONE> is not present.\n<EMAIL> is not present.\n<DATE> is not present.\n<ADDRESS> is not present.\n<ID> is not present.\n<INSURANCEID> is not present.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Absolutely. We can definitely focus on that. We have some resources available to help manage stress and anxiety, which might be beneficial. Would you be open to exploring those options briefly?>>>\n\n<NAME> may be considered.\n<PHONE> is available.\n<EMAIL> is accessible.\n<DATE> is not applicable.\n<ADDRESS> is not applicable.\n<ID> is a unique identifier.\n<INSURANCEID> is a specific insurance policy number.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "I guess… I don’t know. It’s just a lot to process right now.\n\n<NAME> is processing this information.\n<PHONE> is currently unavailable.\n<EMAIL> is not provided.\n<DATE> is not specified.\n<ADDRESS> is not available.\n<ID> is being processed.\n<INSURANCEID> is not provided.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "<<<That makes sense. Let me check if we have any appointments available that would allow for a short consultation focusing on your concerns. Just one moment, please... Okay, we do have an opening on November 17th at 3 PM. Would that be preferable?>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "Okay, here's the redacted text with placeholders for PII:\n\n<<<Hmm… 17th sounds good, actually. I’ll take it.>>>\n\n<NAME> will be replaced with <NAME>.\n<PHONE> will be replaced with <PHONE>.\n<EMAIL> will be replaced with <EMAIL>.\n<DATE> will be replaced with <DATE>.\n<ADDRESS> will be replaced with <ADDRESS>.\n<ID> will be replaced with <ID>.\n<INSURANCEID> will be replaced with <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Okay, here's the redacted text based on your instructions:\n\n<<<Wonderful! So, to confirm, you’re cancelling your appointment with us on <DATE> at <TIME>. Is that correct?>>>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Yes, that’s perfect. Thank you so much for understanding.>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "Okay, here's the redacted text based on your instructions:\n\n<<<You are very welcome, <NAME>. I’ll send a confirmation email with all the details. Is there anything else I can assist you with today?>>>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000019",
+      "Content": "<<<No, I think that’s everything. Thank you again.>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000020",
+      "Content": "Okay, here's the redacted text with placeholders for PII:\n\n<<<Have a wonderful day and we look forward to seeing you! Goodbye.>> <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "d6433b13-af96-4d3a-a5ca-5388a25de578"
+  }
+}

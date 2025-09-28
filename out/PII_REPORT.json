@@ -1,0 +1,14 @@
+{
+  "export_date": "2025-09-28T13:18:29.116260",
+  "totals": {
+    "files_processed": 1163,
+    "utterances_total": 20546,
+    "scrubbed_utterances": 0,
+    "strategy_used": "llm"
+  },
+  "failures": {
+    "files_failed": 1,
+    "reason": "validation_failed"
+  },
+  "sample_counts": {}
+}
