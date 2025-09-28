@@ -12,7 +12,7 @@
   },
   "job_creation": {
     "total_conversations": 2000,
-    "conversations_per_job": 10,
+    "conversations_per_job": 30,
     "pending_queue_size": 10,
     "check_interval": 30
   },
