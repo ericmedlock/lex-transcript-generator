@@ -1,0 +1,753 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759003553,2025-09-27T16:05:53.156894,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,1,7.685250997543335,512,66.62111623467675,True,unique,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your file. Just one moment… Okay, I see you’re looking for a general check-up.  Do you have a preferred date or time in mind?
+
+User: I was hoping sometime next week. Maybe Tuesday afternoon would work. 
+
+Agent: Let me check availability for Tuesday. It looks like Dr. Lee has openings at 2 PM and 3 PM. Which of those works best for you?
+
+User: 2 PM is good, actually. 
+
+Agent: Perfect! A 2 PM appointment "
+google/gemma-3-1b_2_1759003563,2025-09-27T16:06:03.138122,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,2,7.661739349365234,495,64.60673972692769,False,semantic_similarity_0.904,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your information. One moment... Okay, I see you're interested in seeing Dr. Lee. What kind of appointment are you hoping for?  Are there any specific reasons you need to book this?
+
+User: Well, my knee has been bothering me lately. It’s been a bit painful and I’m worried about it getting worse.
+
+Agent: Okay, a persistent knee pain is understandable. And can you tell me a little more about the pain? Is i"
+google/gemma-3-1b_3_1759003572,2025-09-27T16:06:12.043399,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,3,6.703154802322388,416,62.06033013826144,False,semantic_similarity_0.931,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you tell me your name and date of birth?
+
+User: It's Sarah Miller, born 1985.
+
+Agent: Thank you, Sarah. And what kind of appointment are you looking for today?  Do you have a specific doctor in mind?
+
+User: I need to see Dr. Lee. I’ve been having some back pain lately.
+
+Agent: Okay, Dr. Lee. Let me check his availability. Just a moment… (pause) Alright, we have an opening on Tuesday at 2 PM. Would that work for you?
+
+User: T"
+google/gemma-3-1b_4_1759003581,2025-09-27T16:06:21.109203,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,4,6.326602935791016,374,59.11545323702834,False,semantic_similarity_0.913,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you please tell me your name?
+
+Patient: It’s Sarah Miller.
+
+Agent: Okay, Ms. Miller. And what type of appointment are you looking for today?
+
+Patient: I need to see Dr. Lee about a persistent cough.
+
+Agent: Alright, a persistent cough. Let me check our availability with Dr. Lee first. One moment please... (pause – sounds of typing) …Okay, we have an opening on Tuesday afternoon at 2 PM. Would that work for you?
+
+Patient: Yes"
+google/gemma-3-1b_5_1759003591,2025-09-27T16:06:31.684524,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,5,8.237732887268066,474,57.54010314325642,False,semantic_similarity_0.940,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Certainly. Can I get your full name and date of birth, please?
+
+User: It’s Sarah Miller, born 1985.
+
+Agent: Thank you, Ms. Miller. And what kind of appointment are you looking for today?  Are there any specific doctors you prefer, or a particular reason for the visit?
+
+User: I need to see Dr. Chen. I've been having some stomach problems lately.
+
+Agent: Okay, Dr. Chen it is. Let me check his availability…  Just one moment please"
+google/gemma-3-1b_6_1759003602,2025-09-27T16:06:42.178557,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,6,7.771392583847046,512,65.88265802762295,False,semantic_similarity_0.934,"User: Hi, I’d like to schedule an appointment for a check-up.
+
+Agent: Certainly! To help me find the best time for you, could you tell me what kind of appointment you’re looking for?  Are you interested in a general check-up, or something more specific like a specialist consultation?
+
+User: I think a general check-up would be fine. Just want to get a baseline assessment.
+
+Agent: Okay, a general check-up. Let me check our availability…  (pause – sounds of typing) …Alright, we have openings on Tue"
+google/gemma-3-1b_7_1759003612,2025-09-27T16:06:52.287420,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,7,7.442788362503052,512,68.79142265813555,False,semantic_similarity_0.915,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your file.  Just one moment… Okay, I see you’re looking for a general check-up. Is this for something specific, or just wanting to discuss a concern?
+
+User: It’s a bit of everything, really. A little persistent cough and some fatigue lately.
+
+Agent: Alright. Let’s start with the cough. Can you tell me a bit more about the cough – is it dry, productive, what color is the mucus?  And when did it start?
+
+U"
+google/gemma-3-1b_8_1759003621,2025-09-27T16:07:01.442524,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,8,6.912584543228149,428,61.91606009640581,False,semantic_similarity_0.917,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you please tell me your name and date of birth?
+
+User: My name is Sarah Miller, and my birthday is July 15th.
+
+Agent: Thank you, Ms. Miller. And what type of appointment are you looking for today?  Are you needing a check-up, or something else?
+
+User: I’d like to see the doctor about my knee pain.
+
+Agent: Okay, a knee pain visit.  Let me just pull up your records…  (pause) …Okay, I see it here. We have an opening on Tuesday "
+google/gemma-3-1b_9_1759003631,2025-09-27T16:07:11.206487,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,9,7.525999069213867,512,68.03083488202999,False,semantic_similarity_0.943,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Welcome to HealthFirst. To help me find a time that works for you, could you tell me what type of appointment you’re looking for – check-up, follow-up, or something else?
+
+User: It’s a follow-up to my annual physical.
+
+Agent: Okay, a follow-up. Let me just pull up your records and see what’s available.  (Pause - sounds of typing) Alright, we have openings on Tuesday at 2 PM and Wednesday at 10 AM. Would either of thos"
+google/gemma-3-1b_10_1759003639,2025-09-27T16:07:19.144415,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,10,5.645769357681274,303,53.668504822599154,False,semantic_similarity_0.942,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Can you tell me what type of appointment you need? Do you have a specific doctor in mind?
+
+User: I need a check-up with Dr. Lee.
+
+Agent: Okay, Dr. Lee.  Let me check his availability. One moment… (typing sounds) … Alright, Dr. Lee is currently booked for the next three weeks. Do you want to try a different time slot? 
+
+User: Hmm, maybe Tuesday afternoon?
+
+Agent: Let me see…  Tuesday afternoon slots are available at 2 PM and 3 PM. "
+google/gemma-3-1b_11_1759003649,2025-09-27T16:07:29.430076,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,11,7.9731831550598145,512,64.2152563214458,False,semantic_similarity_0.881,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Certainly. To help me find the right time for you, could you tell me a little bit about what you’re looking for?  Are you interested in anything specific – dermatology, cardiology, or something else entirely?
+
+User: Well, my doctor said I need to see a dermatologist.
+
+Agent: Okay, a dermatologist. Let me check availability…  (pause)  Okay, we have openings on Tuesday at 2 PM and Wednesday at 10 AM. Would either of those work fo"
+google/gemma-3-1b_12_1759003659,2025-09-27T16:07:39.082928,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,12,7.431615829467773,468,62.97419171538588,False,semantic_similarity_0.934,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Welcome to Willow Creek Medical. Let me check availability for you. Could you please tell me your name and date of birth?
+
+User: It's Sarah Miller, born 1985.
+
+Agent: Thank you, Ms. Miller. And what’s the reason for your appointment today?
+
+User: Well, I’ve been feeling a bit…off lately, and I just want to get it checked out.
+
+Agent: Okay.  Let me see... We have openings on Tuesday afternoon and Wednesday morning. Do "
+google/gemma-3-1b_13_1759003669,2025-09-27T16:07:49.333536,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,13,7.878883361816406,512,64.98382784562037,False,semantic_similarity_0.929,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let's start with your name and date of birth, please?
+
+Patient: It’s Sarah Miller. My date of birth is 1988-03-15.
+
+Agent: Thank you, Ms. Miller. And could you tell me a little bit about what you’re experiencing today?  Are there any specific symptoms you’d like to discuss?
+
+Patient: Well, I’ve been feeling really tired lately, and I've had some headaches – mostly in my forehead. It’s just… persistent. 
+
+Agent: Okay, "
+phi-3-mini-4k-instruct_1_1759003741,2025-09-27T16:09:01.860722,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,1,70.2082531452179,430,6.124636075342784,False,semantic_similarity_0.866," Patient: Hi, I'd like to schedule an appointment with Dr. Smith, please.
+
+Agent: Of course! Could you provide me with your patient ID or full name for verification purposes?
+
+Patient: Yes, my name is John Doe and my patient ID is 123456.
+
+Agent: Thank you, Mr. Doe. Dr. Smith has availability next week on Tuesday and Thursday afternoons. Would either of those work for you?
+
+Patient: Let's go with Thursday afternoon if possible.
+
+Agent: I have an opening at 2:30 PM or one hour later at 4:00 PM. W"
+phi-3-mini-4k-instruct_2_1759003814,2025-09-27T16:10:14.082877,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,2,69.81955242156982,472,6.76028395527471,False,semantic_similarity_0.874," Patient: Hi, I'd like to schedule an appointment with Dr. Smith.
+
+Agent: Of course! Could you please provide me with your full name and date of birth for verification purposes?
+
+Patient: Sure, my name is John Doe and my date of birth is March 12th, 1980.
+
+Agent: Thank you, Mr. Doe. When would you like to schedule the appointment? We have availability next week on Monday through Friday from 9 AM to 3 PM.
+
+Patient: I'm available anytime after 4 PM tomorrow. Is there an opening then?
+
+Agent: Let m"
+phi-3-mini-4k-instruct_3_1759003892,2025-09-27T16:11:32.623522,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,3,76.1004753112793,512,6.727947465580592,False,semantic_similarity_0.860," Patient: Hi, I need to schedule an appointment with Dr. Smith.
+
+Agent: Of course! Can I have your name please?
+
+Patient: It's John Doe.
+
+Agent: Thank you, Mr. Doe. What is the reason for your visit today?
+
+Patient: Well, it's a bit complicated...I've been experiencing some chest pain and shortness of breath recently.
+
+Agent: I see. It sounds like an urgent matter. Let me check Dr. Smith's availability. How soon can you come in?
+
+Patient: Is there anything sooner than tomorrow?
+
+Agent: We have a"
+phi-3-mini-4k-instruct_4_1759004014,2025-09-27T16:13:34.674338,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,4,122.05081605911255,0,0,False,error,
+phi-3-mini-4k-instruct_5_1759004136,2025-09-27T16:15:36.709797,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,5,122.03545904159546,0,0,False,error,
+phi-3-mini-4k-instruct_6_1759004258,2025-09-27T16:17:38.760299,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,6,122.05000066757202,0,0,False,error,
+phi-3-mini-4k-instruct_7_1759004380,2025-09-27T16:19:40.794115,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,7,122.03381681442261,0,0,False,error,
+phi-3-mini-4k-instruct_8_1759004502,2025-09-27T16:21:42.853176,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,8,122.05906081199646,0,0,False,error,
+phi-3-mini-4k-instruct_9_1759004624,2025-09-27T16:23:44.906658,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,9,122.05348134040833,0,0,False,error,
+phi-3-mini-4k-instruct_10_1759004746,2025-09-27T16:25:46.946603,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,10,122.03994584083557,0,0,False,error,
+phi-3-mini-4k-instruct_11_1759004868,2025-09-27T16:27:48.973195,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,11,122.02659130096436,0,0,False,error,
+phi-3-mini-4k-instruct_12_1759004991,2025-09-27T16:29:51.044007,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,12,122.07081246376038,0,0,False,error,
+phi-3-mini-4k-instruct_13_1759005113,2025-09-27T16:31:53.111544,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,13,122.06753706932068,0,0,False,error,
+phi-3-mini-4k-instruct:2_1_1759005170,2025-09-27T16:32:50.829972,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,1,55.29329180717468,512,9.259712765619147,False,semantic_similarity_0.854," Patient: Hi, I'm looking to schedule an appointment with Dr. Smith.
+
+Receptionist: Sure! What is your full name?
+
+Patient: It's John Doe.
+
+Receptionist: Thank you, Mr. Doe. When would you like the appointment?
+
+Patient: I was thinking sometime next week in the afternoon if possible.
+
+Receptionist: Let me check Dr. Smith's availability for you... Okay, we have an opening on Wednesday at 2 PM or Thursday at 4 PM. Which one works better for you?
+
+Patient: Can I do Thursday instead of Wednesday?
+
+R"
+phi-3-mini-4k-instruct:2_2_1759005224,2025-09-27T16:33:44.330671,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,2,50.863529205322266,486,9.554979915729989,True,unique," Patient: Hello, I need to schedule an appointment with a doctor.
+
+Receptionist: Of course! May I have your name please?
+
+Patient: It's John Smith.
+
+Receptionist: Thank you, Mr. Smith. What is the reason for your visit today?
+
+Patient: I've been having some chest pain lately.
+
+Receptionist: I see. Let me find a cardiologist who can help with that. When would you prefer to come in?
+
+Patient: Is next Monday available?
+
+Receptionist: Allow me a moment, please... Yes, we have an opening at 10 AM on "
+phi-3-mini-4k-instruct:2_3_1759005280,2025-09-27T16:34:40.946143,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,3,53.82432770729065,490,9.103690113227893,False,semantic_similarity_0.885," Patient: Hi, I need to schedule an appointment with Dr. Johnson. 
+
+Agent: Of course! When would you like to come in for your appointment?
+
+Patient: Um, next Wednesday afternoon if possible.
+
+Agent: Let me check the availability... Yes, we have openings on Wednesday at 2 PM or 4 PM. Which one works better for you?
+
+Patient: I'll take the 2 PM slot, please.
+
+Agent: Great! Your appointment with Dr. Johnson is scheduled for next Wednesday at 2 PM. May I have your name and contact information to con"
+phi-3-mini-4k-instruct:2_4_1759005289,2025-09-27T16:34:49.149042,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,4,6.0022876262664795,465,77.47046275575394,False,semantic_similarity_0.926,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Certainly. To help me find a suitable time for you, could you tell me what type of appointment you need?
+
+User: I'd like to see my primary care physician.
+
+Agent: Okay, a primary care physician. Let me check our availability…  Hmm, we have openings on Tuesday afternoon and Wednesday morning. Would either of those work for you?
+
+User: Wednesday morning might be better. I’m fairly busy. 
+
+Agent: Alright, let's see... Wednesday at"
+phi-3-mini-4k-instruct:2_5_1759005304,2025-09-27T16:35:04.819829,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,5,13.447912454605103,512,38.07282369871993,False,semantic_similarity_0.945,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you. One moment… Okay, we have several openings on Tuesday afternoon. Do you have a preferred time or are you flexible?
+
+User: I was hoping for around 2 PM.  It's a bit early for me, but I’m pretty flexible.
+
+Agent: Alright, let me see… We have 2:00 PM, 2:30 PM, and 3:00 PM available on Tuesday. Would either of those work?
+
+User: 2:00 PM would be great.  It's a little busy at the moment, "
+phi-3-mini-4k-instruct:2_6_1759005314,2025-09-27T16:35:14.221878,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,6,6.749142646789551,430,63.711796075986555,False,semantic_similarity_0.946,"User: Hi, I’d like to schedule an appointment with Dr. Lee for next week.
+
+Agent: Certainly! Let me pull up your information.  Okay, I see you’re interested in seeing Dr. Lee. Could you tell me a little bit about what you’re experiencing? 
+
+User: Well, it's been a persistent cough for the last few weeks. It’s kind of getting in the way of my work.
+
+Agent: Thanks for letting me know. A cough can be really disruptive.  Let me check Dr. Lee’s availability next week. Do you have any specific dates o"
+phi-3-mini-4k-instruct:2_7_1759005334,2025-09-27T16:35:34.866291,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,7,18.292059183120728,512,27.9902877458682,False,semantic_similarity_0.897,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you tell me what kind of service you need? Are you looking for a general check-up, something specific like dermatology or cardiology?
+
+User: Well, my back has been really bothering me lately, and I’m wondering if it might be related. 
+
+Agent: Okay, that's good to know.  Let me just pull up your file.  Just one moment… Alright, I see you have a history of mild back pain.  Do you currently take any medications or supplements?
+"
+phi-3-mini-4k-instruct:2_8_1759005344,2025-09-27T16:35:44.756128,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,8,7.622650146484375,511,67.0370527546351,False,semantic_similarity_0.917,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find a time that works for you, could you tell me what kind of appointment you’re looking for? 
+
+User: I need to see my doctor about a persistent cough.
+
+Agent: Okay, a persistent cough. Let me check our availability.  We have openings on Tuesday afternoon and Wednesday morning. Do either of those days work for you?
+
+User: Tuesday afternoon would be great, actually.  It’s around 2 PM.
+
+Agent: Perfect! Let me confirm – T"
+phi-3-mini-4k-instruct:2_9_1759005365,2025-09-27T16:36:05.567745,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,9,18.54280185699463,512,27.61179264863178,False,semantic_similarity_0.935,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you tell me what type of appointment you’re looking for? Are you here for a check-up, a follow-up, or something else?
+
+User: I need to see my doctor about some persistent cough.
+
+Agent: Okay, a cough. Let me just pull up your file… Alright, we have an opening on Tuesday afternoon at 2 PM. Would that work for you?
+
+User: Yes, that would be great. 2 PM is perfect.
+
+Agent: Excellent! Just to confirm, it’s for a cough, correct? "
+phi-3-mini-4k-instruct:2_10_1759005378,2025-09-27T16:36:18.603486,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,10,10.70868992805481,339,31.65653336472858,False,semantic_similarity_0.907,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find a good time for you, could you tell me what type of appointment you’re looking for?  Are you here for a check-up, a specialist consultation, or something else?
+
+User: It's a general check-up – just to make sure everything is okay. 
+
+Agent: Okay, a general check-up. Let me see… We have openings on Tuesday afternoon and Wednesday morning. Would either of those work for you?
+
+User: Tuesday afternoon would be great act"
+phi-3-mini-4k-instruct:2_11_1759005389,2025-09-27T16:36:29.443690,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,11,8.524384498596191,512,60.06298754875697,False,semantic_similarity_0.943,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your file. One moment… Okay, I see you’re looking for a follow-up appointment with Dr. Lee. Do you have a specific reason for wanting to book this time?
+
+User: Well, my blood pressure has been consistently high lately, and I’m just trying to manage it better.
+
+Agent: Thank you for letting me know. High blood pressure is definitely something we need to address. Let me check availability…  Okay, we have a"
+phi-3-mini-4k-instruct:2_12_1759005399,2025-09-27T16:36:39.403645,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,12,7.656934022903442,512,66.86749532756899,False,semantic_similarity_0.876,"User: Hi, I’d like to schedule an appointment for my back pain.
+
+Agent: Certainly! Let me pull up your information. Can you tell me a bit about what’s been going on?  Just a general description would be great.
+
+User: It's been really bad lately – constant aches and stiffness. It feels like it’s getting worse, especially in the afternoons.
+
+Agent: Okay, I understand.  So, this is for back pain specifically, correct? We can certainly look at that. Do you have a preferred doctor we could see?
+
+User"
+phi-3-mini-4k-instruct:2_13_1759005418,2025-09-27T16:36:58.836045,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,13,17.106627464294434,512,29.929920498278506,False,semantic_similarity_0.913,"User: Hi, I’d like to schedule an appointment for a check-up.
+
+Agent: Good morning! Certainly. Let me just pull up your information… Okay, I see you’re looking for a check-up. Can you tell me what kind of appointment you’re interested in – primary care, specialist, something else?
+
+User: Primary care, please.  I’ve been feeling a bit under the weather lately.
+
+Agent: Okay, a primary care appointment. Let me just see what availability we have…  Hmm, we currently have openings on Tuesday afternoon"
+phi-3-mini-4k-instruct:3_1_1759005429,2025-09-27T16:37:09.383676,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,1,8.225982189178467,512,62.24180751005658,False,semantic_similarity_0.894,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find the right time for you, could you tell me what type of appointment you need? Are you looking for a routine check-up, something specific related to your health, or just a general consultation?
+
+User: I need to see my doctor about some persistent headaches.
+
+Agent: Okay, headaches – that’s good information. And how long have you been experiencing these headaches? Just a few days, weeks, or longer? 
+
+User: It's been g"
+phi-3-mini-4k-instruct:3_2_1759005442,2025-09-27T16:37:22.371856,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,2,10.716585397720337,512,47.77641207514794,False,semantic_similarity_0.916,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find a time that works best for you, could you tell me what type of appointment you’re looking for?  Are you here for anything specific – check-up, follow-up, something else?
+
+User: It's for a general check-up. Just to get a baseline assessment.
+
+Agent: Okay, a general check-up. Let me just pull up your insurance information first… (typing sounds) …Okay, I see you have Blue Cross Blue Shield coverage.  Do you know your "
+phi-3-mini-4k-instruct:3_3_1759005452,2025-09-27T16:37:32.200062,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,3,7.58546257019043,490,64.59724709810266,False,semantic_similarity_0.906,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Welcome to Serenity Health. Could you please tell me your name and date of birth?
+
+Patient: My name is Sarah Miller, and my birthday is January 12th, 1985.
+
+Agent: Thank you, Ms. Miller. Let me just pull up your file… Okay, I see you’ve been seeing Dr. Lee for a few years now. Is there anything specific you’d like to discuss?
+
+Patient: Well, I’ve been feeling a bit anxious lately, and I was wondering if we could look "
+phi-3-mini-4k-instruct:3_4_1759005482,2025-09-27T16:38:02.357883,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,4,27.458354473114014,512,18.646419635281763,False,semantic_similarity_0.900,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Could you please tell me your name and date of birth?
+
+User: It's Sarah Miller, born on January 12th, 1985.
+
+Agent: Thank you, Ms. Miller. And what is the reason for your visit today?
+
+User: Well, I’ve been experiencing some persistent headaches lately… they're really bothering me.
+
+Agent: Okay, a headache. Can you tell me more about them – how long have you had them, and what kind of pain are you feeling?
+
+User: They"
+phi-3-mini-4k-instruct:3_5_1759005491,2025-09-27T16:38:11.888233,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,5,7.1796910762786865,451,62.81607317201708,False,semantic_similarity_0.911,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find a time that works for you, could you tell me what type of appointment you're looking for?  Are you interested in anything specific like dermatology, cardiology, or something else?
+
+User: I need to see my dentist.
+
+Agent: Okay, dental appointments. Let’s start with your insurance plan. Do you know the name and number of your insurance provider?
+
+User: Yes, it's Blue Cross Blue Shield.  The number is 800-555-1212.
+
+A"
+phi-3-mini-4k-instruct:3_6_1759005515,2025-09-27T16:38:35.625563,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,6,21.38800048828125,427,19.964465599949776,False,semantic_similarity_0.949,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Could you please tell me your preferred date and time?
+
+User: Next Tuesday afternoon, if possible. Around 2 PM would be great.
+
+Agent: Okay, let me check availability for next Tuesday between 2 PM and 4 PM.  Just one moment… Alright, we have an opening at 2:30 PM. Would that work for you?
+
+User: Yes, that’s perfect! 2:30 is great. Is there a cost associated with this appointment?
+
+Agent: It will be $150, cash or credi"
+phi-3-mini-4k-instruct:3_7_1759005525,2025-09-27T16:38:45.946543,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,7,7.947006940841675,511,64.30093792593058,False,semantic_similarity_0.940,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To get started, could you tell me your name and date of birth?
+
+User: My name is Sarah Miller, and my birthday is January 15th, 1988.
+
+Agent: Thank you, Sarah. And what type of appointment are you looking for today? (e.g., check-up, specialist consultation)
+
+User: I’d like to schedule a check-up with Dr. Lee.
+
+Agent: Okay, a check-up with Dr. Lee. Let me just pull up her availability…  Okay, we have openings on Tuesday at 2 PM and"
+phi-3-mini-4k-instruct:3_8_1759005542,2025-09-27T16:39:02.259033,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,8,14.115026712417603,512,36.27339929506271,False,semantic_similarity_0.913,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Certainly. Could you tell me a bit about what you need?  What type of visit are you looking for – checkup, specialist consultation, anything specific?
+
+User: It's a follow-up to my annual physical. 
+
+Agent: Okay, a follow-up to your annual physical.  Let me just pull up your file…  (pause) …Okay, I see it here. You’re scheduled for a comprehensive checkup on November 15th at 9 AM. Is that correct?
+
+User: Yes, that's right. 
+
+Ag"
+phi-3-mini-4k-instruct:3_9_1759005557,2025-09-27T16:39:17.151745,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,9,12.690146684646606,421,33.17534544414322,False,semantic_similarity_0.938,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you. One moment… Okay, we have openings on Tuesday at 2 PM and Wednesday at 10 AM. Would either of those work for you?
+
+User: Tuesday at 2 PM would be great.  I’m a little concerned about the wait time sometimes.
+
+Agent: I understand. We do have a slightly longer wait than some other offices, but Dr. Lee is very efficient. Can you tell me a bit more about your reason for needing to see hi"
+phi-3-mini-4k-instruct:3_10_1759005566,2025-09-27T16:39:26.269552,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,10,5.964294672012329,341,57.17356682595764,False,semantic_similarity_0.936,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you please tell me your full name?
+
+User: It's Sarah Miller.
+
+Agent: Okay, Sarah Miller. And what type of appointment are you looking for today?
+
+User: I need a check-up with Dr. Lee.
+
+Agent: Alright, a check-up with Dr. Lee. Do you have any specific reason for needing to schedule that – perhaps a recurring issue or just wanting preventative care?
+
+User: Well, my knee has been bothering me lately, and I’d like to get it chec"
+phi-3-mini-4k-instruct:3_11_1759005582,2025-09-27T16:39:42.084919,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,11,13.602627992630005,512,37.6397855089035,False,semantic_similarity_0.949,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Thank you for calling. To help me find a time that works best for you, could you tell me what type of appointment you're looking for?  Are you interested in a follow-up, a routine check-up, or something else?
+
+User: I’d like to schedule a follow-up visit, just to check my blood pressure.
+
+Agent: Okay, a follow-up blood pressure check-up. Let me check availability… Okay, we have an opening on Tuesday at 10 AM and Wedne"
+phi-3-mini-4k-instruct:3_12_1759005591,2025-09-27T16:39:51.565975,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,12,6.855156898498535,443,64.6228826793197,False,semantic_similarity_0.905,"User: Hi, I’d like to schedule an appointment for my checkup.
+
+Agent: Certainly! Welcome to [Clinic Name]. To help me schedule the best time for you, could you tell me what kind of service you're looking for?  Are you interested in a general check-up or something more specific like diabetes management?
+
+User: I’d prefer a general check-up. Just want to make sure everything is okay.
+
+Agent: Okay, a general check-up. Let me pull up your record. One moment... Alright, we have appointments available"
+phi-3-mini-4k-instruct:3_13_1759005606,2025-09-27T16:40:06.378355,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,13,12.642321109771729,438,34.6455367014411,False,semantic_similarity_0.917,"User: Hi, I’d like to schedule an appointment with Dr. Ramirez.
+
+Agent: Certainly!  Let me pull up your information. One moment… Okay, we have availability on Tuesday afternoon at 2 PM and Wednesday morning at 10 AM. Which of those would you prefer?
+
+User: Tuesday afternoon at 2 PM sounds good.
+
+Agent: Perfect. Let’s book that for you – Dr. Ramirez.  Can I get your full name and date of birth, please?
+
+User: It's John Smith, born on January 15th, 1978.
+
+Agent: Thank you, Mr. Smith. And what is t"
+google/gemma-3-1b:2_1_1759005616,2025-09-27T16:40:16.261150,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,1,7.661980152130127,433,56.51280627236036,False,semantic_similarity_0.899,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find the best time for you, could you tell me what kind of doctor you need?
+
+User: I'd like to see a dermatologist.
+
+Agent: Okay, a dermatologist.  And when are you looking to schedule this? Do you have any specific days or times in mind?
+
+User: Ideally, sometime next week, maybe Tuesday afternoon.
+
+Agent: Let me check availability for dermatologists on Tuesdays.  Just one moment… Okay, we have an opening at 2:00 PM. Wo"
+google/gemma-3-1b:2_2_1759005631,2025-09-27T16:40:31.068595,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,2,12.55471420288086,471,37.515788283888,False,semantic_similarity_0.880,"User: Hi, I’d like to schedule an appointment with Dr. Miller.
+
+Agent: Certainly! Let me pull up your information. One moment… Okay, I see you’re looking for a primary care doctor. Can you tell me what kind of issue brought you in today? 
+
+User: Well, my back has been really bothering me lately – it's got some pain and stiffness.  It started about two weeks ago.
+
+Agent: Okay, that sounds concerning. Let’s see… are there any specific symptoms you’ve noticed besides the pain and stiffness? Like, i"
+google/gemma-3-1b:2_3_1759005641,2025-09-27T16:40:41.157825,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,3,7.724660634994507,512,66.28122893587339,False,semantic_similarity_0.932,"User: Hi, I’d like to schedule an appointment with Dr. Lee for next week.
+
+Agent: Good morning! Certainly. Let me check availability for you.  Okay, we have openings on Tuesday at 2 PM and Wednesday at 3 PM. Do either of those work for you?
+
+User: Tuesday at 2 PM would be great. It’s a bit early for me, but it's the only slot I have.
+
+Agent: Okay, let me confirm that – Tuesday at 2 PM with Dr. Lee.  Just to make sure we have everything accurate, could you tell me what your primary reason for thi"
+google/gemma-3-1b:2_4_1759005651,2025-09-27T16:40:51.013295,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,4,7.521908283233643,512,68.06783341685376,False,semantic_similarity_0.878,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Thank you for calling. Let me just pull up your information… Okay, I see you’re looking for a primary care physician.  Can you tell me what kind of reason prompted this appointment? 
+
+User: Well, my back has been really bothering me lately – it's got this persistent ache.
+
+Agent: Okay, that sounds concerning.  Could you describe the pain in more detail? Is it sharp, dull, constant, or intermittent? 
+
+User: It’s mostly"
+google/gemma-3-1b:2_5_1759005662,2025-09-27T16:41:02.504909,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,5,8.232048034667969,512,62.19594417376975,False,semantic_similarity_0.905,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Certainly, I can help you with that. Could you please tell me your name and date of birth?
+
+User: My name is Sarah Miller, and my birthday is January 15th.
+
+Agent: Thank you, Ms. Miller. And what type of appointment are you looking for today?  Do you have a specific reason for the visit?
+
+User: I’d like to see a dermatologist. I've been having some persistent skin issues lately.
+
+Agent: Okay, a dermatologist. Let me check our a"
+google/gemma-3-1b:2_6_1759005672,2025-09-27T16:41:12.436582,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,6,7.686421632766724,512,66.61096989753682,False,semantic_similarity_0.903,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you please tell me what type of service you’re looking for – primary care, specialist, etc.?
+
+User: Primary care, actually.  I need a check-up and some general advice.
+
+Agent: Okay, great. And do you have any specific concerns you’d like to discuss today? 
+
+User: Well, I've been feeling a bit fatigued lately.  It’s just… persistent.
+
+Agent: I understand. Fatigue can be caused by many things. Can you tell me a little more abo"
+google/gemma-3-1b:2_7_1759005696,2025-09-27T16:41:36.748940,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,7,22.063570976257324,512,23.205672397771185,False,semantic_similarity_0.869,"User: Hi, I’d like to schedule an appointment for my knee pain.
+
+Agent: Certainly! Could you tell me a little more about what’s been going on? What kind of pain are you experiencing – sharp, dull, constant?
+
+User: It's a really persistent ache, mostly in the front right knee.  It feels like it's getting worse when I walk or run. 
+
+Agent: Okay, that sounds concerning. Can you describe how the pain is affecting your daily activities?  Like, are you finding it hard to get up from a chair?
+
+User: De"
+google/gemma-3-1b:2_8_1759005706,2025-09-27T16:41:46.192427,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,8,7.224081754684448,474,65.61387538182763,False,semantic_similarity_0.911,"User: Hi, I’d like to schedule an appointment for my annual checkup.
+
+Agent: Certainly!  Could you please provide me with your date of birth?
+
+User: It's January 15th, 2000.
+
+Agent: Thank you. And what type of service are you looking for – primary care, specialist, or something else?
+
+User: Primary care, I think.
+
+Agent: Okay, great. Let me check availability…  (pause) … We have openings on the 18th and 25th. Which would you prefer?
+
+User: The 18th would be perfect.
+
+Agent: Excellent! Let’s see "
+google/gemma-3-1b:2_9_1759005727,2025-09-27T16:42:07.624124,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,9,19.150672674179077,420,21.931344509182047,False,semantic_similarity_0.941,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your file. Just one moment… Okay, I see you’re looking for a general check-up.  Do you have any specific reason for the appointment?
+
+User: Well, my knee has been bothering me lately – it's kind of stiff and I need something to help with it. 
+
+Agent: Thank you for letting me know. It sounds like a good time to address that. Let’s see what availability we have.  Do you have any preferred dates or times i"
+google/gemma-3-1b:2_10_1759005737,2025-09-27T16:42:17.572028,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,10,7.7243874073028564,512,66.28357344116901,False,semantic_similarity_0.911,"User: Hi, I’d like to schedule an appointment for a checkup.
+
+Agent: Certainly! To help me find the best time for you, could you tell me what type of appointment you're looking for?  Are you interested in a routine check-up, or something more specific like a specialist visit?
+
+User: I think a general check-up would be fine, just to make sure everything’s going well.
+
+Agent: Okay, a general check-up.  Let me pull up your file and see what’s available today.  (pause – sounds of typing) … Alright, "
+google/gemma-3-1b:2_11_1759005757,2025-09-27T16:42:37.899592,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,11,17.649709701538086,332,18.810507686201085,False,semantic_similarity_0.952,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your information. One moment… Okay, I see you're looking for a general check-up.  Could you tell me what kind of appointment you’re interested in – perhaps a routine physical?
+
+User: Yeah, just a general check-up, really. Nothing specific.
+
+Agent: Alright. And when are you hoping to schedule that? Do you have a preferred date or time in mind? 
+
+User: I was thinking sometime next week. Maybe Tuesday or W"
+google/gemma-3-1b:2_12_1759005767,2025-09-27T16:42:47.820840,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,12,7.676769256591797,512,66.69472311680619,False,semantic_similarity_0.958,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly!  Let me check availability for you.  One moment… Okay, we have openings on Tuesday afternoon, 2 PM and Thursday morning at 10 AM.  Would either of those work for you?
+
+User: Tuesday afternoon, maybe around 2 PM would be great.  I’m a little tight on time.
+
+Agent: Alright. Let me just confirm that – Tuesday afternoon, 2 PM, works perfectly.  Can I get your preferred phone number and date of birth to finalize the bookin"
+google/gemma-3-1b:2_13_1759005776,2025-09-27T16:42:56.031045,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,13,6.037778615951538,355,58.796458528987145,False,semantic_similarity_0.913,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you please tell me what type of appointment you're looking for?  Are you here for a checkup, a specialist consultation, or something else?
+
+User: It’s a follow-up to my annual physical.
+
+Agent: Okay, a follow-up to your annual physical. Let me just pull up your records… Alright, I see it. Do you have any specific days or times that work best for you this week?
+
+User:  Ideally, sometime next Tuesday afternoon would be good. 2"
+google/gemma-3-1b:3_1_1759005796,2025-09-27T16:43:16.252875,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,1,17.996604442596436,425,23.61556600055403,False,semantic_similarity_0.952,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you. Could you tell me what kind of appointment you're looking for – a follow-up, a routine check-up, something else?
+
+User: A follow-up, just because my blood pressure was a bit high last week.
+
+Agent: Okay, let me see… We have openings on Tuesday afternoon and Wednesday morning.  Tuesday at 2 PM or Wednesday at 10 AM would be available. Would either of those work for you?
+
+User: Tuesday"
+google/gemma-3-1b:3_2_1759005817,2025-09-27T16:43:37.297423,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,2,18.75403141975403,439,23.40830033683274,False,semantic_similarity_0.963,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you. One moment… Okay, we have a few openings this week.  We have room on Tuesday at 2 PM and Wednesday at 3 PM. Which would be more convenient for you?
+
+User: Tuesday at 2 PM sounds good, actually.
+
+Agent: Perfect! Let’s book that for Tuesday at 2 PM. Can I get your full name and date of birth, please?
+
+User: It's Sarah Miller, born January 15th, 1988.
+
+Agent: Thank you, Sarah. And what "
+google/gemma-3-1b:3_3_1759005827,2025-09-27T16:43:47.783420,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,3,8.279826879501343,512,61.83704169800655,False,semantic_similarity_0.948,"User: Hi, I’d like to schedule an appointment with Dr. Lee for next week.
+
+Agent: Certainly! Let me pull up your file. One moment… Okay, I see you’re looking for a specialist – cardiology?  Great.  We have openings on Tuesday afternoon and Wednesday morning. Do either of those work for you, or would you prefer to hear about other options?
+
+User: Tuesday afternoon would be perfect. 
+
+Agent: Alright, let's look at Tuesday afternoon… Yes, we have an opening at 2:30 PM.  Just to confirm, is that a g"
+google/gemma-3-1b:3_4_1759005835,2025-09-27T16:43:55.218905,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,4,5.22612738609314,334,63.90965533844098,False,semantic_similarity_0.897,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you tell me what kind of service you're looking for? Are you interested in dermatology, cardiology, or something else entirely?
+
+User: I need to see a doctor about my knee pain.
+
+Agent: Okay, knee pain. Let me check our availability.  Just one moment… (pause) We have openings on Tuesday afternoon and Wednesday morning. Do either of those work for you?
+
+User: Tuesday afternoon would be great, actually. It’s around 2 pm.
+
+Agen"
+google/gemma-3-1b:3_5_1759005837,2025-09-27T16:43:57.235184,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,5,2.015773057937622,0,0,False,api_error,
+google/gemma-3-1b:3_6_1759005839,2025-09-27T16:43:59.283265,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,6,2.048081159591675,0,0,False,api_error,
+google/gemma-3-1b:3_7_1759005841,2025-09-27T16:44:01.340956,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,7,2.0566868782043457,0,0,False,api_error,
+google/gemma-3-1b:3_8_1759005843,2025-09-27T16:44:03.364452,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,8,2.023496389389038,0,0,False,api_error,
+google/gemma-3-1b:3_9_1759005845,2025-09-27T16:44:05.402703,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,9,2.038250684738159,0,0,False,api_error,
+google/gemma-3-1b:3_10_1759005847,2025-09-27T16:44:07.449656,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,10,2.0469532012939453,0,0,False,api_error,
+google/gemma-3-1b:3_11_1759005849,2025-09-27T16:44:09.499722,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,11,2.050065755844116,0,0,False,api_error,
+google/gemma-3-1b:3_12_1759005851,2025-09-27T16:44:11.541347,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,12,2.0416250228881836,0,0,False,api_error,
+google/gemma-3-1b:3_13_1759005853,2025-09-27T16:44:13.578401,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,13,2.0360543727874756,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_1_1759005855,2025-09-27T16:44:15.622031,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,1,2.0431313514709473,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_2_1759005857,2025-09-27T16:44:17.671634,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,2,2.0490939617156982,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_3_1759005859,2025-09-27T16:44:19.706051,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,3,2.034416675567627,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_4_1759005861,2025-09-27T16:44:21.755412,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,4,2.0478646755218506,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_5_1759005863,2025-09-27T16:44:23.795183,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,5,2.039771318435669,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_6_1759005865,2025-09-27T16:44:25.865681,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,6,2.06949520111084,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_7_1759005867,2025-09-27T16:44:27.935327,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,7,2.069645881652832,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_8_1759005869,2025-09-27T16:44:29.985927,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,8,2.050600290298462,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_9_1759005872,2025-09-27T16:44:32.067893,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,9,2.081965446472168,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_10_1759005874,2025-09-27T16:44:34.124716,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,10,2.056823492050171,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_11_1759005876,2025-09-27T16:44:36.196303,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,11,2.071587085723877,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_12_1759005878,2025-09-27T16:44:38.232241,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,12,2.0354371070861816,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_13_1759005880,2025-09-27T16:44:40.278761,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,13,2.0460216999053955,0,0,False,api_error,
+google/gemma-3-1b:4_1_1759005882,2025-09-27T16:44:42.306767,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,1,2.028006076812744,0,0,False,api_error,
+google/gemma-3-1b:4_2_1759005884,2025-09-27T16:44:44.369048,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,2,2.0617804527282715,0,0,False,api_error,
+google/gemma-3-1b:4_3_1759005886,2025-09-27T16:44:46.404958,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,3,2.03590989112854,0,0,False,api_error,
+google/gemma-3-1b:4_4_1759005888,2025-09-27T16:44:48.467673,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,4,2.0627148151397705,0,0,False,api_error,
+google/gemma-3-1b:4_5_1759005890,2025-09-27T16:44:50.529958,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,5,2.0622851848602295,0,0,False,api_error,
+google/gemma-3-1b:4_6_1759005892,2025-09-27T16:44:52.564906,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,6,2.0349478721618652,0,0,False,api_error,
+google/gemma-3-1b:4_7_1759005894,2025-09-27T16:44:54.634761,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,7,2.069855213165283,0,0,False,api_error,
+google/gemma-3-1b:4_8_1759005896,2025-09-27T16:44:56.702144,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,8,2.066878318786621,0,0,False,api_error,
+google/gemma-3-1b:4_9_1759005898,2025-09-27T16:44:58.757237,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,9,2.0550928115844727,0,0,False,api_error,
+google/gemma-3-1b:4_10_1759005900,2025-09-27T16:45:00.813425,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,10,2.0556881427764893,0,0,False,api_error,
+google/gemma-3-1b:4_11_1759005902,2025-09-27T16:45:02.841890,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,11,2.028465747833252,0,0,False,api_error,
+google/gemma-3-1b:4_12_1759005904,2025-09-27T16:45:04.887380,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,12,2.045490264892578,0,0,False,api_error,
+google/gemma-3-1b:4_13_1759005906,2025-09-27T16:45:06.941695,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,13,2.054314374923706,0,0,False,api_error,
+google/gemma-3n-e4b_1_1759006028,2025-09-27T16:47:08.999717,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,1,122.05802202224731,0,0,False,error,
+google/gemma-3n-e4b_2_1759006151,2025-09-27T16:49:11.084609,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,2,122.08388710021973,0,0,False,error,
+google/gemma-3n-e4b_3_1759006273,2025-09-27T16:51:13.161225,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,3,122.07661557197571,0,0,False,error,
+google/gemma-3n-e4b_4_1759006395,2025-09-27T16:53:15.214282,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,4,122.0530571937561,0,0,False,error,
+google/gemma-3n-e4b_5_1759006517,2025-09-27T16:55:17.280815,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,5,122.06653261184692,0,0,False,error,
+google/gemma-3n-e4b_6_1759006639,2025-09-27T16:57:19.354933,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,6,122.0741183757782,0,0,False,error,
+google/gemma-3n-e4b_7_1759006761,2025-09-27T16:59:21.403197,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,7,122.04826426506042,0,0,False,error,
+google/gemma-3n-e4b_8_1759006883,2025-09-27T17:01:23.477346,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,8,122.0741491317749,0,0,False,error,
+google/gemma-3n-e4b_9_1759007005,2025-09-27T17:03:25.541503,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,9,122.0636556148529,0,0,False,error,
+google/gemma-3n-e4b_10_1759007087,2025-09-27T17:04:47.612277,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,10,82.07077479362488,0,0,False,api_error,
+google/gemma-3n-e4b_11_1759007089,2025-09-27T17:04:49.745746,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,11,2.1324548721313477,0,0,False,api_error,
+google/gemma-3n-e4b_12_1759007091,2025-09-27T17:04:51.781282,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,12,2.0355358123779297,0,0,False,api_error,
+google/gemma-3n-e4b_13_1759007093,2025-09-27T17:04:53.813013,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,13,2.031731128692627,0,0,False,api_error,
+google/gemma-3n-e4b:2_1_1759007095,2025-09-27T17:04:55.868654,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,1,2.0556411743164062,0,0,False,api_error,
+google/gemma-3n-e4b:2_2_1759007105,2025-09-27T17:05:05.358690,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,2,7.100153207778931,512,72.11112000217862,False,semantic_similarity_0.937,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! To help me find the best time for you, could you tell me what kind of reason prompted this appointment?
+
+User: Just a follow-up to my last visit. It's been about six months since I saw him, and I’m feeling a little… anxious about my blood pressure.
+
+Agent: Okay, I understand. Six months is definitely worth checking in on things. Let me just pull up your file.  Just one moment… (pause) Alright, I see it here. You were "
+google/gemma-3n-e4b:2_3_1759007119,2025-09-27T17:05:19.705826,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,3,12.150068283081055,488,40.16438332939569,False,semantic_similarity_0.926,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Absolutely, we can help with that. Could you please tell me your name and date of birth?
+
+User: It's Sarah Miller, born 1988.
+
+Agent: Okay, Sarah Miller. And what type of appointment are you looking for today – primary care, specialist, something else?
+
+User: I think I need to see my GP. Just a general check-up, really.
+
+Agent: Alright. A general check-up is perfect. Let me just pull up your schedule… Okay, we have availability"
+google/gemma-3n-e4b:2_4_1759007134,2025-09-27T17:05:34.717714,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,4,12.721593379974365,512,40.2465308163333,False,semantic_similarity_0.945,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly!  Let me check availability for you. One moment please… Okay, we have openings on Tuesday at 2 PM and Wednesday at 3 PM. Do either of those work for you?
+
+User: Tuesday at 2 is good.  I’m a little anxious about this.
+
+Agent: I understand. Can you tell me a bit more about what you’re hoping to see? Any specific reason for the appointment?
+
+User: Well, it's been a while since my last check-up, and I’m starting to feel… a"
+google/gemma-3n-e4b:2_5_1759007150,2025-09-27T17:05:50.882719,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,5,14.002161026000977,512,36.56578431352517,False,semantic_similarity_0.946,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you.  One moment please… Okay, we have openings on Tuesday afternoon at 2:00 PM and Wednesday morning at 9:00 AM. Would either of those work for you?
+
+User: Tuesday afternoon seems good, actually. It’s around 2:30 PM.
+
+Agent: Perfect! Let me just confirm that – Tuesday at 2:30 PM with Dr. Lee.  Just to be absolutely sure, is that correct?
+
+User: Yes, that's right.  And I have a slight iss"
+google/gemma-3n-e4b:2_6_1759007162,2025-09-27T17:06:02.990916,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,6,9.912461757659912,439,44.28768662444122,False,semantic_similarity_0.948,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Could you please provide me with your date of birth?
+
+User: It’s January 15th, 1980.
+
+Agent: Thank you. And what is the reason for your visit today?
+
+User: I've been experiencing some persistent headaches and a bit of fatigue lately.
+
+Agent: Okay, headache and fatigue.  Let me just check our availability…  Hmm, we have openings on Tuesday afternoon and Wednesday morning. Do either of those work for you?
+
+User: Wednesd"
+google/gemma-3n-e4b:2_7_1759007190,2025-09-27T17:06:30.415503,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,7,25.249876976013184,512,20.277326518714865,False,semantic_similarity_0.936,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Welcome to Serenity Health. My name is Alex. Let's get started. Could you tell me a little bit about what kind of appointment you’re looking for today?
+
+User: I was hoping to see him about my persistent cough. It’s been bothering me for about two weeks now.
+
+Agent: Okay, a persistent cough. That’s certainly something we can explore. To help me find the right time for you, could you tell me your insurance provider and "
+google/gemma-3n-e4b:2_8_1759007199,2025-09-27T17:06:39.166510,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,8,6.438562870025635,418,64.9213199339833,False,semantic_similarity_0.911,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you tell me what type of appointment you're looking for today?
+
+User: I need to see a dermatologist.
+
+Agent: Okay, a dermatologist. Let me check our availability.  Just one moment…  (pause - sounds of typing) … Alright, we have openings on Tuesday at 2 PM and Wednesday at 10 AM. Would either of those work for you?
+
+User: Tuesday at 2 PM would be great, actually. 
+
+Agent: Perfect! Let me confirm that – Tuesday at 2 PM with Dr"
+google/gemma-3n-e4b:2_9_1759007201,2025-09-27T17:06:41.213615,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,9,2.047104597091675,0,0,False,api_error,
+google/gemma-3n-e4b:2_10_1759007203,2025-09-27T17:06:43.271076,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,10,2.056962251663208,0,0,False,api_error,
+google/gemma-3n-e4b:2_11_1759007205,2025-09-27T17:06:45.344911,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,11,2.0738351345062256,0,0,False,api_error,
+google/gemma-3n-e4b:2_12_1759007207,2025-09-27T17:06:47.393731,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,12,2.0488200187683105,0,0,False,api_error,
+google/gemma-3n-e4b:2_13_1759007209,2025-09-27T17:06:49.446343,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,13,2.052111864089966,0,0,False,api_error,
+qwen/qwen3-4b-thinking-2507_1_1759007211,2025-09-27T17:06:51.504400,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,1,2.0580573081970215,0,0,False,api_error,
+qwen/qwen3-4b-thinking-2507_2_1759007213,2025-09-27T17:06:53.569443,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,2,2.064516067504883,0,0,False,api_error,
+qwen/qwen3-4b-thinking-2507_3_1759007335,2025-09-27T17:08:55.611720,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,3,122.04227685928345,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_4_1759007457,2025-09-27T17:10:57.697093,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,4,122.08487176895142,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_5_1759007566,2025-09-27T17:12:46.658762,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,5,105.32080554962158,512,4.861337675192512,True,unique,"<think>
+We are generating a conversation between a patient and a receptionist for healthcare appointment scheduling.
+ Requirements: 20 to 40 turns (so 10 to 15 exchanges, but note: each turn is one line, so 20-40 lines total? Actually, the problem says ""20 to 40 turns"" meaning 20 to 40 lines? But note: the format is alternating User: and Agent: so each turn is one line? Actually, the problem says: ""alternating User: and Agent: lines"". So we need 20 to 40 lines? But note: the problem says ""turns"""
+qwen/qwen3-4b-thinking-2507_6_1759007688,2025-09-27T17:14:48.720833,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,6,122.06207156181335,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_7_1759007810,2025-09-27T17:16:50.759890,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,7,122.03905630111694,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_8_1759007932,2025-09-27T17:18:52.793882,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,8,122.03399205207825,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_9_1759008054,2025-09-27T17:20:54.871750,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,9,122.07786798477173,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_10_1759008176,2025-09-27T17:22:56.926580,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,10,122.0548300743103,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_11_1759008298,2025-09-27T17:24:58.984032,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,11,122.05745196342468,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_12_1759008421,2025-09-27T17:27:01.009431,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,12,122.02539920806885,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_13_1759008543,2025-09-27T17:29:03.077129,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,13,122.067697763443,0,0,False,error,
+fusechat-gemma-2-9b-instruct_1_1759008665,2025-09-27T17:31:05.171374,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,1,122.09424495697021,0,0,False,error,
+fusechat-gemma-2-9b-instruct_2_1759008787,2025-09-27T17:33:07.213632,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,2,122.04225873947144,0,0,False,error,
+fusechat-gemma-2-9b-instruct_3_1759008909,2025-09-27T17:35:09.278036,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,3,122.06440329551697,0,0,False,error,
+fusechat-gemma-2-9b-instruct_4_1759009031,2025-09-27T17:37:11.368487,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,4,122.09045100212097,0,0,False,error,
+fusechat-gemma-2-9b-instruct_5_1759009153,2025-09-27T17:39:13.406994,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,5,122.03850722312927,0,0,False,error,
+fusechat-gemma-2-9b-instruct_6_1759009275,2025-09-27T17:41:15.452638,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,6,122.0456440448761,0,0,False,error,
+fusechat-gemma-2-9b-instruct_7_1759009397,2025-09-27T17:43:17.507686,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,7,122.05454754829407,0,0,False,error,
+fusechat-gemma-2-9b-instruct_8_1759009519,2025-09-27T17:45:19.565579,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,8,122.05739188194275,0,0,False,error,
+fusechat-gemma-2-9b-instruct_9_1759009641,2025-09-27T17:47:21.621366,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,9,122.05528140068054,0,0,False,error,
+fusechat-gemma-2-9b-instruct_10_1759009763,2025-09-27T17:49:23.667280,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,10,122.04591417312622,0,0,False,error,
+fusechat-gemma-2-9b-instruct_11_1759009885,2025-09-27T17:51:25.729991,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,11,122.06271076202393,0,0,False,error,
+fusechat-gemma-2-9b-instruct_12_1759010007,2025-09-27T17:53:27.801402,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,12,122.07141065597534,0,0,False,error,
+fusechat-gemma-2-9b-instruct_13_1759010129,2025-09-27T17:55:29.871117,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,13,122.06921124458313,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_1_1759010251,2025-09-27T17:57:31.918886,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,1,122.04776978492737,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_2_1759010373,2025-09-27T17:59:33.974329,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,2,122.0554428100586,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_3_1759010496,2025-09-27T18:01:36.035445,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,3,122.06111598014832,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_4_1759010618,2025-09-27T18:03:38.058702,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,4,122.02325630187988,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_5_1759010740,2025-09-27T18:05:40.121313,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,5,122.06160259246826,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_6_1759010862,2025-09-27T18:07:42.188993,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,6,122.06768035888672,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_7_1759010984,2025-09-27T18:09:44.220334,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,7,122.03082656860352,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_8_1759011106,2025-09-27T18:11:46.248070,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,8,122.02773666381836,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_9_1759011228,2025-09-27T18:13:48.318052,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,9,122.069495677948,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_10_1759011350,2025-09-27T18:15:50.381758,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,10,122.06370568275452,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_11_1759011472,2025-09-27T18:17:52.448020,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,11,122.06576132774353,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_12_1759011594,2025-09-27T18:19:54.514745,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,12,122.06672477722168,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_13_1759011716,2025-09-27T18:21:56.606017,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,13,122.09127140045166,0,0,False,error,

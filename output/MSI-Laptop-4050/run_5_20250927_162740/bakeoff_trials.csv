@@ -1,0 +1,246 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759005010,2025-09-27T16:30:10.366794,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,1,122.02030491828918,0,0,False,error,
+google/gemma-3-1b_2_1759005124,2025-09-27T16:32:04.958862,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,2,100.36190390586853,512,5.10153733711763,True,unique,"Okay, here’s a realistic healthcare appointment conversation, aiming for a balance of professional and personal elements. It’s designed to be adaptable – you can adjust the details based on your specific needs.
+
+**Setting:** A doctor's office (Private Room)
+
+**Characters:**
+
+* **Dr. Evelyn Reed (DR):**  A general practitioner with a calm and empathetic demeanor.
+* **David Miller (DM):** A 45-year-old man, experiencing mild digestive issues.
+
+
+---
+
+**(Scene starts)**
+
+**DR:** “Hi David, welcome b"
+google/gemma-3-1b_3_1759005182,2025-09-27T16:33:02.591823,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,3,7.175883769989014,512,71.35009657504303,False,semantic_similarity_0.913,"Okay, here's a realistic healthcare appointment conversation, aiming for a balance of professional and personal elements. It’s designed to be adaptable – you can adjust the details based on the specific situation and your patient’s needs.
+
+**Setting:** A doctor’s office - relatively private, but not overly sterile.
+
+**Characters:**
+
+* **Dr. Evelyn Reed (Doctor):** Warm, empathetic, but professional.
+* **Sarah Miller (Patient):** 45-year-old woman, slightly anxious but trying to be calm.
+
+
+---
+
+*"
+google/gemma-3-1b_4_1759005294,2025-09-27T16:34:54.331137,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,4,10.227871417999268,512,50.059291818918396,False,semantic_similarity_0.904,"Okay, here’s a realistic healthcare appointment conversation, aiming for a balance of professionalism and genuine detail. It's designed to be adaptable – you can adjust it based on the specific situation and the patient’s needs.
+
+---
+
+**Setting:** A comfortable waiting room at a general practice clinic.
+
+**Characters:**
+
+*   **Sarah (Patient):** Mid-40s, slightly anxious but trying to be calm.
+*   **Dr. Lee (Doctor):** Experienced, friendly, and approachable.
+
+**(Scene opens with Sarah sitting o"
+google/gemma-3-1b_5_1759005319,2025-09-27T16:35:19.186661,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,5,11.300341367721558,512,45.30836576870885,False,semantic_similarity_0.873,"Okay, here’s a realistic healthcare appointment conversation, aiming for authenticity and detail. It's roughly 15-20 minutes long, covering common scenarios:
+
+**Setting:** A busy, but professional, doctor's office.  We’ll assume the patient is Sarah Miller, 48 years old, presenting with a persistent cough.
+
+**(The Doctor - Dr. Lee - enters, smiling warmly)**
+
+**Dr. Lee:** “Hi Sarah, good to see you! How are you feeling today? Can I start by asking you a few questions about what’s been going on?”"
+google/gemma-3-1b_6_1759005359,2025-09-27T16:35:59.935815,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,6,19.43448281288147,512,26.344925405508533,False,semantic_similarity_0.890,"Okay, here's a realistic healthcare appointment conversation, aiming for a balance between professional and human. It’s designed to be adaptable – you can tweak it based on the specific patient and situation.
+
+**Setting:** A cozy, slightly cluttered waiting room at a general practice clinic.  Sarah (32) is sitting in a comfortable armchair, looking a little anxious. Dr. Miller (50s), a friendly and approachable physician, is reviewing her chart.
+
+---
+
+**(Dr. Miller - Warm, calm voice)** “Hi Sara"
+google/gemma-3-1b_7_1759005471,2025-09-27T16:37:51.368130,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,7,20.243199348449707,512,25.29244469645608,False,semantic_similarity_0.883,"Okay, here’s a realistic healthcare appointment conversation, aiming for a balanced and somewhat nuanced experience. It's designed to reflect common scenarios, but remember this is a *simulation* – real conversations vary greatly!
+
+---
+
+**Setting:** A cozy, but slightly sterile, doctor’s office. Dr. Evans, a mid-level family physician, sits behind her desk. Sarah Miller, 45, is sitting opposite her, looking slightly anxious.
+
+**(Scene begins)**
+
+**Dr. Evans:** (Warmly) “Hi Sarah, thanks for comi"
+google/gemma-3-1b_8_1759005497,2025-09-27T16:38:17.137426,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,8,12.097212553024292,512,42.323799615474265,False,semantic_similarity_0.874,"Okay, here's a realistic healthcare appointment conversation, aiming for authenticity and covering various potential scenarios.  It’s roughly 10-15 minutes long.
+
+---
+
+**Setting:** A doctor's office – warm, slightly sterile, but functional. Dr. Emily Carter is sitting at her desk, looking friendly but professional. Sarah Miller is seated opposite her, a little anxious.
+
+**(Conversation Begins)**
+
+**Dr. Carter:** Hi Sarah, thanks for coming in today. How are you feeling overall?
+
+**Sarah:** (Sigh"
+phi-3-mini-4k-instruct_1_1759005531,2025-09-27T16:38:51.277498,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,1,12.602906465530396,512,40.625549463558,False,semantic_similarity_0.882,"Okay, here’s a realistic healthcare appointment conversation, aiming for a nuanced and somewhat complex scenario. It's designed to reflect common experiences, but please remember this is a *simulation* - actual conversations vary greatly!
+
+---
+
+**Setting:** A cozy, slightly cluttered doctor's office – Dr. Ramirez is sitting at her desk, reviewing paperwork. Sarah (32) is seated opposite her, fidgeting slightly.
+
+**(Dr. Ramirez smiles warmly)** “Hi Sarah, thanks for coming in today. How are you f"
+phi-3-mini-4k-instruct_2_1759005571,2025-09-27T16:39:31.069207,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,2,9.66598892211914,512,52.96923099387856,False,semantic_similarity_0.895,"Okay, here's a realistic healthcare appointment conversation, aiming for a balance of professional and conversational elements. It’s designed to be adaptable – you can adjust the details to fit your specific scenario.
+
+**Setting:** A doctor's office.  Dr. Evelyn Reed is sitting at her desk.
+
+---
+
+**(Scene opens with Dr. Reed looking at a clipboard)**
+
+**Dr. Reed:** Hi [Patient Name], thanks for coming in today. I understand you have a concern about your recent blood pressure readings?
+
+**Patient"
+phi-3-mini-4k-instruct_3_1759005596,2025-09-27T16:39:56.984756,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,3,10.05946946144104,512,50.897316400486886,False,semantic_similarity_0.886,"Okay, here's a realistic healthcare appointment conversation, aiming for a balance of professionalism and genuine human interaction. It’s designed to be adaptable – you can tweak it based on the specific situation and patient.
+
+**Setting:** A small, comfortable waiting room at a clinic.  Sarah (32) is seated across from Dr. Lee.
+
+---
+
+**(Scene Start)**
+
+**Dr. Lee:** Hi Sarah, welcome! Please have a seat. How are you feeling today?
+
+**Sarah:** I’m… honestly, a little anxious. I’ve been having thi"
+phi-3-mini-4k-instruct_4_1759005626,2025-09-27T16:40:26.075108,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,4,7.4776451587677,512,68.47075371043368,False,semantic_similarity_0.919,"Okay, here’s a realistic healthcare appointment conversation, aiming for a balance of professional and personal elements. It's designed to be somewhat nuanced – real appointments rarely go perfectly smooth!
+
+---
+
+**Setting:** A doctor's office - warm, but not overly cheerful.
+
+**Characters:**
+
+* **Dr. Anya Sharma (Doctor):** Calm, empathetic, good listener.
+* **David Miller (Patient):**  Mid-40s, slightly anxious, a little hesitant to talk about everything.
+
+
+**(Scene opens with David sitting in"
+phi-3-mini-4k-instruct_5_1759005656,2025-09-27T16:40:56.545955,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,5,8.32982063293457,512,61.46590935891785,False,semantic_similarity_0.895,"Okay, here's a realistic healthcare appointment conversation, aiming for authenticity and covering several common scenarios. It’s designed to be approximately 10-15 minutes long – adjust timing as needed.
+
+**Setting:** A doctor’s office - relatively calm, but with a receptionist in the background.
+
+**Characters:**
+
+* **Dr. Lee (Doctor):** Warm, professional, listens attentively.
+* **Sarah Miller (Patient):**  Mid-40s, slightly anxious, trying to be organized.
+
+
+---
+
+**(Scene opens with Sarah sit"
+phi-3-mini-4k-instruct_6_1759005717,2025-09-27T16:41:57.715239,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,6,14.440977334976196,512,35.45466405240667,False,semantic_similarity_0.892,"Okay, here's a realistic healthcare appointment conversation, aiming for authenticity and covering several common scenarios. It’s designed to be approximately 10-15 minutes long.
+
+---
+
+**Setting:** A comfortable waiting room at a general practice clinic.  Sarah (32) is seated across from Dr. Evans, a friendly, experienced physician.
+
+**(Scene begins)**
+
+**Dr. Evans:** “Hi Sarah, welcome! Please have a seat. I’m Dr. Evans. How are you feeling today?”
+
+**Sarah:** “Honestly, a little stressed, to b"
+phi-3-mini-4k-instruct_7_1759005748,2025-09-27T16:42:28.100775,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,7,16.759151697158813,512,30.550472318166292,False,semantic_similarity_0.906,"Okay, here’s a realistic healthcare appointment conversation, aiming for a balance of detail and a natural flow. It’s designed to be adaptable – feel free to adjust the specifics based on your needs and the patient's situation.
+
+---
+
+**Setting:** A doctor's office - Dr. Ramirez is sitting at her desk.
+
+**(Scene opens with Sarah, 45, pacing slightly in front of the reception desk.)**
+
+**Sarah:** (Voice a little anxious) Hi Dr. Ramirez, it’s really hard to sleep tonight. I just… I feel so awful.
+
+"
+phi-3-mini-4k-instruct_8_1759005791,2025-09-27T16:43:11.799592,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,8,18.004987239837646,512,28.436565557078215,False,semantic_similarity_0.894,"Okay, here's a realistic healthcare appointment conversation, aiming for a balance of professionalism, detail, and the human element. It’s designed to be adaptable – you can adjust the specifics based on your actual situation.
+
+---
+
+**Setting:** A comfortable waiting room at a primary care clinic. Sarah (32) is sitting across from Dr. Ramirez.
+
+**(Dr. Ramirez - Warmly):** ""Hi Sarah, welcome! Thanks for coming in today. How are you feeling overall?""
+
+**(Sarah – Hesitantly):** “Honestly, I’ve been"
+phi-3-mini-4k-instruct:2_1_1759005840,2025-09-27T16:44:00.125696,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,1,2.038745164871216,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_2_1759005846,2025-09-27T16:44:06.791839,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,2,2.0727717876434326,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_3_1759005930,2025-09-27T16:45:30.608294,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,3,2.05035138130188,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_4_1759005981,2025-09-27T16:46:21.722027,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,4,2.069387435913086,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_5_1759006003,2025-09-27T16:46:43.469531,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,5,2.0650479793548584,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_6_1759006019,2025-09-27T16:46:59.921520,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,6,2.047245740890503,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_7_1759006035,2025-09-27T16:47:15.705564,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,7,2.035012722015381,0,0,False,api_error,
+phi-3-mini-4k-instruct:2_8_1759006041,2025-09-27T16:47:21.025929,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,8,2.0453457832336426,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_1_1759006055,2025-09-27T16:47:35.109119,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,1,2.078270673751831,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_2_1759006060,2025-09-27T16:47:40.637628,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,2,2.038940906524658,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_3_1759006068,2025-09-27T16:47:48.276773,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,3,2.0661423206329346,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_4_1759006106,2025-09-27T16:48:26.465307,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,4,2.0434205532073975,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_5_1759006159,2025-09-27T16:49:19.803841,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,5,2.0612220764160156,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_6_1759006189,2025-09-27T16:49:49.712901,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,6,2.0696656703948975,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_7_1759006194,2025-09-27T16:49:54.972690,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,7,2.0575761795043945,0,0,False,api_error,
+phi-3-mini-4k-instruct:3_8_1759006291,2025-09-27T16:51:31.255888,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,8,2.0525035858154297,0,0,False,api_error,
+google/gemma-3-1b:2_1_1759006306,2025-09-27T16:51:46.546277,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,1,2.0187325477600098,0,0,False,api_error,
+google/gemma-3-1b:2_2_1759006311,2025-09-27T16:51:51.746788,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,2,2.055722951889038,0,0,False,api_error,
+google/gemma-3-1b:2_3_1759006325,2025-09-27T16:52:05.123647,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,3,2.0450849533081055,0,0,False,api_error,
+google/gemma-3-1b:2_4_1759006330,2025-09-27T16:52:10.353892,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,4,2.053603172302246,0,0,False,api_error,
+google/gemma-3-1b:2_5_1759006335,2025-09-27T16:52:15.604616,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,5,2.0687100887298584,0,0,False,api_error,
+google/gemma-3-1b:2_6_1759006357,2025-09-27T16:52:37.180864,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,6,2.079659938812256,0,0,False,api_error,
+google/gemma-3-1b:2_7_1759006362,2025-09-27T16:52:42.393347,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,7,2.0550332069396973,0,0,False,api_error,
+google/gemma-3-1b:2_8_1759006367,2025-09-27T16:52:47.508900,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,8,2.040114641189575,0,0,False,api_error,
+google/gemma-3-1b:3_1_1759006380,2025-09-27T16:53:00.746799,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,1,2.011309862136841,0,0,False,api_error,
+google/gemma-3-1b:3_2_1759006385,2025-09-27T16:53:05.966156,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,2,2.056626558303833,0,0,False,api_error,
+google/gemma-3-1b:3_3_1759006391,2025-09-27T16:53:11.157644,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,3,2.0603997707366943,0,0,False,api_error,
+google/gemma-3-1b:3_4_1759006396,2025-09-27T16:53:16.400189,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,4,2.0545573234558105,0,0,False,api_error,
+google/gemma-3-1b:3_5_1759006401,2025-09-27T16:53:21.558902,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,5,2.045227289199829,0,0,False,api_error,
+google/gemma-3-1b:3_6_1759006414,2025-09-27T16:53:34.844334,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,6,2.0405831336975098,0,0,False,api_error,
+google/gemma-3-1b:3_7_1759006420,2025-09-27T16:53:40.104711,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,7,2.049297332763672,0,0,False,api_error,
+google/gemma-3-1b:3_8_1759006441,2025-09-27T16:54:01.619630,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,8,2.055140256881714,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_1_1759006446,2025-09-27T16:54:06.846950,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,1,2.0632266998291016,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_2_1759006452,2025-09-27T16:54:12.077873,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,2,2.046027660369873,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_3_1759006457,2025-09-27T16:54:17.297625,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,3,2.0408973693847656,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_4_1759006462,2025-09-27T16:54:22.504226,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,4,2.0585734844207764,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_5_1759006476,2025-09-27T16:54:36.030930,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,5,2.0452914237976074,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_6_1759006481,2025-09-27T16:54:41.291675,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,6,2.058213710784912,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_7_1759006486,2025-09-27T16:54:46.582633,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,7,2.037557601928711,0,0,False,api_error,
+phi-3-mini-4k-instruct:4_8_1759006491,2025-09-27T16:54:51.831591,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:4,8,2.058248519897461,0,0,False,api_error,
+google/gemma-3-1b:4_1_1759006497,2025-09-27T16:54:57.047319,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,1,2.0475378036499023,0,0,False,api_error,
+google/gemma-3-1b:4_2_1759006502,2025-09-27T16:55:02.266467,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,2,2.037848711013794,0,0,False,api_error,
+google/gemma-3-1b:4_3_1759006507,2025-09-27T16:55:07.439717,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,3,2.0357956886291504,0,0,False,api_error,
+google/gemma-3-1b:4_4_1759006551,2025-09-27T16:55:51.411936,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,4,2.0759220123291016,0,0,False,api_error,
+google/gemma-3-1b:4_5_1759006556,2025-09-27T16:55:56.648136,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,5,2.0668442249298096,0,0,False,api_error,
+google/gemma-3-1b:4_6_1759006569,2025-09-27T16:56:09.979175,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,6,2.0339841842651367,0,0,False,api_error,
+google/gemma-3-1b:4_7_1759006583,2025-09-27T16:56:23.260820,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,7,2.037306308746338,0,0,False,api_error,
+google/gemma-3-1b:4_8_1759006588,2025-09-27T16:56:28.453477,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:4,8,2.0365633964538574,0,0,False,api_error,
+google/gemma-3n-e4b_1_1759006721,2025-09-27T16:58:41.792350,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,1,122.04268479347229,0,0,False,error,
+google/gemma-3n-e4b_2_1759006847,2025-09-27T17:00:47.146072,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,2,122.04440760612488,0,0,False,error,
+google/gemma-3n-e4b_3_1759006989,2025-09-27T17:03:09.084877,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,3,122.0542516708374,0,0,False,error,
+google/gemma-3n-e4b_4_1759007176,2025-09-27T17:06:16.029236,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,4,15.759017944335938,512,32.48933415828882,False,semantic_similarity_0.902,"Okay, here's a realistic healthcare appointment conversation, aiming for a balance of detail and natural flow. It’s designed to be a general scenario – it could be adjusted based on the specific patient and doctor.
+
+**Setting:** A cozy, but professional-looking waiting room at a primary care clinic.  Sarah (35) is seated across from Dr. Evans.
+
+**(Scene Begins)**
+
+**Dr. Evans:** “Hi Sarah, welcome! Thanks for coming in today. My name is Dr. Evans. How are you feeling overall?”
+
+**Sarah:** ""Hones"
+google/gemma-3n-e4b_5_1759007208,2025-09-27T17:06:48.552960,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,5,10.852378129959106,512,47.178599369530936,False,semantic_similarity_0.913,"Okay, here's a realistic healthcare appointment conversation, aiming for authenticity and detail. It’s approximately 30-45 minutes long – adjust as needed based on the specific scenario:
+
+**Setting:** A doctor's office - relatively quiet, comfortable chairs.
+
+**Characters:**
+
+*   **Dr. Anya Sharma (Doctor):** Warm, empathetic, but professional.
+*   **Sarah Miller (Patient):**  Mid-40s, a little anxious but trying to be calm.
+
+---
+
+**(Scene opens with Sarah sitting in the waiting room – she’s clu"
+google/gemma-3n-e4b_6_1759007396,2025-09-27T17:09:56.524937,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,6,122.08003282546997,0,0,False,error,
+google/gemma-3n-e4b_7_1759007778,2025-09-27T17:16:18.013904,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,7,122.10596466064453,0,0,False,error,
+google/gemma-3n-e4b_8_1759007921,2025-09-27T17:18:41.537515,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,8,122.06774616241455,0,0,False,error,
+google/gemma-3n-e4b:2_1_1759007929,2025-09-27T17:18:49.121122,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,1,2.053884506225586,0,0,False,api_error,
+google/gemma-3n-e4b:2_2_1759007947,2025-09-27T17:19:07.850438,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,2,2.0688769817352295,0,0,False,api_error,
+google/gemma-3n-e4b:2_3_1759007960,2025-09-27T17:19:20.967329,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,3,2.04264497756958,0,0,False,api_error,
+google/gemma-3n-e4b:2_4_1759007969,2025-09-27T17:19:29.010442,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,4,2.0765013694763184,0,0,False,api_error,
+google/gemma-3n-e4b:2_5_1759007980,2025-09-27T17:19:40.449774,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,5,2.0617599487304688,0,0,False,api_error,
+google/gemma-3n-e4b:2_6_1759007993,2025-09-27T17:19:53.518432,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,6,2.05200457572937,0,0,False,api_error,
+google/gemma-3n-e4b:2_7_1759008006,2025-09-27T17:20:06.623116,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,7,2.094745635986328,0,0,False,api_error,
+google/gemma-3n-e4b:2_8_1759008024,2025-09-27T17:20:24.780146,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b:2,8,2.076476573944092,0,0,False,api_error,
+qwen/qwen3-4b-thinking-2507_1_1759008157,2025-09-27T17:22:37.785700,MSI,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,1,122.05627012252808,0,0,False,error,

@@ -64,10 +64,10 @@ def load_config(config_path):
         return defaults
 
 def setup_run_directory(config, run_number):
-    """Create run-specific output directory"""
-    base_dir = config.get("deduplication", {}).get("output_directory", "output/tool_runs")
+    """Create machine-specific run directory"""
+    machine_name = config.get("machine_name", "unknown")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(base_dir) / f"run_{run_number}_{timestamp}"
+    output_dir = Path("output") / machine_name / f"run_{run_number}_{timestamp}"
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 

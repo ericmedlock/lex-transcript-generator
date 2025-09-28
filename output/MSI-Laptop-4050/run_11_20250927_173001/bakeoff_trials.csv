@@ -1,0 +1,85 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759008615,2025-09-27T17:30:15.179768,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,1,10.325944185256958,413,39.99634247390837,False,semantic_similarity_0.924,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Welcome to Serenity Health. To help me find a time that works best for you, could you tell me what kind of reason you’re looking for this appointment?
+
+User: Just a routine check-up, really. Nothing urgent.
+
+Agent: Okay, a routine check-up. Let me just pull up your file and see what’s available.  It looks like we have openings on Tuesday afternoon, or Wednesday morning. Would either of those work for you?
+
+User: Wedne"
+google/gemma-3-1b_2_1759008631,2025-09-27T17:30:31.362915,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,2,12.072295904159546,512,42.411153939955106,False,semantic_similarity_0.940,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To get started, could you tell me your name and date of birth?
+
+User: My name is Sarah Miller, and my birthday is July 12th, 1985.
+
+Agent: Thank you, Sarah. And what type of appointment are you looking for today?  Are you here for a check-up, something else entirely, or perhaps a specific specialist?
+
+User: I’d like to see my doctor for a routine check-up. Just a general check-up, nothing urgent.
+
+Agent: Okay, a routine check-up. "
+google/gemma-3-1b_3_1759008645,2025-09-27T17:30:45.411541,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,3,10.36222791671753,512,49.41022375834671,False,semantic_similarity_0.923,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find a time that works for you, could you tell me what kind of appointment you need?
+
+User: I need to see a dermatologist.
+
+Agent: Okay, a dermatologist.  Do you have a preferred date or time in mind? We’re currently quite busy this afternoon.
+
+User: Maybe next Tuesday morning?
+
+Agent: Let me check availability for Tuesday morning... Okay, we have an opening at 9:00 AM. Would that work for you?
+
+User: Yes, that would be"
+google/gemma-3-1b_4_1759008658,2025-09-27T17:30:58.660192,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,4,9.990157842636108,492,49.24847112026968,False,semantic_similarity_0.909,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! To help me find the right time for you, could you tell me what type of appointment you’re looking for?  Are you here for a check-up, a specialist consultation, something else?
+
+User: It's a follow-up to my annual physical.
+
+Agent: Okay, a follow-up visit. Let me just pull up your record.  One moment… Alright, I see you’re scheduled for an annual physical on the 15th of next month. Is that correct?
+
+User: Yes, that's right.
+
+Agent:"
+phi-3-mini-4k-instruct_1_1759008781,2025-09-27T17:33:01.748873,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,1,122.0434832572937,0,0,False,error,
+phi-3-mini-4k-instruct_2_1759008904,2025-09-27T17:35:04.853900,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,2,122.05471587181091,0,0,False,error,
+phi-3-mini-4k-instruct_3_1759009027,2025-09-27T17:37:07.982354,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,3,122.05845403671265,0,0,False,error,
+phi-3-mini-4k-instruct_4_1759009151,2025-09-27T17:39:11.050862,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,4,122.05298280715942,0,0,False,error,
+microsoft/phi-4-mini-reasoning_1_1759009274,2025-09-27T17:41:14.124553,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,microsoft/phi-4-mini-reasoning,1,122.05626082420349,0,0,False,error,
+microsoft/phi-4-mini-reasoning_2_1759009397,2025-09-27T17:43:17.195108,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,microsoft/phi-4-mini-reasoning,2,122.05189824104309,0,0,False,error,
+microsoft/phi-4-mini-reasoning_3_1759009520,2025-09-27T17:45:20.263098,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,microsoft/phi-4-mini-reasoning,3,122.04013204574585,0,0,False,error,
+microsoft/phi-4-mini-reasoning_4_1759009643,2025-09-27T17:47:23.344745,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,microsoft/phi-4-mini-reasoning,4,122.06514811515808,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_1_1759009766,2025-09-27T17:49:26.439746,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,1,122.0772316455841,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_2_1759009889,2025-09-27T17:51:29.544760,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,2,122.07327699661255,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_3_1759010012,2025-09-27T17:53:32.622821,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,3,122.05773758888245,0,0,False,error,
+qwen/qwen3-4b-thinking-2507_4_1759010135,2025-09-27T17:55:35.691938,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen/qwen3-4b-thinking-2507,4,122.04389333724976,0,0,False,error,
+google/gemma-3-4b_1_1759010258,2025-09-27T17:57:38.770150,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b,1,122.05665636062622,0,0,False,error,
+google/gemma-3-4b_2_1759010381,2025-09-27T17:59:41.799132,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b,2,122.01494216918945,0,0,False,error,
+google/gemma-3-4b_3_1759010504,2025-09-27T18:01:44.877937,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b,3,122.058345079422,0,0,False,error,
+google/gemma-3-4b_4_1759010627,2025-09-27T18:03:47.968065,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b,4,122.06866455078125,0,0,False,error,
+google/gemma-3-4b:2_1_1759010751,2025-09-27T18:05:51.059402,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b:2,1,122.06834936141968,0,0,False,error,
+google/gemma-3-4b:2_2_1759010874,2025-09-27T18:07:54.138757,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b:2,2,122.05725455284119,0,0,False,error,
+google/gemma-3-4b:2_3_1759010997,2025-09-27T18:09:57.195195,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b:2,3,122.04317259788513,0,0,False,error,
+google/gemma-3-4b:2_4_1759011120,2025-09-27T18:12:00.251585,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-4b:2,4,122.04334759712219,0,0,False,error,
+google/gemma-3n-e4b_1_1759011243,2025-09-27T18:14:03.345164,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,1,122.08225798606873,0,0,False,error,
+google/gemma-3n-e4b_2_1759011366,2025-09-27T18:16:06.420694,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,2,122.0637059211731,0,0,False,error,
+google/gemma-3n-e4b_3_1759011489,2025-09-27T18:18:09.493514,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,3,122.05493783950806,0,0,False,error,
+google/gemma-3n-e4b_4_1759011612,2025-09-27T18:20:12.556080,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3n-e4b,4,122.04736495018005,0,0,False,error,
+fusechat-gemma-2-9b-instruct_1_1759011735,2025-09-27T18:22:15.603612,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,1,122.0359160900116,0,0,False,error,
+fusechat-gemma-2-9b-instruct_2_1759011858,2025-09-27T18:24:18.649894,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,2,122.03451919555664,0,0,False,error,
+fusechat-gemma-2-9b-instruct_3_1759011981,2025-09-27T18:26:21.774162,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,3,122.0731770992279,0,0,False,error,
+fusechat-gemma-2-9b-instruct_4_1759012104,2025-09-27T18:28:24.843371,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,4,122.05702495574951,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_1_1759012227,2025-09-27T18:30:27.915950,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,1,122.06440353393555,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_2_1759012351,2025-09-27T18:32:31.000795,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,2,122.06553316116333,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_3_1759012474,2025-09-27T18:34:34.058352,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,3,122.04327654838562,0,0,False,error,
+mistralai/mistral-7b-instruct-v0.3_4_1759012597,2025-09-27T18:36:37.106384,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,4,122.0333092212677,0,0,False,error,
+meta-llama-3.1-8b-instruct_1_1759012720,2025-09-27T18:38:40.174360,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,meta-llama-3.1-8b-instruct,1,122.05978894233704,0,0,False,error,
+meta-llama-3.1-8b-instruct_2_1759012843,2025-09-27T18:40:43.236835,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,meta-llama-3.1-8b-instruct,2,122.03654527664185,0,0,False,error,
+meta-llama-3.1-8b-instruct_3_1759012966,2025-09-27T18:42:46.286388,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,meta-llama-3.1-8b-instruct,3,122.03909611701965,0,0,False,error,
+meta-llama-3.1-8b-instruct_4_1759013089,2025-09-27T18:44:49.347963,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,meta-llama-3.1-8b-instruct,4,122.04940629005432,0,0,False,error,
+qwen2-vl-7b-instruct_1_1759013212,2025-09-27T18:46:52.417253,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen2-vl-7b-instruct,1,122.05571842193604,0,0,False,error,
+qwen2-vl-7b-instruct_2_1759013335,2025-09-27T18:48:55.460000,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen2-vl-7b-instruct,2,122.03146886825562,0,0,False,error,
+qwen2-vl-7b-instruct_3_1759013458,2025-09-27T18:50:58.536393,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen2-vl-7b-instruct,3,122.05834126472473,0,0,False,error,
+qwen2-vl-7b-instruct_4_1759013581,2025-09-27T18:53:01.610055,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,qwen2-vl-7b-instruct,4,122.06317400932312,0,0,False,error,

@@ -1,0 +1,47 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759006810,2025-09-27T17:00:10.049956,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,27.035690784454346,463,17.125510263130664,False,semantic_similarity_0.927,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Thank you for calling. Could you tell me what type of appointment you need? (e.g., check-up, follow-up, specific procedure)
+
+User: It's a follow-up to my annual physical.
+
+Agent: Okay, a follow-up to your annual physical.  Let me just pull up your records… Alright, we have an opening on Tuesday at 2 PM. Would that work for you?
+
+User: Yes, that’s perfect. Could I see if there are any specific times available?
+
+Agent: "
+google/gemma-3-1b_2_1759006846,2025-09-27T17:00:46.102140,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,32.26856994628906,501,15.525943691769204,False,semantic_similarity_0.946,"User: Hi, I’d like to schedule an appointment for a check-up.
+
+Agent: Certainly! Let me just pull up your information. Could you please provide your name and date of birth?
+
+User: It's Sarah Miller, born 1988.
+
+Agent: Okay, thank you, Sarah. And what type of appointment are you looking to schedule – primary care, specialist, something else?
+
+User: I’d like a general check-up, just to make sure everything is okay.
+
+Agent: Alright. Let me check our availability… We have openings on Tuesday afterno"
+google/gemma-3-1b_3_1759006891,2025-09-27T17:01:31.534586,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,29.47970414161682,512,17.367881222295036,False,semantic_similarity_0.933,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me pull up your file. Okay, just one moment… Alright, we have an opening on Tuesday at 2:00 PM. Would that work for you?
+
+User: Yes, that would be great. 2:00 PM works perfectly.
+
+Agent: Perfect!  Let’s confirm – that’s Dr. Lee, Tuesday at 2:00 PM. Is your insurance covered by Blue Cross Blue Shield?
+
+User: Uh, yes, it is. Blue Cross Blue Shield.
+
+Agent: Excellent. Just to confirm, you're seeing Dr. Lee for a chec"
+google/gemma-3-1b_4_1759006916,2025-09-27T17:01:56.987617,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,22.1096031665802,382,17.277560213175267,False,semantic_similarity_0.947,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Good morning! Certainly, let me pull up your information.  Can you please confirm your full name?
+
+User: It's Sarah Miller.
+
+Agent: Okay, Ms. Miller. And what is the reason for this appointment today?
+
+User: I’ve been feeling a bit fatigued lately and just want to get some check-ups done.
+
+Agent: Alright. We have openings on Tuesdays and Thursdays at 2 PM and 4 PM. Would either of those work for you?
+
+User: The 2 PM one would be"

@@ -1,0 +1,7 @@
+timestamp,machine_name,gpu_info,gpu_memory,platform,model,trials_run,unique_conversations,duplicates_found,duplicate_rate,avg_latency_s,avg_tokens_per_sec
+2025-09-27T16:40:01.686736,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,13,1,5,83.33333333333334,95.17815494537354,5.1062137134191605
+2025-09-27T17:06:20.537784,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct,13,1,5,83.33333333333334,113.218266248703,4.52223847762609
+2025-09-27T17:17:37.784384,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:2,13,0,0,0,0,0
+2025-09-27T17:20:37.319547,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,phi-3-mini-4k-instruct:3,13,0,0,0,0,0
+2025-09-27T17:22:55.731146,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:2,13,0,0,0,0,0
+2025-09-27T17:26:12.371401,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b:3,13,0,0,0,0,0

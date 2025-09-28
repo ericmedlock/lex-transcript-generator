@@ -1,0 +1,30 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759010876,2025-09-27T18:07:56.571746,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,10.79865312576294,468,43.33873813239419,False,semantic_similarity_0.916,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Let’s start with your name and date of birth, please?
+
+User: My name is Sarah Miller, and my birthday is January 15th, 1988.
+
+Agent: Thank you, Ms. Miller. And can you tell me what type of appointment you need – a check-up, a specialist visit, or something else?
+
+User: I’d like to schedule a follow-up appointment with Dr. Jones.  I've been experiencing some persistent headaches lately.
+
+Agent: Okay, a follow-up appointment with Dr"
+google/gemma-3-1b_2_1759010905,2025-09-27T18:08:25.184115,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,9.426984310150146,512,54.312172711343486,False,semantic_similarity_0.898,"User: Hi, I’d like to schedule an appointment with Dr. Miller for next week.
+
+Agent: Certainly! Welcome to our clinic. Let’s start with your name, please?
+
+Patient: It's Sarah Johnson.
+
+Agent: Okay, Ms. Johnson. And what brings you in today? Can you tell me a little bit about what you need?
+
+Patient: Well, I’ve been experiencing some persistent headaches lately, and it’s starting to affect my work.  It's really bothering me.
+
+Agent: I understand. Headaches can be quite disruptive. Let me check o"
+google/gemma-3-1b_3_1759010917,2025-09-27T18:08:37.522706,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,9.04188346862793,507,56.072388209724984,False,semantic_similarity_0.947,"User: Hi, I’d like to schedule an appointment for a checkup.
+
+Agent: Certainly! To help me find the best time for you, could you tell me what type of appointment you're looking for?  Are you interested in primary care, dermatology, or something else?
+
+User: Primary care, please. Something to address my occasional headaches.
+
+Agent: Okay, a primary care appointment for headaches. Let me check our availability… Just a moment... Alright, we have an opening on Tuesday at 10 AM and Wednesday at 2 PM."

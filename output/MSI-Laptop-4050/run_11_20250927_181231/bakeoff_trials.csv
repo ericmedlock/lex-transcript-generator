@@ -1,0 +1,94 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759011165,2025-09-27T18:12:45.097528,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,9.974689960479736,512,51.32991622081206,False,semantic_similarity_0.869,"User: Hi, I’m calling because my insurance doesn’t seem to be covered for this appointment. 
+
+Agent: Certainly, thank you for calling. My name is Sarah, how can I help you today? Can you tell me your full name and date of birth so I can pull up your account?
+
+User: It’s David Miller, born on July 12th, 1985.
+
+Agent: Thank you, Mr. Miller. Let me just check… Okay, I see you have a policy with Blue Shield of America, Plan A. Could you tell me the specific reason for your visit today?
+
+User: It’s r"
+google/gemma-3-1b_2_1759011177,2025-09-27T18:12:57.540433,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,9.109961032867432,512,56.202216250187846,False,semantic_similarity_0.918,"User: Hi, I’m looking for a new appointment. I feel a little overwhelmed with everything going on.
+
+Agent: Certainly! Welcome. To help me schedule the right time for you, could you tell me a bit about what brings you in today?
+
+User: Well, it's just… my family needs appointments too. Multiple of them. My mom’s got her annual checkup next week, and my dad needs to see his doctor after a fall. And my sister – she’s battling breast cancer, so we all need to be there. It’s a lot!
+
+Agent: That's comp"
+google/gemma-3-1b_3_1759011189,2025-09-27T18:13:09.957540,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,9.12712025642395,512,56.096554621337276,False,semantic_similarity_0.926,"User: Hi, I’d like to schedule a first appointment.
+
+Agent: Certainly! Thanks for reaching out. Let me check our availability… Okay, we have openings on Tuesday afternoon and Wednesday morning.  Do either of those work for you?
+
+User: Tuesday afternoon would be great, if possible.
+
+Agent: Alright. Tuesday afternoon at 2 PM works perfectly. Can I get a few more details to finalize the booking? First, can you tell me what your primary reason for this appointment is?
+
+User: It’s mostly for my daugh"
+google/gemma-3-1b_4_1759011202,2025-09-27T18:13:22.457569,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,9.01185417175293,512,56.814057378428366,False,semantic_similarity_0.909,"User: Hi, I’m calling about an urgent appointment… really needing it today.
+
+Agent: Okay, thanks for calling. I understand you need to see a doctor today urgently. Can I get your name and date of birth? 
+
+User: Sarah Miller, born 1985.
+
+Agent: Thank you, Sarah. Let me check the availability…  Okay, we have a few openings this afternoon. Do you have a preference for where you'd like to come in?
+
+User: Honestly, anywhere is good right now. Just need something fast.
+
+Agent: Alright. We have a slot "
+google/gemma-3-1b_5_1759011215,2025-09-27T18:13:35.169851,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,5,9.001460552215576,512,56.879658254346154,False,semantic_similarity_0.894,"User: Hi, I’m calling about canceling my appointment. It’s a really stressful time with everything going on…
+
+Agent: Okay, sure thing. Thanks for reaching out. Could you tell me your name and date of birth so I can pull up your file?
+
+User: My name is Sarah Miller, and it’s April 15th.  I'm a little worried about this whole situation. Multiple family members need appointments… it feels like I’m juggling a million things.
+
+Agent: I understand.  It sounds incredibly busy.  Let's see... Okay, I hav"
+google/gemma-3-1b_6_1759011227,2025-09-27T18:13:47.907193,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,6,9.033905744552612,512,56.675375466335005,False,semantic_similarity_0.891,"User: Hi, I need to cancel my appointment.
+
+Agent: Hi there! Certainly, I can help you with that. Could you tell me your name and date of birth?
+
+User: Sarah Miller, born 1988.
+
+Agent: Thank you, Sarah. And what’s the reason for cancellation?
+
+User: It's just… I have a really busy schedule right now. Work is demanding.
+
+Agent: I understand completely. It sounds like you’re juggling quite a lot.  Let me just check your availability.  One moment please... Okay, it looks like we have an opening on "
+google/gemma-3-1b_7_1759011240,2025-09-27T18:14:00.128380,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,7,8.961033582687378,512,57.136266176836855,False,semantic_similarity_0.799,"User: Hello? Is this… is this Dr. Ramirez?
+
+Agent: Yes, it is. My name is Sarah. How can I help you today?
+
+User: It’s my grandson, Michael. He’s… he’s really worried about me. 
+
+Agent: Okay. Let’s go through your information first. Could you please tell me your full name and address?
+
+User:  My name is Arthur Finch. I live at 12 Willow Creek Lane, Maplewood. It’s… it’s a bit of a quiet street.
+
+Agent: Thank you, Mr. Finch. Let me just pull up your insurance information. (Typing sounds) Okay, I "
+google/gemma-3-1b_8_1759011252,2025-09-27T18:14:12.542733,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,8,9.114656686782837,512,56.17326220771992,False,semantic_similarity_0.857,"User: Hi, I’m so nervous about this appointment. I don't really know what to expect.
+
+Agent:  Okay, absolutely. It can be a little daunting when you’re first starting out with healthcare. Take a deep breath.  We understand that feeling. Can you tell me a bit more about what's making you anxious? Just start wherever feels comfortable. 
+
+User: Well, my family… they all need appointments, and it’s just… overwhelming. I feel like I can’t possibly handle everything.
+
+Agent: That’s completely understa"
+google/gemma-3-1b_9_1759011266,2025-09-27T18:14:26.705996,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,9,10.887070894241333,512,47.02825994003769,False,semantic_similarity_0.863,"User: Hi, this is Sarah Miller. I need to cancel my appointment with Dr. Lee. It’s really stressing me out.
+
+Agent: Hello Sarah, thank you for calling. My name is David, and I'm happy to help. Just one moment while I pull up your record... Okay, I see your appointment was scheduled for this week. Could you tell me a little bit more about why you need to cancel?
+
+User: It’s just… everything. Multiple family members are needing appointments at the same time. My mom is having a routine checkup, my "
+google/gemma-3-1b_10_1759011279,2025-09-27T18:14:39.459791,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,10,9.049262285232544,512,56.57919771377727,False,semantic_similarity_0.799,"User: Hello, my name is Arthur Finch. I need to cancel an appointment with Dr. Evans.
+
+Agent: Good morning, Mr. Finch. Thank you for calling. My apologies for the inconvenience. Can I get your date of birth and the reason for cancellation?
+
+User: It’s… 88 years old, dear. And it’s because I can’t hear very well these days.
+
+Agent: Certainly. 88 years old is a significant age.  I understand that hearing difficulties can be challenging. Let's see...  Just confirming, you’d like to cancel your appo"
+google/gemma-3-1b_11_1759011291,2025-09-27T18:14:51.987561,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,11,9.003887414932251,512,56.864327196149475,False,semantic_similarity_0.900,"User: Hi, I'm calling about an appointment. I need to cancel it.
+
+Agent: Hello! Thank you for calling. My name is Sarah. Can I get your date of birth and insurance plan number, please?
+
+User: It’s Jane Miller, and my insurance is Blue Cross Blue Shield.
+
+Agent: Okay, Ms. Miller. Let me pull up your information… Alright, we have a scheduled appointment for you on Tuesday at 2 pm.  Could you tell me what's going on with that?
+
+User: Well, I’m having some trouble getting there. My car isn't working"

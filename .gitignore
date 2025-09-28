@@ -19,10 +19,7 @@ env/
 # Configuration files
 config/config.json
 
-# Bakeoff results
-bakeoff_*.csv
-bakeoff_trials_*.csv
-bakeoff_gan_*.csv
+
 
 # PyCharm / JetBrains
 .idea/

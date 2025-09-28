@@ -1,0 +1,37 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759008698,2025-09-27T17:31:38.160536,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,12.16584587097168,512,42.085030948950106,False,semantic_similarity_0.905,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Thank you for calling. Could you tell me what kind of appointment you’re looking for?  Are you having a specific reason for your visit today?
+
+User: Well, my back has been really bothering me lately, and it's getting worse. I’d like to see him again.
+
+Agent: Okay, I understand. Back pain is a common concern. Let me check his availability… Just one moment.  (pause) …Okay, Dr. Lee has openings on Tuesday afternoon and W"
+google/gemma-3-1b_2_1759008714,2025-09-27T17:31:54.342502,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,12.635045051574707,512,40.522214041190885,False,semantic_similarity_0.858,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Thank you for calling. Let me just pull up your information. One moment… Okay, I see you’re looking for a consultation with Dr. Lee. Can you tell me what kind of reason brought you in today?
+
+User: Well, my back has been really bothering me lately – it’s got this persistent ache. It’s hard to walk.
+
+Agent: I understand. That sounds uncomfortable. Could you perhaps describe the pain a little more specifically? Is it sh"
+google/gemma-3-1b_3_1759008729,2025-09-27T17:32:09.249358,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,11.21713399887085,443,39.493153959344134,False,semantic_similarity_0.956,"User: Hi, I’d like to schedule an appointment for my checkup.
+
+Agent: Certainly! Let me pull up your file. Just one moment… Okay, I see you’re scheduled for a general check-up this month. Can you tell me what kind of appointment you're looking for? 
+
+User: It’s just a routine checkup – nothing too complicated.
+
+Agent: Alright. And when are you hoping to schedule it? Do you have a specific date or time in mind?
+
+User: I was thinking sometime next week, maybe Tuesday afternoon?
+
+Agent: Let me chec"
+google/gemma-3-1b_4_1759008743,2025-09-27T17:32:23.275523,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,10.347543239593506,412,39.816214386380764,False,semantic_similarity_0.924,"User: Hi, I’d like to schedule an appointment for my annual physical.
+
+Agent: Certainly! Can you tell me your name and date of birth?
+
+User: It's Sarah Miller, born January 12th, 1985.
+
+Agent: Thank you, Ms. Miller. And what type of service are you looking for today – primary care, specialist, or something else?
+
+User: I think primary care would be fine.  I’ve been feeling a bit under the weather lately.
+
+Agent: Okay, excellent. Let me check availability… Just one moment please. (Pause - sounds "
