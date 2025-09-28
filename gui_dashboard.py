@@ -377,6 +377,7 @@ class TranscriptDashboard:
                 from conversation_grader import ConversationGrader
                 
                 grader = ConversationGrader(db_config=self.db_config)
+                grader.setup_grading_schema()  # Ensure table exists with correct schema
                 graded_count = grader.grade_database_conversations(limit=50)
                 
                 self.status_var.set(f"Quality analysis complete: {graded_count} conversations graded")
