@@ -810,39 +810,25 @@ class GenerationNode:
         # Generate prompt for multiple conversations
         conversations_count = parameters.get("conversations_per_job", 1)
         
-        # Pi optimization: generate larger batches
-        if self.is_pi and conversations_count < 30:
-            conversations_count = min(30, conversations_count * 3)  # 3x batch size for Pi
+        # Reduce batch size for better quality
+        if conversations_count > 10:
+            conversations_count = 10  # Limit to 10 for better compliance
         
         if rag_examples:
-            prompt = f"""Based on these real conversation examples:
+            prompt = f"""GENERATE EXACTLY {conversations_count} CONVERSATIONS. EACH MUST HAVE {min_turns}-{max_turns} EXCHANGES.
+
+Start each with ---CONVERSATION---
 
 {rag_examples}
 
-Generate {conversations_count} different healthcare appointment scheduling conversations.
-
-Each conversation should:
-- Be {min_turns} to {max_turns} turns long
-- Format: alternating User: and Agent: lines
-- Be realistic and natural
-- Have different scenarios (new patient, reschedule, urgent, etc.)
-
-Separate each conversation with "---CONVERSATION---"
-
-Conversation 1:
+---CONVERSATION---
 User:"""
         else:
-            prompt = f"""Generate {conversations_count} different healthcare appointment scheduling conversations between patients and receptionists.
+            prompt = f"""GENERATE EXACTLY {conversations_count} HEALTHCARE CONVERSATIONS. EACH MUST HAVE {min_turns}-{max_turns} EXCHANGES.
 
-Each conversation should:
-- Be {min_turns} to {max_turns} turns long  
-- Format: alternating User: and Agent: lines
-- Be realistic and natural
-- Have different scenarios (new patient, reschedule, urgent, insurance issues, etc.)
+Start each with ---CONVERSATION---
 
-Separate each conversation with "---CONVERSATION---"
-
-Conversation 1:
+---CONVERSATION---
 User:"""
         
         # Get generation config
