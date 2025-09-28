@@ -808,15 +808,6 @@ Now generate a conversation using this guidance:
             start_time = datetime.now()
             
             try:
-                # Call LLM
-                async with aiohttp.ClientSession() as session:
-                    payload = {
-                        "model": model_name,
-                        "messages": [{"role": "user", "content": prompt}],
-                        "temperature": temperature,
-                        "max_tokens": max_tokens
-                    }
-                    
                 # Use llama.cpp direct calls for Pi, HTTP for others
                 if self.is_pi and self.llama_model:
                     # Direct llama.cpp call
@@ -852,7 +843,15 @@ Now generate a conversation using this guidance:
                             return None
                 else:
                     # LM Studio HTTP format
-                    async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
+                    payload = {
+                        "model": model_name,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "temperature": temperature,
+                        "max_tokens": max_tokens
+                    }
+                    
+                    async with aiohttp.ClientSession() as session:
+                        async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
                         end_time = datetime.now()
                         duration_ms = int((end_time - start_time).total_seconds() * 1000)
                         
