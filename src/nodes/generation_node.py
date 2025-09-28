@@ -557,56 +557,59 @@ class GenerationNode:
                     # Generate multiple conversations for this job
                     conversations_generated = 0
                     for conv_num in range(conversations_per_job):
+                        print(f"[DEBUG] Generating conversation {conv_num+1}/{conversations_per_job} for job {job_id[:8]}")
                         conversation = await self.generate_conversation(scenario_id, params)
-                    
-                    if conversation:
-                        # Extract metadata
-                        metadata = conversation.pop("_metadata", {})
                         
-                        # Check for duplicates if deduplication enabled
-                        run_id, run_number = self.get_or_create_run()
-                        is_duplicate = False
-                        duplicate_reason = "unique"
-                        
-                        if self.dedupe_manager and run_number:
-                            is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
-                                run_number, conversation, self.hostname, model_name=metadata.get("model_name")
-                            )
-                        
-                        if is_duplicate:
-                            print(f"Duplicate detected ({duplicate_reason}), retrying conversation {conv_num+1}/{conversations_per_job}")
-                            continue  # Try next conversation
+                        if conversation:
+                            # Extract metadata
+                            metadata = conversation.pop("_metadata", {})
+                            
+                            # Check for duplicates if deduplication enabled
+                            run_id, run_number = self.get_or_create_run()
+                            is_duplicate = False
+                            duplicate_reason = "unique"
+                            
+                            if self.dedupe_manager and run_number:
+                                is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
+                                    run_number, conversation, self.hostname, model_name=metadata.get("model_name")
+                                )
+                            
+                            if is_duplicate:
+                                print(f"[DEBUG] Duplicate detected ({duplicate_reason}), retrying conversation {conv_num+1}/{conversations_per_job}")
+                                continue  # Try next conversation
+                            else:
+                                # Save unique conversation
+                                conv_id = str(uuid.uuid4())
+                                # Store performance metrics
+                                perf_metrics = {
+                                    "realness_score": None,
+                                    "speed_score": metadata.get("tokens_per_sec", 0),
+                                    "gan_score": None,
+                                    "duplicate_status": duplicate_reason,
+                                    "completion_tokens": metadata.get("completion_tokens", 0),
+                                    "rag_used": metadata.get("rag_examples_used", False),
+                                    "retry_attempt": metadata.get("attempt", 1)
+                                }
+                                
+                                cur.execute(
+                                    """INSERT INTO conversations 
+                                       (id, job_id, scenario_id, content, quality_score, model_name, 
+                                        generation_start_time, generation_end_time, generation_duration_ms, evaluation_metrics) 
+                                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                                    (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
+                                     metadata.get("model_name"), metadata.get("start_time"), 
+                                     metadata.get("end_time"), metadata.get("duration_ms"), 
+                                     json.dumps(perf_metrics))
+                                )
+                                
+                                # Track completed conversation for grading
+                                self.completed_jobs.append(conv_id)
+                                conversations_generated += 1
+                                
+                                tokens_per_sec = metadata.get("tokens_per_sec", 0)
+                                print(f"[DEBUG] Generated conversation {conversations_generated}/{conversations_per_job} for job {job_id[:8]} ({tokens_per_sec:.1f} tok/s)")
                         else:
-                            # Save unique conversation
-                            conv_id = str(uuid.uuid4())
-                            # Store performance metrics
-                            perf_metrics = {
-                                "realness_score": None,
-                                "speed_score": metadata.get("tokens_per_sec", 0),
-                                "gan_score": None,
-                                "duplicate_status": duplicate_reason,
-                                "completion_tokens": metadata.get("completion_tokens", 0),
-                                "rag_used": metadata.get("rag_examples_used", False),
-                                "retry_attempt": metadata.get("attempt", 1)
-                            }
-                            
-                            cur.execute(
-                                """INSERT INTO conversations 
-                                   (id, job_id, scenario_id, content, quality_score, model_name, 
-                                    generation_start_time, generation_end_time, generation_duration_ms, evaluation_metrics) 
-                                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                                (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
-                                 metadata.get("model_name"), metadata.get("start_time"), 
-                                 metadata.get("end_time"), metadata.get("duration_ms"), 
-                                 json.dumps(perf_metrics))
-                            )
-                            
-                            # Track completed conversation for grading
-                            self.completed_jobs.append(conv_id)
-                            conversations_generated += 1
-                            
-                            tokens_per_sec = metadata.get("tokens_per_sec", 0)
-                            print(f"Generated conversation {conversations_generated}/{conversations_per_job} for job {job_id[:8]} ({tokens_per_sec:.1f} tok/s)")
+                            print(f"[DEBUG] Failed to generate conversation {conv_num+1}/{conversations_per_job} - conversation is None")
                     
                     # Mark job complete after all conversations generated
                     cur.execute(
@@ -623,8 +626,6 @@ class GenerationNode:
                         await self.grade_completed_conversations()
                         self.running = False
                         return
-                    else:
-                        print(f"Failed to generate conversation {conv_num+1}/{conversations_per_job}")
                     
                     # If no conversations generated, mark job as failed
                     if conversations_generated == 0:
@@ -749,6 +750,7 @@ Now generate a conversation using this guidance:
                         if resp.status == 200:
                             data = await resp.json()
                             text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                            print(f"[DEBUG] LLM response received: {len(text)} chars, model: {model_name}")
                             
                             # Calculate performance metrics
                             usage = data.get("usage", {})
@@ -770,12 +772,15 @@ Now generate a conversation using this guidance:
                             
                             return conversation
                         else:
-                            print(f"LLM API error: {resp.status} (attempt {attempt + 1}/{max_retries})")
+                            error_text = await resp.text()
+                            print(f"[DEBUG] LLM API error: {resp.status} - {error_text[:200]} (attempt {attempt + 1}/{max_retries})")
                             if attempt == max_retries - 1:
                                 return None
             
             except Exception as e:
-                print(f"LLM call failed: {e} (attempt {attempt + 1}/{max_retries})")
+                print(f"[DEBUG] LLM call exception: {type(e).__name__}: {e} (attempt {attempt + 1}/{max_retries})")
+                import traceback
+                print(f"[DEBUG] Traceback: {traceback.format_exc()[:500]}")
                 if attempt == max_retries - 1:
                     return None
                 

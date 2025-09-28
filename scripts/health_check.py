@@ -18,10 +18,10 @@ def check_database(db_config):
         cur.execute("SELECT 1")
         cur.close()
         conn.close()
-        print("✅ Database: Connected")
+        print("[OK] Database: Connected")
         return True
     except Exception as e:
-        print(f"❌ Database: {e}")
+        print(f"[FAIL] Database: {e}")
         return False
 
 def check_llm_endpoint(endpoint):
@@ -33,13 +33,13 @@ def check_llm_endpoint(endpoint):
             models = resp.json().get("data", [])
             chat_models = [m for m in models if not any(kw in m["id"].lower() 
                           for kw in ['embedding', 'embed'])]
-            print(f"✅ LLM Endpoint: {len(chat_models)} chat models available")
+            print(f"[OK] LLM Endpoint: {len(chat_models)} chat models available")
             return True
         else:
-            print(f"❌ LLM Endpoint: HTTP {resp.status_code}")
+            print(f"[FAIL] LLM Endpoint: HTTP {resp.status_code}")
             return False
     except Exception as e:
-        print(f"❌ LLM Endpoint: {e}")
+        print(f"[FAIL] LLM Endpoint: {e}")
         return False
 
 def check_config_files():
@@ -53,16 +53,16 @@ def check_config_files():
     all_good = True
     for config_file in configs:
         if Path(config_file).exists():
-            print(f"✅ Config: {config_file}")
+            print(f"[OK] Config: {config_file}")
         else:
-            print(f"❌ Config: {config_file} not found")
+            print(f"[FAIL] Config: {config_file} not found")
             all_good = False
     
     return all_good
 
 def main():
     """Run comprehensive health check"""
-    print("🔍 System Health Check")
+    print("[HEALTH] System Health Check")
     print("=" * 40)
     
     all_checks_passed = True
@@ -81,7 +81,7 @@ def main():
             all_checks_passed = False
             
     except Exception as e:
-        print(f"❌ Orchestrator config: {e}")
+        print(f"[FAIL] Orchestrator config: {e}")
         all_checks_passed = False
     
     # Check node config
@@ -94,15 +94,15 @@ def main():
             all_checks_passed = False
             
     except Exception as e:
-        print(f"❌ Node config: {e}")
+        print(f"[FAIL] Node config: {e}")
         all_checks_passed = False
     
     print("=" * 40)
     if all_checks_passed:
-        print("✅ All systems ready!")
+        print("[OK] All systems ready!")
         return 0
     else:
-        print("❌ Some checks failed - fix issues before starting")
+        print("[FAIL] Some checks failed - fix issues before starting")
         return 1
 
 if __name__ == "__main__":
