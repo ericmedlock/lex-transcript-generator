@@ -548,23 +548,25 @@ class MasterOrchestrator:
                 (stale_cutoff,)
             )
             
-            # Get detailed job completion data for rate calculation
+            # Get detailed job completion data for current run only
             cur.execute(
                 """SELECT n.hostname, n.capabilities, n.last_seen, n.status,
                    COUNT(j.id) as jobs_completed,
                    MIN(j.completed_at) as first_completion,
                    MAX(j.completed_at) as last_completion
                    FROM nodes n
-                   LEFT JOIN jobs j ON j.assigned_node_id = n.id AND j.status = 'completed' AND j.completed_at > NOW() - INTERVAL '10 minutes'
+                   LEFT JOIN jobs j ON j.assigned_node_id = n.id AND j.status = 'completed' 
+                   AND j.parameters::json->>'run_id' = %s
                    WHERE n.node_type = 'generation'
-                   GROUP BY n.hostname, n.capabilities, n.last_seen, n.status"""
+                   GROUP BY n.hostname, n.capabilities, n.last_seen, n.status""",
+                (str(self.current_run_id),)
             )
             node_stats = cur.fetchall()
             print(f"[DEBUG] Node stats query result: {node_stats}")
             
             # Calculate conversations rate
             cur.execute(
-                "SELECT COUNT(*), MIN(created_at), MAX(created_at) FROM conversations WHERE created_at > NOW() - INTERVAL '10 minutes'"
+                "SELECT COUNT(*), MIN(created_at), MAX(created_at) FROM conversations WHERE created_at > NOW() - INTERVAL '1 hour'"
             )
             conv_data = cur.fetchone()
             conv_count_recent, first_conv, last_conv = conv_data
