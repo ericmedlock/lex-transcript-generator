@@ -492,7 +492,7 @@ class MasterOrchestrator:
                 
                 self.nodes[hostname].update({
                     'last_seen': last_seen,
-                    'capabilities': json.loads(capabilities) if capabilities else [],
+                    'capabilities': capabilities if isinstance(capabilities, list) else (json.loads(capabilities) if capabilities else []),
                     'jobs_per_hour': jobs_completed,
                     'status': 'healthy' if (datetime.now() - last_seen).seconds < node_timeout else 'stale'
                 })
