@@ -9,27 +9,32 @@ from pathlib import Path
 class PiStartupManager:
     def __init__(self):
         self.models_dir = Path("/home/ericm/models")
-        self.model_path = self.models_dir / "phi-3-mini-4k-instruct.Q4_K_M.gguf"
-        self.model_url = "https://huggingface.co/microsoft/Phi-3-mini-4K-instruct-gguf/resolve/main/Phi-3-mini-4K-instruct-q4.gguf"
+        # Use existing models instead of downloading
+        self.available_models = [
+            "gemma-2-2b-it-q4_k_m.gguf",
+            "nomic-embed-text-v1.5-q8_0.gguf"
+        ]
+        self.model_path = None
     
     def setup(self):
         """Setup Pi environment"""
         print("[PI] Setting up Raspberry Pi environment...")
         
-        # Create models directory
+        # Check for existing models
         self.models_dir.mkdir(parents=True, exist_ok=True)
         
-        # Download model if not exists
-        if not self.model_path.exists():
-            print(f"[PI] Downloading model to {self.model_path}...")
-            try:
-                urllib.request.urlretrieve(self.model_url, self.model_path)
-                print("[PI] Model downloaded successfully")
-            except Exception as e:
-                print(f"[PI] Model download failed: {e}")
-                return False
-        else:
-            print("[PI] Model already exists")
+        # Find available chat model (not embedding)
+        for model_name in self.available_models:
+            model_path = self.models_dir / model_name
+            if model_path.exists() and "embed" not in model_name.lower():
+                self.model_path = model_path
+                print(f"[PI] Found model: {model_name}")
+                break
+        
+        if not self.model_path:
+            print(f"[PI] No chat models found in {self.models_dir}")
+            print(f"[PI] Looking for: {self.available_models}")
+            return False
         
         # Set CPU governor to performance
         try:
@@ -42,7 +47,7 @@ class PiStartupManager:
     
     def get_model_path(self):
         """Get path to model file"""
-        return str(self.model_path)
+        return str(self.model_path) if self.model_path else None
     
     def teardown(self):
         """Cleanup Pi resources"""
