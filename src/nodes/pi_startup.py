@@ -8,7 +8,9 @@ from pathlib import Path
 
 class PiStartupManager:
     def __init__(self):
-        self.models_dir = Path("/home/ericm/models")
+        # Look in project's pi install scripts/models directory
+        project_root = Path(__file__).parent.parent.parent
+        self.models_dir = project_root / "pi install scripts" / "models"
         # Look for the actual model files you have
         self.expected_models = [
             "gemma-2-2b-it-q4_k_m.gguf",
