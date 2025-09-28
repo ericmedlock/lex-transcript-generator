@@ -963,15 +963,22 @@ User:"""
     
     def parse_multiple_conversations(self, text, scenario_name):
         """Parse multiple conversations from single LLM response"""
+        print(f"[DEBUG] Parsing response: {len(text)} chars")
+        print(f"[DEBUG] First 500 chars: {text[:500]}")
+        
         # Split by conversation separator
         conversation_texts = text.split("---CONVERSATION---")
+        print(f"[DEBUG] Found {len(conversation_texts)} conversation blocks")
+        
         conversations = []
         
-        for conv_text in conversation_texts:
+        for i, conv_text in enumerate(conversation_texts):
             conv_text = conv_text.strip()
             if not conv_text:
                 continue
                 
+            print(f"[DEBUG] Processing block {i+1}: {len(conv_text)} chars")
+            
             # Remove conversation number headers
             lines = conv_text.split('\n')
             clean_lines = []
@@ -984,13 +991,18 @@ User:"""
                 conversation = self.format_conversation('\n'.join(clean_lines), scenario_name)
                 if conversation and conversation.get("Transcript"):
                     conversations.append(conversation)
+                    print(f"[DEBUG] Successfully parsed conversation {i+1} with {len(conversation.get('Transcript', []))} turns")
+                else:
+                    print(f"[DEBUG] Failed to parse conversation {i+1}")
         
         # If no separator found, treat as single conversation
         if not conversations:
+            print(f"[DEBUG] No separators found, treating as single conversation")
             conversation = self.format_conversation(text, scenario_name)
             if conversation and conversation.get("Transcript"):
                 conversations.append(conversation)
         
+        print(f"[DEBUG] Total conversations parsed: {len(conversations)}")
         return conversations
     
     def format_conversation(self, text, scenario_name):
