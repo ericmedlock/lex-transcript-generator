@@ -3,7 +3,6 @@
 *.bin
 *.safetensors
 models/
-pi install scripts/
 
 # Training data
 Training Datasets/
