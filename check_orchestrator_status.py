@@ -11,6 +11,7 @@ def check_status():
         'database': 'calllab',
         'user': 'postgres',
         'password': 'pass'
+
     }
     
     try:
