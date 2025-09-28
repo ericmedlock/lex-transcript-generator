@@ -51,9 +51,9 @@ def clean_tables():
     for table in tables_to_clean:
         try:
             cur.execute(f"TRUNCATE TABLE {table} CASCADE")
-            print(f"✓ Cleaned {table}")
+            print(f"[OK] Cleaned {table}")
         except Exception as e:
-            print(f"⚠ Could not clean {table}: {e}")
+            print(f"[WARN] Could not clean {table}: {e}")
     
     conn.commit()
     cur.close()
