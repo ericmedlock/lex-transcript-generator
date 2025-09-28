@@ -828,9 +828,12 @@ Now generate a conversation using this guidance:
             try:
                 # Use llama.cpp direct calls for Pi, HTTP for others
                 if self.is_pi and self.llama_model:
-                    # Direct llama.cpp call
+                    # Direct llama.cpp call with extra randomization
                     try:
-                        response = self.llama_model(prompt, max_tokens=max_tokens, temperature=temperature)
+                        # Add random seed for more variety
+                        import random
+                        seed = random.randint(1, 1000000)
+                        response = self.llama_model(prompt, max_tokens=max_tokens, temperature=temperature, seed=seed)
                         end_time = datetime.now()
                         duration_ms = int((end_time - start_time).total_seconds() * 1000)
                         

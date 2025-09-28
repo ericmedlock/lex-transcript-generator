@@ -28,6 +28,7 @@ class DedupeManager:
         return {
             # Deterministic models - use hash-only
             "gemma": {"hash_only": True, "threshold": 0.95},
+            "llama.cpp": {"hash_only": True, "threshold": 0.95},
             "phi": {"hash_only": True, "threshold": 0.90},
             "llama": {"hash_only": False, "threshold": 0.85},
             # Creative models - use semantic similarity
