@@ -21,6 +21,33 @@ class DedupeManager:
         }
         self.embedding_endpoint = "http://localhost:1234/v1"
         self.embedding_model = self.detect_embedding_model()
+        self.model_profiles = self._init_model_profiles()
+    
+    def _init_model_profiles(self):
+        """Initialize model-specific deduplication strategies"""
+        return {
+            # Deterministic models - use hash-only
+            "gemma": {"hash_only": True, "threshold": 0.95},
+            "phi": {"hash_only": True, "threshold": 0.90},
+            "llama": {"hash_only": False, "threshold": 0.85},
+            # Creative models - use semantic similarity
+            "gpt": {"hash_only": False, "threshold": 0.75},
+            "claude": {"hash_only": False, "threshold": 0.75},
+            # Default fallback
+            "default": {"hash_only": False, "threshold": 0.85}
+        }
+    
+    def get_dedup_strategy(self, model_name):
+        """Get deduplication strategy for specific model"""
+        model_lower = model_name.lower()
+        
+        for model_key, profile in self.model_profiles.items():
+            if model_key in model_lower:
+                print(f"[DEDUPE] Using {model_key} profile for {model_name}: hash_only={profile['hash_only']}, threshold={profile['threshold']}")
+                return profile
+        
+        print(f"[DEDUPE] Using default profile for {model_name}")
+        return self.model_profiles["default"]
         
     def get_db(self):
         return psycopg2.connect(**self.db_config)
@@ -112,10 +139,16 @@ class DedupeManager:
         
         return hashlib.sha256(content_text.encode()).hexdigest()
     
-    def is_duplicate(self, run_number, conversation_content, node_id, similarity_threshold=0.85, hash_only=False):
-        """Check if conversation is duplicate in current run"""
+    def is_duplicate(self, run_number, conversation_content, node_id, similarity_threshold=0.85, hash_only=False, model_name=None):
+        """Check if conversation is duplicate in current run with model-specific strategy"""
         conn = self.get_db()
         cur = conn.cursor()
+        
+        # Use model-specific strategy if model_name provided
+        if model_name:
+            strategy = self.get_dedup_strategy(model_name)
+            hash_only = strategy["hash_only"]
+            similarity_threshold = strategy["threshold"]
         
         # Generate hash and embedding
         conv_hash = self.hash_conversation(conversation_content)

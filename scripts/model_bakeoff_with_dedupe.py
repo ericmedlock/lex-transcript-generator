@@ -97,27 +97,62 @@ def init_deduplication(config):
         return None
 
 def fetch_available_models(base_url, api_key, timeout_s):
-    """Fetch available models from API"""
+    """Fetch available models from API with enhanced error handling"""
+    print(f"\n[MODEL API] Fetching models from {base_url}/models")
+    
     try:
         headers = {"Authorization": f"Bearer {api_key}"}
         response = requests.get(f"{base_url}/models", headers=headers, timeout=timeout_s)
-        response.raise_for_status()
         
+        print(f"[MODEL API] Response status: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"[MODEL API] Error response: {response.text}")
+            return []
+        
+        response.raise_for_status()
         data = response.json()
-        return [model["id"] for model in data.get("data", [])]
+        
+        models = [model["id"] for model in data.get("data", [])]
+        print(f"[MODEL API] Successfully fetched {len(models)} models")
+        
+        return models
+        
+    except requests.exceptions.Timeout:
+        print(f"[MODEL API] Timeout after {timeout_s}s - LM Studio may not be running")
+        return []
+    except requests.exceptions.ConnectionError:
+        print(f"[MODEL API] Connection failed - check if LM Studio is running on {base_url}")
+        return []
     except Exception as e:
-        print(f"Error fetching models: {e}")
+        print(f"[MODEL API] Unexpected error: {e}")
         return []
 
 def get_candidate_models(available_models):
-    """Filter out embedding models"""
+    """Filter out embedding models with detailed logging"""
     chat_models = []
+    embedding_keywords = ['embedding', 'embed', 'bge-', 'e5-', 'nomic-embed', 'text-embedding']
+    
+    print(f"\n[MODEL FILTER] Processing {len(available_models)} available models:")
+    
     for model in available_models:
         model_lower = model.lower()
-        if any(skip in model_lower for skip in ['embedding', 'embed', 'bge-', 'e5-', 'nomic-embed']):
-            print(f"Skipping embedding model: {model}")
-            continue
-        chat_models.append(model)
+        is_embedding = False
+        matched_keyword = None
+        
+        for keyword in embedding_keywords:
+            if keyword in model_lower:
+                is_embedding = True
+                matched_keyword = keyword
+                break
+        
+        if is_embedding:
+            print(f"  ❌ SKIP: {model} (matched: '{matched_keyword}')")
+        else:
+            print(f"  ✅ KEEP: {model}")
+            chat_models.append(model)
+    
+    print(f"\n[MODEL FILTER] Result: {len(chat_models)} chat models, {len(available_models) - len(chat_models)} filtered")
     return chat_models
 
 def detect_system_info():

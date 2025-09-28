@@ -11,9 +11,86 @@ import socket
 import subprocess
 import platform
 from datetime import datetime, timedelta
+from pathlib import Path
+
+class ConfigManager:
+    """Enhanced configuration management"""
+    
+    def __init__(self, config_path="config/config.json"):
+        self.config_path = config_path
+        self.config = self.load_config()
+    
+    def load_config(self):
+        """Load configuration with validation"""
+        try:
+            with open(self.config_path, 'r') as f:
+                config = json.load(f)
+            
+            # Validate critical settings
+            self.validate_config(config)
+            return config
+        except Exception as e:
+            print(f"Config load error: {e}, using defaults")
+            return self.get_default_config()
+    
+    def validate_config(self, config):
+        """Validate configuration settings"""
+        # Check target calculations
+        trials = config.get("trials", 1)
+        conversations_per_trial = config.get("conversations_per_trial", 1)
+        
+        if trials <= 0 or conversations_per_trial <= 0:
+            raise ValueError("trials and conversations_per_trial must be positive")
+        
+        # Validate resource limits
+        resource_mgmt = config.get("resource_management", {})
+        cpu_limit = resource_mgmt.get("cpu_limit_idle", 80)
+        
+        if cpu_limit <= 0 or cpu_limit > 100:
+            raise ValueError("CPU limits must be between 1-100")
+        
+        print(f"[CONFIG] Validated: {trials} trials × {conversations_per_trial} conversations")
+    
+    def get_default_config(self):
+        """Default configuration"""
+        return {
+            "machine_name": socket.gethostname(),
+            "trials": 5,
+            "conversations_per_trial": 1,
+            "temperature": 0.9,
+            "max_tokens": 2000,
+            "timeout_s": 60,
+            "deduplication": {
+                "enabled": True,
+                "similarity_threshold": 0.85,
+                "hash_only": False
+            },
+            "resource_management": {
+                "activity_detection": True,
+                "cpu_limit_idle": 80,
+                "gpu_limit_idle": 70
+            }
+        }
+    
+    def get(self, key, default=None):
+        """Get configuration value"""
+        return self.config.get(key, default)
+    
+    def setup_output_directory(self, job_type, job_id):
+        """Create machine-specific output directory"""
+        machine_name = self.config.get("machine_name", "unknown")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_dir = Path("output") / machine_name / f"{job_type}_{job_id}_{timestamp}"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        return output_dir
+    
+    def generate_filename(self, file_type, extension="csv"):
+        """Generate machine-prefixed filename"""
+        machine_name = self.config.get("machine_name", "unknown")
+        return f"{machine_name}_{file_type}.{extension}"
 
 class MasterOrchestrator:
-    def __init__(self):
+    def __init__(self, config_path="config/config.json"):
         self.db_config = {
             'host': 'EPM_DELL',
             'port': 5432,
@@ -30,6 +107,7 @@ class MasterOrchestrator:
         self.network_check_timeout = 5  # seconds
         self.preferred_master = 'EPM_DELL'
         self.takeover_signal_sent = False
+        self.config_manager = ConfigManager(config_path)
         
     def get_db(self):
         """Get database connection"""

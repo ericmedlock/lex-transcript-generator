@@ -11,8 +11,162 @@ import socket
 import aiohttp
 import sys
 import os
+import random
 from datetime import datetime
 from pathlib import Path
+
+class ModelManager:
+    """Enhanced model discovery and management"""
+    
+    def __init__(self, llm_endpoint):
+        self.llm_endpoint = llm_endpoint
+        self.available_models = []
+        self.chat_models = []
+        self.last_discovery = None
+        
+    async def discover_models(self):
+        """Robust model detection with fallbacks"""
+        print(f"[MODEL] Discovering models from {self.llm_endpoint}")
+        
+        try:
+            async with aiohttp.ClientSession() as session:
+                models_url = self.llm_endpoint.replace('/chat/completions', '/models')
+                async with session.get(models_url, timeout=10) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        self.available_models = [model["id"] for model in data.get("data", [])]
+                        print(f"[MODEL] Found {len(self.available_models)} models: {self.available_models}")
+                    else:
+                        print(f"[MODEL] API error {resp.status}, using fallback")
+                        self.available_models = ["microsoft/phi-4-mini-reasoning"]
+        except Exception as e:
+            print(f"[MODEL] Discovery failed: {e}, using fallback")
+            self.available_models = ["microsoft/phi-4-mini-reasoning"]
+        
+        # Filter embedding models
+        self.chat_models = self._filter_chat_models()
+        self.last_discovery = datetime.now()
+        
+        return self.chat_models
+    
+    def _filter_chat_models(self):
+        """Filter out embedding models"""
+        embedding_keywords = ['embedding', 'embed', 'bge-', 'e5-', 'nomic-embed', 'text-embedding']
+        chat_models = []
+        
+        for model in self.available_models:
+            model_lower = model.lower()
+            is_embedding = any(keyword in model_lower for keyword in embedding_keywords)
+            
+            if not is_embedding:
+                chat_models.append(model)
+            else:
+                print(f"[MODEL] Filtered embedding model: {model}")
+        
+        print(f"[MODEL] Chat models available: {chat_models}")
+        return chat_models
+    
+    async def get_best_model(self):
+        """Get best available model"""
+        if not self.chat_models or not self.last_discovery:
+            await self.discover_models()
+        
+        return self.chat_models[0] if self.chat_models else "microsoft/phi-4-mini-reasoning"
+    
+    async def validate_model(self, model_name):
+        """Test if model is actually available"""
+        try:
+            async with aiohttp.ClientSession() as session:
+                test_payload = {
+                    "model": model_name,
+                    "messages": [{"role": "user", "content": "test"}],
+                    "max_tokens": 1
+                }
+                async with session.post(self.llm_endpoint, json=test_payload, timeout=5) as resp:
+                    return resp.status == 200
+        except:
+            return False
+
+class PromptManager:
+    """Intelligent prompt generation with randomization"""
+    
+    def __init__(self):
+        self.scenario_variations = {
+            "healthcare": [
+                "New patient scheduling first appointment",
+                "Existing patient rescheduling appointment", 
+                "Patient calling for urgent same-day appointment",
+                "Patient scheduling follow-up after procedure",
+                "Patient calling to cancel and reschedule"
+            ],
+            "retail": [
+                "Customer placing new order",
+                "Customer checking order status",
+                "Customer requesting return/exchange",
+                "Customer with product inquiry",
+                "Customer with billing question"
+            ]
+        }
+        
+        self.patient_types = [
+            "Elderly patient with hearing difficulties",
+            "Busy working parent with limited availability", 
+            "Anxious first-time patient",
+            "Regular patient who knows the system",
+            "Patient with insurance questions"
+        ]
+        
+        self.complications = [
+            "Insurance verification needed",
+            "Specific doctor preference",
+            "Transportation limitations", 
+            "Work schedule conflicts",
+            "Multiple family members need appointments"
+        ]
+    
+    def generate_varied_prompt(self, base_scenario, scenario_name, min_turns=20, max_turns=40):
+        """Generate randomized prompt to reduce duplicates"""
+        
+        # Determine scenario type
+        scenario_type = "healthcare" if "healthcare" in scenario_name.lower() else "retail"
+        
+        # Add randomization
+        if scenario_type in self.scenario_variations:
+            scenario_detail = random.choice(self.scenario_variations[scenario_type])
+            patient_type = random.choice(self.patient_types)
+            complication = random.choice(self.complications)
+            
+            enhanced_prompt = f"""Generate a realistic {scenario_type} conversation with these details:
+
+Scenario: {scenario_detail}
+Customer type: {patient_type}
+Complication: {complication}
+
+Base scenario: {base_scenario}
+
+Requirements:
+- Length: {min_turns} to {max_turns} turns
+- Format: alternating User: and Agent: lines
+- Natural, realistic dialogue
+- Include realistic hesitations and corrections
+- Address the specific complication mentioned
+
+Generate ONLY the conversation, no commentary:"""
+        else:
+            # Fallback to base scenario
+            enhanced_prompt = f"""Generate a realistic conversation for: {scenario_name}
+
+{base_scenario}
+
+Requirements:
+- Length: {min_turns} to {max_turns} turns
+- Format: alternating User: and Agent: lines
+- Natural, realistic dialogue
+- Include realistic hesitations and corrections
+
+Generate ONLY the conversation, no commentary:"""
+        
+        return enhanced_prompt
 
 class GenerationNode:
     def __init__(self, llm_endpoint="http://127.0.0.1:1234/v1/chat/completions", max_jobs=None):
@@ -33,6 +187,8 @@ class GenerationNode:
         self.dedupe_manager = self.init_dedupe()
         self.current_run_id = None
         self.current_run_number = None
+        self.model_manager = ModelManager(llm_endpoint)
+        self.prompt_manager = PromptManager()
         
     def get_db(self):
         """Get database connection"""
@@ -192,7 +348,7 @@ class GenerationNode:
                         
                         if self.dedupe_manager and run_number:
                             is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
-                                run_number, conversation, self.hostname, 0.85
+                                run_number, conversation, self.hostname, 0.85, False, metadata.get("model_name")
                             )
                         
                         if is_duplicate:
@@ -247,20 +403,8 @@ class GenerationNode:
             await asyncio.sleep(5)  # Check every 5 seconds
     
     async def get_available_model(self):
-        """Get first available model from LM Studio using config"""
-        try:
-            # Get first available model from API
-            async with aiohttp.ClientSession() as session:
-                async with session.get(f"{self.llm_endpoint.replace('/chat/completions', '/models')}", timeout=10) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        models = data.get("data", [])
-                        if models:
-                            return models[0]["id"]
-        except Exception as e:
-            print(f"Could not get models, using default: {e}")
-        
-        return "microsoft/phi-4-mini-reasoning"  # Fallback
+        """Get best available model using ModelManager"""
+        return await self.model_manager.get_best_model()
     
     async def generate_conversation(self, scenario_id, parameters):
         """Generate a conversation using LLM"""
@@ -289,36 +433,22 @@ class GenerationNode:
         # Search for similar conversations
         rag_examples = self.rag_search(f"{scenario_name} {template}", limit=3)
         
-        # Build enhanced prompt with examples
+        # Generate varied prompt using PromptManager
+        base_prompt = self.prompt_manager.generate_varied_prompt(
+            template, scenario_name, min_turns, max_turns
+        )
+        
+        # Enhance with RAG examples if available
         if rag_examples:
             prompt = f"""Based on these real conversation examples:
 
 {rag_examples}
 
-Now generate a similar realistic conversation for: {scenario_name}
+Now generate a conversation using this guidance:
 
-{template}
-
-Requirements:
-- Length: {min_turns} to {max_turns} turns
-- Format: alternating User: and Agent: lines
-- Natural, realistic dialogue like the examples above
-- Include realistic hesitations and corrections
-
-Generate ONLY the conversation, no commentary:"""
+{base_prompt}"""
         else:
-            # Fallback to original prompt if no RAG examples
-            prompt = f"""Generate a realistic conversation for: {scenario_name}
-
-{template}
-
-Requirements:
-- Length: {min_turns} to {max_turns} turns
-- Format: alternating User: and Agent: lines
-- Natural, realistic dialogue
-- Include realistic hesitations and corrections
-
-Generate ONLY the conversation, no commentary:"""
+            prompt = base_prompt
         
         start_time = datetime.now()
         
