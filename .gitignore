@@ -1,43 +1,35 @@
+# Models and large files
+*.gguf
+*.bin
+*.safetensors
+models/
+pi install scripts/
+
+# Training data
+Training Datasets/
+*.json
+
 # Python
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
-*.egg-info/
-dist/
-build/
-
-# Virtual envs
 .venv/
 venv/
-env/
 
-# Environment variables
-.env
-.env.*
+# Output directories
+output/
+out/
+lex_export/
+logs/
 
-# Configuration files (per-hostname configs are tracked)
-# config/config.json  # Legacy - now using per-hostname configs
-
-
-
-# PyCharm / JetBrains
+# IDE
 .idea/
-*.iml
-
-# VS Code
 .vscode/
 
-# OS junk
+# OS
 .DS_Store
 Thumbs.db
 
-# Generated outputs
-conversation_dump_*.txt
-
-# Model files
-models/
-*.gguf
-*.bin
-*.safetensors
-/lex_export/
+# Temporary files
+*.tmp
+*.log
