@@ -8,6 +8,7 @@ import csv
 import os
 import time
 import psycopg2
+from psycopg2 import errors
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -316,6 +317,32 @@ Respond ONLY with JSON format:
             )
         """)
         
+        # Check if table has correct schema and fix if needed
+        try:
+            # Test if all required columns exist
+            cur.execute("SELECT healthcare_valid, brief_feedback FROM conversation_grades LIMIT 0")
+            print("[SCHEMA] conversation_grades table schema is correct")
+        except Exception as schema_error:
+            print(f"[SCHEMA ERROR] Table exists but schema is incorrect: {schema_error}")
+            print("[SCHEMA] Attempting to add missing columns...")
+            
+            # Try to add missing columns
+            columns_to_add = [
+                ("healthcare_valid", "BOOLEAN"),
+                ("brief_feedback", "TEXT")
+            ]
+            
+            for column_name, column_type in columns_to_add:
+                try:
+                    cur.execute(f"ALTER TABLE conversation_grades ADD COLUMN {column_name} {column_type}")
+                    print(f"[SCHEMA] Successfully added column: {column_name}")
+                except Exception as add_error:
+                    if "already exists" in str(add_error).lower():
+                        print(f"[SCHEMA] Column {column_name} already exists")
+                    else:
+                        print(f"[SCHEMA ERROR] Failed to add column {column_name}: {add_error}")
+                        raise Exception(f"Cannot fix conversation_grades schema. Please run drop_grades_table.py and try again. Error: {add_error}")
+        
         # Create index for faster lookups
         cur.execute("""
             CREATE INDEX IF NOT EXISTS idx_conversation_grades_conversation_id 
@@ -326,7 +353,7 @@ Respond ONLY with JSON format:
         cur.close()
         conn.close()
         
-        print("Grading schema setup complete")
+        print("[SCHEMA] Grading schema setup complete")
     
     def delete_invalid_conversation(self, conversation_id):
         """Delete conversation that failed healthcare validation"""
