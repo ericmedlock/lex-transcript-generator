@@ -56,14 +56,26 @@ def clean_tables():
     
     print("Cleaning transaction tables...")
     
-    # Reset run counter first
+    # Reset run counter to 0
     try:
         cur.execute("UPDATE run_counter SET current_run = 0")
-        print("[OK] Reset run counter")
+        print("[OK] Reset run counter to 0")
     except Exception as e:
         print(f"[WARN] Could not reset run counter: {e}")
     
-    for table in tables_to_clean:
+    # Delete in correct order (conversations first, then jobs)
+    try:
+        cur.execute("DELETE FROM conversations")
+        cur.execute("DELETE FROM conversation_grades")
+        cur.execute("DELETE FROM jobs")
+        cur.execute("DELETE FROM nodes WHERE node_type != 'master'")
+        print(f"[OK] Force deleted all data")
+    except Exception as e:
+        print(f"[WARN] Could not force delete: {e}")
+    
+    # Truncate remaining tables
+    remaining_tables = ["dedupe_runs"]
+    for table in remaining_tables:
         try:
             cur.execute(f"TRUNCATE TABLE {table} CASCADE")
             print(f"[OK] Cleaned {table}")
