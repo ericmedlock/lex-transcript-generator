@@ -19,6 +19,8 @@ class DedupeManager:
             'user': 'postgres',
             'password': 'pass'
         }
+        # In-memory hash cache for speed
+        self.hash_cache = set()
         self.embedding_endpoint = "http://localhost:1234/v1"
         self.embedding_model = self.detect_embedding_model()
         self.model_profiles = self._init_model_profiles()
@@ -152,12 +154,20 @@ class DedupeManager:
         # Generate hash and embedding
         conv_hash = self.hash_conversation(conversation_content)
         
-        # Check exact hash match first
+        # Check in-memory cache first (fastest)
+        cache_key = f"{run_number}:{conv_hash}"
+        if cache_key in self.hash_cache:
+            cur.close()
+            conn.close()
+            return True, "cached_hash"
+        
+        # Check exact hash match in database
         cur.execute(
             f"SELECT id FROM dedupe_conversations_run_{run_number} WHERE conversation_hash = %s",
             (conv_hash,)
         )
         if cur.fetchone():
+            self.hash_cache.add(cache_key)  # Cache for next time
             cur.close()
             conn.close()
             return True, "exact_hash"
@@ -196,6 +206,9 @@ class DedupeManager:
                VALUES (%s, %s, %s, %s, %s)""",
             (conv_hash, embedding, content_preview, node_id, json.dumps(metadata))
         )
+        
+        # Add to memory cache
+        self.hash_cache.add(cache_key)
         
         conn.commit()
         cur.close()

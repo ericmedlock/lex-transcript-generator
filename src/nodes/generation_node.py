@@ -256,7 +256,7 @@ class GenerationNode:
             
             self.llama_model = Llama(
                 model_path=model_path, 
-                n_ctx=2048, 
+                n_ctx=8192,  # 4x larger context for bigger batches
                 verbose=False,
                 n_threads=4  # Pi5 has 4 cores
             )
@@ -809,6 +809,10 @@ class GenerationNode:
         
         # Generate prompt for multiple conversations
         conversations_count = parameters.get("conversations_per_job", 1)
+        
+        # Pi optimization: generate larger batches
+        if self.is_pi and conversations_count < 50:
+            conversations_count = min(50, conversations_count * 5)  # 5x batch size for Pi
         
         if rag_examples:
             prompt = f"""Based on these real conversation examples:
