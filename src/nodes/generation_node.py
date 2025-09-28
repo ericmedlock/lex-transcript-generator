@@ -530,7 +530,10 @@ class GenerationNode:
             await self.shutdown()
     
     async def job_processor_loop(self):
-        """Pull and process available jobs"""
+        """Pull and process available jobs with timeout"""
+        last_job_time = time.time()
+        timeout_minutes = 10
+        
         while self.running:
             conn = self.get_db()
             cur = conn.cursor()
@@ -547,6 +550,7 @@ class GenerationNode:
             if job:
                 job_id, scenario_id, parameters = job
                 params = parameters if isinstance(parameters, dict) else json.loads(parameters or "{}")
+                last_job_time = time.time()  # Reset timeout
                 
                 print(f"Claimed job: {job_id[:8]}")
                 
@@ -591,15 +595,19 @@ class GenerationNode:
                                     "retry_attempt": metadata.get("attempt", 1)
                                 }
                                 
+                                # Get run_id from job parameters
+                                run_id = params.get('run_id', 1)
+                                
                                 cur.execute(
                                     """INSERT INTO conversations 
                                        (id, job_id, scenario_id, content, quality_score, model_name, 
-                                        generation_start_time, generation_end_time, generation_duration_ms, evaluation_metrics) 
-                                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                                        generation_start_time, generation_end_time, generation_duration_ms, 
+                                        evaluation_metrics, run_id) 
+                                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                                     (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
                                      metadata.get("model_name"), metadata.get("start_time"), 
                                      metadata.get("end_time"), metadata.get("duration_ms"), 
-                                     json.dumps(perf_metrics))
+                                     json.dumps(perf_metrics), run_id)
                                 )
                                 
                                 # Track completed conversation for grading
@@ -642,6 +650,12 @@ class GenerationNode:
                 
                 conn.commit()
             else:
+                # Check timeout - no jobs for 10 minutes
+                if time.time() - last_job_time > (timeout_minutes * 60):
+                    print(f"⏰ No jobs available for {timeout_minutes} minutes. Shutting down gracefully.")
+                    self.running = False
+                    break
+                
                 # No jobs available, wait longer
                 await asyncio.sleep(10)
                 continue

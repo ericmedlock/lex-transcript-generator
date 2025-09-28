@@ -196,6 +196,9 @@ class MasterOrchestrator:
         self.network_check_timeout = self.config_manager.get("network_check_timeout", 5)
         self.preferred_master = self.config_manager.get("preferred_master", 'EPM_DELL')
         self.takeover_signal_sent = False
+        self.current_run_id = None
+        self.target_jobs = 0
+        self.jobs_created = 0
         self.setup_signal_handlers()
     
     def setup_signal_handlers(self):
@@ -326,11 +329,24 @@ class MasterOrchestrator:
                 (self.master_id, self.hostname, "master", "online", json.dumps(["orchestration", "job_scheduling"]))
             )
         
+        # Get next run ID
+        try:
+            cur.execute(
+                "UPDATE run_counter SET current_run = current_run + 1 RETURNING current_run"
+            )
+            result = cur.fetchone()
+            if result:
+                self.current_run_id = result[0]
+            else:
+                self.current_run_id = 1
+        except:
+            self.current_run_id = 1
+        
         conn.commit()
         cur.close()
         conn.close()
         
-        print(f"Registered master node: {self.master_id[:8]} ({self.hostname})")
+        print(f"Registered master node: {self.master_id[:8]} ({self.hostname}) - Run {self.current_run_id}")
     
     async def start(self):
         """Start the master orchestrator"""
@@ -370,17 +386,22 @@ class MasterOrchestrator:
             await asyncio.gather(*tasks)
         except KeyboardInterrupt:
             print("\nShutting down...")
-            # Mark master as offline
-            conn = self.get_db()
-            cur = conn.cursor()
-            cur.execute(
-                "UPDATE nodes SET status = 'offline' WHERE id = %s",
-                (self.master_id,)
-            )
-            conn.commit()
-            cur.close()
-            conn.close()
             self.running = False
+        finally:
+            # Mark master as offline
+            try:
+                conn = self.get_db()
+                cur = conn.cursor()
+                cur.execute(
+                    "UPDATE nodes SET status = 'offline' WHERE id = %s",
+                    (self.master_id,)
+                )
+                conn.commit()
+                cur.close()
+                conn.close()
+                print(f"✅ Master node {self.hostname} marked offline")
+            except Exception as e:
+                print(f"Error during cleanup: {e}")
     
     async def node_discovery_loop(self):
         """Discover and track worker nodes"""
@@ -452,16 +473,19 @@ class MasterOrchestrator:
                     job_params = {
                         "conversations_per_job": conversations_per_job,
                         "min_turns": 20,
-                        "max_turns": 40
+                        "max_turns": 40,
+                        "run_id": self.current_run_id
                     }
                     
                     cur.execute(
                         "INSERT INTO jobs (id, scenario_id, status, parameters) VALUES (%s, %s, 'pending', %s)",
                         (job_id, scenario_id, json.dumps(job_params))
                     )
+                    self.jobs_created += 1
                 
+                self.target_jobs = total_jobs_needed
                 jobs_created = True
-                print(f"Created {total_jobs_needed} jobs")
+                print(f"Created {total_jobs_needed} jobs for Run {self.current_run_id}")
             
             # Maintain pending queue size
             elif pending_count < pending_queue_size and total_jobs_created < total_jobs_needed:
@@ -519,6 +543,13 @@ class MasterOrchestrator:
             
             cur.execute("SELECT COUNT(*) FROM conversations")
             conv_count = cur.fetchone()[0]
+            
+            # Check if all jobs completed - shutdown orchestrator
+            if self.target_jobs > 0 and completed_count >= self.target_jobs:
+                print(f"\n🏁 All {self.target_jobs} jobs completed! Run {self.current_run_id} finished.")
+                print(f"Generated {conv_count} total conversations. Shutting down orchestrator.")
+                self.running = False
+                return
             
             # Debug: Check what nodes and jobs we have
             cur.execute("SELECT hostname, node_type, status FROM nodes")
@@ -598,7 +629,7 @@ class MasterOrchestrator:
                 'avg_jobs_per_node': round(avg_jobs_per_node, 1)
             }
             
-            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations, {stats['conversations_per_minute']}/min (total: {stats['total_jobs_per_minute']} jobs/min)")
+            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['completed_jobs']}/{self.target_jobs} completed, {stats['conversations']} conversations, {stats['conversations_per_minute']}/min (Run {self.current_run_id})")
             
             # Log node performance
             for hostname, node_data in self.nodes.items():
@@ -729,9 +760,13 @@ class MasterOrchestrator:
         
         job_id = str(uuid.uuid4())
         
+        # Add run_id to job parameters
+        job_params = parameters or {}
+        job_params['run_id'] = self.current_run_id or 1
+        
         cur.execute(
             "INSERT INTO jobs (id, scenario_id, parameters) VALUES (%s, %s, %s)",
-            (job_id, scenario[0], json.dumps(parameters or {}))
+            (job_id, scenario[0], json.dumps(job_params))
         )
         
         conn.commit()
