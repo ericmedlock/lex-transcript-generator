@@ -1,0 +1,134 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hello? Is this <NAME>? I need to make an urgent appointment.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "<NAME> can help you today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "It’s <NAME>’s grandson. He's been terribly ill – really unwell. I think it’s a serious problem. <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Okay, I understand. Can you tell me a little more about what’s happening? Just breathe and take your time.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Well… he’s been having trouble breathing, just really struggling to breathe, and his skin is getting very pale. He’s been so weak too. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Thank you for that information. I appreciate you sharing that with me. Could you tell me a bit about your grandson’s medical history? Any known allergies or medications he’s taking? <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Oh dear… well, he has arthritis in his knees, and we use some painkillers regularly – <NAME> for painkillers, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Thank you for letting me know about those details. <NAME> verification is required to ensure we can provide the best care. Do you have your <PHONE> card handy?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "I... I think so. It’s in my purse. It’s a little tricky, you see… my hearing isn’t what it used to be. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Absolutely understandable. Let’s go through this step by step. Could you repeat the name of your insurance company and policy number for me? Just so we can confirm everything properly. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "It’s <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Thank you, <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "Oh, goodness! That sounds stressful. I just want him to be okay. <NAME> for him, <PHONE> for his phone number, <EMAIL> for his email, <DATE> for the date, <ADDRESS> for his address, <ID> for his ID number, <INSURANCEID> for his insurance ID.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "I completely understand your worry, <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs. We’ll need to schedule an appointment as soon as possible. Do you have a preferred time slot in mind?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "Well, it would be good if we could get something early in the morning, maybe around 8 AM? I'm not very talkative these days. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Let me check availability for you. (Typing quickly) We have openings at <DATE> and <DATE>. Would either of those work for you?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "The <DATE> would be good, please. It’s a little late for me, honestly. <PHONE> would be good. <EMAIL> would be good. <ID> would be good. <INSURANCEID> would be good.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "Alright, let’s get that scheduled. Just to confirm, you're looking for an appointment for your grandson with <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000019",
+      "Content": "Yes, that’s right. Thank you so much! It feels a little overwhelming, but I appreciate you taking care of it all. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000020",
+      "Content": "You're very welcome, <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs. We want to ensure your <GRANDSON> receives the best possible medical attention. We’ll send you a confirmation email shortly with all the details. Do you have any other questions at this time?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000021",
+      "Content": "<NAME> really.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000022",
+      "Content": "You're very welcome. Have a good day and I hope your grandson feels better soon. Goodbye. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "7d52f1d1-7401-4da0-ab1e-265e62775e9e"
+  }
+}

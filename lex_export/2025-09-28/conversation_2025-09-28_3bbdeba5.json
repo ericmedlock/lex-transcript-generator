@@ -1,0 +1,134 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I need an urgent appointment today. It’s really concerning. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Certainly, <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "<NAME> Sarah Miller\n<PHONE> <PHONE>\n<EMAIL> <EMAIL>\n<DATE> <DATE>\n<ADDRESS> <ADDRESS>\n<ID> <ID>\n<INSURANCEID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Thank you <NAME> for your file… Okay, I see you. Can you briefly explain what’s going on – why is it urgent? <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "It’s <NAME>’s daughter, <NAME>, she’s been having seizures lately and it’s getting really bad. We need to be able to see her ASAP. <PHONE> <EMAIL> for her. <DATE> for the seizures.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "I understand. That sounds incredibly stressful. Let me check our availability for the next few hours. Just a moment… Okay, we have an opening at 10:00 AM. Do you have a preferred doctor or specialist? <NAME> for doctor/specialist, <PHONE> for phone number, <EMAIL> for email, <DATE> for date, <ADDRESS> for address, <ID> for ID number, <INSURANCEID> for insurance ID.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "My husband, <NAME>. He needs to see her too. He’s also very worried. <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Alright. And how long do you anticipate <NAME> will need to be seen?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Probably for a couple of hours, maybe an hour. It's really difficult for her. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "I understand. We can definitely accommodate both of you. Just confirming, are there any specific concerns regarding <NAME>’s condition that we should note for the doctor? Anything you’ve noticed or been worried about specifically?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Well… she keeps looking flushed, and she’s been very restless. It’s like a whirlwind. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Okay, those are definitely important details to relay. Let me just check with the scheduling team to confirm availability for both of you in the morning. (Pause - sounds of typing) …Okay, we have an opening at 11:30 AM. Would that work for both of you?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "Yes, that’s perfect! But… my sister, <NAME>, needs a same-day appointment too. She's been struggling with a persistent cough. <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "That’s a good point – we definitely need to ensure <NAME> gets in as well. Let me check <PHONE>’s availability. (Pause - sounds of typing) …Okay, <NAME> has a slot open at 2:00 PM. Would that be preferable?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "2 o'clock works perfectly. I appreciate you being so accommodating. It’s just… this is really worrying. I feel like I need to know what to expect. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Absolutely. We want to provide you with the best possible care for both <NAME> and <PHONE>. Let me briefly explain the process of getting both appointments scheduled, and I can also offer a brief explanation on what to expect during the visit. Would that be helpful?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "Yes, please. It would be good to understand what the next steps will be. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "Certainly. The initial appointment for <NAME> will likely involve a thorough examination, including physical tests and potential imaging. For <NAME>, it might involve a review of her symptoms, a cough assessment, and potentially some diagnostic testing. We'll provide you with a detailed summary of what to expect before the visit. Do you have any questions at this point?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000019",
+      "Content": "<NAME> I think that’s all for now. Thank you so much for your help! <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000020",
+      "Content": "You're very welcome, <NAME>. We want to ensure you feel comfortable and informed throughout this process. We’ll send you a confirmation email with all the details of your appointments. Is there anything else I can assist you with today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000021",
+      "Content": "<NAME> is replaced with <NAME>.\n<PHONE> is replaced with <PHONE>.\n<EMAIL> is replaced with <EMAIL>.\n<DATE> is replaced with <DATE>.\n<ADDRESS> is replaced with <ADDRESS>.\n<ID> is replaced with <ID>.\n<INSURANCEID> is replaced with <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000022",
+      "Content": "Have a wonderful day. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "583e4d4a-bf83-4e8e-8b95-671bc0657bba"
+  }
+}

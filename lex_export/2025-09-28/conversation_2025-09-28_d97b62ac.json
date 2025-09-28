@@ -1,0 +1,79 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Yes, hello! That’s correct. We're ready to take your order. Can I get your <NAME> for names, please? <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Alright <NAME>. And could you tell me what kind of pizza would you like today? <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Okay, a pepperoni pizza. Just to confirm, is there anything else on that order? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Absolutely, let me check on that for you. One moment please. (Pause – sound of clicking) Okay, it looks like our delivery driver is currently experiencing a bit of traffic congestion in the area. <NAME> is currently experiencing a bit of traffic congestion in the area.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Yes, it is frustrating for everyone. It’s impacting deliveries. Would you prefer to wait for an estimated delivery time, or would you like me to check if there’s a more convenient option? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "I understand completely. Let me see if we can expedite the process. (Pause - sound of clicking) Okay, it looks like we have a driver who’s running a bit behind schedule. He estimates a delivery time of approximately <NAME> minutes.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "I hear you, <NAME>. Let me see what I can do to help. Could you perhaps tell me your <PHONE> again for me to be sure we’re delivering to the right location?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Thank you <NAME> for confirming that – I see <PHONE> for 14 Willow Creek Lane, Elmwood. I’m going to add a note to your order requesting expedited delivery. Can you give me a minute while I process that?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "I completely understand. I appreciate you being patient with me, <NAME>. I’m working to ensure your <PHONE> is delivered as quickly as possible. Would you like me to confirm the <ADDRESS> one more time?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Thank you so much for your patience and understanding, <NAME>. I will keep a close eye on your order. Your pizza should be there within the next 30-45 minutes. Is there anything else I can help you with today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "You're most welcome, <NAME>. Have a wonderful evening! <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "da17c98e-b3e4-4d24-80dc-b98bd54219cd"
+  }
+}

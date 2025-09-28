@@ -1,0 +1,124 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hello, my name is <NAME>. I’m calling about scheduling an appointment. <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Good morning, <NAME>. My name is <NAME>. How can I help you today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "I need to cancel my appointment with <NAME>. It’s been a little difficult to get through the phone. <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "I understand, <NAME>. Let me check your schedule… Okay, we do have an opening on Tuesday afternoon. Would that work for you? <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Tuesday afternoon... That would be lovely. It’s just… my hearing isn’t what it used to be, and sometimes the voices are a bit muffled. It's really frustrating. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "I apologize for that. Hearing difficulties can definitely make scheduling challenging. Let me just double-check with <NAME>’s office. One moment… Okay, they say <DATE> afternoon works well, but it’s a little later than you prefer. It’s currently at 2:00 PM.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "2:00 PM... That’s… that’s perfect! It’s 1:30 now. I really appreciate that. But there’s something else, actually. I have a very important meeting on Wednesday morning and it clashes with my appointment. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Oh dear, I understand. That is quite a complication. Could you tell me a little bit more about the meeting? Just so we can see if it’s possible to reschedule. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Well, it's a presentation at work. It's pretty critical to my career. I really don’t want to miss it. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "I completely understand that’s important. Let me check <NAME>’s availability… Okay, they have a slot open for you on Thursday morning at 9:00 AM. Would that be feasible?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "9:00 AM... That would be ideal. It’s really tight with my schedule. It’s been difficult to get through the phone today, though – it’s so frustrating. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "I appreciate you letting me know <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs. Thursday at 9:00 AM would work well. Do you have a preferred time range, perhaps around 10:00 or 11:00?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "Around <DATE> would be great. I'm trying to keep things as smooth as possible with my medication. It’s hard to get everything organized. <PHONE> for phone numbers, <EMAIL> for emails, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "Absolutely. Let me just see what <NAME> has available… Okay, we have a spot open at <DATE> on <DAY>. Would that be agreeable?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "10:30 AM... That’s perfect! Thank you so much for your flexibility. I really appreciate it. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "You’re very welcome, <NAME>. We’ll ensure your appointment is scheduled and we’ll do everything we can to make it as smooth as possible with your medication. To confirm, that’s <DATE> at <TIME> for your appointment?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "Okay, here’s the text with the placeholders replaced:\n\n<NAME> is <NAME>. <PHONE> is <PHONE>. <EMAIL> is <EMAIL>. <DATE> is <DATE>. <ADDRESS> is <ADDRESS>. <ID> is <ID>. <INSURANCEID> is <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "Wonderful. I’ve sent a confirmation email to your address and will also add this to your record. Is there anything else I can help you with today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000019",
+      "Content": "<NAME> that’s all. Thank you so much for your understanding.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000020",
+      "Content": "You’re welcome. Have a lovely day, <NAME>. Goodbye! <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "3045fe49-448d-4aac-a9b6-f466bb423ca4"
+  }
+}

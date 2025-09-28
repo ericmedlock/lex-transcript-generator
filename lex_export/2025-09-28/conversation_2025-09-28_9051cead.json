@@ -1,0 +1,89 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I’d like to order a pizza for delivery. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Hello! Certainly, what kind of pizza would you like? And do you have any dietary restrictions or allergies? <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Okay, one large pepperoni pizza with no mushrooms. Just to confirm, that’s correct? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "<NAME> has been provided.\n<PHONE> is available.\n<EMAIL> is provided.\n<DATE> is not applicable.\n<ADDRESS> is not applicable.\n<ID> is not applicable.\n<INSURANCEID> is not applicable.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "<NAME> is covered under Blue Cross Blue Shield. <PHONE> is <PHONE>. <EMAIL> is <EMAIL>. <DATE> is <DATE>. <ADDRESS> is <ADDRESS>. <ID> is <ID>. <INSURANCEID> is <INSURANCEID>.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "I understand that can be frustrating. It’s perfectly normal for insurance companies to sometimes require verification, especially with new accounts. It’s just standard procedure. Let me see if we can get this sorted out quickly. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "I understand your concern completely. Let’s try a quick verification process. Can you please tell me <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Thank you, <NAME>. And can you provide me with the <PHONE> associated with this account?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Okay, perfect. Just one moment while I pull up your insurance details… Alright, it looks like we have a preliminary verification request for you. We’ll need to contact the insurer directly to confirm this. This usually takes about 24-48 hours.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "<NAME> will verify that you don’t qualify, we can discuss options for a credit or refund. We'll let you know as soon as possible. Would you like me to place the order now and give them a call immediately?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Absolutely. Let’s proceed with placing your order now. Please confirm the delivery address is <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Excellent. Your order will be placed and processed as quickly as possible. You’ll receive a confirmation email within the next hour with details about the delivery. Do you have any other questions at this time?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "You’re very welcome, <NAME>. We appreciate your patience and understanding. Have a great day! <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "db583b7f-3fb8-402b-b7ba-2397deb70c7c"
+  }
+}

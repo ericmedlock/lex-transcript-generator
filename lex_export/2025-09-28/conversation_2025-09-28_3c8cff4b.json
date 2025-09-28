@@ -1,0 +1,69 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Certainly! That's good news. Let me pull up your record. Just one moment… Okay, I see you have a scheduled appointment on Tuesday afternoon. Do you have any difficulty hearing, or are you experiencing any issues with the phone conversation? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "I understand completely. It’s important that we make sure everything goes smoothly after surgery. Let’s see… <NAME> afternoon, is it? Okay, could you tell me exactly what time works best for you?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Alright, let’s aim for around three o’clock. We want to make sure everything is adjusted properly after the procedure. Could you tell me what type of transportation do you have available? Do you rely on public transport, a car, or are you walking? <NAME>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "That’s helpful to know. We need to ensure that you have easy access to the clinic. Are there any specific routes or areas you prefer to avoid? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "I appreciate you sharing that with me. Let’s look at the clinic’s accessibility. We have some accessible routes available, and we can arrange for assistance if needed. Would you prefer to be dropped off directly at the entrance? Or would you like us to call your grandson and coordinate a pick-up?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Absolutely. It’s important to feel safe and supported after this procedure. Let’s schedule a nurse to come to your house for the follow-up appointment. Would that be alright? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Great. Let me check on availability... Okay, we have a nurse available on Tuesday morning at 10:30 AM. Does that work for you? <NAME> is not provided. <PHONE> is not provided. <EMAIL> is not provided. <DATE> is not provided. <ADDRESS> is not provided. <ID> is not provided. <INSURANCEID> is not provided.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "You're very welcome! I just wanted to ensure everything is manageable for you, given your hearing difficulties and the transportation limitations. We’ll make sure everything goes as smoothly as possible. Is there anything else I can assist you with today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "You're very welcome! Have a wonderful day. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "a7da9aa4-4232-463e-86b3-204d4fccee0f"
+  }
+}

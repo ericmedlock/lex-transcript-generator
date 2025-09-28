@@ -2,9 +2,9 @@
   "heartbeat_interval": 10,
   "failover_timeout": 60,
   "network_check_timeout": 5,
-  "preferred_master": "EPM_DELL",
+  "preferred_master": "192.168.68.60",
   "db_config": {
-    "host": "EPM_DELL",
+    "host": "192.168.68.60",
     "port": 5432,
     "database": "calllab",
     "user": "postgres",

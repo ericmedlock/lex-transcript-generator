@@ -133,7 +133,7 @@ def load_pii_config(config_path="pii_scrubber/config.yaml"):
             'llm': {
                 'endpoint': 'http://127.0.0.1:11434/api/generate',
                 'model': 'redactor-7b-gguf',
-                'timeout_s': 20
+                'timeout_s': 10
             },
             'scrub': {'placeholder_style': 'angle'},
             'report': {'enable': True, 'path': 'out/PII_REPORT.json'}
@@ -181,7 +181,8 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
             
             # Apply PII scrubbing to transcript content
             if pii_mode == "safe":
-                for turn in conversation_data.get("Transcript", []):
+                print(f"Processing conversation {i+1}/{len(conversations)} ({conv_id[:8]})...", end=" ")
+                for turn_idx, turn in enumerate(conversation_data.get("Transcript", [])):
                     original_content = turn.get("Content", "")
                     try:
                         # Configure fallback behavior
@@ -201,12 +202,13 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
                     
                     except LLMUnavailableError as e:
                         if pii_strategy == "llm" and not config_with_fallback.get('fallback_to_regex', True):
-                            print(f"ERROR: SAFE mode requires a working local LLM. {e}")
+                            print(f"\nERROR: SAFE mode requires a working local LLM. {e}")
                             print("Start LLM server or rerun with --pii-strategy regex or --mode raw.")
                             return 0, len(conversations)
                         else:
                             # This shouldn't happen due to fallback logic, but handle gracefully
-                            print(f"Warning: LLM unavailable, using original content: {e}")
+                            print(f"\nWarning: LLM unavailable, using original content: {e}")
+                print("✓")
                 
                 # Update ContentMetadata
                 conversation_data["ContentMetadata"]["Output"] = "Redacted"
@@ -225,7 +227,10 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
             
             # Progress update
             if (i + 1) % batch_size == 0:
-                print(f"Exported {i + 1}/{len(conversations)} conversations...")
+                print(f"\n--- Progress: {i + 1}/{len(conversations)} conversations exported ---")
+            elif pii_mode != "safe":  # Only show for non-PII mode since PII mode shows per-conversation
+                if (i + 1) % 10 == 0:
+                    print(f"Processed {i + 1}/{len(conversations)}...")
         
         except Exception as e:
             print(f"Error exporting conversation {conv_id[:8]}: {e}")

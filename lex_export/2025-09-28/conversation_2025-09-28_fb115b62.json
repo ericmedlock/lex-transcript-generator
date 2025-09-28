@@ -1,0 +1,114 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I’d like to cancel my appointment with <NAME> tomorrow afternoon.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Certainly, I can help you with that. Let me just pull up your account… Okay, I see it here. Can you tell me what time works best for you? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Um, probably around <DATE> 2 pm would be good.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Perfect. And could you please confirm the reason for rescheduling today? We want to ensure we’re fully prepared for your appointment. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Well, my wife is visiting from out of town and she’s not feeling well. I need to get her back home. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "I understand. That's a valid concern. Transportation limitations are definitely something we need to account for when rescheduling. Let me check what availability we have. One moment… Okay, I see an opening at 2:30 pm. Would that work for you? <NAME>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "2:30 is perfect! Thank you so much. It’s just a bit of a drive, though. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "I understand completely. It's a significant distance, isn’t it? Are you driving alone, or are there other people accompanying you? That can help us determine the best option for your travel. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Just <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Okay. Let me check if we have any transportation options available. We could explore ride-sharing services, but that might not be ideal given your situation. Are there any public transport options you're considering?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "I'm thinking maybe Uber or Lyft. I’m a little nervous about it though – I don’t want to risk anything. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Absolutely understandable. Safety is our top priority. Let me see if we can offer some assistance with arranging a ride, perhaps through a discount with a service like Lyft? We could potentially get you a voucher. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "That would be really helpful! Thank you so much for your help.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "You’re very welcome! Just to confirm, you want to reschedule your appointment with <NAME> tomorrow afternoon at <DATE> at <TIME> taking into account the transportation limitations?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "Okay, please provide the text you want me to modify. I’m ready when you are!",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Okay. I've scheduled it for tomorrow at 2:30 pm, and we’ll send a confirmation email to you shortly. Is there anything else I can assist you with today? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "<NAME> I think that’s everything. Thank you again!",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "You’re very welcome! Have a good day.\n\n<NAME> is not provided.\n<PHONE> is not provided.\n<EMAIL> is not provided.\n<DATE> is not provided.\n<ADDRESS> is not provided.\n<ID> is not provided.\n<INSURANCEID> is not provided.",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "2017904c-b587-4a03-98d2-224c12f1741a"
+  }
+}

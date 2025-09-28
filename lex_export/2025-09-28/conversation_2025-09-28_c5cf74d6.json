@@ -1,0 +1,64 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Okay, that’s completely understandable. It's great you’re feeling good and want to check in. Just to confirm, can you tell me <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Thank you, <NAME>. Let’s just take a moment to review your <PHONE>. Do you have an <EMAIL> with us?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Wonderful. Just one moment while I pull up your details... Okay, I see. Let me just run a quick verification on your coverage… (Typing sounds) Alright, it looks like you are covered for this procedure. We need to confirm some additional information though – could you please tell me the date of service?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Let’s check that. (Typing and checking system) Yes, we see! It looks like your policy covers this specific procedure. Now, do you have a <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Okay, thank you for that information. To ensure everything is completely accurate, we need to verify your address and phone number as well. Is that correct? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Perfect. Just one moment while I look up your account details... Okay, it seems like we need to run a quick insurance verification with our provider. That'll take just a few minutes. Can you please wait here? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "I completely understand, <NAME>. It’s natural to feel that way after a procedure like this. We want to make sure you have all the information we need to proceed smoothly. The insurance verification process takes time, but it’s crucial for us to ensure everything is covered correctly and we can provide you with the best possible care. Would you prefer I call you back when I've completed the verification, or would you like me to schedule a follow-up appointment so we can discuss potential co-pays?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Absolutely. Let me just put you on a brief hold while I contact our billing department… (Short pause) Okay, <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "696c6370-7912-4dcc-b415-e72c205e19b8"
+  }
+}

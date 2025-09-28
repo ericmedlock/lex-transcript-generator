@@ -3,77 +3,77 @@
   "Transcript": [
     {
       "Id": "T000001",
-      "Content": "Hi, I’d like to order a pizza for delivery. <<<NAME> <<<PHONE> <<<EMAIL> <<<DATE> <<<ADDRESS> <<<ID> <<<INSURANCEID>",
+      "Content": "Hi, I’d like to order a pizza for delivery. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000002",
-      "Content": "<<<Certainly! Absolutely. What kind of pizza are you thinking of?>>>\n\n<NAME> is considering a pizza.\n<PHONE> is available.\n<EMAIL> is not provided.\n<DATE> is not specified.\n<ADDRESS> is not provided.\n<ID> is not provided.\n<INSURANCEID> is not provided.",
+      "Content": "Certainly! Absolutely. What kind of pizza are you thinking of? <NAME>?",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000003",
-      "Content": "Please <NAME> me <PHONE> at <PHONE>.  <EMAIL> is not needed.  <DATE> is not relevant.  <ADDRESS> is not available.  <ID> is not provided.  <INSURANCEID> is not present.",
+      "Content": "<NAME> just a large pepperoni, please.",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000004",
-      "Content": "Okay, a large pepperoni. Anything else on that? We have extra cheese, different toppings… <NAME>, <PHONE>, <EMAIL>, <DATE>, <ADDRESS>, <ID>, <INSURANCEID>.",
+      "Content": "Okay, a large pepperoni. Anything else on that? We have extra cheese, different toppings… <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000005",
-      "Content": "Okay, here’s a redacted version of the text, replacing the placeholders with placeholders:\n\n<<<Hmm, no really. Just the pepperoni.>>>\n\n<NAME> is not present.\n<PHONE> is not present.\n<EMAIL> is not present.\n<DATE> is not present.\n<ADDRESS> is not present.\n<ID> is not present.\n<INSURANCEID> is not present.",
+      "Content": "Hmm, no really. Just the pepperoni. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000006",
-      "Content": "<<<Got it. Let me just check availability for you. (pause – sounds of typing) …Okay, we do have a large pepperoni pizza available right now. It’s currently estimated to be about 30-45 minutes out for delivery.>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "Content": "Got it. Let me just check availability for you. (pause – sounds of typing) …Okay, we do have a large pepperoni pizza available right now. It’s currently estimated to be about 30-45 minutes out for delivery.",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000007",
-      "Content": "<<<30-45? That's good to know. I don’t want to wait too long.>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "Content": "30-45? That’s good to know. I don’t want to wait too long. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000008",
-      "Content": "Okay, here's the redacted text with placeholders replacing the PII:\n\n<<<Absolutely. We’ll do our best to get it to you as quickly as possible. Do you have a preferred time for delivery today?>>>\n\n<NAME> will be delivered.\n<PHONE> will be contacted.\n<EMAIL> will be sent.\n<DATE> will be provided.\n<ADDRESS> will be sent.\n<ID> will be confirmed.\n<INSURANCEID> will be verified.",
+      "Content": "Absolutely. We’ll do our best to get it to you as quickly as possible. Do you have a preferred time for delivery today? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000009",
-      "Content": "I was hoping for around lunchtime, say <DATE> pm?",
+      "Content": "I was hoping for around lunchtime, say <DATE> 12:30 pm?",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000010",
-      "Content": "Okay, here’s the redacted text with placeholders replaced:\n\n<<<Let me check – we have openings between 12:30 pm and 1:45 pm. Would either of those work for you?>>>\n\n<NAME> would be required.\n<PHONE> would be required.\n<EMAIL> would be required.\n<DATE> would be required.\n<ADDRESS> would be required.\n<ID> would be required.\n<INSURANCEID> would be required.",
+      "Content": "Let me check – we have openings between <DATE> pm and <DATE>:45 pm. Would either of those work for you?",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000011",
-      "Content": "<<<1:15 pm would be perfect.>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "Content": "1:15 pm would be perfect. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000012",
-      "Content": "Okay, here’s the redacted text with placeholders for PII:\n\n<<<Perfect! Just confirming your order: one large pepperoni pizza, delivered to <ADDRESS>. Is that correct?>>>",
+      "Content": "Perfect! Just confirming your order: one large pepperoni pizza, delivered to <NAME> for <PHONE>, <EMAIL> for <EMAIL>, <DATE> at <DATE>, <ADDRESS> at <ADDRESS>, <ID> for <ID>, <INSURANCEID> for <INSURANCEID>.",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000013",
-      "Content": "Okay, here's the redacted text based on your instructions:\n\n<NAME> is not provided.\n<PHONE> is not provided.\n<EMAIL> is not provided.\n<DATE> is not provided.\n<ADDRESS> is not provided.\n<ID> is not provided.\n<INSURANCEID> is not provided.",
+      "Content": "Yes, that’s right.",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000014",
-      "Content": "Okay, here’s the redacted text with placeholders for PII:\n\n<<<Great! And can I please add a side of garlic bread?>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "Content": "Great! And can I please add a side of garlic bread? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000015",
-      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Yes, absolutely, that’s great!>>>\n\n<NAME> will be replaced with <NAME>.\n<PHONE> will be replaced with <PHONE>.\n<EMAIL> will be replaced with <EMAIL>.\n<DATE> will be replaced with <DATE>.\n<ADDRESS> will be replaced with <ADDRESS>.\n<ID> will be replaced with <ID>.\n<INSURANCEID> will be replaced with <INSURANCEID>.",
+      "Content": "<NAME> is great!\n<PHONE> is <PHONE>.\n<EMAIL> is <EMAIL>.\n<DATE> is <DATE>.\n<ADDRESS> is <ADDRESS>.\n<ID> is <ID>.\n<INSURANCEID> is <INSURANCEID>.",
       "ParticipantId": "C1"
     },
     {
@@ -83,22 +83,22 @@
     },
     {
       "Id": "T000017",
-      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<NAME> is not provided.\n<PHONE> is not provided.\n<EMAIL> is not provided.\n<DATE> is not provided.\n<ADDRESS> is not provided.\n<ID> is not provided.\n<INSURANCEID> is not provided.",
+      "Content": "It is. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000018",
-      "Content": "Okay, here's the redacted text based on your instructions:\n\n<<<Excellent. We’ll send you a text message confirmation and estimated delivery time within the next few minutes. Anything else I can help you with today?>>>\n\n<NAME> will be sent.\n<PHONE> will be sent.\n<EMAIL> will be sent.\n<DATE> will be sent.\n<ADDRESS> will be sent.\n<ID> will be sent.\n<INSURANCEID> will be sent.",
+      "Content": "Excellent. We’ll send you a text message confirmation and estimated delivery time within the next few minutes. Anything else I can help you with today?",
       "ParticipantId": "A1"
     },
     {
       "Id": "T000019",
-      "Content": "<<<No, that’s all. Thank you so much!>>>\n\n<NAME> is not provided.\n<PHONE> is not provided.\n<EMAIL> is not provided.\n<DATE> is not provided.\n<ADDRESS> is not provided.\n<ID> is not provided.\n<INSURANCEID> is not provided.",
+      "Content": "<NAME> is replaced with <NAME>.\n<PHONE> is replaced with <PHONE>.\n<EMAIL> is replaced with <EMAIL>.\n<DATE> is replaced with <DATE>.\n<ADDRESS> is replaced with <ADDRESS>.\n<ID> is replaced with <ID>.\n<INSURANCEID> is replaced with <INSURANCEID>.",
       "ParticipantId": "C1"
     },
     {
       "Id": "T000020",
-      "Content": "Okay, here’s the redacted text with placeholders for PII:\n\n<<<You’re very welcome! Have a wonderful day!>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "Content": "You're very welcome! Have a wonderful day! <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
       "ParticipantId": "A1"
     }
   ],

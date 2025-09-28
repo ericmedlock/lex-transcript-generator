@@ -1,0 +1,79 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hello, I’d like to order a pizza for delivery. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Good morning! Thank you for calling <NAME> for calling Pizza Paradise. Can I get your phone number please?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Alright <NAME>. And could you tell me what kind of pizza you’d like today? <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Certainly <NAME>. A plain pepperoni pizza. Okay, let me just check your address for verification purposes. Could you please repeat your street address? <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Thank you. And what number is the phone number associated with this account? <PHONE>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Perfect. Just one moment while I pull up your information. (Pause – sounds of keyboard clicking) Okay, <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Thank you for that information, <NAME>. It looks like <PHONE> is confirming coverage. Just a moment while we finalize the details. It will take just a minute or two to process everything.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Absolutely <NAME>. We appreciate your patience. It's important for us to ensure we can fulfill your order properly. Are there any other questions you have at this time? <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Absolutely we accept <PHONE> and <EMAIL>. You can do that securely over the phone now. Would you like to proceed with ordering your <DATE> pizza, Mr. Miller?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "You’re very welcome, <NAME>! We’ll have your pizza arriving soon. The estimated delivery time is about 45-60 minutes. Would you like me to add a tip for the driver?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Wonderful! Your order will be there shortly. Thank you for choosing <NAME>! Have a great day, <PHONE>.",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "b21f1fc5-1f55-4af4-a77b-7d51e1da4148"
+  }
+}

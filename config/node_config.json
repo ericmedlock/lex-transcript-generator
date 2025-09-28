@@ -1,7 +1,7 @@
 {
   "MSI": {
     "db_config": {
-      "host": "EPM_DELL",
+      "host": "192.168.68.60",
       "port": 5432,
       "database": "calllab",
       "user": "postgres",
@@ -29,7 +29,7 @@
   },
   "EPM_Dell": {
     "db_config": {
-      "host": "EPM_DELL",
+      "host": "192.168.68.60",
       "port": 5432,
       "database": "calllab",
       "user": "postgres",

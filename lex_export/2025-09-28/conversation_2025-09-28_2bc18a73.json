@@ -1,0 +1,114 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I’m trying to reschedule my appointment. It’s been a while… <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Certainly! Let me pull up your file. Just one moment… Okay, I see you’re scheduled for Dr. <NAME> on the <DATE>. Is that correct?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Yes, that’s right. But it’s been really busy lately. I need to prioritize things. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "I understand, and we appreciate your flexibility. Let me just check with our insurance provider to see if there are any coverage gaps for that specific appointment time. It’ll take a minute… Okay, it looks like you’re covered under <NAME> for that specific appointment time.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Cigna? That’s good to know. But I’m really stretched thin as a parent. It’s hard to find time. <NAME> is really stretched thin as a parent. It’s hard to find time. <PHONE> is really stretched thin as a parent. It’s hard to find time. <EMAIL> is really stretched thin as a parent. It’s hard to find time. <DATE> is really stretched thin as a parent. It’s hard to find time. <ADDRESS> is really stretched thin as a parent. It’s hard to find time. <ID> is really stretched thin as a parent. It’s hard to find time.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Absolutely. I appreciate you letting me know. Let's see... Okay, it appears there is a small delay in processing the insurance verification. Could you please hold for about 2 minutes while we get this sorted? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "I don’t really have much time right now. I just need to make sure everything is alright. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Of course. Thank you for your patience. We want to ensure a smooth process. (Pause – sounds of typing) Okay, it seems like we’ve confirmed coverage. Great! <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Really? That’s… great. But I have to get back to work in an hour. That’s my biggest challenge. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "I understand completely. It’s a huge commitment. Do you want me to check with <NAME> about how we can best accommodate your schedule, perhaps exploring some evening options? We definitely want to find something that works for you.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Maybe later. Just… let me see if anything’s available <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Absolutely. Let me check the availability for the 15th, and then we can look at other options for you. (Pause – sounds of phone interaction) Okay, <NAME> is currently booked for that time, but he does have availability on the 22nd. Would that be something you’d consider?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "That would be… better than nothing. But honestly, it’s still a bit rushed. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "I hear you. Let me quickly see what other options we can explore with the scheduling team. (Short pause – sounds of discussion) Okay, we have a couple more possibilities: a 30-minute appointment on the 19th, or a 45-minute appointment on the 26th. Would either of those work better for you?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "The <DATE> would be ideal. It's just so difficult to juggle everything. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Excellent choice! Let me confirm that with <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.  Okay, <NAME> confirms the 19th appointment is available. So that’s the 19th at 3:00 PM?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "<NAME> is perfect. Thank you so much for your help. I really appreciate it.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "You're very welcome! We appreciate your understanding. Let me just schedule that for you and send a confirmation email. Is there anything else I can assist you with today?",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "d9ed541a-4296-4138-a4df-af17202e9cea"
+  }
+}

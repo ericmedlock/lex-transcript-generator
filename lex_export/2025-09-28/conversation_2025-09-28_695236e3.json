@@ -1,0 +1,104 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I’d like to cancel my appointment with <NAME> for next Tuesday afternoon.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Certainly. Just one moment while I pull up your file… Okay, I see you’re looking at schedule for Tuesday afternoon. Let me check insurance coverage first. Could you please provide your insurance card? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Yes, it’s <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Thank you. Let me quickly review that… Okay, I see here you have a high-deductible plan. That’s good to know; we want to make sure everything is set up properly for your coverage. I’ll need to verify with your insurance provider to confirm the details and ensure it’s fully met. It might take just a few minutes.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Ugh, I’m really busy right now, I’ve got two <NAME> and a <PHONE> for a soccer practice at 4pm. I’m trying to juggle everything.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "I completely understand, that’s a lot to manage! It sounds like you are quite pressed for time. Let me just check if we have any opening slots this week. Are there any days that would work better for you? We might not be able to accommodate a full appointment on Tuesday. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Not really, it’s pretty late in the day. I need to get it done before <NAME> things get *really* hectic.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "I appreciate you letting me know. Let’s see what we can find. Okay, it looks like we have an opening slot on Wednesday morning at 10 AM. Would that work for you? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Wednesday morning? That would be amazing! It’s so close to my soccer game… I really don’t want to miss it. It feels a little rushed though. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Absolutely. Let’s book that. Just to confirm, this is for <NAME> for appointments?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Yes, exactly – a check-up with <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Perfect. So, your cancellation is confirmed for Wednesday at 10 AM. Just one moment while I finalize the paperwork… Alright, it’s all set! You’ll receive an email confirmation within the hour.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "Okay, that sounds good. Thank you so much for understanding – it was a bit of a rush. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "You're very welcome! We appreciate your flexibility. Is there anything else I can help you with today? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "<NAME> replaced with <NAME>, <PHONE> replaced with <PHONE>, <EMAIL> replaced with <EMAIL>, <DATE> replaced with <DATE>, <ADDRESS> replaced with <ADDRESS>, <ID> replaced with <ID>, <INSURANCEID> replaced with <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Have a great day and we look forward to seeing you soon! <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "60c739e8-0865-4d70-9af0-f73780df27e4"
+  }
+}

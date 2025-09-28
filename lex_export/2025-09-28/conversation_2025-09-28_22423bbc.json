@@ -1,0 +1,124 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I need an urgent appointment today. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Thank you for calling! Could you tell me what’s going on? <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "It’s… really concerning. My daughter has a fever and she’s been having a hard time breathing. <NAME> for daughter, <PHONE> for phone number, <EMAIL> for email, <DATE> for date, <ADDRESS> for address, <ID> for ID number, <INSURANCEID> for insurance ID.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Okay, let me check our availability quickly. Could you tell me <NAME> and <PHONE> for phone numbers, please?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "<NAME> Sarah Miller. <PHONE> 555-123-4567.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Thanks, <NAME>. Let me see… We have a few appointments available right now that could work. Do you have any preferred days or times? <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "I’d really like to see <NAME> today, but it’s <DATE> - <DATE>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Okay, let me just check with the doctor’s schedule… Yes, we do have availability at 6 pm. Would that work for you? It’s a pretty busy afternoon. <NAME> will be available at <PHONE>. <EMAIL> will be used for communication. <DATE> is currently unknown. <ADDRESS> is located at <ADDRESS>. <ID> is <ID>. <INSURANCEID> is <INSURANCEID>.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Hmm, <NAME> is good, but my son needs to be picked up from soccer practice around <PHONE>. It's a huge deal! <DATE> is <DATE>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "I understand completely. That’s a significant commitment. Let me see… We have an opening at 7:30. Would that allow us to see <NAME> then?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Yes, that would be amazing. But my work schedule is completely messed up. I’ve got a huge meeting with the client this afternoon – it’s 6 pm. I can’t just pull an all-nighter. <NAME> can’t just pull an all-nighter.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "I hear you. Let me check again… Yes, we have availability at <DATE>.<PHONE>. I apologize for the inconvenience. It’s really tough to accommodate that schedule. Would you prefer to reschedule if it’s not possible?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "Honestly, I don’t know. It’s really urgent, and my son is worried about her. It feels like a long shot. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "I completely understand your concern for your child. Let me see what we can do… We could potentially look at calling you back in the morning if there's a little flexibility. Would that be something you’d consider? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "Maybe... It’s just so stressful. I really need to know what’s going on with <NAME> right now. Is there anything we can do to get an appointment sooner?",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Let me check with the doctor’s office about possible options… Okay, it looks like we *might* have a slot open at 8 am. It’s still a bit tight, but it’s a possibility. Would you be willing to try that?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "8 am sounds… okay. Just give me a second to confirm. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "Alright, I just need to verify the details with the office. Let me get back to you in just a moment. (pause for brief hold time) … Okay, Mr. Davis, we have an appointment scheduled for 8:00 am. We’ll send you a confirmation email shortly. Is there anything else I can assist you with today?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000019",
+      "Content": "<NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000020",
+      "Content": "You’re very welcome! Have a good day and I hope your daughter feels better soon. Goodbye. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "76f2e481-13d1-424d-b06f-b09c5e9b67bb"
+  }
+}

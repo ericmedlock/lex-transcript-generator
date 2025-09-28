@@ -1,0 +1,94 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I’d like to place an order for pizza. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Certainly! What kind of pizza are you interested in today? And what’s your address? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Pepperoni and mushrooms, please. It’s <NAME>123 Main Street, <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Okay, one pepperoni and mushroom pizza at <NAME> Street, <PHONE> . Let me just pull that up for you... (pause) … Alright, it looks good! Your order is confirmed. Can I get a phone number we can use to send you updates?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Yes, my number is <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Great! We’ll be sending that over shortly. Just one moment while we process the order… (brief pause) … Okay, your pizza is being prepared and will be delivered within about 45 minutes. We do have a slight delay due to transportation limitations in Anytown today – it's been quite heavy with deliveries. <NAME> is being prepared and will be delivered within about 45 minutes. <PHONE> is being prepared and will be delivered within about 45 minutes. <EMAIL> is being prepared and will be delivered within about 45 minutes. <DATE> is being prepared and will be delivered within about 45 minutes. <ADDRESS> is being prepared and will be delivered within about 45 minutes. <ID> is being prepared and will be delivered within about 45 minutes.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Oh really? That’s good to know. I wasn’t expecting that. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Yes, we’ve had an unusually high volume of orders recently. We apologize for any inconvenience. Would you like me to add a small discount to your order as a gesture of goodwill for the delay? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Hmm, maybe. Could you check on that? It would be nice. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Absolutely! Let me just quickly check with my system… (pause) … Okay, we’re offering a 10% discount – that’s applied to your order total. Would that be alright?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Yes, that sounds great. Thank you so much for letting me know about the delay. <NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "You're very welcome! We appreciate your patience. Is there anything else I can help you with today? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "<NAME> is replaced with <NAME>.\n<PHONE> is replaced with <PHONE>.\n<EMAIL> is replaced with <EMAIL>.\n<DATE> is replaced with <DATE>.\n<ADDRESS> is replaced with <ADDRESS>.\n<ID> is replaced with <ID>.\n<INSURANCEID> is replaced with <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "Have a wonderful day and enjoy your <NAME> for pizza! Goodbye.",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "81494314-76f0-4912-a75a-8e77c552e5b4"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Hi, I’m really anxious about this appointment. I don’t know what to expect. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Certainly, it’s understandable to feel that way. It’s a big decision, and we want to make it as comfortable as possible for you. Can you tell me a little bit more about what’s bringing you here today? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Well, my husband has been diagnosed with heart issues, <NAME> needs her annual check-up, and then <NAME> really needs an appointment too. It feels like everything's piling up.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "I appreciate you sharing that – it’s a lot to manage. Let’s just take a moment to unpack that. It sounds incredibly busy with all the appointments. Do you have any specific concerns about each of these appointments individually? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Yes, definitely my husband’s heart issues are the biggest thing. I keep worrying about what it means and if we’ll need more tests. And then my mom... she’s just so frail, and I worry about her stability. My sister’s just… always needs something, you know? It's overwhelming!",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Okay, that makes complete sense. It’s definitely a significant amount of time and responsibility to manage. Let me see what we can do to streamline things. Could you tell me roughly when each appointment is scheduled – just so we have an idea of the overall timeline? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "I think it’s <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Alright. Let me check availability for those appointments… (pause - sounds of typing) Okay, I see a few slots open on Tuesday morning. We have one available at 10 am. Would that work for your husband’s appointment? <NAME>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "Yes, that would be perfect. But my mom... she's really worried about the cost. She said she's not sure if we can afford the annual check-up and all the tests. <NAME> is really worried about the cost. She said she's not sure if we can afford the annual check-up and all the tests. <PHONE> is really worried about the cost. She said she's not sure if we can afford the annual check-up and all the tests. <EMAIL> is really worried about the cost. She said she's not sure if we can afford the annual check-up and all the tests. <DATE> is really worried about the cost. She said she's not sure if we can afford the annual check-up and all the tests.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "I understand completely. That's a valid concern. Let me quickly look into the costs associated with each of those appointments – both for your husband’s and your mom’s. (pause - sounds of searching) Okay, it looks like the annual check-up is approximately <NAME> and the tests will be around <PHONE> total.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Oh my gosh! That’s a lot! I’m really struggling with that. It feels like we’re already stretched thin. I’m also feeling a bit anxious about all of this, you know? It’s just… a lot to process. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Thank you for bringing that up – it’s completely understandable to feel overwhelmed. Let's talk about some options. We could potentially explore some payment plans or a sliding scale based on your income. Would you like me to check if we have those available?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "That would be amazing actually! I really just need to know what we can do to make it manageable. It’s hard to think about all of this. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000014",
+      "Content": "Absolutely. Let’s look into those options now. We want to find something that works for you and your family. Just so I can give you a clear idea, could you tell me roughly what your budget is for these appointments? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000015",
+      "Content": "Honestly, I’d like to keep it affordable, maybe around $500 total? <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000016",
+      "Content": "Okay, let's see what we can do. (pause - sounds of research) We have several options available that might fit within that range – a payment plan or a discount on the tests. Let me pull up some details… (short pause) …Okay, we could potentially offer a 30-day payment plan with a small interest rate. Would you be comfortable with that?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000017",
+      "Content": "That sounds really helpful! Thank you so much. I feel a little bit more confident now. <NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, <DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, <INSURANCEID> for insurance IDs.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000018",
+      "Content": "You’re very welcome. We appreciate you letting us know your concerns and working through this with us. We’ll schedule those appointments for you as soon as possible, ensuring they fit within your budget. Do you have any questions for me at this point?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000019",
+      "Content": "<NAME> I think that’s all. Thank you so much for your help.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000020",
+      "Content": "You’re very welcome. We appreciate your patience and understanding. We’ll send you a confirmation email with the details of your new arrangements shortly. Have a great day!",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "9cfdea4b-41f3-4221-95ea-8ad85a6a0ab3"
+  }
+}
