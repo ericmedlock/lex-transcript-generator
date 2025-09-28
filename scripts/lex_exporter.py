@@ -7,8 +7,12 @@ import json
 import os
 import psycopg2
 import argparse
+import yaml
+import logging
 from datetime import datetime, date
 from pathlib import Path
+from pii_scrubber.engine import scrub_text, detect_pii_regex
+from pii_scrubber.llm_client import LLMUnavailableError
 
 def load_db_config():
     """Load database configuration"""
@@ -72,15 +76,41 @@ def generate_filename(conversation_id, created_at):
     date_str = created_at.strftime("%Y-%m-%d")
     return f"conversation_{date_str}_{conversation_id[:8]}.json"
 
-def export_conversations(conversations, output_dir, batch_size=100):
-    """Export conversations to LEX format"""
+def load_pii_config(config_path="pii_scrubber/config.yaml"):
+    """Load PII scrubbing configuration"""
+    try:
+        with open(config_path, 'r') as f:
+            return yaml.safe_load(f)
+    except FileNotFoundError:
+        # Return defaults if config file not found
+        return {
+            'default_mode': 'safe',
+            'default_strategy': 'llm',
+            'llm': {
+                'endpoint': 'http://127.0.0.1:11434/api/generate',
+                'model': 'redactor-7b-gguf',
+                'timeout_s': 20
+            },
+            'scrub': {'placeholder_style': 'angle'},
+            'report': {'enable': True, 'path': 'out/PII_REPORT.json'}
+        }
+
+def export_conversations(conversations, output_dir, batch_size=100, pii_mode="safe", pii_strategy="llm", pii_config=None, dry_run=False):
+    """Export conversations to LEX format with PII scrubbing"""
     output_path = Path(output_dir)
-    output_path.mkdir(parents=True, exist_ok=True)
+    if not dry_run:
+        output_path.mkdir(parents=True, exist_ok=True)
     
     exported_count = 0
     skipped_count = 0
+    scrubbed_count = 0
+    pii_stats = {}
+    
+    if pii_config is None:
+        pii_config = load_pii_config()
     
     print(f"Exporting {len(conversations)} conversations to {output_dir}")
+    print(f"PII mode: {pii_mode}, strategy: {pii_strategy}")
     
     for i, (conv_id, content, quality_score, created_at, model_name) in enumerate(conversations):
         try:
@@ -105,9 +135,47 @@ def export_conversations(conversations, output_dir, batch_size=100):
             filename = generate_filename(conv_id, created_at)
             file_path = date_dir / filename
             
-            # Write conversation file
-            with open(file_path, 'w', encoding='utf-8') as f:
-                json.dump(conversation_data, f, indent=2, ensure_ascii=False)
+            # Apply PII scrubbing to transcript content
+            if pii_mode == "safe":
+                for turn in conversation_data.get("Transcript", []):
+                    original_content = turn.get("Content", "")
+                    try:
+                        # Configure fallback behavior
+                        config_with_fallback = pii_config.copy()
+                        config_with_fallback['fallback_to_regex'] = pii_strategy != "llm"  # Only fallback if not explicitly requested LLM
+                        
+                        scrubbed_content = scrub_text(original_content, pii_mode, pii_strategy, config_with_fallback)
+                        turn["Content"] = scrubbed_content
+                        
+                        if scrubbed_content != original_content:
+                            scrubbed_count += 1
+                            # Track PII types found
+                            pii_found = detect_pii_regex(original_content)
+                            for pii_type, matches in pii_found.items():
+                                if matches:
+                                    pii_stats[pii_type] = pii_stats.get(pii_type, 0) + len(matches)
+                    
+                    except LLMUnavailableError as e:
+                        if pii_strategy == "llm" and not config_with_fallback.get('fallback_to_regex', True):
+                            print(f"❌ SAFE mode requires a working local LLM. {e}")
+                            print("Start LLM server or rerun with --pii-strategy regex or --mode raw.")
+                            return 0, len(conversations)
+                        else:
+                            # This shouldn't happen due to fallback logic, but handle gracefully
+                            print(f"Warning: LLM unavailable, using original content: {e}")
+                
+                # Update ContentMetadata
+                conversation_data["ContentMetadata"]["Output"] = "Redacted"
+            else:
+                # Raw mode
+                conversation_data["ContentMetadata"]["Output"] = "Raw"
+            
+            if dry_run:
+                print(f"[DRY RUN] Would write: {file_path}")
+            else:
+                # Write conversation file
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    json.dump(conversation_data, f, indent=2, ensure_ascii=False)
             
             exported_count += 1
             
@@ -125,11 +193,39 @@ def export_conversations(conversations, output_dir, batch_size=100):
         "total_conversations": len(conversations),
         "exported_count": exported_count,
         "skipped_count": skipped_count,
+        "scrubbed_utterances": scrubbed_count,
+        "pii_mode": pii_mode,
+        "pii_strategy": pii_strategy,
+        "pii_stats": pii_stats,
         "output_directory": str(output_path)
     }
     
-    with open(output_path / "export_summary.json", 'w') as f:
-        json.dump(summary, f, indent=2)
+    if not dry_run:
+        with open(output_path / "export_summary.json", 'w') as f:
+            json.dump(summary, f, indent=2)
+        
+        # Write PII report if enabled
+        if pii_config.get('report', {}).get('enable', True):
+            report_path = Path(pii_config['report'].get('path', 'out/PII_REPORT.json'))
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            pii_report = {
+                "export_date": datetime.now().isoformat(),
+                "totals": {
+                    "files_processed": exported_count,
+                    "utterances_total": sum(len(conv[1].get('Transcript', [])) for conv in conversations if isinstance(conv[1], dict)),
+                    "scrubbed_utterances": scrubbed_count,
+                    "strategy_used": pii_strategy
+                },
+                "failures": {
+                    "files_failed": skipped_count,
+                    "reason": "validation_failed"
+                },
+                "sample_counts": pii_stats
+            }
+            
+            with open(report_path, 'w') as f:
+                json.dump(pii_report, f, indent=2)
     
     print(f"\nExport complete:")
     print(f"  Exported: {exported_count}")
@@ -175,17 +271,45 @@ def validate_lex_format(conversation_data):
     return True
 
 def main():
-    parser = argparse.ArgumentParser(description="Export conversations to LEX format")
+    parser = argparse.ArgumentParser(description="Export conversations to LEX format with PII scrubbing")
     parser.add_argument("--output-dir", default="lex_export", help="Output directory")
     parser.add_argument("--quality-threshold", type=float, help="Minimum quality score")
     parser.add_argument("--limit", type=int, help="Maximum conversations to export")
     parser.add_argument("--batch-size", type=int, default=100, help="Progress update interval")
     parser.add_argument("--all", action="store_true", help="Export all conversations")
     
+    # PII scrubbing arguments
+    parser.add_argument("--mode", choices=["safe", "raw"], help="PII scrubbing mode")
+    parser.add_argument("--pii-strategy", choices=["llm", "regex", "off"], help="PII scrubbing strategy")
+    parser.add_argument("--llm-endpoint", help="Override LLM endpoint URL")
+    parser.add_argument("--llm-model", help="Override LLM model name")
+    parser.add_argument("--dry-run", action="store_true", help="Preview without writing files")
+    parser.add_argument("--report", help="Override PII report path")
+    parser.add_argument("--force-unsafe", action="store_true", help="Allow strategy=off in safe mode")
+    
     args = parser.parse_args()
     
-    # Load database config
+    # Load configurations
     db_config = load_db_config()
+    pii_config = load_pii_config()
+    
+    # Determine PII settings
+    pii_mode = args.mode or pii_config.get('default_mode', 'safe')
+    pii_strategy = args.pii_strategy or pii_config.get('default_strategy', 'llm')
+    
+    # Override LLM settings if provided
+    if args.llm_endpoint:
+        pii_config['llm']['endpoint'] = args.llm_endpoint
+    if args.llm_model:
+        pii_config['llm']['model'] = args.llm_model
+    if args.report:
+        pii_config['report']['path'] = args.report
+    
+    # Validate PII settings
+    if pii_mode == "safe" and pii_strategy == "off" and not args.force_unsafe:
+        print("❌ Cannot use strategy=off in safe mode. Use --force-unsafe or change strategy.")
+        return 1
+    
     print(f"Connecting to database: {db_config['host']}:{db_config['port']}/{db_config['database']}")
     
     # Set quality threshold
@@ -205,8 +329,11 @@ def main():
         
         print(f"Found {len(conversations)} conversations")
         
-        # Export conversations
-        exported, skipped = export_conversations(conversations, args.output_dir, args.batch_size)
+        # Export conversations with PII scrubbing
+        exported, skipped = export_conversations(
+            conversations, args.output_dir, args.batch_size,
+            pii_mode, pii_strategy, pii_config, args.dry_run
+        )
         
         if exported > 0:
             print(f"\n✅ Successfully exported {exported} conversations for LEX training")

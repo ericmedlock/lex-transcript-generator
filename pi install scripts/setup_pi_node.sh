@@ -71,16 +71,30 @@ if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null || [ "$(uname -m)" = "aarch6
         cmake --build . --config Release -j$(nproc)
     fi
     
-    # Download Gemma 1B model (GGUF format)
-    echo "📥 Downloading Gemma 1B model..."
+    # Setup models directory
+    echo "📥 Setting up models..."
     mkdir -p models
     cd models
-    if [ ! -f "gemma-1.1-2b-it-Q4_K_M.gguf" ]; then
+    
+    # Check for local models first
+    SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"  # Get script directory
+    LOCAL_MODELS_DIR="$SCRIPT_DIR/models"
+    
+    # Copy Gemma model from local if available
+    if [ -f "$LOCAL_MODELS_DIR/gemma-1.1-2b-it-Q4_K_M.gguf" ]; then
+        echo "📁 Found local Gemma model, copying..."
+        cp "$LOCAL_MODELS_DIR/gemma-1.1-2b-it-Q4_K_M.gguf" .
+    elif [ ! -f "gemma-1.1-2b-it-Q4_K_M.gguf" ]; then
+        echo "🌐 Downloading Gemma 1B model..."
         wget "https://huggingface.co/bartowski/gemma-1.1-2b-it-GGUF/resolve/main/gemma-1.1-2b-it-Q4_K_M.gguf"
     fi
     
-    # Download small embedding model
-    if [ ! -f "nomic-embed-text-v1.5.f16.gguf" ]; then
+    # Copy embedding model from local if available
+    if [ -f "$LOCAL_MODELS_DIR/nomic-embed-text-v1.5.f16.gguf" ]; then
+        echo "📁 Found local embedding model, copying..."
+        cp "$LOCAL_MODELS_DIR/nomic-embed-text-v1.5.f16.gguf" .
+    elif [ ! -f "nomic-embed-text-v1.5.f16.gguf" ]; then
+        echo "🌐 Downloading embedding model..."
         wget "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5-GGUF/resolve/main/nomic-embed-text-v1.5.f16.gguf"
     fi
     
@@ -154,6 +168,7 @@ if python scripts/health_check.py; then
         echo ""
         echo "🔗 Verify server: http://localhost:1234/v1/models"
         echo "📝 Note: Pi uses Gemma 1B model (optimized for ARM)"
+        echo "💾 Models location: ~/llama.cpp/models/"
     else
         echo "🖥️ Desktop Setup:"
         echo "1. Start LM Studio: ~/LM_Studio-0.2.31.AppImage"

@@ -1,0 +1,14 @@
+default_mode: "safe"
+default_strategy: "llm"
+
+llm:
+  endpoint: "http://127.0.0.1:11434/api/generate"
+  model: "redactor-7b-gguf"
+  timeout_s: 20
+
+scrub:
+  placeholder_style: "angle"  # "angle" -> <NAME>, "bracket" -> [NAME]
+
+report:
+  enable: true
+  path: "out/PII_REPORT.json"

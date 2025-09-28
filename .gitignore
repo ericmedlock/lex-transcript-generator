@@ -34,3 +34,9 @@ Thumbs.db
 
 # Generated outputs
 conversation_dump_*.txt
+
+# Model files
+models/
+*.gguf
+*.bin
+*.safetensors
