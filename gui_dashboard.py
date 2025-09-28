@@ -14,7 +14,10 @@ import time
 from datetime import datetime, timedelta
 import numpy as np
 import psutil
-import GPUtil
+try:
+    import GPUtil
+except ImportError:
+    GPUtil = None
 
 class TranscriptDashboard:
     def __init__(self):
@@ -22,6 +25,7 @@ class TranscriptDashboard:
         self.root.title("Transcript Intelligence Dashboard")
         self.root.geometry("1200x900")
         self.root.minsize(1000, 700)
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         
         # Database config
         self.db_config = {
@@ -118,6 +122,7 @@ class TranscriptDashboard:
         control_frame.pack(fill=tk.X, pady=(10, 0))
         
         ttk.Button(control_frame, text="Refresh Now", command=self.refresh_data).pack(side=tk.LEFT)
+        ttk.Button(control_frame, text="Node Details", command=self.show_node_details).pack(side=tk.LEFT, padx=(10, 0))
         ttk.Button(control_frame, text="Spot Check (50)", command=self.run_spot_check).pack(side=tk.LEFT, padx=(10, 0))
         self.grade_all_btn = ttk.Button(control_frame, text="Grade All", command=self.run_grade_all)
         self.grade_all_btn.pack(side=tk.LEFT, padx=(10, 0))
@@ -229,49 +234,91 @@ class TranscriptDashboard:
         conversations_last_hour = cur.fetchone()[0]
         self.stats_labels["conversations_per_hour"].config(text=str(conversations_last_hour))
         
-        # System metrics
-        self.update_system_metrics()
+        # Remote node metrics
+        self.update_node_metrics()
         
         cur.close()
         conn.close()
     
-    def update_system_metrics(self):
-        """Update CPU, memory, GPU metrics"""
+    def update_node_metrics(self):
+        """Update metrics from remote nodes"""
         try:
-            # CPU usage
-            cpu_percent = psutil.cpu_percent(interval=0.1)
-            self.stats_labels["cpu_usage"].config(text=f"{cpu_percent:.1f}%")
+            conn = self.get_db()
+            cur = conn.cursor()
             
-            # Memory usage
-            memory = psutil.virtual_memory()
-            self.stats_labels["memory_usage"].config(text=f"{memory.percent:.1f}%")
+            # Get system metrics from all active nodes
+            cur.execute("""
+                SELECT hostname, system_metrics 
+                FROM nodes 
+                WHERE status = 'online' AND system_metrics IS NOT NULL
+                ORDER BY last_seen DESC
+            """)
             
-            # CPU temperature (if available)
-            try:
-                temps = psutil.sensors_temperatures()
-                if temps:
-                    cpu_temp = list(temps.values())[0][0].current
-                    self.stats_labels["cpu_temp"].config(text=f"{cpu_temp:.1f}°C")
+            nodes_data = cur.fetchall()
+            
+            if nodes_data:
+                # Aggregate metrics from all nodes
+                total_cpu = 0
+                total_memory = 0
+                total_gpu = 0
+                cpu_temps = []
+                gpu_temps = []
+                node_count = 0
+                
+                for hostname, metrics_json in nodes_data:
+                    try:
+                        metrics = json.loads(metrics_json)
+                        if metrics.get('cpu_percent') is not None:
+                            total_cpu += metrics['cpu_percent']
+                            node_count += 1
+                        if metrics.get('memory_percent') is not None:
+                            total_memory += metrics['memory_percent']
+                        if metrics.get('gpu_usage') is not None:
+                            total_gpu += metrics['gpu_usage']
+                        if metrics.get('cpu_temp') is not None:
+                            cpu_temps.append(metrics['cpu_temp'])
+                        if metrics.get('gpu_temp') is not None:
+                            gpu_temps.append(metrics['gpu_temp'])
+                    except:
+                        continue
+                
+                # Update labels with aggregated data
+                if node_count > 0:
+                    avg_cpu = total_cpu / node_count
+                    avg_memory = total_memory / node_count
+                    avg_gpu = total_gpu / node_count if total_gpu > 0 else 0
+                    
+                    self.stats_labels["cpu_usage"].config(text=f"{avg_cpu:.1f}%")
+                    self.stats_labels["memory_usage"].config(text=f"{avg_memory:.1f}%")
+                    self.stats_labels["gpu_usage"].config(text=f"{avg_gpu:.1f}%" if avg_gpu > 0 else "N/A")
+                    
+                    if cpu_temps:
+                        avg_cpu_temp = sum(cpu_temps) / len(cpu_temps)
+                        self.stats_labels["cpu_temp"].config(text=f"{avg_cpu_temp:.1f}°C")
+                    else:
+                        self.stats_labels["cpu_temp"].config(text="N/A")
+                    
+                    if gpu_temps:
+                        avg_gpu_temp = sum(gpu_temps) / len(gpu_temps)
+                        self.stats_labels["gpu_temp"].config(text=f"{avg_gpu_temp:.1f}°C")
+                    else:
+                        self.stats_labels["gpu_temp"].config(text="N/A")
                 else:
-                    self.stats_labels["cpu_temp"].config(text="N/A")
-            except:
-                self.stats_labels["cpu_temp"].config(text="N/A")
+                    # No metrics available
+                    for key in ["cpu_usage", "memory_usage", "gpu_usage", "cpu_temp", "gpu_temp"]:
+                        self.stats_labels[key].config(text="N/A")
+            else:
+                # No nodes with metrics
+                for key in ["cpu_usage", "memory_usage", "gpu_usage", "cpu_temp", "gpu_temp"]:
+                    self.stats_labels[key].config(text="N/A")
             
-            # GPU metrics
-            try:
-                gpus = GPUtil.getGPUs()
-                if gpus:
-                    gpu = gpus[0]
-                    self.stats_labels["gpu_usage"].config(text=f"{gpu.load*100:.1f}%")
-                    self.stats_labels["gpu_temp"].config(text=f"{gpu.temperature:.1f}°C")
-                else:
-                    self.stats_labels["gpu_usage"].config(text="N/A")
-                    self.stats_labels["gpu_temp"].config(text="N/A")
-            except:
-                self.stats_labels["gpu_usage"].config(text="N/A")
-                self.stats_labels["gpu_temp"].config(text="N/A")
+            cur.close()
+            conn.close()
+            
         except Exception as e:
-            print(f"Error updating system metrics: {e}")
+            print(f"Error updating node metrics: {e}")
+            for key in ["cpu_usage", "memory_usage", "gpu_usage", "cpu_temp", "gpu_temp"]:
+                self.stats_labels[key].config(text="Error")
     
     def update_generation_chart(self):
         """Update generation rate chart"""
@@ -522,6 +569,126 @@ class TranscriptDashboard:
         # Run in background thread
         threading.Thread(target=analysis_thread, daemon=True).start()
     
+    def show_node_details(self):
+        """Show detailed node metrics window"""
+        details_window = tk.Toplevel(self.root)
+        details_window.title("Node Details")
+        details_window.geometry("800x600")
+        details_window.transient(self.root)
+        
+        # Create treeview for node data
+        columns = ('hostname', 'status', 'cpu', 'memory', 'gpu', 'cpu_temp', 'gpu_temp', 'last_seen')
+        tree = ttk.Treeview(details_window, columns=columns, show='headings', height=15)
+        
+        # Define headings
+        tree.heading('hostname', text='Node')
+        tree.heading('status', text='Status')
+        tree.heading('cpu', text='CPU %')
+        tree.heading('memory', text='Memory %')
+        tree.heading('gpu', text='GPU %')
+        tree.heading('cpu_temp', text='CPU Temp')
+        tree.heading('gpu_temp', text='GPU Temp')
+        tree.heading('last_seen', text='Last Seen')
+        
+        # Configure column widths
+        tree.column('hostname', width=100)
+        tree.column('status', width=80)
+        tree.column('cpu', width=80)
+        tree.column('memory', width=80)
+        tree.column('gpu', width=80)
+        tree.column('cpu_temp', width=80)
+        tree.column('gpu_temp', width=80)
+        tree.column('last_seen', width=150)
+        
+        # Add scrollbar
+        scrollbar = ttk.Scrollbar(details_window, orient=tk.VERTICAL, command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+        
+        # Pack widgets
+        tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(10, 0), pady=10)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 10), pady=10)
+        
+        # Refresh button
+        refresh_btn = ttk.Button(details_window, text="Refresh", 
+                                command=lambda: self.refresh_node_details(tree))
+        refresh_btn.pack(pady=5)
+        
+        # Load initial data
+        self.refresh_node_details(tree)
+    
+    def refresh_node_details(self, tree):
+        """Refresh node details in the treeview"""
+        # Clear existing items
+        for item in tree.get_children():
+            tree.delete(item)
+        
+        try:
+            conn = self.get_db()
+            cur = conn.cursor()
+            
+            # Get all nodes with their metrics
+            cur.execute("""
+                SELECT hostname, node_type, status, system_metrics, last_seen
+                FROM nodes 
+                ORDER BY node_type, hostname
+            """)
+            
+            nodes_data = cur.fetchall()
+            
+            for hostname, node_type, status, metrics_json, last_seen in nodes_data:
+                # Parse metrics
+                cpu_usage = "N/A"
+                memory_usage = "N/A"
+                gpu_usage = "N/A"
+                cpu_temp = "N/A"
+                gpu_temp = "N/A"
+                
+                if metrics_json:
+                    try:
+                        metrics = json.loads(metrics_json)
+                        cpu_usage = f"{metrics.get('cpu_percent', 'N/A'):.1f}%" if metrics.get('cpu_percent') is not None else "N/A"
+                        memory_usage = f"{metrics.get('memory_percent', 'N/A'):.1f}%" if metrics.get('memory_percent') is not None else "N/A"
+                        gpu_usage = f"{metrics.get('gpu_usage', 'N/A'):.1f}%" if metrics.get('gpu_usage') is not None else "N/A"
+                        cpu_temp = f"{metrics.get('cpu_temp', 'N/A'):.1f}°C" if metrics.get('cpu_temp') is not None else "N/A"
+                        gpu_temp = f"{metrics.get('gpu_temp', 'N/A'):.1f}°C" if metrics.get('gpu_temp') is not None else "N/A"
+                    except:
+                        pass
+                
+                # Format last seen
+                if last_seen:
+                    time_diff = datetime.now() - last_seen
+                    if time_diff.seconds < 60:
+                        last_seen_str = f"{time_diff.seconds}s ago"
+                    elif time_diff.seconds < 3600:
+                        last_seen_str = f"{time_diff.seconds//60}m ago"
+                    else:
+                        last_seen_str = last_seen.strftime("%H:%M:%S")
+                else:
+                    last_seen_str = "Never"
+                
+                # Color code by status
+                node_display = f"{hostname} ({node_type})"
+                
+                item = tree.insert('', tk.END, values=(
+                    node_display, status, cpu_usage, memory_usage, 
+                    gpu_usage, cpu_temp, gpu_temp, last_seen_str
+                ))
+                
+                # Color code rows
+                if status == 'online':
+                    tree.set(item, 'status', '🟢 Online')
+                elif status == 'offline':
+                    tree.set(item, 'status', '🔴 Offline')
+                else:
+                    tree.set(item, 'status', f'🟡 {status}')
+            
+            cur.close()
+            conn.close()
+            
+        except Exception as e:
+            print(f"Error refreshing node details: {e}")
+            tree.insert('', tk.END, values=('Error', str(e), '', '', '', '', '', ''))
+    
     def export_report(self):
         """Export dashboard data to file"""
         try:
@@ -566,9 +733,20 @@ class TranscriptDashboard:
         # Start background refresh thread
         threading.Thread(target=auto_refresh, daemon=True).start()
     
+    def on_closing(self):
+        """Handle window close event"""
+        try:
+            self.root.quit()
+            self.root.destroy()
+        except:
+            pass
+    
     def run(self):
         """Start the dashboard"""
-        self.root.mainloop()
+        try:
+            self.root.mainloop()
+        except KeyboardInterrupt:
+            self.on_closing()
 
 if __name__ == "__main__":
     dashboard = TranscriptDashboard()
