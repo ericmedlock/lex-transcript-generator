@@ -11,8 +11,15 @@ import yaml
 import logging
 from datetime import datetime, date
 from pathlib import Path
-from pii_scrubber.engine import scrub_text, detect_pii_regex
-from pii_scrubber.llm_client import LLMUnavailableError
+try:
+    from pii_scrubber.engine import scrub_text, detect_pii_regex
+    from pii_scrubber.llm_client import LLMUnavailableError
+    PII_AVAILABLE = True
+except ImportError:
+    PII_AVAILABLE = False
+    def scrub_text(text, mode, strategy, config): return text
+    def detect_pii_regex(text): return {}
+    class LLMUnavailableError(Exception): pass
 
 def load_db_config():
     """Load database configuration"""
@@ -41,8 +48,29 @@ def load_db_config():
         "password": "pass"
     }
 
-def get_conversations(db_config, quality_threshold=None, limit=None):
-    """Fetch conversations from database"""
+def show_data_menu():
+    """Display ASCII menu for data selection"""
+    print("\n" + "="*50)
+    print("         LEX EXPORT DATA SELECTION")
+    print("="*50)
+    print("1. ALL data")
+    print("2. Just the last run")
+    print("3. Today")
+    print("4. This week")
+    print("="*50)
+    
+    while True:
+        try:
+            choice = input("Select option (1-4): ").strip()
+            if choice in ['1', '2', '3', '4']:
+                return int(choice)
+            print("Invalid choice. Please enter 1, 2, 3, or 4.")
+        except KeyboardInterrupt:
+            print("\nExiting...")
+            return None
+
+def get_conversations(db_config, quality_threshold=None, limit=None, data_filter=None):
+    """Fetch conversations from database with filtering options"""
     conn = psycopg2.connect(**db_config)
     cur = conn.cursor()
     
@@ -52,6 +80,18 @@ def get_conversations(db_config, quality_threshold=None, limit=None):
         WHERE content IS NOT NULL
     """
     params = []
+    
+    # Add data filter
+    if data_filter == 2:  # Last run
+        cur.execute("SELECT MAX(run_id) FROM conversations")
+        max_run = cur.fetchone()[0]
+        if max_run:
+            query += " AND run_id = %s"
+            params.append(max_run)
+    elif data_filter == 3:  # Today
+        query += " AND created_at >= CURRENT_DATE"
+    elif data_filter == 4:  # This week
+        query += " AND created_at >= date_trunc('week', CURRENT_DATE)"
     
     if quality_threshold is not None:
         query += " AND quality_score >= %s"
@@ -277,6 +317,7 @@ def main():
     parser.add_argument("--limit", type=int, help="Maximum conversations to export")
     parser.add_argument("--batch-size", type=int, default=100, help="Progress update interval")
     parser.add_argument("--all", action="store_true", help="Export all conversations")
+    parser.add_argument("--data-filter", type=int, choices=[1,2,3,4], help="Data filter: 1=all, 2=last run, 3=today, 4=this week")
     
     # PII scrubbing arguments
     parser.add_argument("--mode", choices=["safe", "raw"], help="PII scrubbing mode")
@@ -288,6 +329,13 @@ def main():
     parser.add_argument("--force-unsafe", action="store_true", help="Allow strategy=off in safe mode")
     
     args = parser.parse_args()
+    
+    # Show menu if no data filter specified
+    data_filter = args.data_filter
+    if not data_filter:
+        data_filter = show_data_menu()
+        if data_filter is None:
+            return 1
     
     # Load configurations
     db_config = load_db_config()
@@ -305,6 +353,11 @@ def main():
     if args.report:
         pii_config['report']['path'] = args.report
     
+    # Check PII availability
+    if not PII_AVAILABLE and pii_mode == "safe":
+        print("⚠️ PII scrubber not available, switching to raw mode")
+        pii_mode = "raw"
+    
     # Validate PII settings
     if pii_mode == "safe" and pii_strategy == "off" and not args.force_unsafe:
         print("❌ Cannot use strategy=off in safe mode. Use --force-unsafe or change strategy.")
@@ -320,8 +373,9 @@ def main():
     
     try:
         # Fetch conversations
-        print("Fetching conversations from database...")
-        conversations = get_conversations(db_config, quality_threshold, args.limit)
+        filter_names = {1: "all data", 2: "last run", 3: "today", 4: "this week"}
+        print(f"Fetching conversations from database ({filter_names.get(data_filter, 'unknown filter')})...")
+        conversations = get_conversations(db_config, quality_threshold, args.limit, data_filter)
         
         if not conversations:
             print("No conversations found matching criteria")
