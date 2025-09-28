@@ -517,16 +517,16 @@ class MasterOrchestrator:
             cur.execute("SELECT COUNT(*) FROM conversations")
             conv_count = cur.fetchone()[0]
             
-            # Calculate generation rate (conversations per hour)
+            # Calculate generation rate (conversations per minute)
             cur.execute(
-                "SELECT COUNT(*) FROM conversations WHERE created_at > NOW() - INTERVAL '1 hour'"
+                "SELECT COUNT(*) FROM conversations WHERE created_at > NOW() - INTERVAL '1 minute'"
             )
-            hourly_rate = cur.fetchone()[0]
+            minute_rate = cur.fetchone()[0]
             
             # Get node performance data
             cur.execute(
                 """SELECT hostname, capabilities, last_seen, 
-                   (SELECT COUNT(*) FROM jobs WHERE assigned_node_id = nodes.id AND status = 'completed' AND completed_at > NOW() - INTERVAL '1 hour') as jobs_completed
+                   (SELECT COUNT(*) FROM jobs WHERE assigned_node_id = nodes.id AND status = 'completed' AND completed_at > NOW() - INTERVAL '1 minute') as jobs_completed
                    FROM nodes WHERE status = 'online' AND node_type != 'master'"""
             )
             node_stats = cur.fetchall()
@@ -539,13 +539,13 @@ class MasterOrchestrator:
                 self.nodes[hostname].update({
                     'last_seen': last_seen,
                     'capabilities': capabilities if isinstance(capabilities, list) else (json.loads(capabilities) if capabilities else []),
-                    'jobs_per_hour': jobs_completed,
+                    'jobs_per_minute': jobs_completed,
                     'status': 'healthy' if (datetime.now() - last_seen).seconds < node_timeout else 'stale'
                 })
             
             # Calculate system efficiency
-            total_jobs_per_hour = sum(node.get('jobs_per_hour', 0) for node in self.nodes.values())
-            avg_jobs_per_node = total_jobs_per_hour / max(nodes_count, 1)
+            total_jobs_per_minute = sum(node.get('jobs_per_minute', 0) for node in self.nodes.values())
+            avg_jobs_per_node = total_jobs_per_minute / max(nodes_count, 1)
             
             stats = {
                 'nodes': nodes_count,
@@ -553,18 +553,18 @@ class MasterOrchestrator:
                 'running_jobs': running_count,
                 'completed_jobs': completed_count,
                 'conversations': conv_count,
-                'hourly_rate': hourly_rate,
-                'total_jobs_per_hour': total_jobs_per_hour,
+                'minute_rate': minute_rate,
+                'total_jobs_per_minute': total_jobs_per_minute,
                 'avg_jobs_per_node': avg_jobs_per_node
             }
             
-            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations, {stats['hourly_rate']}/hr")
+            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations, {stats['minute_rate']}/min")
             
             # Log node performance
             for hostname, node_data in self.nodes.items():
                 status = node_data.get('status', 'unknown')
-                jobs_per_hour = node_data.get('jobs_per_hour', 0)
-                print(f"  Node {hostname}: {status}, {jobs_per_hour} jobs/hr")
+                jobs_per_minute = node_data.get('jobs_per_minute', 0)
+                print(f"  Node {hostname}: {status}, {jobs_per_minute} jobs/min")
             
             cur.close()
             conn.close()
