@@ -1,0 +1,89 @@
+{
+  "Version": "1.1.0",
+  "Transcript": [
+    {
+      "Id": "T000001",
+      "Content": "Okay, here's the redacted text with placeholders replacing the PII:\n\n<<<Hello, I’d like to order a pizza for delivery.>>>\n\n<NAME> would like to order a pizza for delivery.\n<PHONE> is available.\n<EMAIL> is <EMAIL>.\n<DATE> is today.\n<ADDRESS> is 123 Main Street.\n<ID> is <ID>.\n<INSURANCEID> is <INSURANCEID>.",
+      "ParticipantId": "C1"
+    },
+    {
+      "Id": "T000002",
+      "Content": "Okay, here’s the redacted text with placeholders for PII:\n\n<<<Certainly! What kind of pizza would you like? And could you tell me your address and phone number please?>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000003",
+      "Content": "Okay, thanks. Just one moment while I pull up your account. Let me just check… Alright, I see you have a <NAME> order with us. Is that correct?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000004",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Perfect! And would you like any drinks or sides with that?>>>\n\n<NAME> would like to order.\n<PHONE> is available.\n<EMAIL> is <EMAIL>.\n<DATE> is today.\n<ADDRESS> is <ADDRESS>.\n<ID> is <ID>.\n<INSURANCEID> is <INSURANCEID>.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000005",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Absolutely. We can definitely add some extra cheese. Would you like us to do that as well? It’s quite popular>>>\n\n<NAME> would like to do that as well.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000006",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<I understand completely, and I apologize for any inconvenience.  I appreciate you letting me know about that. Let's just confirm – you want a large pepperoni pizza with extra cheese, is that right?>>>\n\n<NAME> <PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000007",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Great. Now, to complete the order, we need a little verification of your insurance. Can you tell me what kind of insurance plan you have?  <NAME>  <PHONE>  <EMAIL>  <DATE>  <ADDRESS>  <ID>  <INSURANCEID>>>>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000008",
+      "Content": "Okay, let’s try this. Could you give me the <NAME> of your insurance provider and policy number?",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000009",
+      "Content": "<<<Thank you so much for that information. Please allow a few moments while I check our system for your insurance details… Okay, I see the information here now. It appears you have a policy with <NAME>. Just to be absolutely sure, is this correct?<PHONE> <EMAIL> <DATE> <ADDRESS> <ID> <INSURANCEID>>>>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000010",
+      "Content": "Okay, here's the redacted text based on your instructions:\n\n<<<Wonderful! We’re processing this now. It may take about ten minutes to finalize everything. Would you like to wait on the phone or would you prefer a text message confirmation?>>>\n\n<NAME> will be replaced with <NAME>.\n<PHONE> will be replaced with <PHONE>.\n<EMAIL> will be replaced with <EMAIL>.\n<DATE> will be replaced with <DATE>.\n<ADDRESS> will be replaced with <ADDRESS>.\n<ID> will be replaced with <ID>.\n<INSURANCEID> will be replaced with <INSURANCEID>.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000011",
+      "Content": "Okay, here’s the redacted text with placeholders replacing the PII:\n\n<<<Certainly. Let me just confirm your contact number for texting – is it <PHONE>9876?>>>",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000012",
+      "Content": "Okay, here’s the redacted text based on your instructions:\n\n<<<Perfect. Your order has been placed. You'll receive a text message with the confirmation and estimated delivery time within the next hour. Again, I apologize for the slight delay in processing. Is there anything else I can assist you with today?>>>\n\n<NAME> will be received.\n<PHONE> will be received.\n<EMAIL> will be received.\n<DATE> will be received.\n<ADDRESS> will be received.\n<ID> will be received.\n<INSURANCEID> will be received.",
+      "ParticipantId": "A1"
+    },
+    {
+      "Id": "T000013",
+      "Content": "Okay, here’s the redacted text with placeholders for PII:\n\n<<<You're very welcome! Have a wonderful <DATE> pizza day!>>",
+      "ParticipantId": "A1"
+    }
+  ],
+  "Participants": [
+    {
+      "ParticipantId": "A1",
+      "ParticipantRole": "AGENT"
+    },
+    {
+      "ParticipantId": "C1",
+      "ParticipantRole": "CUSTOMER"
+    }
+  ],
+  "ContentMetadata": {
+    "Output": "Redacted",
+    "RedactionTypes": [
+      "PII"
+    ]
+  },
+  "CustomerMetadata": {
+    "ContactId": "095944c1-6f66-4936-857f-2c252de1c684"
+  }
+}
