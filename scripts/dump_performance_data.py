@@ -37,9 +37,7 @@ def export_performance_data():
         c.created_at,
         
         -- Extract performance metrics from JSON
-        c.evaluation_metrics->>'realness_score' as realness_score,
         c.evaluation_metrics->>'speed_score' as speed_score,
-        c.evaluation_metrics->>'gan_score' as gan_score,
         c.evaluation_metrics->>'duplicate_status' as duplicate_status,
         c.evaluation_metrics->>'completion_tokens' as completion_tokens,
         c.evaluation_metrics->>'rag_used' as rag_used,
