@@ -852,7 +852,7 @@ Now generate a conversation using this guidance:
                     
                     async with aiohttp.ClientSession() as session:
                         async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
-                        end_time = datetime.now()
+                            end_time = datetime.now()
                         duration_ms = int((end_time - start_time).total_seconds() * 1000)
                         
                         if resp.status == 200:
