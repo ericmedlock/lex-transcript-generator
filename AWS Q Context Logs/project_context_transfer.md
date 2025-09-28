@@ -1,46 +1,17 @@
-# LLM Transcript Generation Platform
+# LLM Transcript Platform - Ultra Context
 
-## Core System
-**Path**: `C:\Users\ericm\PycharmProjects\lex-transcript-generator\`  
-**DB**: PostgreSQL (EPM_DELL:5432/calllab)  
-**Architecture**: Model bakeoff → hash deduplication → OpenAI grading → CSV output  
-**Target**: 1000 conversations (10/job, 100 jobs)  
-**Master**: EPM_DELL preferred, `config/config.json` main config  
+**System**: `C:\Users\ericm\PycharmProjects\lex-transcript-generator\` | PostgreSQL EPM_DELL:5432/calllab | 1000 convs (10/job) | Hash dedupe → OpenAI grade → CSV
 
-## Key Files
-- `src/master/orchestrator.py` - Job creation, health monitoring, signal handling
-- `src/nodes/generation_node.py` - LLM worker, activity throttling, fixed logging bug
-- `scripts/model_bakeoff_with_dedupe.py` - Model testing with OpenAI grading
-- `src/core/dedupe_manager.py` - Hash-only deduplication (semantic too strict)
-- `scripts/health_check.py` / `scripts/status.py` - System validation
+**Core**: orchestrator.py (jobs, health, /5min perf monitor), generation_node.py (LLM worker, activity throttle), dedupe_manager.py (hash-only), health_check.py, dump_performance_data.py (analysis export)
 
-## Configuration
-**Main**: `config/config.json` (machine_name: EPM_DELL, debug_mode, models_filter)  
-**Per-Host**: Interactive setup, auto-detection, smart defaults  
-**Deduplication**: hash_only: false, similarity_threshold: 0.5 (but hash-only used)  
-**Grading**: OpenAI GPT-4o-mini (realness, coherence, naturalness, overall)  
+**Config**: config.json (EPM_DELL master, debug_mode, models_filter), per-hostname interactive setup, OpenAI GPT-4o-mini grading (R/C/N/O scores)
 
-## Features
-- Auto-discovery: LM Studio models, OpenAI keys, existing data
-- Activity detection: Gaming mode, thermal throttling, gradual scaling
-- Debug mode: models_filter for single model testing
-- Quality pipeline: Generation → Deduplication → Grading → Storage
-- Error recovery: Database retries, model fallbacks, graceful shutdown
+**Pipeline**: LM Studio models → generation (178.7 tok/s) → hash dedupe (run 18) → OpenAI grade → conversation_grades table → performance CSV export
 
-## Commands
-**Health**: `python scripts/health_check.py` (DB, LM Studio, configs)  
-**Status**: `python scripts/status.py` (conversations, nodes, jobs)  
-**Trial**: T1: `python src/master/orchestrator.py` T2: `python src/nodes/generation_node.py 1`  
-**Production**: T1: orchestrator, T2+: `python src/nodes/generation_node.py`  
-**Stop**: Ctrl+C (graceful shutdown)
+**Features**: Auto-discovery, gaming/thermal throttling, graceful shutdown, multi-node, debug single-model testing, Unicode fix (emojis→ASCII)
 
-## Recent Fixes
-- Fixed generation_node.py misleading failure messages (logging bug)
-- Switched to hash-only deduplication (semantic caused false duplicates)
-- Added debug flow tracking, fixed indentation in error handling
-- Validated with 2-job test (R=8, O=8 scores)
-- Resolved blue screen issues via conservative resource management
+**Commands**: health_check.py | status.py | Trial: T1 orchestrator T2 "node.py 1" | Prod: T1 orchestrator T2+ node.py | Export: dump_performance_data.py
 
-## Notes
-- Interactive config setup on first run, per-hostname tracking
-- Multi-node ready, auto-recovery, debug_mode + models_filter for testing
+**Status**: Working system, trial validated (R=8 O=8), syntax errors fixed, performance monitoring /5min, data export ready for analysis LLMs
+
+**Issues Fixed**: Misleading failure logs, semantic dedupe false positives, indentation syntax errors, Unicode encoding, undefined variables, redundant GAN fields
