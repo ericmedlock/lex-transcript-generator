@@ -11,9 +11,9 @@ from datetime import datetime
 import requests
 
 class DedupeManager:
-    def __init__(self):
-        self.db_config = {
-            'host': 'EPM_DELL',
+    def __init__(self, db_config=None):
+        self.db_config = db_config or {
+            'host': '192.168.68.60',
             'port': 5432,
             'database': 'calllab',
             'user': 'postgres',

@@ -54,5 +54,33 @@
     "resource_management": {
       "activity_detection": true
     }
+  },
+  "pi5": {
+    "db_config": {
+      "host": "192.168.68.60",
+      "port": 5432,
+      "database": "calllab",
+      "user": "postgres",
+      "password": "pass"
+    },
+    "llm_endpoint": "llama.cpp",
+    "generation": {
+      "temperature": 0.9,
+      "max_tokens": 2000
+    },
+    "rag": {
+      "enabled": false
+    },
+    "deduplication": {
+      "enabled": true,
+      "hash_only": true
+    },
+    "grading": {
+      "enabled": true,
+      "openai_api_key": "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"
+    },
+    "resource_management": {
+      "activity_detection": true
+    }
   }
 }

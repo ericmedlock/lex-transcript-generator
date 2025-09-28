@@ -482,7 +482,7 @@ class GenerationNode:
         try:
             sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
             from dedupe_manager import DedupeManager
-            return DedupeManager()
+            return DedupeManager(db_config=self.db_config)
         except Exception as e:
             print(f"Warning: Deduplication not available: {e}")
             return None
