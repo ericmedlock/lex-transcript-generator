@@ -4,95 +4,138 @@
 **Base Directory**: `C:\Users\ericm\PycharmProjects\LLM-Transcript-Data-Gen\`
 **Database**: PostgreSQL (EPM_DELL:5432, calllab, postgres/pass)
 **Output**: Amazon Connect Contact Lens v1.1.0 JSON format
-**Architecture**: Distributed master/worker nodes with activity monitoring, deduplication, RAG integration
+**Architecture**: Distributed master/worker nodes with per-hostname configs, graceful shutdown, interactive setup
+**Target**: 1000 conversations, 10 per job (100 jobs total)
 
 ## Key Components
-- **Enhanced Bakeoff**: `scripts/model_bakeoff_with_dedupe.py` - Multi-model benchmarking with activity monitoring, per-node deduplication
-- **Master Node**: `src/master/orchestrator.py` - Job scheduler with EPM_DELL preference, heartbeat monitoring
-- **Generation Node**: `src/nodes/generation_node.py` - LLM worker with RAG examples, duplicate detection
-- **Deduplication**: `src/core/dedupe_manager.py` - Run-specific vector similarity checking
-- **Activity Monitor**: `src/core/activity_monitor.py` - Gaming detection, resource throttling
-- **RAG System**: `src/data/rag_preprocessor.py` - Vector embeddings via LM Studio (768d)
+- **Master Orchestrator**: `src/master/orchestrator.py` - Job creation, health monitoring, EPM_DELL preference, signal handling
+- **Generation Node**: `src/nodes/generation_node.py` - LLM worker with ModelManager, PromptManager, activity throttling
+- **Enhanced Bakeoff**: `scripts/model_bakeoff_with_dedupe.py` - Per-hostname configs, interactive setup
+- **Core Systems**: DedupeManager, ActivityMonitor, ConversationGrader, RAGPreprocessor
+- **Health Check**: `scripts/health_check.py` - Pre-flight validation
+- **Status Check**: `scripts/status.py` - Quick system overview
 
-## Configuration
-**Database Schema**: postgres_schema.sql, rag_schema.sql, dedupe_schema.sql
-**Config**: config/config.json with deduplication (hash_only), resource_management, debug_mode sections
-**Dependencies**: psycopg2-binary, aiohttp, requests, psutil, openai
-**Hash-Only Deduplication**: Semantic similarity disabled, exact hash matching only
+## Configuration (Per-Hostname)
+**Orchestrator**: `config/orchestrator_config.json` (universal)
+**Nodes**: `config/node_config.json` (per-hostname with interactive setup)
+**Bakeoff**: `config/bakeoff_config.json` (per-hostname with interactive setup)
+**Logging**: `config/logging.json`, `logs/` directory
+**Auto-Setup**: Interactive prompts for missing configs with smart defaults
 
-## Quick Commands (Chat Interface)
+## Interactive Setup Features
+- **Auto-Detection**: Checks for existing conversations, OpenAI keys in environment
+- **Smart Defaults**: RAG enabled if data exists, hash-only deduplication, activity monitoring
+- **Per-Hostname**: Each machine gets its own config section
+- **Graceful Shutdown**: Ctrl+C properly shuts down with cleanup
+- **Config Validation**: Startup checks database, LLM endpoints, dependencies
 
-### System Check
-**"confirm DELL is ready"** → Runs ready check command
+## Features
+- **Interactive Setup**: Auto-creates configs with smart defaults, detects existing data
+- **Activity Detection**: Auto-throttles during gaming, heavy usage with gradual scaling
+- **Per-Hostname Configs**: Each machine maintains separate configuration
+- **Graceful Operations**: Signal handling, startup validation, error recovery
+- **Smart Defaults**: RAG (Y if data exists), deduplication (Y), grading (Y), activity monitoring (Y)
+- **Auto-Discovery**: LM Studio models, OpenAI keys from environment
+- **Master Preference**: EPM_DELL preferred with graceful takeover
+- **Quality Pipeline**: Generation → Deduplication → Grading → Storage
 
-### Debug Testing  
-**"run 1 debug cycle on DELL"** → Sets trials=1, runs bakeoff
+## Current System State
+- **Target**: 1000 conversations, 10 per job (100 jobs total)
+- **Database**: PostgreSQL with pgvector, auto-retry with exponential backoff
+- **Models**: Auto-detected from LM Studio, embedding models filtered
+- **Deduplication**: Hash-only by default (faster), per-hostname runs
+- **Activity Monitoring**: Gradual throttling, gaming detection, thermal protection
+- **Configs**: Per-hostname with interactive setup, tracked in git
+- **Logging**: Structured logging to console and files
 
-### Production Setup
-**"update config for full run"** → Sets trials=50+ for production
+## EPM_DELL Setup Checklist
 
-### Full Run Command
-**"give me command to do full run from terminal"** → Returns: `python scripts/model_bakeoff_with_dedupe.py`
+### 1. Health Check
+```bash
+python scripts/health_check.py
+```
+**Expected**: Database OK, LM Studio OK, configs validated
+
+### 2. System Status
+```bash
+python scripts/status.py
+```
+**Expected**: Shows current conversations, nodes, jobs
+
+### 3. Trial Run (REQUIRED before production)
+```bash
+# Terminal 1
+python src/master/orchestrator.py
+
+# Terminal 2 (after orchestrator starts)
+python src/nodes/generation_node.py 1
+```
+**Expected**: 1 conversation generated, graded, stored
+
+### 4. Production Launch
+```bash
+# Terminal 1 (Master)
+python src/master/orchestrator.py
+
+# Terminal 2+ (Workers - multiple machines)
+python src/nodes/generation_node.py
+```
+**Target**: 1000 conversations across all nodes
 
 ## Command Reference
 
-### Ready Check
-```python
-python -c "import sys,json; sys.path.append('src/core'); from dedupe_manager import DedupeManager; from activity_monitor import ActivityMonitor; c=json.load(open('config.json')); print('Machine:',c.get('machine_name')); print('Trials:',c.get('trials')); dm=DedupeManager(); am=ActivityMonitor(c); print('Dedup ready:',dm.embedding_model is not None); print('Activity ready:',am.activity_detection); print('Mode:',am.get_activity_mode()); print('Limits:',am.get_resource_limits()); print('System ready!')"
-```
-
-### Debug Setup (1 trial)
-```python
-python -c "import json; c=json.load(open('config.json')); c['trials']=1; c['machine_name']='EPM_DELL'; json.dump(c,open('config.json','w'),indent=2); print('Debug config set')"
-```
-
-### Production Setup (50 trials)
-```python
-python -c "import json; c=json.load(open('config.json')); c['trials']=50; c['machine_name']='EPM_DELL'; json.dump(c,open('config.json','w'),indent=2); print('Production config set')"
-```
-
-### Run Bakeoff
+### Health Check
 ```bash
-python scripts/model_bakeoff_with_dedupe.py
+python scripts/health_check.py
 ```
 
-## Features
-- **Activity Detection**: Auto-throttles during gaming (Steam, Epic, etc.)
-- **Resource Limits**: Idle(80%/70%), Active(30%/20%), Gaming(20%/10%), Thermal(10%/5%)
-- **Per-Node Deduplication**: Separate runs per machine for independent testing
-- **RAG Integration**: Uses real conversation examples in prompts
-- **Master Preference**: EPM_DELL becomes preferred master with graceful takeover
-- **Output Organization**: Timestamped directories in output/tool_runs/
-- **Quality Control**: OpenAI grading, vector similarity deduplication
-- **Multi-Model Support**: Auto-detects LM Studio models, filters embedding models
+### System Status
+```bash
+python scripts/status.py
+```
 
-## System State
-- **Database**: PostgreSQL with pgvector extension for embeddings
-- **Models**: Auto-detected from LM Studio /v1/models endpoint
-- **Deduplication**: Run-specific tables with 0.85 similarity threshold
-- **Activity Monitoring**: 5-second polling with process detection
-- **Temperature Protection**: Auto-throttles at 80°C
-- **Heartbeat**: 10-second intervals, 60-second failover timeout
+### Trial Run (1 conversation test)
+```bash
+# Terminal 1 (Master)
+python src/master/orchestrator.py
 
-## Quick Config Commands
+# Terminal 2 (Generator - limit 1 job)
+python src/nodes/generation_node.py 1
+```
 
-### Machine Setup
-**MSI Config**: `python -c "import json; c=json.load(open('config/config.json')); c['machine_name']='MSI-Laptop-4050'; json.dump(c,open('config/config.json','w'),indent=2)"`
-**DELL Config**: `python -c "import json; c=json.load(open('config/config.json')); c['machine_name']='EPM_DELL'; json.dump(c,open('config/config.json','w'),indent=2)"`
+### Production Run (1000 conversations)
+```bash
+# Terminal 1 (Master)
+python src/master/orchestrator.py
 
-### Debug vs Production
-**Debug Mode (1x1, gemma only)**: `python -c "import json; c=json.load(open('config/config.json')); c.update({'debug_mode':True,'trials':1,'conversations_per_trial':1}); json.dump(c,open('config/config.json','w'),indent=2)"`
-**Production Mode (10x10, all models)**: `python -c "import json; c=json.load(open('config/config.json')); c.update({'debug_mode':False,'trials':10,'conversations_per_trial':10}); json.dump(c,open('config/config.json','w'),indent=2)"`
+# Terminal 2+ (Generators - unlimited)
+python src/nodes/generation_node.py
+```
 
-### Run Commands
-**Debug Run**: `python scripts/model_bakeoff_with_dedupe.py --config config/config.json`
-**Production Run**: Same command (config determines behavior)
+## Chat Command Mapping for EPM_DELL
+- **"run health check"** → `python scripts/health_check.py`
+- **"check status"** → `python scripts/status.py`
+- **"run trial"** → Instructions for single conversation test
+- **"start production"** → Instructions for 1000 conversation run
+- **"confirm DELL ready"** → Full setup validation checklist
+- **"emergency stop"** → Ctrl+C all terminals (graceful shutdown)
 
-## Chat Command Mapping
-- **"confirm DELL is ready"** → Execute ready check command
-- **"run 1 debug cycle on DELL"** → Set debug mode, run bakeoff
-- **"update config for full run"** → Set production mode
-- **"give me command to do full run from terminal"** → Return: `python scripts/model_bakeoff_with_dedupe.py --config config/config.json`
-- **"check system status"** → Show current config and component status
-- **"view latest results"** → Run `python scripts/view_results.py`
-- **"initialize schemas"** → Run `python scripts/init_dedupe_schema.py`
+## Quick Commands for EPM_DELL Setup
+
+### Pre-Flight Check
+**"run health check"** → `python scripts/health_check.py`
+
+### System Status
+**"check status"** → `python scripts/status.py`
+
+### Trial Run (Single Conversation)
+**"run trial"** → Terminal 1: `python src/master/orchestrator.py`, Terminal 2: `python src/nodes/generation_node.py 1`
+
+### Production Run (1000 Conversations)
+**"start production"** → Terminal 1: `python src/master/orchestrator.py`, Terminal 2+: `python src/nodes/generation_node.py`
+
+## Notes
+- **First Run**: Will prompt for interactive config setup
+- **Configs Tracked**: All configs now in git (per-hostname)
+- **Auto-Recovery**: Database retries, model fallbacks, graceful errors
+- **Multi-Node Ready**: Run generators on multiple machines simultaneously

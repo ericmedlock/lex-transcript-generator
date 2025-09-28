@@ -47,8 +47,16 @@ class ConfigManager:
                     print(f"[CONFIG] Error loading {path}: {e}")
                     continue
         
-        print("[CONFIG] No config file found, using defaults")
-        return self.get_default_config()
+        print("[CONFIG] No config file found, creating new config...")
+        new_config = self.create_interactive_config()
+        
+        # Save to default location
+        Path("config").mkdir(exist_ok=True)
+        with open("config/orchestrator_config.json", 'w') as f:
+            json.dump(new_config, f, indent=2)
+        
+        print("[CONFIG] Saved orchestrator config")
+        return new_config
     
     def validate_config(self, config):
         """Validate configuration settings and connectivity"""
@@ -103,7 +111,7 @@ class ConfigManager:
                 "password": "pass"
             },
             "job_creation": {
-                "total_conversations": 100,
+                "total_conversations": 1000,
                 "conversations_per_job": 10,
                 "pending_queue_size": 5,
                 "check_interval": 30
@@ -113,6 +121,44 @@ class ConfigManager:
                 "node_timeout": 300
             }
         }
+    
+    def create_interactive_config(self):
+        """Create orchestrator configuration interactively"""
+        defaults = self.get_default_config()
+        config = {}
+        
+        print(f"\nConfiguring orchestrator (master node)")
+        print("Press Enter to accept defaults, or type new value:\n")
+        
+        # Basic settings
+        config["heartbeat_interval"] = int(input(f"Heartbeat interval seconds [{defaults['heartbeat_interval']}]: ") or defaults["heartbeat_interval"])
+        config["failover_timeout"] = int(input(f"Failover timeout seconds [{defaults['failover_timeout']}]: ") or defaults["failover_timeout"])
+        config["preferred_master"] = input(f"Preferred master hostname [{defaults['preferred_master']}]: ") or defaults["preferred_master"]
+        
+        # Database config
+        config["db_config"] = {}
+        config["db_config"]["host"] = input(f"Database host [{defaults['db_config']['host']}]: ") or defaults["db_config"]["host"]
+        config["db_config"]["port"] = int(input(f"Database port [{defaults['db_config']['port']}]: ") or defaults["db_config"]["port"])
+        config["db_config"]["database"] = input(f"Database name [{defaults['db_config']['database']}]: ") or defaults["db_config"]["database"]
+        config["db_config"]["user"] = input(f"Database user [{defaults['db_config']['user']}]: ") or defaults["db_config"]["user"]
+        config["db_config"]["password"] = input(f"Database password [{defaults['db_config']['password']}]: ") or defaults["db_config"]["password"]
+        
+        # Job creation settings
+        config["job_creation"] = {}
+        config["job_creation"]["total_conversations"] = int(input(f"Total conversations to generate [{defaults['job_creation']['total_conversations']}]: ") or defaults["job_creation"]["total_conversations"])
+        config["job_creation"]["conversations_per_job"] = int(input(f"Conversations per job [{defaults['job_creation']['conversations_per_job']}]: ") or defaults["job_creation"]["conversations_per_job"])
+        config["job_creation"]["pending_queue_size"] = int(input(f"Pending job queue size [{defaults['job_creation']['pending_queue_size']}]: ") or defaults["job_creation"]["pending_queue_size"])
+        
+        # Health monitoring
+        config["health_monitor"] = {}
+        config["health_monitor"]["check_interval"] = int(input(f"Health check interval seconds [{defaults['health_monitor']['check_interval']}]: ") or defaults["health_monitor"]["check_interval"])
+        config["health_monitor"]["node_timeout"] = int(input(f"Node timeout seconds [{defaults['health_monitor']['node_timeout']}]: ") or defaults["health_monitor"]["node_timeout"])
+        
+        # Set remaining defaults
+        config["network_check_timeout"] = defaults["network_check_timeout"]
+        config["job_creation"]["check_interval"] = defaults["job_creation"]["check_interval"]
+        
+        return config
     
     def get(self, key, default=None):
         """Get configuration value"""

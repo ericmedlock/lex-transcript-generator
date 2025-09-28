@@ -11,10 +11,10 @@
     "password": "pass"
   },
   "job_creation": {
-    "total_conversations": 1,
-    "conversations_per_job": 1,
-    "pending_queue_size": 1,
-    "check_interval": 10
+    "total_conversations": 1000,
+    "conversations_per_job": 10,
+    "pending_queue_size": 5,
+    "check_interval": 30
   },
   "health_monitor": {
     "check_interval": 60,
