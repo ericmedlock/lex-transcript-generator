@@ -254,12 +254,15 @@ class GenerationNode:
             
             print(f"[PI] Loading model from: {model_path}")
             
+            import os
+            n_cores = os.cpu_count() or 4
             self.llama_model = Llama(
                 model_path=model_path, 
                 n_ctx=2048, 
                 verbose=False,
-                n_threads=4  # Optimize for Pi
+                n_threads=n_cores  # Use all available cores
             )
+            print(f"[PI] Using {n_cores} CPU threads for inference")
             print(f"[PI] Successfully loaded llama.cpp model")
             
         except ImportError as e:
