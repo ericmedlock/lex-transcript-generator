@@ -528,7 +528,7 @@ class MasterOrchestrator:
                    MAX(j.completed_at) as last_completion
                    FROM nodes n
                    LEFT JOIN jobs j ON j.assigned_node_id = n.id AND j.status = 'completed' AND j.completed_at > NOW() - INTERVAL '10 minutes'
-                   WHERE n.status = 'online' AND n.node_type != 'master'
+                   WHERE n.status = 'online' AND n.node_type = 'generation'
                    GROUP BY n.hostname, n.capabilities, n.last_seen"""
             )
             node_stats = cur.fetchall()
