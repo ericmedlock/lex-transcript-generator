@@ -50,7 +50,7 @@ if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null || [ "$(uname -m)" = "aarch6
     echo "🍓 Raspberry Pi detected - installing llama.cpp..."
     
     # Install build dependencies
-    sudo apt install -y build-essential cmake git
+    sudo apt install -y build-essential cmake git libcurl4-openssl-dev
     
     # Clone and build llama.cpp
     cd ~
@@ -59,13 +59,15 @@ if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null || [ "$(uname -m)" = "aarch6
         cd llama.cpp
         mkdir build
         cd build
-        cmake ..
+        cmake .. -DLLAMA_CURL=OFF
         cmake --build . --config Release -j$(nproc)
     else
         echo "llama.cpp already exists, updating..."
         cd llama.cpp
         git pull
+        mkdir -p build
         cd build
+        cmake .. -DLLAMA_CURL=OFF
         cmake --build . --config Release -j$(nproc)
     fi
     
