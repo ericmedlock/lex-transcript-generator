@@ -1,0 +1,17 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759011279,2025-09-27T18:14:39.117212,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,5.08609676361084,512,100.6665865390475,True,unique,"User: Hi Dr. Lee, I wanted to reschedule my appointment next week. It’s been a bit of a squeeze lately. 
+
+Agent: Absolutely! Of course. Let me pull that up. Do you have a preferred date and time in mind? 
+
+User: Honestly, it's tough. I’m really trying to keep things as balanced as possible with my work.  I've got a meeting at 2 PM next Tuesday…that’s already booked. 
+
+Agent: Okay, I understand completely. So, you said Tuesday afternoon? Let me quickly check what’s available for the week of [Date"
+google/gemma-3-1b_2_1759011287,2025-09-27T18:14:47.412765,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,4.925443887710571,512,103.95002190106894,True,unique,"User: Hi, I’d like to cancel my appointment with Dr. Lee. It’s been a really busy week.
+
+Agent: Certainly, thank you for calling. Could you tell me your name and date of birth so I can pull up your file?
+
+User: It's Sarah Miller, born 1985.
+
+Agent: Okay, Sarah Miller. Let me check your insurance… Alright, we’re seeing here, Blue Cross Blue Shield, primary care plan. Do you have a specific doctor preference for a new appointment, or are you just looking to cancel?
+
+User: I really prefer Dr. Chen."

@@ -1,0 +1,58 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759008747,2025-09-27T17:32:27.574026,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,4.859665870666504,512,105.3570376289634,True,unique,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Could you tell me your name and date of birth, please?
+
+Patient: My name is Sarah Miller, and my birthday is July 12th.
+
+Agent: Thank you, Ms. Miller. And what type of appointment are you interested in?  Do you have a specific doctor in mind, or would you like to see a general check-up?
+
+Patient: I’d like to schedule a follow-up with Dr. Chen. I've been feeling a bit under the weather lately. 
+
+Agent: Okay, a follow-up with Dr. Ch"
+google/gemma-3-1b_2_1759008753,2025-09-27T17:32:33.420445,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,4.778321027755737,512,107.15060730033748,True,unique,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Let’s start with your name and date of birth?
+
+User: It's Sarah Miller, and my birthday is July 12th.
+
+Agent: Okay, Sarah Miller, July 12th. Do you have a preferred doctor or specialty?
+
+User: I’d prefer Dr. Chen – she specializes in cardiology.
+
+Agent: Great! And what type of appointment are you looking for? A routine check-up, something specific like a consultation?
+
+User: Hmm… probably just an annual check-up.  I’ve been feelin"
+google/gemma-3-1b_3_1759008759,2025-09-27T17:32:39.318273,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,4.840818166732788,512,105.76724478489635,True,unique,"User: Hi, I’d like to schedule an appointment for a checkup.
+
+Agent: Good morning/afternoon! Certainly. Let me pull up your file. Could you please provide me with your full name and date of birth?
+
+User: It's Sarah Miller, born January 12th, 1985.
+
+Agent: Okay, thank you, Sarah. And what type of appointment are you interested in – primary care, specialist, or something else?
+
+User: I’d like to see a general checkup.
+
+Agent: Alright. Let me check availability…  We have openings on Tuesdays and Th"
+google/gemma-3-1b_4_1759008764,2025-09-27T17:32:44.434712,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,4.0380775928497314,367,90.88483110127724,True,unique,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Certainly. Could you tell me what type of appointment you need?  Are you looking for a general check-up, or something more specific like a specialist consultation?
+
+User: I think it's just a routine physical – maybe a check-up. 
+
+Agent: Okay, a routine physical. And do you have a preferred date and time in mind, or would you prefer me to look at available options for you?
+
+User: Let’s say next Tuesday afternoon.
+
+Agent:  Let me"
+google/gemma-3-1b_5_1759008769,2025-09-27T17:32:49.981134,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,5,4.481262445449829,476,106.22006762476487,True,unique,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Certainly! Let’s see what’s available. Could you tell me a little about what you need? 
+
+User: I have a persistent cough and a slight fever.
+
+Agent: Okay, a cough and a fever – that could be several things.  To help me narrow it down, can you tell me when your symptoms started, and how severe are they right now?
+
+User: It’s been going on for about three days now. I feel pretty tired too, maybe just a little bit.
+
+Agent: Okay, let me check ou"

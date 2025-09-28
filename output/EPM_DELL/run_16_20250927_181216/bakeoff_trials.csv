@@ -1,0 +1,58 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759011148,2025-09-27T18:12:28.226337,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,6.055414438247681,512,84.5524291064317,True,unique,"User: Hi, I’d like to cancel my appointment today.
+
+Agent: Good morning! Certainly. Could you tell me your name and date of birth for verification?
+
+Patient: It's Sarah Miller, born January 12th.
+
+Agent: Thank you, Ms. Miller. Let me pull up your file… Okay, I see you’re covered by Medicare.  Do you have any questions about that today?
+
+User: Just wondering if the wait times are typically long, given my insurance plan. 
+
+Agent: (Pause) That’s a really good question.  It can vary quite a bit depe"
+google/gemma-3-1b_2_1759011156,2025-09-27T18:12:36.402829,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,5.009116888046265,512,102.2136259630584,False,semantic_similarity_0.845,"User: Hi, I’m calling about an urgent appointment. It’s really stressing me out. My heart is racing.
+
+Agent: Hello there, thank you for calling. I understand this is a stressful time. Can I get your name and date of birth please?
+
+User: Sarah Miller, born 1988.
+
+Agent: Thank you, Ms. Miller. Let’s see what we can do to help. Could you tell me a little bit about what's going on – the reason for your call?
+
+User: I just… I had this really bad wave of dizziness and shortness of breath this morning."
+google/gemma-3-1b_3_1759011164,2025-09-27T18:12:44.618680,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,5.009145021438599,512,102.21305188983257,False,semantic_similarity_0.819,"User: Hi Dr. Lee, I’m so sorry to bother you, but I need to reschedule this appointment. It’s just… a little overwhelming, honestly.
+
+Agent: Absolutely, [Patient Name]. Of course. No problem at all. Let's see what’s going on. Can you tell me what’s been causing the delay?
+
+User: Well, it started with my blood work, and I keep reading about something called “oxidative stress.” It just sounds… scary. And I’m a little anxious, to be honest. Really anxious about everything related to this.
+
+Agent: O"
+google/gemma-3-1b_4_1759011173,2025-09-27T18:12:53.226787,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,5.432436227798462,512,94.24869037210807,False,semantic_similarity_0.772,"User: Good morning, Dr. Ramirez. I’m Eleanor Davies. It's… well, it’s been a few weeks since my surgery. 
+
+Agent: Good morning, Mrs. Davies. Thank you for calling. Let me pull up your file. Just to confirm, this is your follow-up appointment regarding the knee replacement?
+
+User: Yes, that’s right. I was hoping we could discuss things a bit further. My hearing isn't what it used to be, and sometimes… well, sometimes I miss a lot of things. 
+
+Agent: I understand, Mrs. Davies. Hearing loss can def"
+google/gemma-3-1b_5_1759011181,2025-09-27T18:13:01.611895,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,5,5.234833717346191,512,97.80635405923826,False,semantic_similarity_0.881,"User: Hi, I’m calling about canceling my appointment. It’s scheduled for next Tuesday.
+
+Agent: Certainly! Let me pull up your account… Okay, I see you’re a patient with United Healthcare. Can you tell me your date of birth and phone number for verification?
+
+User: Sure, it's January 15th, 1982. My number is 555-123-4567.
+
+Agent: Thank you, Mr./Ms. [Patient’s Last Name].  Let me just check your insurance coverage… Okay, we see here that you’re enrolled in United Healthcare – Primary Care Plan. Do"
+google/gemma-3-1b_6_1759011190,2025-09-27T18:13:10.271522,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,6,5.462755441665649,512,93.72559424770552,False,semantic_similarity_0.736,"User: (Voice slightly strained) Hello? Is this… is this Dr. Evans?
+
+Agent: Yes, that’s right. My name is Sarah, how can I help you today?
+
+User: Oh, goodness, thank heavens. It’s my hearing... it's really difficult these days. I need to see Dr. Evans urgently.
+
+Agent: I understand, Mr… (pause) …Mr. Henderson, correct?  Let me pull up your file. Just one moment please. Okay, I have him here. What brings you in today? 
+
+User: It’s my hearing… it's just gotten so bad lately.  I keep mistaking sound"
+google/gemma-3-1b_7_1759011198,2025-09-27T18:13:18.448850,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,7,5.025691270828247,512,101.87653248258941,False,semantic_similarity_0.874,"User: Hello? My name is Eleanor Davies. I need to cancel my appointment with Dr. Miller.
+
+Agent: Good morning, Mrs. Davies. Thank you for calling. Could you tell me what’s happening today? 
+
+User: It’s… it’s difficult for me to hear clearly. I have trouble understanding things over the phone. And I need to reschedule this – I really can't make it. 
+
+Agent: I understand, Mrs. Davies.  Let’s see if we can find a time that works better for you. Can you tell me a little more about why you’re needing"

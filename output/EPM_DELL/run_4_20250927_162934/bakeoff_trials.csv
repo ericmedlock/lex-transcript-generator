@@ -1,0 +1,211 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3n-e4b_1_1759005006,2025-09-27T16:30:06.928848,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3n-e4b,1,26.976426362991333,452,16.755369815035763,False,semantic_similarity_0.933,"User: Hi, I'd like to schedule an appointment with Dr. Ramirez, please.
+
+Agent: Certainly! Thank you for calling. Can I just confirm your name and date of birth for our records?
+
+User: Yes, it's Sarah Miller. Date of birth is 03/15/1988.
+
+Agent: Thanks, Sarah. And what is the reason for your appointment today?
+
+User: It's for a check-up, just a general physical.
+
+Agent: Okay, a general physical. Do you have any preferred days or times?
+
+User: Hmm, I was hoping for sometime in the afternoon, if p"
+google/gemma-3n-e4b_2_1759005047,2025-09-27T16:30:47.423343,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3n-e4b,2,34.7481107711792,512,14.734614016042086,False,semantic_similarity_0.971,"User: Hi, I'd like to schedule an appointment with Dr. Lee, please.
+
+Agent: Certainly! Thank you for calling. Could you please tell me your name?
+
+User: It’s Sarah Miller. M-I-L-L-E-R.
+
+Agent: Thank you, Sarah. And could you confirm your date of birth for me? Just to make sure we have the right record.
+
+User: It's 03/15/1988.
+
+Agent: Perfect. Okay, let me pull up your information. ... Alright, I see you. What is the reason for your appointment today?
+
+User: I’ve been having some persistent heada"
+google/gemma-3n-e4b_3_1759005083,2025-09-27T16:31:23.701990,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3n-e4b,3,30.48998737335205,512,16.792397901990704,False,semantic_similarity_0.961,"User: Hi, I'd like to schedule an appointment with Dr. Lee, please.
+
+Agent: Certainly! Thank you for calling. Can I just get your full name?
+
+User: It’s Sarah Miller. M-I-L-L-E-R.
+
+Agent: Thank you, Ms. Miller. And what is the reason for your appointment today?
+
+User: I've been having some really bad headaches lately. They're pretty persistent.
+
+Agent: Okay, I understand. Headaches.  Do you know how long this has been going on?
+
+User:  Probably about two weeks now, maybe a little longer.
+
+Agent:"
+google/gemma-3n-e4b_4_1759005132,2025-09-27T16:32:12.293032,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3n-e4b,4,34.05116128921509,512,15.036197903833726,False,semantic_similarity_0.967,"User: Hi, I'd like to schedule an appointment with Dr. Lee, please.
+
+Agent: Certainly! Thank you for calling. Could you please tell me your full name?
+
+User: It's Sarah Miller. M-I-L-L-E-R.
+
+Agent: Thank you, Ms. Miller. And could you provide a phone number where we can reach you?
+
+User: Yes, it’s 555-123-4567.
+
+Agent: Great. Do you have any insurance with us?
+
+User: Yes, I have Blue Cross Blue Shield.
+
+Agent: Okay, Blue Cross Blue Shield. And what is the reason for your appointment today?
+
+User"
+google/gemma-3-4b_1_1759005154,2025-09-27T16:32:34.436063,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-4b,1,16.257844924926758,512,31.492488848567767,False,semantic_similarity_0.894,"User: Hi, I’m calling to schedule an appointment.
+
+Agent: Good morning! Thank you for calling Dr. Ramirez's office. My name is Sarah, how can I help you today?
+
+User: Yeah, it’s Michael Davies. I need to see a doctor – just a general check-up really.
+
+Agent: Okay, Mr. Davies. And could I get your date of birth, please?
+
+User: Uh, let me see… it's July 12th, 1985. July the twelfth, nineteen eighty-five.
+
+Agent: Thank you. Just one moment while I pull that up... Okay, Mr. Davies, I have you here. "
+google/gemma-3-4b_2_1759005212,2025-09-27T16:33:32.725383,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-4b,2,53.77345085144043,0,0,False,api_error,
+google/gemma-3-4b_3_1759005317,2025-09-27T16:35:17.441451,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-4b,3,101.0443000793457,0,0,False,api_error,
+google/gemma-3-4b_4_1759005334,2025-09-27T16:35:34.451616,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-4b,4,11.350541830062866,512,45.107978778944705,False,semantic_similarity_0.930,"User: Hi, I’d like to book an appointment please.
+
+Agent: Good morning! Thank you for calling Dr. Ramirez's office. My name is Sarah. Can I get your full name, please?
+
+User: It’s David Miller. D-A-V-I-D M-I-L-L-E-R.
+
+Agent: Okay, Mr. Miller. And can I just confirm your date of birth for verification purposes?
+
+User: Uh, let me see… June 12th, 1978.
+
+Agent: Perfect. Thank you. Now, what type of appointment are you looking to book today?
+
+User: I’ve been having a bit of a persistent cough and fee"
+deepseek/deepseek-r1-0528-qwen3-8b_1_1759005348,2025-09-27T16:35:48.543176,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b,1,10.909492254257202,0,0,False,api_error,
+deepseek/deepseek-r1-0528-qwen3-8b_2_1759005360,2025-09-27T16:36:00.834094,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b,2,9.192999362945557,0,0,False,api_error,
+deepseek/deepseek-r1-0528-qwen3-8b_3_1759005425,2025-09-27T16:37:05.681299,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b,3,59.28427267074585,512,8.636354583340434,False,semantic_similarity_0.914,"<think>
+Okay, user wants a realistic healthcare appointment scheduling dialog with specific requirements. Let me unpack this carefully.
+
+First, I notice they're very particular about format - strict alternating User/Agent lines, natural flow, including hesitations and corrections. This suggests they might be using it for professional training or scriptwriting rather than casual learning. The length requirement (20-40 turns) indicates they need substantial material, not just a quick example.
+
+Hmm"
+deepseek/deepseek-r1-0528-qwen3-8b_4_1759005441,2025-09-27T16:37:21.113452,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b,4,10.072953224182129,512,50.82918470929083,False,semantic_similarity_0.954,"<think>
+Okay, user wants a realistic medical appointment scheduling conversation with specific formatting requirements. They're asking for 20-40 turns between patient and receptionist, including natural hesitations and corrections.
+
+Hmm, this seems like someone preparing training materials or maybe writing a script? The emphasis on realism makes me think they need something authentic-sounding rather than just dry dialogue. The requirement to include ""hesitations and corrections"" tells me they un"
+liquid/lfm2-1.2b_1_1759005466,2025-09-27T16:37:46.617798,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,liquid/lfm2-1.2b,1,20.16997528076172,288,14.278649130259305,False,semantic_similarity_0.855,"**User:** Hi, I'd like to schedule an appointment with Dr. Smith for next week. Can you help me?
+
+**Agent:** Of course! What day and time are you available?
+
+**User:** Well, I was thinking Tuesday afternoon or Wednesday morning would work best.
+
+**Agent:** That sounds good. Let me check the availability on your end. *checks computer* Oh, I see... Tuesday at 2 PM works perfectly for me. Wednesday at 9 AM also fits. Which one would you prefer?
+
+**User:** I think I’ll go with Wednesday at 9 AM. It'"
+liquid/lfm2-1.2b_2_1759005488,2025-09-27T16:38:08.266843,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,liquid/lfm2-1.2b,2,15.687546014785767,470,29.960071483265605,False,semantic_similarity_0.927,"**Patient:** Hi, I'd like to schedule an appointment for next week. I have some health concerns.
+
+**Receptionist:** Hello! Of course, please make yourself comfortable. What day and time would work best for you? 
+
+**Patient:** Well, I was thinking maybe Tuesday afternoon or Wednesday morning. I could get something done between 2 PM and 4 PM.
+
+**Receptionist:** That sounds reasonable. Which specific days are you leaning towards?
+
+**Patient:** Wednesday looks good to me, but if I'm being realistic,"
+liquid/lfm2-1.2b_3_1759005512,2025-09-27T16:38:32.722758,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,liquid/lfm2-1.2b,3,9.529403924942017,243,25.500020978644642,False,semantic_similarity_0.862,"**User:** Hi, I'd like to schedule an appointment for my follow-up after last week’s checkup.
+
+**Agent:** Hello! Yes, I can help with that. May I start by asking what date and time are most convenient for you?
+
+**User:** Well, I was thinking maybe next Tuesday morning or early Thursday. 
+
+**Agent:** That sounds good to me. Next Tuesday morning works best for me. How about 11 AM?
+
+**User:** Yes, 11 AM next Tuesday works perfectly. Can you confirm that time with the doctor's office?
+
+**Agent:** Ab"
+liquid/lfm2-1.2b_4_1759005530,2025-09-27T16:38:50.589529,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,liquid/lfm2-1.2b,4,12.147068738937378,353,29.06050896612283,False,semantic_similarity_0.927,"**Patient:** Hi, can you help me schedule an appointment? I have a follow-up for my recent check-up. 
+
+**Receptionist:** Of course! Please, take your time. What day and time works best for you?
+
+**Patient:** Well, I was thinking about Tuesday or Wednesday afternoon. 
+
+**Receptionist:** Okay, let me check availability. *taps pen on desk* I see you have a slot on Wednesday at 2 PM, but it's booked by Dr. Smith that day. 
+
+**Patient:** Oh, good to know. What about Thursday?
+
+**Receptionist:** Yes, "
+deepseek/deepseek-r1-0528-qwen3-8b:2_1_1759005545,2025-09-27T16:39:05.515891,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b:2,1,2.050989866256714,0,0,False,api_error,
+deepseek/deepseek-r1-0528-qwen3-8b:2_2_1759005551,2025-09-27T16:39:11.306924,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b:2,2,2.03100323677063,0,0,False,api_error,
+deepseek/deepseek-r1-0528-qwen3-8b:2_3_1759005557,2025-09-27T16:39:17.203216,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b:2,3,2.097855806350708,0,0,False,api_error,
+deepseek/deepseek-r1-0528-qwen3-8b:2_4_1759005563,2025-09-27T16:39:23.024104,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,deepseek/deepseek-r1-0528-qwen3-8b:2,4,2.042349100112915,0,0,False,api_error,
+meta-llama-3-8b-instruct_1_1759005602,2025-09-27T16:40:02.815246,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,meta-llama-3-8b-instruct,1,33.549309492111206,450,13.413092752499514,False,semantic_similarity_0.888,"User: Hi, I'm calling to schedule an appointment with Dr. Smith.
+
+Agent: Hello! Thank you for calling our office. Can you please tell me a little bit about why you're coming in today?
+
+User: Yeah, I've been having some stomach issues and my primary care doctor recommended that I see a specialist.
+
+Agent: Okay, great. Let me just check on Dr. Smith's availability. (pause) Alright, it looks like she has an opening tomorrow at 2 PM.
+
+User: That sounds good, but can I get something earlier? I have a"
+meta-llama-3-8b-instruct_2_1759005625,2025-09-27T16:40:25.296727,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,meta-llama-3-8b-instruct,2,16.50967502593994,465,28.16530302803621,False,semantic_similarity_0.920,"User: Hi, I'm calling to schedule a doctor's appointment.
+
+Agent: Ah, hi! Welcome to our scheduling department. What kind of appointment are you looking to schedule?
+
+User: I need to see my primary care physician for a check-up and also get some lab work done.
+
+Agent: Okay, let me just pull up your account real quick. Can you please confirm your name and date of birth for me?
+
+User: Yeah, my name is Sarah Johnson, and my birthday is January 12th, 1992.
+
+Agent: Great, thank you! So, what's a good"
+meta-llama-3-8b-instruct_3_1759005644,2025-09-27T16:40:44.135153,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,meta-llama-3-8b-instruct,3,12.983237266540527,411,31.656203423101562,False,semantic_similarity_0.893,"User: Hi, I'd like to schedule an appointment with my doctor.
+
+Agent: Absolutely! What kind of appointment are you looking for? Do you have a specific date in mind?
+
+User: Um, let me check my calendar real quick. Yeah, how about next Wednesday at 2 pm?
+
+Agent: Okay, that's not available. Let me see what else I have available. Can you give me some flexibility with your time or would you like to try another day?
+
+User: Hmm, I'm pretty flexible. What do you have available for next week?
+
+Agent: Wel"
+meta-llama-3-8b-instruct_4_1759005665,2025-09-27T16:41:05.874556,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,meta-llama-3-8b-instruct,4,15.659276962280273,502,32.05767425975073,False,semantic_similarity_0.873,"User: Hi, I need to schedule an appointment with Dr. Smith.
+
+Agent: Hi there! Welcome to [Healthcare Provider]. How can I assist you today?
+
+User: Yeah, I'm due for my annual check-up. Can I get a spot sometime this week?
+
+Agent: Absolutely! Let me just check the doctor's availability real quick. (pause) Okay, it looks like Dr. Smith has an opening on Thursday at 2 PM.
+
+User: That sounds good to me. But can you confirm that it's with Dr. Smith specifically? I want to make sure.
+
+Agent: Yes, I ap"
+mistralai/mistral-small-3.2_1_1759005695,2025-09-27T16:41:35.329325,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-small-3.2,1,16.61764359474182,0,0,False,api_error,
+mistralai/mistral-small-3.2_2_1759005709,2025-09-27T16:41:49.809360,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-small-3.2,2,11.082634925842285,0,0,False,api_error,
+mistralai/mistral-small-3.2_3_1759005723,2025-09-27T16:42:03.928345,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-small-3.2,3,10.664225816726685,0,0,False,api_error,
+mistralai/mistral-small-3.2_4_1759005738,2025-09-27T16:42:18.198187,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-small-3.2,4,10.896190166473389,0,0,False,api_error,
+llama3-12b-instruct_1_1759005753,2025-09-27T16:42:33.216560,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,llama3-12b-instruct,1,11.711196184158325,0,0,False,api_error,
+llama3-12b-instruct_2_1759005767,2025-09-27T16:42:47.220013,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,llama3-12b-instruct,2,10.641622304916382,0,0,False,api_error,
+llama3-12b-instruct_3_1759005824,2025-09-27T16:43:44.895312,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,llama3-12b-instruct,3,52.092047929763794,512,9.828755450166492,False,semantic_similarity_0.879,"User: Hello, I would like to schedule a healthcare appointment. 
+
+Agent: Good morning! How can I assist you today?
+
+User: I need an appointment with my primary care physician.
+
+Agent: Of course, what type of issue are you experiencing? 
+
+User: I’m not feeling well and have been experiencing some symptoms such as fatigue, headaches, and a mild fever.
+
+Agent: Okay. Can you please provide me with your name and contact information?
+
+User: Yes, it’s [patient’s full name], and my phone number is [phon"
+llama3-12b-instruct_4_1759005867,2025-09-27T16:44:27.317214,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,llama3-12b-instruct,4,38.45612120628357,0,0,False,api_error,
+fusechat-gemma-2-9b-instruct_1_1759005882,2025-09-27T16:44:42.651353,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,1,12.00289535522461,0,0,False,api_error,
+fusechat-gemma-2-9b-instruct_2_1759005896,2025-09-27T16:44:56.914345,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,2,11.014662504196167,0,0,False,api_error,
+fusechat-gemma-2-9b-instruct_3_1759005911,2025-09-27T16:45:11.244620,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,3,11.032809972763062,0,0,False,api_error,
+fusechat-gemma-2-9b-instruct_4_1759005927,2025-09-27T16:45:27.853088,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,fusechat-gemma-2-9b-instruct,4,11.231784105300903,0,0,False,api_error,
+mistralai/mistral-7b-instruct-v0.3_1_1759005942,2025-09-27T16:45:42.143138,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,1,11.198282241821289,0,0,False,api_error,
+mistralai/mistral-7b-instruct-v0.3_2_1759005956,2025-09-27T16:45:56.362467,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,2,10.901497840881348,0,0,False,api_error,
+mistralai/mistral-7b-instruct-v0.3_3_1759005970,2025-09-27T16:46:10.602627,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,3,10.909051656723022,0,0,False,api_error,
+mistralai/mistral-7b-instruct-v0.3_4_1759005984,2025-09-27T16:46:24.915140,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,mistralai/mistral-7b-instruct-v0.3,4,10.935790538787842,0,0,False,api_error,

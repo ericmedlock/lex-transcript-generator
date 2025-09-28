@@ -1,0 +1,2 @@
+timestamp,machine_name,gpu_info,gpu_memory,platform,model,trials_run,unique_conversations,duplicates_found,duplicate_rate,avg_latency_s,avg_tokens_per_sec
+2025-09-27T17:29:13.889129,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,1,0,0.0,4.887175798416138,104.76398253689416

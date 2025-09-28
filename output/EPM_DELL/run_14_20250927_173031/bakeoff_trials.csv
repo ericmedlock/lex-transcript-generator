@@ -1,0 +1,44 @@
+trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
+google/gemma-3-1b_1_1759008637,2025-09-27T17:30:37.096397,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,4.540543556213379,512,112.76182986932655,True,unique,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you. One moment… Okay, Dr. Lee has some openings next week. We have a slot on Tuesday afternoon at 2 PM and Wednesday morning at 9 AM. Do either of those work for you?
+
+User: Tuesday afternoon at 2 PM would be great.  I’m pretty flexible with the time.
+
+Agent: Perfect! That’s booked. So, that's Tuesday at 2 PM – appointment for Dr. Lee. Just to confirm, is this for a follow-up visit, or s"
+google/gemma-3-1b_2_1759008642,2025-09-27T17:30:42.964550,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,4.790196895599365,512,106.88495925300307,True,unique,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly!  Let me just pull up your file… Okay, I see you're looking for a general practitioner.  Wonderful. Can you tell me what type of visit are you needing? 
+
+User: I need a check-up, really. Just to make sure everything is okay.
+
+Agent: Alright. A check-up. Could you tell me a bit more about your main concerns? Are there any specific symptoms you’ve been experiencing lately? 
+
+User: Well, I've been feeling a little tired a"
+google/gemma-3-1b_3_1759008648,2025-09-27T17:30:48.713850,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,4.674075603485107,512,109.54037620149747,True,unique,"User: Hi, I’d like to schedule an appointment with Dr. Lee.
+
+Agent: Certainly! Let me check availability for you.  Okay, we have openings on Tuesday at 2:00 PM and Wednesday at 10:30 AM.  Could you tell me what kind of appointment are you looking for?
+
+User: I’d like to see him about my knee pain. It's been bothering me for a few weeks now.
+
+Agent: Okay, knee pain.  That's helpful. We have a couple of options for your knee.  Tuesday at 2:00 PM is available, and Wednesday at 10:30 AM is also open"
+google/gemma-3-1b_4_1759008654,2025-09-27T17:30:54.529331,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,4.75001859664917,512,107.78905168101505,True,unique,"User: Hi, I’d like to schedule an appointment for a checkup.
+
+Agent: Good morning! Thank you for calling. Can I get your name and date of birth, please?
+
+User: It's Sarah Miller, born on July 12th.
+
+Agent: Okay, Sarah Miller. And what kind of appointment are you looking for – primary care, specialist, something else?
+
+User: I think a general checkup would be fine. 
+
+Agent: Alright. Let me just pull up your record…  Okay, I see you have an existing appointment scheduled with Dr. Jones next week. "
+google/gemma-3-1b_5_1759008660,2025-09-27T17:31:00.404015,EPM_DELL,NVIDIA GeForce RTX 3080,10240MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,5,4.8157899379730225,512,106.31692964072724,True,unique,"User: Hi, I’d like to schedule an appointment.
+
+Agent: Good morning! Absolutely, let’s get that started for you. To help me find the right time, could you tell me what kind of appointment you’re looking for?
+
+User: I need to see my doctor about a persistent cough.
+
+Agent: Okay, a persistent cough. That's perfectly understandable. Do you have a preferred type of doctor – family medicine, internal medicine, or something else? 
+
+User: I think...family medicine would be good.  I’ve been feeling pret"

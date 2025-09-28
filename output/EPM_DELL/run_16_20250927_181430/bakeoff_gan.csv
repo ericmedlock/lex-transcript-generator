@@ -1,0 +1,3 @@
+trial_id,timestamp,model,trial,realness_score,coherence_score,naturalness_score,overall_score,brief_feedback,grading_error
+google/gemma-3-1b_1_1759011277,2025-09-27T18:14:39.117212,google/gemma-3-1b,1,8,9,8,8,"The conversation is quite realistic and flows well, though some responses could be slightly more nuanced.",
+google/gemma-3-1b_2_1759011285,2025-09-27T18:14:47.412765,google/gemma-3-1b,2,8,9,8,8,"The conversation is quite realistic and coherent, with natural speech patterns, though some responses could be slightly more nuanced.",
