@@ -564,6 +564,13 @@ class MasterOrchestrator:
             completed_by_node = cur.fetchall()
             print(f"[DEBUG] Completed jobs by node: {completed_by_node}")
             
+            # Clean up stale nodes first
+            stale_cutoff = datetime.now() - timedelta(seconds=node_timeout)
+            cur.execute(
+                "UPDATE nodes SET status = 'offline' WHERE status = 'online' AND last_seen < %s",
+                (stale_cutoff,)
+            )
+            
             # Get detailed job completion data for rate calculation
             cur.execute(
                 """SELECT n.hostname, n.capabilities, n.last_seen,
