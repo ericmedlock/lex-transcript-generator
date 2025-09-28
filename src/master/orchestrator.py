@@ -520,6 +520,19 @@ class MasterOrchestrator:
             cur.execute("SELECT COUNT(*) FROM conversations")
             conv_count = cur.fetchone()[0]
             
+            # Debug: Check what nodes and jobs we have
+            cur.execute("SELECT hostname, node_type, status FROM nodes")
+            all_nodes = cur.fetchall()
+            print(f"[DEBUG] All nodes: {all_nodes}")
+            
+            cur.execute("SELECT COUNT(*), status FROM jobs GROUP BY status")
+            job_status = cur.fetchall()
+            print(f"[DEBUG] Job status counts: {job_status}")
+            
+            cur.execute("SELECT assigned_node_id, COUNT(*) FROM jobs WHERE status = 'completed' GROUP BY assigned_node_id")
+            completed_by_node = cur.fetchall()
+            print(f"[DEBUG] Completed jobs by node: {completed_by_node}")
+            
             # Get detailed job completion data for rate calculation
             cur.execute(
                 """SELECT n.hostname, n.capabilities, n.last_seen,
@@ -532,6 +545,7 @@ class MasterOrchestrator:
                    GROUP BY n.hostname, n.capabilities, n.last_seen"""
             )
             node_stats = cur.fetchall()
+            print(f"[DEBUG] Node stats query result: {node_stats}")
             
             # Calculate conversations rate
             cur.execute(
@@ -539,6 +553,7 @@ class MasterOrchestrator:
             )
             conv_data = cur.fetchone()
             conv_count_recent, first_conv, last_conv = conv_data
+            print(f"[DEBUG] Conversation data: {conv_count_recent} conversations, {first_conv} to {last_conv}")
             
             # Calculate actual rates per minute
             total_jobs_per_minute = 0
