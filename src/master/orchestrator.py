@@ -471,7 +471,7 @@ class MasterOrchestrator:
                     job_id = str(uuid.uuid4())
                     
                     job_params = {
-                        "conversations_per_job": 50 if conversations_per_job == 10 else conversations_per_job,  # Pi batch optimization
+                        "conversations_per_job": 30 if conversations_per_job == 10 else conversations_per_job,  # Batch optimization
                         "min_turns": 2,   # Allow very short calls
                         "max_turns": 40,  # Allow complex calls
                         "run_id": self.current_run_id,

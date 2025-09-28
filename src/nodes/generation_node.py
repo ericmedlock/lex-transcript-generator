@@ -811,8 +811,8 @@ class GenerationNode:
         conversations_count = parameters.get("conversations_per_job", 1)
         
         # Pi optimization: generate larger batches
-        if self.is_pi and conversations_count < 50:
-            conversations_count = min(50, conversations_count * 5)  # 5x batch size for Pi
+        if self.is_pi and conversations_count < 30:
+            conversations_count = min(30, conversations_count * 3)  # 3x batch size for Pi
         
         if rag_examples:
             prompt = f"""Based on these real conversation examples:
