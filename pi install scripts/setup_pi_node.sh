@@ -80,8 +80,8 @@ if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null || [ "$(uname -m)" = "aarch6
     fi
     
     # Download small embedding model
-    if [ ! -f "nomic-embed-text-v1.5-Q4_K_M.gguf" ]; then
-        wget "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5-GGUF/resolve/main/nomic-embed-text-v1.5-Q4_K_M.gguf"
+    if [ ! -f "nomic-embed-text-v1.5.f16.gguf" ]; then
+        wget "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5-GGUF/resolve/main/nomic-embed-text-v1.5.f16.gguf"
     fi
     
     # Create startup script for llama.cpp server
