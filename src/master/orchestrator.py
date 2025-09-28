@@ -438,18 +438,18 @@ class MasterOrchestrator:
             pending_queue_size = job_config.get("pending_queue_size", 5)
             check_interval = job_config.get("check_interval", 30)
             
-            # Calculate total jobs needed
+            # Calculate total jobs needed for THIS run
             total_jobs_needed = (total_conversations + conversations_per_job - 1) // conversations_per_job
             
-            # Count existing jobs
-            cur.execute("SELECT COUNT(*) FROM jobs")
-            total_jobs_created = cur.fetchone()[0]
+            # Count jobs for THIS run only
+            cur.execute("SELECT COUNT(*) FROM jobs WHERE parameters::json->>'run_id' = %s", (str(self.current_run_id),))
+            run_jobs_created = cur.fetchone()[0]
             
             cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'pending'")
             pending_count = cur.fetchone()[0]
             
-            # Create initial batch of jobs if none exist
-            if not jobs_created and total_jobs_created == 0:
+            # Create initial batch of jobs for this run if none exist
+            if not jobs_created and run_jobs_created == 0:
                 print(f"Creating {total_jobs_needed} jobs ({total_conversations} conversations, {conversations_per_job} per job)")
                 
                 # Get scenarios
@@ -487,9 +487,9 @@ class MasterOrchestrator:
                 jobs_created = True
                 print(f"Created {total_jobs_needed} jobs for Run {self.current_run_id}")
             
-            # Maintain pending queue size
-            elif pending_count < pending_queue_size and total_jobs_created < total_jobs_needed:
-                jobs_to_create = min(pending_queue_size - pending_count, total_jobs_needed - total_jobs_created)
+            # Maintain pending queue size for this run
+            elif pending_count < pending_queue_size and run_jobs_created < total_jobs_needed:
+                jobs_to_create = min(pending_queue_size - pending_count, total_jobs_needed - run_jobs_created)
                 
                 cur.execute("SELECT id, name FROM scenarios LIMIT 1")
                 scenario = cur.fetchone()
