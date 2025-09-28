@@ -20,6 +20,10 @@ A sophisticated, distributed system for generating high-quality conversation tra
 - **Streaming Pipeline**: Real-time data processing with reactive work distribution
 - **Web Dashboard**: Real-time monitoring and control interface
 - **Natural Language Queries**: "Generate 500 healthcare transcripts with frustrated callers"
+- **Raspberry Pi Support**: Native llama.cpp integration for ARM devices
+- **Batch Processing**: Optimized multi-conversation generation per LLM call
+- **Memory Optimization**: In-memory caching and larger context windows
+- **Smart Deduplication**: Hash-based and semantic similarity detection
 
 ## 🏗️ Architecture
 
@@ -126,10 +130,11 @@ thermal:
 
 ### Node Profiles
 Different node types have specialized configurations:
-- `master.yaml` - Orchestration and coordination
-- `generation_node.yaml` - Content generation settings
-- `processing_node.yaml` - Quality control parameters
-- `pi_node.yaml` - Raspberry Pi optimizations
+- `orchestrator_config.json` - Master node settings and job parameters
+- `node_config.json` - Per-hostname generation node settings
+- Raspberry Pi nodes use llama.cpp with local model inference
+- Desktop nodes use HTTP API endpoints (LM Studio, etc.)
+- Automatic Pi detection and optimization
 
 ## 🎯 Usage Examples
 
@@ -197,10 +202,12 @@ mypy src/
 ## 📊 Performance
 
 ### Typical Performance
-- **Generation Rate**: 1,000+ conversations/hour per GPU node
+- **Generation Rate**: 1,000+ conversations/hour per GPU node, 100+ per Pi
 - **Quality Score**: 95%+ pass validation
 - **Duplicate Rate**: <5% semantic similarity
 - **System Uptime**: 99%+ with automatic recovery
+- **Batch Efficiency**: 30 conversations per LLM call
+- **Memory Usage**: 16GB+ recommended for optimal Pi performance
 
 ### Scaling
 - Supports 50+ nodes in cluster
