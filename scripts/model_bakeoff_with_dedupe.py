@@ -511,7 +511,9 @@ def main():
     
     # Create per-node deduplication run
     available_models = fetch_available_models(config["base_url"], config["api_key"], config["timeout_s"])
+    print(f"Available models from API: {available_models}")
     candidate_models = get_candidate_models(available_models)
+    print(f"Filtered candidate models: {candidate_models}")
     
     # Apply models filter only in debug mode
     if config.get("debug_mode", False) and "models_filter" in config and config["models_filter"]:
@@ -549,14 +551,15 @@ def main():
     print(f"Target conversations: {target_conversations}")
     print()
     
-    # Open CSV files
-    summary_csv = output_dir / "bakeoff_summary.csv"
-    trials_csv = output_dir / "bakeoff_trials.csv"
+    # Open CSV files with machine name prefix
+    machine_name = config.get("machine_name", "unknown")
+    summary_csv = output_dir / f"{machine_name}_bakeoff_summary.csv"
+    trials_csv = output_dir / f"{machine_name}_bakeoff_trials.csv"
     
     # Open all CSV files (keep open for threaded grading)
     trials_file = open(trials_csv, 'w', newline='', encoding='utf-8')
     summary_file = open(summary_csv, 'w', newline='', encoding='utf-8')
-    gan_csv = output_dir / "bakeoff_gan.csv"
+    gan_csv = output_dir / f"{machine_name}_bakeoff_gan.csv"
     gan_file = open(gan_csv, 'w', newline='', encoding='utf-8')
     
     trial_writer = csv.writer(trials_file)
@@ -581,12 +584,11 @@ def main():
         "naturalness_score", "overall_score", "brief_feedback", "grading_error"
     ])
     
-    # Start grading worker
+    # Create grading worker but don't start yet
     grading_worker = GradingWorker(gan_writer)
-    grading_worker.start()
     
     try:
-        # Run trials for each model
+        # Run trials for each model (generation only)
         for model in candidate_models:
             results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
                 config, model, dedupe_manager, run_number, trial_writer, grading_worker, system_info, activity_monitor
@@ -620,6 +622,11 @@ def main():
                 avg_tokens_per_sec
             ])
     
+        
+        # Now start grading after all generation is complete
+        print("\n[MAIN] Starting grading phase...")
+        grading_worker.start()
+        
     finally:
         # Wait for grading to complete
         grading_worker.shutdown()
@@ -636,7 +643,7 @@ def main():
     print(f"  Unique conversations stored: {stats['stored']}")
     print(f"  Target: {stats['target']}")
     print(f"  Results saved to: {output_dir}")
-    print(f"  Files: bakeoff_summary.csv, bakeoff_trials.csv, bakeoff_gan.csv")
+    print(f"  Files: {machine_name}_bakeoff_summary.csv, {machine_name}_bakeoff_trials.csv, {machine_name}_bakeoff_gan.csv")
     
     return 0
 
