@@ -422,7 +422,7 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
     results = []
     unique_conversations = 0
     duplicates_found = 0
-    target_conversations = config["conversations_per_trial"]
+    target_conversations = config["trials"] * config["conversations_per_trial"]
     max_retries = config.get("deduplication", {}).get("max_retries", 3)
     
     trial = 1
@@ -465,26 +465,27 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
             duplicates_found += 1
             print(f"DUPLICATE ({result['duplicate_reason']})")
         
-        # Write trial result
-        trial_id = f"{model}_{trial}_{int(time.time())}"
-        timestamp = datetime.now().isoformat()
-        
-        trial_writer.writerow([
-            trial_id,
-            timestamp,
-            config["machine_name"],
-            system_info["gpu_info"],
-            system_info["gpu_memory"],
-            system_info["platform"],
-            model,
-            trial,
-            result["latency_s"],
-            result.get("completion_tokens", 0),
-            result.get("tokens_per_sec", 0),
-            result["unique"],
-            result["duplicate_reason"],
-            result.get("content", "")[:500] if result.get("content") else ""
-        ])
+        # Only write trial result if unique (don't count duplicates)
+        if result["unique"]:
+            trial_id = f"{model}_{trial}_{int(time.time())}"
+            timestamp = datetime.now().isoformat()
+            
+            trial_writer.writerow([
+                trial_id,
+                timestamp,
+                config["machine_name"],
+                system_info["gpu_info"],
+                system_info["gpu_memory"],
+                system_info["platform"],
+                model,
+                trial,
+                result["latency_s"],
+                result.get("completion_tokens", 0),
+                result.get("tokens_per_sec", 0),
+                result["unique"],
+                result["duplicate_reason"],
+                result.get("content", "")[:500] if result.get("content") else ""
+            ])
         
         results.append(result)
         trial += 1
@@ -520,7 +521,7 @@ def main():
         print("ERROR: No models available")
         return 1
     
-    target_conversations = len(candidate_models) * config["conversations_per_trial"]
+    target_conversations = len(candidate_models) * config["trials"] * config["conversations_per_trial"]
     similarity_threshold = config.get("deduplication", {}).get("similarity_threshold", 0.85)
     
     # Use machine-specific run for bakeoff testing
