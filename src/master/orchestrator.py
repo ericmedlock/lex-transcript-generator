@@ -448,9 +448,9 @@ class MasterOrchestrator:
             cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'pending'")
             pending_count = cur.fetchone()[0]
             
-            # Create initial batch of jobs for this run if none exist
+            # Create ALL jobs for this run at startup
             if not jobs_created and run_jobs_created == 0:
-                print(f"Creating {total_jobs_needed} jobs ({total_conversations} conversations, {conversations_per_job} per job)")
+                print(f"Creating ALL {total_jobs_needed} jobs at startup ({total_conversations} conversations, {conversations_per_job} per job)")
                 
                 # Get scenarios
                 cur.execute("SELECT id, name FROM scenarios")
@@ -465,7 +465,7 @@ class MasterOrchestrator:
                     )
                     scenarios = [(scenario_id, "Healthcare Appointment Scheduling")]
                 
-                # Create jobs
+                # Create ALL jobs at once
                 for i in range(total_jobs_needed):
                     scenario_id, scenario_name = scenarios[i % len(scenarios)]
                     job_id = str(uuid.uuid4())
@@ -485,32 +485,9 @@ class MasterOrchestrator:
                 
                 self.target_jobs = total_jobs_needed
                 jobs_created = True
-                print(f"Created {total_jobs_needed} jobs for Run {self.current_run_id}")
+                print(f"Created ALL {total_jobs_needed} jobs for Run {self.current_run_id} - ready for nodes to claim")
             
-            # Maintain pending queue size for this run
-            elif pending_count < pending_queue_size and run_jobs_created < total_jobs_needed:
-                jobs_to_create = min(pending_queue_size - pending_count, total_jobs_needed - run_jobs_created)
-                
-                cur.execute("SELECT id, name FROM scenarios LIMIT 1")
-                scenario = cur.fetchone()
-                
-                if scenario:
-                    scenario_id, scenario_name = scenario
-                    
-                    for _ in range(jobs_to_create):
-                        job_id = str(uuid.uuid4())
-                        job_params = {
-                            "conversations_per_job": conversations_per_job,
-                            "min_turns": 20,
-                            "max_turns": 40
-                        }
-                        
-                        cur.execute(
-                            "INSERT INTO jobs (id, scenario_id, status, parameters) VALUES (%s, %s, 'pending', %s)",
-                            (job_id, scenario_id, json.dumps(job_params))
-                        )
-                    
-                    print(f"Added {jobs_to_create} jobs to queue")
+            # All jobs created at startup - no need for gradual creation
             
             conn.commit()
             cur.close()
