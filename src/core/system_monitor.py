@@ -30,18 +30,29 @@ class SystemMonitor:
             
             # Try to get GPU metrics
             try:
-                import GPUtil
-                gpus = GPUtil.getGPUs()
-                if gpus:
-                    gpu = gpus[0]  # Use first GPU
-                    metrics.update({
-                        "gpu_usage": round(gpu.load * 100, 1),
-                        "gpu_temp": round(gpu.temperature, 1),
-                        "gpu_memory_used": round(gpu.memoryUsed / 1024, 1),  # GB
-                        "gpu_memory_total": round(gpu.memoryTotal / 1024, 1)  # GB
-                    })
+                import pynvml
+                pynvml.nvmlInit()
+                handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # First GPU
+                
+                # Get GPU utilization
+                util = pynvml.nvmlDeviceGetUtilizationRates(handle)
+                
+                # Get GPU temperature
+                temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
+                
+                # Get GPU memory
+                mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
+                
+                metrics.update({
+                    "gpu_usage": round(util.gpu, 1),
+                    "gpu_temp": round(temp, 1),
+                    "gpu_memory_used": round(mem_info.used / (1024**3), 1),  # GB
+                    "gpu_memory_total": round(mem_info.total / (1024**3), 1)  # GB
+                })
+                
+                pynvml.nvmlShutdown()
             except ImportError:
-                pass  # GPUtil not available
+                pass  # pynvml not available
             except Exception:
                 pass  # GPU not available or other error
             
