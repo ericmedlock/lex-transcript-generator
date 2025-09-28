@@ -13,6 +13,8 @@ import threading
 import time
 from datetime import datetime, timedelta
 import numpy as np
+import psutil
+import GPUtil
 
 class TranscriptDashboard:
     def __init__(self):
@@ -30,6 +32,10 @@ class TranscriptDashboard:
             'password': 'pass'
         }
         
+        # Grading settings
+        self.min_realness_score = tk.IntVar(value=6)
+        self.grading_active = False
+        
         self.setup_ui()
         self.start_auto_refresh()
     
@@ -38,6 +44,15 @@ class TranscriptDashboard:
         # Main container
         main_frame = ttk.Frame(self.root)
         main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Menu bar
+        menubar = tk.Menu(self.root)
+        self.root.config(menu=menubar)
+        
+        # Settings menu
+        settings_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Settings", menu=settings_menu)
+        settings_menu.add_command(label="Grading Settings", command=self.open_grading_settings)
         
         # Title
         title_label = ttk.Label(main_frame, text="Transcript Intelligence Dashboard", 
@@ -59,13 +74,18 @@ class TranscriptDashboard:
             ("Conversations/Hour", "conversations_per_hour"),
             ("Current Run", "current_run"),
             ("Pending Jobs", "pending_jobs"),
-            ("Completed Jobs", "completed_jobs")
+            ("Completed Jobs", "completed_jobs"),
+            ("CPU Usage", "cpu_usage"),
+            ("Memory Usage", "memory_usage"),
+            ("GPU Usage", "gpu_usage"),
+            ("CPU Temp", "cpu_temp"),
+            ("GPU Temp", "gpu_temp")
         ]
         
         for i, (label, key) in enumerate(stats_items):
-            row, col = i // 3, i % 3
+            row, col = i // 4, i % 4
             ttk.Label(stats_grid, text=f"{label}:").grid(row=row*2, column=col, sticky=tk.W, padx=10)
-            self.stats_labels[key] = ttk.Label(stats_grid, text="--", font=("Arial", 12, "bold"))
+            self.stats_labels[key] = ttk.Label(stats_grid, text="--", font=("Arial", 10, "bold"))
             self.stats_labels[key].grid(row=row*2+1, column=col, sticky=tk.W, padx=10)
         
         # Charts frame
@@ -98,7 +118,9 @@ class TranscriptDashboard:
         control_frame.pack(fill=tk.X, pady=(10, 0))
         
         ttk.Button(control_frame, text="Refresh Now", command=self.refresh_data).pack(side=tk.LEFT)
-        ttk.Button(control_frame, text="Run Quality Analysis", command=self.run_quality_analysis).pack(side=tk.LEFT, padx=(10, 0))
+        ttk.Button(control_frame, text="Spot Check (50)", command=self.run_spot_check).pack(side=tk.LEFT, padx=(10, 0))
+        self.grade_all_btn = ttk.Button(control_frame, text="Grade All", command=self.run_grade_all)
+        self.grade_all_btn.pack(side=tk.LEFT, padx=(10, 0))
         ttk.Button(control_frame, text="Export Report", command=self.export_report).pack(side=tk.LEFT, padx=(10, 0))
         
         # Status bar
@@ -207,8 +229,49 @@ class TranscriptDashboard:
         conversations_last_hour = cur.fetchone()[0]
         self.stats_labels["conversations_per_hour"].config(text=str(conversations_last_hour))
         
+        # System metrics
+        self.update_system_metrics()
+        
         cur.close()
         conn.close()
+    
+    def update_system_metrics(self):
+        """Update CPU, memory, GPU metrics"""
+        try:
+            # CPU usage
+            cpu_percent = psutil.cpu_percent(interval=0.1)
+            self.stats_labels["cpu_usage"].config(text=f"{cpu_percent:.1f}%")
+            
+            # Memory usage
+            memory = psutil.virtual_memory()
+            self.stats_labels["memory_usage"].config(text=f"{memory.percent:.1f}%")
+            
+            # CPU temperature (if available)
+            try:
+                temps = psutil.sensors_temperatures()
+                if temps:
+                    cpu_temp = list(temps.values())[0][0].current
+                    self.stats_labels["cpu_temp"].config(text=f"{cpu_temp:.1f}°C")
+                else:
+                    self.stats_labels["cpu_temp"].config(text="N/A")
+            except:
+                self.stats_labels["cpu_temp"].config(text="N/A")
+            
+            # GPU metrics
+            try:
+                gpus = GPUtil.getGPUs()
+                if gpus:
+                    gpu = gpus[0]
+                    self.stats_labels["gpu_usage"].config(text=f"{gpu.load*100:.1f}%")
+                    self.stats_labels["gpu_temp"].config(text=f"{gpu.temperature:.1f}°C")
+                else:
+                    self.stats_labels["gpu_usage"].config(text="N/A")
+                    self.stats_labels["gpu_temp"].config(text="N/A")
+            except:
+                self.stats_labels["gpu_usage"].config(text="N/A")
+                self.stats_labels["gpu_temp"].config(text="N/A")
+        except Exception as e:
+            print(f"Error updating system metrics: {e}")
     
     def update_generation_chart(self):
         """Update generation rate chart"""
@@ -365,11 +428,57 @@ class TranscriptDashboard:
         cur.close()
         conn.close()
     
-    def run_quality_analysis(self):
+    def open_grading_settings(self):
+        """Open grading settings dialog"""
+        settings_window = tk.Toplevel(self.root)
+        settings_window.title("Grading Settings")
+        settings_window.geometry("300x150")
+        settings_window.transient(self.root)
+        settings_window.grab_set()
+        
+        # Min realness score setting
+        ttk.Label(settings_window, text="Minimum Realness Score (1-10):").pack(pady=10)
+        
+        score_frame = ttk.Frame(settings_window)
+        score_frame.pack(pady=5)
+        
+        ttk.Scale(score_frame, from_=1, to=10, orient=tk.HORIZONTAL, 
+                 variable=self.min_realness_score, length=200).pack(side=tk.LEFT)
+        ttk.Label(score_frame, textvariable=self.min_realness_score).pack(side=tk.LEFT, padx=(10, 0))
+        
+        ttk.Label(settings_window, text="Conversations below this score will be deleted", 
+                 font=("Arial", 8)).pack(pady=5)
+        
+        ttk.Button(settings_window, text="Close", 
+                  command=settings_window.destroy).pack(pady=10)
+    
+    def run_spot_check(self):
+        """Run quality analysis on 50 conversations"""
+        if self.grading_active:
+            messagebox.showwarning("Warning", "Grading already in progress")
+            return
+            
+        self.run_quality_analysis(limit=50)
+    
+    def run_grade_all(self):
+        """Grade all ungraded conversations"""
+        if self.grading_active:
+            messagebox.showwarning("Warning", "Grading already in progress")
+            return
+            
+        self.run_quality_analysis(limit=None)
+    
+    def run_quality_analysis(self, limit=50):
         """Run quality analysis on sample conversations"""
         def analysis_thread():
             try:
-                self.status_var.set("Running quality analysis...")
+                self.grading_active = True
+                self.grade_all_btn.config(state='disabled')
+                
+                if limit:
+                    self.status_var.set(f"Running spot check on {limit} conversations...")
+                else:
+                    self.status_var.set("Grading all ungraded conversations...")
                 self.root.update()
                 
                 # Import and run quality analysis
@@ -378,17 +487,37 @@ class TranscriptDashboard:
                 from conversation_grader import ConversationGrader
                 
                 grader = ConversationGrader(db_config=self.db_config)
-                grader.setup_grading_schema()  # Ensure table exists with correct schema
-                graded_count = grader.grade_database_conversations(limit=50)
+                grader.setup_grading_schema()
+                
+                # Set minimum realness score
+                grader.min_realness_score = self.min_realness_score.get()
+                
+                if limit:
+                    graded_count = grader.grade_database_conversations(limit=limit)
+                else:
+                    # Grade all - keep going until no more ungraded conversations
+                    total_graded = 0
+                    while True:
+                        batch_count = grader.grade_database_conversations(limit=50)
+                        total_graded += batch_count
+                        if batch_count == 0:
+                            break
+                        self.status_var.set(f"Graded {total_graded} conversations so far...")
+                        self.root.update()
+                    graded_count = total_graded
                 
                 self.status_var.set(f"Quality analysis complete: {graded_count} conversations graded")
                 
-                # Refresh quality chart
+                # Refresh quality chart and stats
                 self.update_quality_chart()
+                self.update_stats()
                 
             except Exception as e:
                 self.status_var.set(f"Quality analysis failed: {e}")
                 messagebox.showerror("Error", f"Quality analysis failed: {e}")
+            finally:
+                self.grading_active = False
+                self.grade_all_btn.config(state='normal')
         
         # Run in background thread
         threading.Thread(target=analysis_thread, daemon=True).start()

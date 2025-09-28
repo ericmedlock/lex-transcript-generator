@@ -91,8 +91,16 @@ Respond ONLY with JSON format:
                 grades = json.loads(result_text)
                 grades["grading_error"] = None
                 
-                # Delete conversation if not healthcare valid
+                # Delete conversation if not healthcare valid or low realness score
+                should_delete = False
                 if grades.get("healthcare_valid") == False and conversation_id:
+                    should_delete = True
+                    grades["delete_reason"] = "not_healthcare"
+                elif grades.get("realness_score") and grades.get("realness_score") < getattr(self, 'min_realness_score', 6) and conversation_id:
+                    should_delete = True
+                    grades["delete_reason"] = f"low_realness_{grades.get('realness_score')}"
+                
+                if should_delete:
                     self.delete_invalid_conversation(conversation_id)
                     grades["deleted"] = True
                 

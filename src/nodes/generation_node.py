@@ -1038,9 +1038,19 @@ User:"""
         while self.running:
             conn = self.get_db()
             cur = conn.cursor()
+            # Get system metrics
+            try:
+                import sys, os
+                sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
+                from system_monitor import SystemMonitor
+                monitor = SystemMonitor()
+                metrics = monitor.get_metrics_json()
+            except Exception as e:
+                metrics = json.dumps({"error": str(e)})
+            
             cur.execute(
-                "UPDATE nodes SET last_seen = %s WHERE id = %s",
-                (datetime.now(), self.node_id)
+                "UPDATE nodes SET last_seen = %s, system_metrics = %s WHERE id = %s",
+                (datetime.now(), metrics, self.node_id)
             )
             conn.commit()
             cur.close()

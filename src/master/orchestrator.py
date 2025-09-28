@@ -690,10 +690,20 @@ class MasterOrchestrator:
                 conn = self.get_db()
                 cur = conn.cursor()
                 
-                # Update heartbeat
+                # Get system metrics
+                try:
+                    import sys, os
+                    sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
+                    from system_monitor import SystemMonitor
+                    monitor = SystemMonitor()
+                    metrics = monitor.get_metrics_json()
+                except Exception as e:
+                    metrics = json.dumps({"error": str(e)})
+                
+                # Update heartbeat with system metrics
                 cur.execute(
-                    "UPDATE nodes SET last_seen = %s WHERE id = %s",
-                    (datetime.now(), self.master_id)
+                    "UPDATE nodes SET last_seen = %s, system_metrics = %s WHERE id = %s",
+                    (datetime.now(), metrics, self.master_id)
                 )
                 
                 # Check if we've been asked to shutdown (preferred node takeover)
