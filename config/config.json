@@ -1,0 +1,28 @@
+{
+  "base_url": "http://localhost:1234/v1",
+  "api_key": "lm-studio",
+  "machine_name": "MSI-Laptop-4050",
+  "trials": 1,
+  "conversations_per_trial": 1,
+  "temperature": 1.0,
+  "max_tokens": 512,
+  "timeout_s": 300,
+  "unload_between_models": false,
+  "prompt_template": "Generate a realistic healthcare appointment conversation with these details:\n\nScenario: {scenario}\nPatient type: {patient_type}\nIssue: {issue}\n\nRequirements:\n- Length: 20 to 40 turns\n- Format: alternating User: and Agent: lines\n- Natural, realistic dialogue\n- Include realistic hesitations and corrections\n\nGenerate ONLY the conversation, no commentary:",
+  "deduplication": {
+    "enabled": true,
+    "similarity_threshold": 0.5,
+    "max_retries": 3,
+    "output_directory": "output/tool_runs",
+    "hash_only": true
+  },
+  "resource_management": {
+    "activity_detection": false,
+    "cpu_limit_active": 70,
+    "cpu_limit_idle": 95,
+    "gpu_limit_active": 90,
+    "gpu_limit_idle": 95,
+    "temp_limit": 85,
+    "check_interval": 10
+  }
+}

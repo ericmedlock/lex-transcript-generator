@@ -10,65 +10,107 @@ import uuid
 import socket
 import subprocess
 import platform
+import signal
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
 class ConfigManager:
     """Enhanced configuration management"""
     
-    def __init__(self, config_path="config/config.json"):
+    def __init__(self, config_path=None):
         self.config_path = config_path
         self.config = self.load_config()
     
     def load_config(self):
-        """Load configuration with validation"""
-        try:
-            with open(self.config_path, 'r') as f:
-                config = json.load(f)
-            
-            # Validate critical settings
-            self.validate_config(config)
-            return config
-        except Exception as e:
-            print(f"Config load error: {e}, using defaults")
-            return self.get_default_config()
+        """Load configuration with fallback hierarchy"""
+        # Config file search order
+        search_paths = []
+        if self.config_path:
+            search_paths.append(self.config_path)
+        search_paths.extend([
+            "orchestrator_config.json",
+            "config/orchestrator_config.json"
+        ])
+        
+        for path in search_paths:
+            if Path(path).exists():
+                try:
+                    with open(path, 'r') as f:
+                        config = json.load(f)
+                    
+                    # Validate critical settings
+                    self.validate_config(config)
+                    print(f"[CONFIG] Loaded from: {path}")
+                    return config
+                except Exception as e:
+                    print(f"[CONFIG] Error loading {path}: {e}")
+                    continue
+        
+        print("[CONFIG] No config file found, using defaults")
+        return self.get_default_config()
     
     def validate_config(self, config):
-        """Validate configuration settings"""
-        # Check target calculations
-        trials = config.get("trials", 1)
-        conversations_per_trial = config.get("conversations_per_trial", 1)
+        """Validate configuration settings and connectivity"""
+        # Validate database connection
+        db_config = config.get("db_config", {})
+        if db_config:
+            try:
+                import psycopg2
+                conn = psycopg2.connect(**db_config)
+                conn.close()
+                print(f"[CONFIG] Database connection OK: {db_config.get('host')}:{db_config.get('port')}")
+            except Exception as e:
+                raise ValueError(f"Database connection failed: {e}")
         
-        if trials <= 0 or conversations_per_trial <= 0:
-            raise ValueError("trials and conversations_per_trial must be positive")
+        # Validate LLM endpoint if present
+        llm_endpoint = config.get("llm_endpoint")
+        if llm_endpoint:
+            try:
+                import requests
+                models_url = llm_endpoint.replace('/chat/completions', '/models')
+                resp = requests.get(models_url, timeout=5)
+                if resp.status_code == 200:
+                    models = resp.json().get("data", [])
+                    print(f"[CONFIG] LLM endpoint OK: {len(models)} models available")
+                else:
+                    print(f"[CONFIG] Warning: LLM endpoint returned {resp.status_code}")
+            except Exception as e:
+                print(f"[CONFIG] Warning: LLM endpoint check failed: {e}")
         
-        # Validate resource limits
-        resource_mgmt = config.get("resource_management", {})
-        cpu_limit = resource_mgmt.get("cpu_limit_idle", 80)
+        # Validate job creation settings
+        job_config = config.get("job_creation", {})
+        total_conversations = job_config.get("total_conversations", 100)
+        conversations_per_job = job_config.get("conversations_per_job", 10)
         
-        if cpu_limit <= 0 or cpu_limit > 100:
-            raise ValueError("CPU limits must be between 1-100")
+        if total_conversations <= 0 or conversations_per_job <= 0:
+            raise ValueError("total_conversations and conversations_per_job must be positive")
         
-        print(f"[CONFIG] Validated: {trials} trials × {conversations_per_trial} conversations")
+        print(f"[CONFIG] Job config OK: {total_conversations} conversations, {conversations_per_job} per job")
     
     def get_default_config(self):
         """Default configuration"""
         return {
-            "machine_name": socket.gethostname(),
-            "trials": 5,
-            "conversations_per_trial": 1,
-            "temperature": 0.9,
-            "max_tokens": 2000,
-            "timeout_s": 60,
-            "deduplication": {
-                "enabled": True,
-                "similarity_threshold": 0.85,
-                "hash_only": False
+            "heartbeat_interval": 10,
+            "failover_timeout": 60,
+            "network_check_timeout": 5,
+            "preferred_master": "EPM_DELL",
+            "db_config": {
+                "host": "EPM_DELL",
+                "port": 5432,
+                "database": "calllab",
+                "user": "postgres",
+                "password": "pass"
             },
-            "resource_management": {
-                "activity_detection": True,
-                "cpu_limit_idle": 80,
-                "gpu_limit_idle": 70
+            "job_creation": {
+                "total_conversations": 100,
+                "conversations_per_job": 10,
+                "pending_queue_size": 5,
+                "check_interval": 30
+            },
+            "health_monitor": {
+                "check_interval": 60,
+                "node_timeout": 300
             }
         }
     
@@ -90,28 +132,46 @@ class ConfigManager:
         return f"{machine_name}_{file_type}.{extension}"
 
 class MasterOrchestrator:
-    def __init__(self, config_path="config/config.json"):
-        self.db_config = {
+    def __init__(self, config_path=None):
+        self.config_manager = ConfigManager(config_path)
+        self.db_config = self.config_manager.get("db_config", {
             'host': 'EPM_DELL',
             'port': 5432,
             'database': 'calllab',
             'user': 'postgres',
             'password': 'pass'
-        }
+        })
         self.running = False
-        self.nodes = {}  # node_id -> last_seen
+        self.nodes = {}  # node_id -> {last_seen, capabilities, performance}
         self.hostname = socket.gethostname()
         self.master_id = str(uuid.uuid4())
-        self.heartbeat_interval = 10  # seconds
-        self.failover_timeout = 60   # seconds
-        self.network_check_timeout = 5  # seconds
-        self.preferred_master = 'EPM_DELL'
+        self.heartbeat_interval = self.config_manager.get("heartbeat_interval", 10)
+        self.failover_timeout = self.config_manager.get("failover_timeout", 60)
+        self.network_check_timeout = self.config_manager.get("network_check_timeout", 5)
+        self.preferred_master = self.config_manager.get("preferred_master", 'EPM_DELL')
         self.takeover_signal_sent = False
-        self.config_manager = ConfigManager(config_path)
+        self.setup_signal_handlers()
+    
+    def setup_signal_handlers(self):
+        """Setup graceful shutdown handlers"""
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
+    
+    def signal_handler(self, signum, frame):
+        """Handle shutdown signals gracefully"""
+        print(f"\nReceived signal {signum}, shutting down gracefully...")
+        self.running = False
         
-    def get_db(self):
-        """Get database connection"""
-        return psycopg2.connect(**self.db_config)
+    def get_db(self, retries=3):
+        """Get database connection with retry logic"""
+        for attempt in range(retries):
+            try:
+                return psycopg2.connect(**self.db_config)
+            except Exception as e:
+                if attempt == retries - 1:
+                    raise e
+                print(f"Database connection failed (attempt {attempt + 1}/{retries}): {e}")
+                time.sleep(2 ** attempt)  # Exponential backoff
     
     def check_existing_master(self):
         """Check if master is already running and decide whether to continue"""
@@ -250,7 +310,7 @@ class MasterOrchestrator:
             asyncio.create_task(self.heartbeat_loop()),
             asyncio.create_task(self.master_failover_monitor()),
             asyncio.create_task(self.node_discovery_loop()),
-            asyncio.create_task(self.job_scheduler_loop()),
+            asyncio.create_task(self.job_creator_loop()),
             asyncio.create_task(self.health_monitor_loop())
         ]
         
@@ -293,77 +353,176 @@ class MasterOrchestrator:
             conn.close()
             await asyncio.sleep(30)  # Check every 30 seconds
     
-    async def job_scheduler_loop(self):
-        """Schedule jobs to available nodes"""
+    async def job_creator_loop(self):
+        """Create jobs based on configuration - nodes pull work themselves"""
+        jobs_created = False
+        
         while self.running:
             conn = self.get_db()
-            
             cur = conn.cursor()
             
-            # Get pending jobs
-            cur.execute(
-                "SELECT id, scenario_id FROM jobs WHERE status = 'pending' ORDER BY created_at ASC"
-            )
-            pending_jobs = cur.fetchall()
+            # Get job creation config
+            job_config = self.config_manager.get("job_creation", {})
+            total_conversations = job_config.get("total_conversations", 100)
+            conversations_per_job = job_config.get("conversations_per_job", 10)
+            pending_queue_size = job_config.get("pending_queue_size", 5)
+            check_interval = job_config.get("check_interval", 30)
             
-            # Get available nodes
-            cur.execute(
-                "SELECT id, node_type FROM nodes WHERE status = 'online' AND node_type != 'master'"
-            )
-            available_nodes = cur.fetchall()
+            # Calculate total jobs needed
+            total_jobs_needed = (total_conversations + conversations_per_job - 1) // conversations_per_job
             
-            # Assign jobs to nodes
-            for job_id, scenario_id in pending_jobs[:len(available_nodes)]:
-                # Simple assignment - first available node
-                if available_nodes:
-                    node_id, node_type = available_nodes.pop(0)
-                    
-                    # Update job status
+            # Count existing jobs
+            cur.execute("SELECT COUNT(*) FROM jobs")
+            total_jobs_created = cur.fetchone()[0]
+            
+            cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'pending'")
+            pending_count = cur.fetchone()[0]
+            
+            # Create initial batch of jobs if none exist
+            if not jobs_created and total_jobs_created == 0:
+                print(f"Creating {total_jobs_needed} jobs ({total_conversations} conversations, {conversations_per_job} per job)")
+                
+                # Get scenarios
+                cur.execute("SELECT id, name FROM scenarios")
+                scenarios = cur.fetchall()
+                
+                if not scenarios:
+                    print("No scenarios found, creating default scenario")
+                    scenario_id = str(uuid.uuid4())
                     cur.execute(
-                        "UPDATE jobs SET status = 'running', assigned_node_id = %s, started_at = %s WHERE id = %s",
-                        (node_id, datetime.now(), job_id)
+                        "INSERT INTO scenarios (id, name, template) VALUES (%s, %s, %s)",
+                        (scenario_id, "Healthcare Appointment Scheduling", "Generate a realistic healthcare appointment conversation")
                     )
+                    scenarios = [(scenario_id, "Healthcare Appointment Scheduling")]
+                
+                # Create jobs
+                for i in range(total_jobs_needed):
+                    scenario_id, scenario_name = scenarios[i % len(scenarios)]
+                    job_id = str(uuid.uuid4())
                     
-                    print(f"Assigned job {job_id[:8]} to node {node_id[:8]}")
+                    job_params = {
+                        "conversations_per_job": conversations_per_job,
+                        "min_turns": 20,
+                        "max_turns": 40
+                    }
+                    
+                    cur.execute(
+                        "INSERT INTO jobs (id, scenario_id, status, parameters) VALUES (%s, %s, 'pending', %s)",
+                        (job_id, scenario_id, json.dumps(job_params))
+                    )
+                
+                jobs_created = True
+                print(f"Created {total_jobs_needed} jobs")
+            
+            # Maintain pending queue size
+            elif pending_count < pending_queue_size and total_jobs_created < total_jobs_needed:
+                jobs_to_create = min(pending_queue_size - pending_count, total_jobs_needed - total_jobs_created)
+                
+                cur.execute("SELECT id, name FROM scenarios LIMIT 1")
+                scenario = cur.fetchone()
+                
+                if scenario:
+                    scenario_id, scenario_name = scenario
+                    
+                    for _ in range(jobs_to_create):
+                        job_id = str(uuid.uuid4())
+                        job_params = {
+                            "conversations_per_job": conversations_per_job,
+                            "min_turns": 20,
+                            "max_turns": 40
+                        }
+                        
+                        cur.execute(
+                            "INSERT INTO jobs (id, scenario_id, status, parameters) VALUES (%s, %s, 'pending', %s)",
+                            (job_id, scenario_id, json.dumps(job_params))
+                        )
+                    
+                    print(f"Added {jobs_to_create} jobs to queue")
             
             conn.commit()
             cur.close()
             conn.close()
-            await asyncio.sleep(10)  # Check every 10 seconds
+            
+            await asyncio.sleep(check_interval)
     
     async def health_monitor_loop(self):
-        """Monitor system health"""
+        """Comprehensive system health monitoring"""
+        health_config = self.config_manager.get("health_monitor", {})
+        check_interval = health_config.get("check_interval", 60)
+        node_timeout = health_config.get("node_timeout", 300)
+        
         while self.running:
             conn = self.get_db()
-            
             cur = conn.cursor()
             
-            # Get system stats
+            # Get comprehensive system stats
             cur.execute("SELECT COUNT(*) FROM nodes WHERE status = 'online'")
             nodes_count = cur.fetchone()[0]
+            
             cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'pending'")
             pending_count = cur.fetchone()[0]
+            
             cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'running'")
             running_count = cur.fetchone()[0]
+            
             cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'completed'")
             completed_count = cur.fetchone()[0]
+            
             cur.execute("SELECT COUNT(*) FROM conversations")
             conv_count = cur.fetchone()[0]
+            
+            # Calculate generation rate (conversations per hour)
+            cur.execute(
+                "SELECT COUNT(*) FROM conversations WHERE created_at > NOW() - INTERVAL '1 hour'"
+            )
+            hourly_rate = cur.fetchone()[0]
+            
+            # Get node performance data
+            cur.execute(
+                """SELECT hostname, capabilities, last_seen, 
+                   (SELECT COUNT(*) FROM jobs WHERE assigned_node_id = nodes.id AND status = 'completed' AND completed_at > NOW() - INTERVAL '1 hour') as jobs_completed
+                   FROM nodes WHERE status = 'online' AND node_type != 'master'"""
+            )
+            node_stats = cur.fetchall()
+            
+            # Update node performance tracking
+            for hostname, capabilities, last_seen, jobs_completed in node_stats:
+                if hostname not in self.nodes:
+                    self.nodes[hostname] = {}
+                
+                self.nodes[hostname].update({
+                    'last_seen': last_seen,
+                    'capabilities': json.loads(capabilities) if capabilities else [],
+                    'jobs_per_hour': jobs_completed,
+                    'status': 'healthy' if (datetime.now() - last_seen).seconds < node_timeout else 'stale'
+                })
+            
+            # Calculate system efficiency
+            total_jobs_per_hour = sum(node.get('jobs_per_hour', 0) for node in self.nodes.values())
+            avg_jobs_per_node = total_jobs_per_hour / max(nodes_count, 1)
             
             stats = {
                 'nodes': nodes_count,
                 'pending_jobs': pending_count,
                 'running_jobs': running_count,
                 'completed_jobs': completed_count,
-                'conversations': conv_count
+                'conversations': conv_count,
+                'hourly_rate': hourly_rate,
+                'total_jobs_per_hour': total_jobs_per_hour,
+                'avg_jobs_per_node': avg_jobs_per_node
             }
             
+            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations, {stats['hourly_rate']}/hr")
+            
+            # Log node performance
+            for hostname, node_data in self.nodes.items():
+                status = node_data.get('status', 'unknown')
+                jobs_per_hour = node_data.get('jobs_per_hour', 0)
+                print(f"  Node {hostname}: {status}, {jobs_per_hour} jobs/hr")
+            
             cur.close()
-            
-            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations")
-            
             conn.close()
-            await asyncio.sleep(60)  # Check every minute
+            await asyncio.sleep(check_interval)
     
     def ping_host(self, hostname):
         """Fast network connectivity check using ping"""
@@ -463,7 +622,7 @@ class MasterOrchestrator:
             except Exception as e:
                 print(f"Failover monitor error: {e}")
             
-            await asyncio.sleep(20)
+            await asyncio.sleep(self.failover_timeout // 3)
     
     def create_job(self, job_type, scenario_name, parameters=None):
         """Create a new job"""

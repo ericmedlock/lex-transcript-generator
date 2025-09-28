@@ -24,44 +24,105 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'core'))
 from activity_monitor import ActivityMonitor
 
-def load_config(config_path):
-    """Load configuration with defaults"""
+def load_config(config_path=None):
+    """Load configuration with per-hostname support"""
+    hostname = socket.gethostname()
+    
+    # Config file search order
+    search_paths = []
+    if config_path:
+        search_paths.append(config_path)
+    search_paths.extend([
+        "bakeoff_config.json",
+        "config/bakeoff_config.json"
+    ])
+    
+    for path in search_paths:
+        if Path(path).exists():
+            try:
+                with open(path, 'r') as f:
+                    all_configs = json.load(f)
+                
+                # Check if hostname-specific config exists
+                if hostname in all_configs:
+                    print(f"Loaded config for {hostname} from: {path}")
+                    return all_configs[hostname]
+                else:
+                    # Create interactive config for this hostname
+                    print(f"No config found for {hostname}, creating new config...")
+                    new_config = create_interactive_bakeoff_config(hostname)
+                    all_configs[hostname] = new_config
+                    
+                    # Save updated config
+                    with open(path, 'w') as f:
+                        json.dump(all_configs, f, indent=2)
+                    
+                    print(f"Saved config for {hostname}")
+                    return new_config
+                    
+            except Exception as e:
+                print(f"Error loading {path}: {e}")
+                continue
+    
+    # No config file exists, create new one
+    print(f"No config file found, creating new config for {hostname}...")
+    new_config = create_interactive_bakeoff_config(hostname)
+    config_data = {hostname: new_config}
+    
+    # Save to default location
+    Path("config").mkdir(exist_ok=True)
+    with open("config/bakeoff_config.json", 'w') as f:
+        json.dump(config_data, f, indent=2)
+    
+    return new_config
+
+def create_interactive_bakeoff_config(hostname):
+    """Create bakeoff configuration interactively"""
     defaults = {
         "base_url": "http://localhost:1234/v1",
         "api_key": "lm-studio",
-        "machine_name": socket.gethostname(),
+        "machine_name": hostname,
         "trials": 5,
         "conversations_per_trial": 1,
         "temperature": 0.7,
         "max_tokens": 512,
         "timeout_s": 120,
-        "unload_between_models": False,
-        "prompt": "Generate a realistic healthcare appointment conversation",
+        "debug_mode": False,
         "deduplication": {
             "enabled": True,
             "similarity_threshold": 0.85,
-            "max_retries": 3,
-            "output_directory": "output/tool_runs"
+            "max_retries": 3
         }
     }
     
-    if not Path(config_path).exists():
-        print(f"Config file {config_path} not found, using defaults")
-        return defaults
+    config = {}
     
-    try:
-        with open(config_path, 'r') as f:
-            config = json.load(f)
-        
-        # Merge with defaults
-        for key, value in defaults.items():
-            if key not in config:
-                config[key] = value
-        
-        return config
-    except Exception as e:
-        print(f"Error loading config: {e}")
-        return defaults
+    print(f"\nConfiguring bakeoff for: {hostname}")
+    print("Press Enter to accept defaults, or type new value:\n")
+    
+    # Basic settings
+    config["machine_name"] = hostname
+    config["base_url"] = input(f"LLM base URL [{defaults['base_url']}]: ") or defaults["base_url"]
+    config["api_key"] = input(f"API key [{defaults['api_key']}]: ") or defaults["api_key"]
+    config["trials"] = int(input(f"Number of trials [{defaults['trials']}]: ") or defaults["trials"])
+    config["conversations_per_trial"] = int(input(f"Conversations per trial [{defaults['conversations_per_trial']}]: ") or defaults["conversations_per_trial"])
+    
+    # Debug mode
+    config["debug_mode"] = input(f"Debug mode [y/N]: ").lower().startswith('y')
+    
+    # Generation settings
+    config["temperature"] = float(input(f"Temperature [{defaults['temperature']}]: ") or defaults["temperature"])
+    config["max_tokens"] = int(input(f"Max tokens [{defaults['max_tokens']}]: ") or defaults["max_tokens"])
+    config["timeout_s"] = int(input(f"Timeout seconds [{defaults['timeout_s']}]: ") or defaults["timeout_s"])
+    
+    # Deduplication
+    config["deduplication"] = {
+        "enabled": input(f"Enable deduplication [Y/n]: ").lower() != 'n',
+        "similarity_threshold": float(input(f"Similarity threshold [{defaults['deduplication']['similarity_threshold']}]: ") or defaults["deduplication"]["similarity_threshold"]),
+        "max_retries": int(input(f"Max retries [{defaults['deduplication']['max_retries']}]: ") or defaults["deduplication"]["max_retries"])
+    }
+    
+    return config
 
 def setup_run_directory(config, run_number):
     """Create machine-specific run directory"""
@@ -71,27 +132,11 @@ def setup_run_directory(config, run_number):
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
-def init_deduplication(config):
+def init_deduplication():
     """Initialize deduplication system"""
     try:
         from dedupe_manager import DedupeManager
-        dedupe_manager = DedupeManager()
-        
-        # Setup database schema
-        conn = dedupe_manager.get_db()
-        cur = conn.cursor()
-        
-        # Load and execute dedupe schema
-        schema_path = Path(__file__).parent.parent / "config" / "database" / "dedupe_schema.sql"
-        if schema_path.exists():
-            with open(schema_path, 'r') as f:
-                cur.execute(f.read())
-            conn.commit()
-        
-        cur.close()
-        conn.close()
-        
-        return dedupe_manager
+        return DedupeManager()
     except Exception as e:
         print(f"Warning: Deduplication not available: {e}")
         return None
@@ -261,15 +306,13 @@ def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
         data = response.json()
         content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
         
-        # Check for duplicates
+        # Check for duplicates using model-specific strategy
         is_duplicate = False
         duplicate_reason = "unique"
         
         if dedupe_manager and config.get("deduplication", {}).get("enabled", True):
-            similarity_threshold = config.get("deduplication", {}).get("similarity_threshold", 0.85)
-            hash_only = config.get("deduplication", {}).get("hash_only", False)
             is_duplicate, duplicate_reason = dedupe_manager.is_duplicate(
-                run_number, content, model, similarity_threshold, hash_only
+                run_number, content, model, model_name=model
             )
         
         usage = data.get("usage", {})
@@ -295,160 +338,11 @@ def run_trial_with_dedupe(config, model, trial, dedupe_manager, run_number):
             "duplicate_reason": "error"
         }
 
-def grade_conversation_with_openai(conversation_text, trial_id):
-    """Grade conversation using OpenAI API"""
-    try:
-        openai_key = os.getenv('OPENAI_API_KEY')
-        if not openai_key:
-            return {
-                "realness_score": None,
-                "coherence_score": None, 
-                "naturalness_score": None,
-                "overall_score": None,
-                "grading_error": "No OpenAI API key"
-            }
-        
-        client = OpenAI(api_key=openai_key)
-        
-        grading_prompt = f"""Grade this AI-generated conversation on a scale of 1-10 for each metric:
+# Grading moved to modular grader - import it
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'core'))
+from conversation_grader import ConversationGrader
 
-1. REALNESS: How realistic and believable is this conversation? (1=obviously AI, 10=indistinguishable from human)
-2. COHERENCE: How well does the conversation flow logically? (1=nonsensical, 10=perfect flow)
-3. NATURALNESS: How natural do the speech patterns sound? (1=robotic, 10=completely natural)
-4. OVERALL: Overall quality for training chatbot systems (1=unusable, 10=excellent training data)
-
-Conversation to grade:
-{conversation_text[:2000]}...
-
-Respond ONLY with JSON format:
-{{
-  "realness_score": X,
-  "coherence_score": X,
-  "naturalness_score": X,
-  "overall_score": X,
-  "brief_feedback": "one sentence explanation"
-}}"""
-        
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": grading_prompt}],
-            temperature=0.1,
-            max_tokens=200
-        )
-        
-        result_text = response.choices[0].message.content.strip()
-        
-        # Remove markdown code blocks if present
-        if result_text.startswith('```json'):
-            result_text = result_text[7:]  # Remove ```json
-        if result_text.startswith('```'):
-            result_text = result_text[3:]   # Remove ```
-        if result_text.endswith('```'):
-            result_text = result_text[:-3]  # Remove trailing ```
-        result_text = result_text.strip()
-        
-        try:
-            grades = json.loads(result_text)
-            grades["grading_error"] = None
-            return grades
-        except json.JSONDecodeError:
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None, 
-                "overall_score": None,
-                "grading_error": f"Invalid JSON: {result_text[:100]}"
-            }
-            
-    except Exception as e:
-        return {
-            "realness_score": None,
-            "coherence_score": None,
-            "naturalness_score": None,
-            "overall_score": None,
-            "grading_error": str(e)
-        }
-
-class GradingWorker:
-    """Single-threaded grading worker with rate limiting"""
-    
-    def __init__(self, gan_writer):
-        self.gan_writer = gan_writer
-        self.grading_queue = queue.Queue()
-        self.worker_thread = None
-        self.running = False
-        
-    def start(self):
-        """Start the grading worker thread"""
-        self.running = True
-        self.worker_thread = threading.Thread(target=self._worker_loop, daemon=False)
-        self.worker_thread.start()
-        print("[GRADER] Started grading worker thread")
-        
-    def add_grading_job(self, conversation_text, trial_id, model, trial):
-        """Add grading job to queue"""
-        job = {
-            'conversation_text': conversation_text,
-            'trial_id': trial_id,
-            'model': model,
-            'trial': trial
-        }
-        self.grading_queue.put(job)
-        print(f"    [GRADER] Queued grading for {trial_id} (queue: {self.grading_queue.qsize()})")
-        
-    def _worker_loop(self):
-        """Main worker loop - processes one job at a time with rate limiting"""
-        while self.running:
-            try:
-                job = self.grading_queue.get(timeout=5)
-                
-                print(f"    [GRADER] Processing {job['trial_id']} (queue: {self.grading_queue.qsize()} remaining)...")
-                
-                grades = grade_conversation_with_openai(
-                    job['conversation_text'], 
-                    job['trial_id']
-                )
-                
-                try:
-                    self.gan_writer.writerow([
-                        job['trial_id'],
-                        datetime.now().isoformat(),
-                        job['model'],
-                        job['trial'],
-                        grades.get("realness_score"),
-                        grades.get("coherence_score"),
-                        grades.get("naturalness_score"),
-                        grades.get("overall_score"),
-                        grades.get("brief_feedback", ""),
-                        grades.get("grading_error", "")
-                    ])
-                except ValueError as e:
-                    print(f"    [GRADER] CSV write error for {job['trial_id']}: {e}")
-                    continue
-                
-                if grades.get("grading_error"):
-                    print(f"    [GRADER] Error for {job['trial_id']}: {grades['grading_error']}")
-                else:
-                    print(f"    [GRADER] Completed {job['trial_id']}: R={grades.get('realness_score')}, O={grades.get('overall_score')}")
-                
-                self.grading_queue.task_done()
-                
-                if not self.grading_queue.empty():
-                    time.sleep(2)  # Rate limiting
-                
-            except queue.Empty:
-                continue
-            except Exception as e:
-                print(f"    [GRADER] Worker error: {e}")
-                
-    def shutdown(self):
-        """Shutdown worker and wait for completion"""
-        print(f"[GRADER] Shutting down, {self.grading_queue.qsize()} jobs remaining...")
-        self.grading_queue.join()
-        self.running = False
-        if self.worker_thread and self.worker_thread.is_alive():
-            self.worker_thread.join(timeout=30)
-        print("[GRADER] Shutdown complete")
+# GradingWorker removed - using modular grader instead
 
 def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, trial_writer, grading_worker, system_info, activity_monitor):
     """Run trials for model with deduplication, retry logic, activity monitoring, and threaded grading"""
@@ -486,16 +380,8 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
             unique_conversations += 1
             print(f"UNIQUE ({unique_conversations}/{target_conversations})")
             
-            # Queue for threaded grading
-            conversation_content = result.get("content", "")
+            # Store trial_id for later grading
             trial_id = f"{model}_{trial}_{int(time.time())}"
-            
-            grading_worker.add_grading_job(
-                conversation_content,
-                trial_id,
-                model,
-                trial
-            )
         else:
             duplicates_found += 1
             print(f"DUPLICATE ({result['duplicate_reason']})")
@@ -530,16 +416,16 @@ def run_trials_for_model_with_dedupe(config, model, dedupe_manager, run_number, 
 
 def main():
     parser = argparse.ArgumentParser(description="Model bakeoff with deduplication")
-    parser.add_argument("--config", default="config.json", help="Config file path")
+    parser.add_argument("--config", help="Config file path (optional)")
     parser.add_argument("--dry-run", action="store_true", help="Test mode")
     
     args = parser.parse_args()
     
-    # Load config
+    # Load config with per-hostname support
     config = load_config(args.config)
     
     # Initialize deduplication
-    dedupe_manager = init_deduplication(config)
+    dedupe_manager = init_deduplication()
     if not dedupe_manager:
         print("ERROR: Could not initialize deduplication system")
         return 1
@@ -619,14 +505,14 @@ def main():
         "naturalness_score", "overall_score", "brief_feedback", "grading_error"
     ])
     
-    # Create grading worker but don't start yet
-    grading_worker = GradingWorker(gan_writer)
+    # Initialize grader for post-processing
+    grader = ConversationGrader()
     
     try:
         # Run trials for each model (generation only)
         for model in candidate_models:
             results, unique_count, duplicate_count = run_trials_for_model_with_dedupe(
-                config, model, dedupe_manager, run_number, trial_writer, grading_worker, system_info, activity_monitor
+                config, model, dedupe_manager, run_number, trial_writer, None, system_info, activity_monitor
             )
             
             # Calculate summary
@@ -658,13 +544,14 @@ def main():
             ])
     
         
-        # Now start grading after all generation is complete
+        # Now grade using CSV files after all generation is complete
         print("\n[MAIN] Starting grading phase...")
-        grading_worker.start()
+        csv_files = [trials_csv]
+        gan_output = output_dir / f"{machine_name}_bakeoff_gan.csv"
+        grader.grade_csv_files(csv_files, gan_output)
         
     finally:
-        # Wait for grading to complete
-        grading_worker.shutdown()
+        # Grading complete
         # Close all files
         trials_file.close()
         summary_file.close()

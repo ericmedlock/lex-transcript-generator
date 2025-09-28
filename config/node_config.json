@@ -1,0 +1,42 @@
+{
+  "llm_endpoint": "http://127.0.0.1:1234/v1/chat/completions",
+  "machine_name": "MSI-Laptop-4050",
+  "db_config": {
+    "host": "EPM_DELL",
+    "port": 5432,
+    "database": "calllab",
+    "user": "postgres",
+    "password": "pass"
+  },
+  "generation": {
+    "temperature": 0.9,
+    "max_tokens": 2000,
+    "timeout": 60,
+    "max_retries": 3,
+    "heartbeat_interval": 30
+  },
+  "resource_management": {
+    "activity_detection": true,
+    "cpu_limit_active": 30,
+    "cpu_limit_idle": 80,
+    "gpu_limit_active": 20,
+    "gpu_limit_idle": 70,
+    "temp_limit": 85,
+    "check_interval": 5
+  },
+  "deduplication": {
+    "enabled": true,
+    "similarity_threshold": 0.85,
+    "max_retries": 3
+  },
+  "grading": {
+    "enabled": true,
+    "auto_grade_on_completion": true,
+    "rate_limit_delay": 2
+  },
+  "rag": {
+    "enabled": true,
+    "search_limit": 3,
+    "chunk_size": 500
+  }
+}

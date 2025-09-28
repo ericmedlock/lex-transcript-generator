@@ -9,6 +9,7 @@ import json
 import uuid
 import socket
 import aiohttp
+import signal
 import sys
 import os
 import random
@@ -169,15 +170,17 @@ Generate ONLY the conversation, no commentary:"""
         return enhanced_prompt
 
 class GenerationNode:
-    def __init__(self, llm_endpoint="http://127.0.0.1:1234/v1/chat/completions", max_jobs=None):
-        self.db_config = {
+    def __init__(self, llm_endpoint=None, max_jobs=None, config_path=None):
+        self.hostname = socket.gethostname()
+        self.config = self.load_config(config_path)
+        self.db_config = self.config.get("db_config", {
             'host': 'EPM_DELL',
             'port': 5432,
             'database': 'calllab',
             'user': 'postgres',
             'password': 'pass'
-        }
-        self.llm_endpoint = llm_endpoint
+        })
+        self.llm_endpoint = llm_endpoint or self.config.get("llm_endpoint", "http://127.0.0.1:1234/v1/chat/completions")
         self.node_id = str(uuid.uuid4())
         self.hostname = socket.gethostname()
         self.running = False
@@ -185,14 +188,177 @@ class GenerationNode:
         self.jobs_processed = 0
         self.rag_preprocessor = self.init_rag()
         self.dedupe_manager = self.init_dedupe()
+        self.grader = self.init_grader()
         self.current_run_id = None
         self.current_run_number = None
-        self.model_manager = ModelManager(llm_endpoint)
+        self.model_manager = ModelManager(self.llm_endpoint)
         self.prompt_manager = PromptManager()
+        self.completed_jobs = []  # Track completed jobs for grading
+        self.activity_monitor = self.init_activity_monitor()
+        self.setup_signal_handlers()
+    
+    def setup_signal_handlers(self):
+        """Setup graceful shutdown handlers"""
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
+    
+    def signal_handler(self, signum, frame):
+        """Handle shutdown signals gracefully"""
+        print(f"\nReceived signal {signum}, shutting down gracefully...")
+        self.running = False
+    
+    async def validate_startup(self):
+        """Validate all connections and dependencies"""
+        # Test database connection
+        conn = self.get_db()
+        conn.close()
+        print("[NODE] Database connection OK")
         
-    def get_db(self):
-        """Get database connection"""
-        return psycopg2.connect(**self.db_config)
+        # Test LLM endpoint
+        try:
+            models = await self.model_manager.discover_models()
+            if not models:
+                raise Exception("No chat models available")
+            print(f"[NODE] LLM endpoint OK: {len(models)} models")
+        except Exception as e:
+            raise Exception(f"LLM endpoint validation failed: {e}")
+        
+        # Test grader if enabled
+        if self.grader:
+            try:
+                self.grader.setup_grading_schema()
+                print("[NODE] Grader OK")
+            except Exception as e:
+                print(f"[NODE] Warning: Grader setup failed: {e}")
+        
+        # Test activity monitor
+        if self.activity_monitor:
+            mode = self.activity_monitor.get_activity_mode()
+            print(f"[NODE] Activity monitor OK: {mode} mode")
+    
+    def load_config(self, config_path=None):
+        """Load generator configuration with per-hostname support"""
+        search_paths = []
+        if config_path:
+            search_paths.append(config_path)
+        search_paths.extend([
+            "node_config.json",
+            "config/node_config.json"
+        ])
+        
+        for path in search_paths:
+            if Path(path).exists():
+                try:
+                    with open(path, 'r') as f:
+                        all_configs = json.load(f)
+                    
+                    # Check if hostname-specific config exists
+                    if self.hostname in all_configs:
+                        print(f"[NODE] Loaded config for {self.hostname} from: {path}")
+                        return all_configs[self.hostname]
+                    else:
+                        # Create interactive config for this hostname
+                        print(f"[NODE] No config found for {self.hostname}, creating new config...")
+                        new_config = self.create_interactive_config()
+                        all_configs[self.hostname] = new_config
+                        
+                        # Save updated config
+                        with open(path, 'w') as f:
+                            json.dump(all_configs, f, indent=2)
+                        
+                        print(f"[NODE] Saved config for {self.hostname}")
+                        return new_config
+                        
+                except Exception as e:
+                    print(f"[NODE] Error loading {path}: {e}")
+                    continue
+        
+        # No config file exists, create new one
+        print(f"[NODE] No config file found, creating new config for {self.hostname}...")
+        new_config = self.create_interactive_config()
+        config_data = {self.hostname: new_config}
+        
+        # Save to default location
+        Path("config").mkdir(exist_ok=True)
+        with open("config/node_config.json", 'w') as f:
+            json.dump(config_data, f, indent=2)
+        
+        return new_config
+    
+    def create_interactive_config(self):
+        """Create configuration interactively"""
+        defaults = {
+            "db_config": {
+                "host": "EPM_DELL",
+                "port": 5432,
+                "database": "calllab",
+                "user": "postgres",
+                "password": "pass"
+            },
+            "llm_endpoint": "http://127.0.0.1:1234/v1/chat/completions",
+            "generation": {
+                "temperature": 0.9,
+                "max_tokens": 2000,
+                "timeout": 60,
+                "max_retries": 3
+            },
+            "rag": {
+                "enabled": True,
+                "search_limit": 3
+            },
+            "deduplication": {
+                "enabled": True,
+                "similarity_threshold": 0.85
+            },
+            "grading": {
+                "enabled": True,
+                "openai_api_key": ""
+            },
+            "resource_management": {
+                "activity_detection": True,
+                "thermal_throttling": True
+            }
+        }
+        
+        config = {}
+        
+        print(f"\nConfiguring node: {self.hostname}")
+        print("Press Enter to accept defaults, or type new value:\n")
+        
+        # Database config
+        config["db_config"] = {}
+        config["db_config"]["host"] = input(f"Database host [{defaults['db_config']['host']}]: ") or defaults["db_config"]["host"]
+        config["db_config"]["port"] = int(input(f"Database port [{defaults['db_config']['port']}]: ") or defaults["db_config"]["port"])
+        config["db_config"]["database"] = input(f"Database name [{defaults['db_config']['database']}]: ") or defaults["db_config"]["database"]
+        config["db_config"]["user"] = input(f"Database user [{defaults['db_config']['user']}]: ") or defaults["db_config"]["user"]
+        config["db_config"]["password"] = input(f"Database password [{defaults['db_config']['password']}]: ") or defaults["db_config"]["password"]
+        
+        # LLM endpoint
+        config["llm_endpoint"] = input(f"LLM endpoint [{defaults['llm_endpoint']}]: ") or defaults["llm_endpoint"]
+        
+        # Generation settings
+        config["generation"] = {}
+        config["generation"]["temperature"] = float(input(f"Temperature [{defaults['generation']['temperature']}]: ") or defaults["generation"]["temperature"])
+        config["generation"]["max_tokens"] = int(input(f"Max tokens [{defaults['generation']['max_tokens']}]: ") or defaults["generation"]["max_tokens"])
+        
+        # Feature toggles
+        config["rag"] = {"enabled": input(f"Enable RAG [y/N]: ").lower().startswith('y')}
+        config["deduplication"] = {"enabled": input(f"Enable deduplication [y/N]: ").lower().startswith('y')}
+        config["grading"] = {"enabled": input(f"Enable grading [y/N]: ").lower().startswith('y')}
+        config["resource_management"] = {"activity_detection": input(f"Enable activity detection [y/N]: ").lower().startswith('y')}
+        
+        return config
+        
+    def get_db(self, retries=3):
+        """Get database connection with retry logic"""
+        for attempt in range(retries):
+            try:
+                return psycopg2.connect(**self.db_config)
+            except Exception as e:
+                if attempt == retries - 1:
+                    raise e
+                print(f"[NODE] Database connection failed (attempt {attempt + 1}/{retries}): {e}")
+                time.sleep(2 ** attempt)  # Exponential backoff
     
     def init_rag(self):
         """Initialize RAG preprocessor"""
@@ -212,6 +378,26 @@ class GenerationNode:
             return DedupeManager()
         except Exception as e:
             print(f"Warning: Deduplication not available: {e}")
+            return None
+    
+    def init_grader(self):
+        """Initialize conversation grader"""
+        try:
+            sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
+            from conversation_grader import ConversationGrader
+            return ConversationGrader()
+        except Exception as e:
+            print(f"Warning: Grader not available: {e}")
+            return None
+    
+    def init_activity_monitor(self):
+        """Initialize activity monitor"""
+        try:
+            sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'core'))
+            from activity_monitor import ActivityMonitor
+            return ActivityMonitor(self.config)
+        except Exception as e:
+            print(f"Warning: Activity monitor not available: {e}")
             return None
     
     def get_or_create_run(self):
@@ -286,14 +472,14 @@ class GenerationNode:
         print(f"Registered generation node: {self.node_id[:8]} ({self.hostname})")
     
     async def start(self):
-        """Start the generation node"""
+        """Start the generation node with validation"""
         print("Starting Generation Node")
         
+        # Validate configuration and connections
         try:
-            conn = self.get_db()
-            conn.close()
+            await self.validate_startup()
         except Exception as e:
-            print(f"❌ Database connection failed: {e}")
+            print(f"❌ Startup validation failed: {e}")
             return
         
         await self.register_node()
@@ -315,15 +501,17 @@ class GenerationNode:
             await self.shutdown()
     
     async def job_processor_loop(self):
-        """Process assigned generation jobs"""
+        """Pull and process available jobs"""
         while self.running:
             conn = self.get_db()
             cur = conn.cursor()
             
-            # Get jobs assigned to this node
+            # Atomically claim next available job
             cur.execute(
-                "SELECT id, scenario_id, parameters FROM jobs WHERE assigned_node_id = %s AND status = 'running' LIMIT 1",
-                (self.node_id,)
+                """UPDATE jobs SET status = 'running', assigned_node_id = %s, started_at = %s 
+                   WHERE id = (SELECT id FROM jobs WHERE status = 'pending' ORDER BY created_at ASC LIMIT 1) 
+                   RETURNING id, scenario_id, parameters""",
+                (self.node_id, datetime.now())
             )
             job = cur.fetchone()
             
@@ -331,11 +519,16 @@ class GenerationNode:
                 job_id, scenario_id, parameters = job
                 params = parameters if isinstance(parameters, dict) else json.loads(parameters or "{}")
                 
-                print(f"Processing job: {job_id[:8]}")
+                print(f"Claimed job: {job_id[:8]}")
                 
                 try:
-                    # Generate conversation
-                    conversation = await self.generate_conversation(scenario_id, params)
+                    # Get conversations per job from parameters
+                    conversations_per_job = params.get("conversations_per_job", 1)
+                    
+                    # Generate multiple conversations for this job
+                    conversations_generated = 0
+                    for conv_num in range(conversations_per_job):
+                        conversation = await self.generate_conversation(scenario_id, params)
                     
                     if conversation:
                         # Extract metadata
@@ -348,15 +541,26 @@ class GenerationNode:
                         
                         if self.dedupe_manager and run_number:
                             is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
-                                run_number, conversation, self.hostname, 0.85, False, metadata.get("model_name")
+                                run_number, conversation, self.hostname, model_name=metadata.get("model_name")
                             )
                         
                         if is_duplicate:
-                            print(f"Duplicate conversation detected ({duplicate_reason}), retrying job: {job_id[:8]}")
-                            # Don't mark job complete, let it retry
+                            print(f"Duplicate detected ({duplicate_reason}), retrying conversation {conv_num+1}/{conversations_per_job}")
+                            continue  # Try next conversation
                         else:
                             # Save unique conversation
                             conv_id = str(uuid.uuid4())
+                            # Store performance metrics
+                            perf_metrics = {
+                                "realness_score": None,
+                                "speed_score": metadata.get("tokens_per_sec", 0),
+                                "gan_score": None,
+                                "duplicate_status": duplicate_reason,
+                                "completion_tokens": metadata.get("completion_tokens", 0),
+                                "rag_used": metadata.get("rag_examples_used", False),
+                                "retry_attempt": metadata.get("attempt", 1)
+                            }
+                            
                             cur.execute(
                                 """INSERT INTO conversations 
                                    (id, job_id, scenario_id, content, quality_score, model_name, 
@@ -365,49 +569,78 @@ class GenerationNode:
                                 (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
                                  metadata.get("model_name"), metadata.get("start_time"), 
                                  metadata.get("end_time"), metadata.get("duration_ms"), 
-                                 json.dumps({"realness_score": None, "speed_score": None, "gan_score": None, "duplicate_status": duplicate_reason}))
+                                 json.dumps(perf_metrics))
                             )
                             
-                            # Mark job complete
-                            cur.execute(
-                                "UPDATE jobs SET status = 'completed', completed_at = %s WHERE id = %s",
-                                (datetime.now(), job_id)
-                            )
+                            # Track completed conversation for grading
+                            self.completed_jobs.append(conv_id)
+                            conversations_generated += 1
                             
-                            print(f"Completed job: {job_id[:8]} -> conversation: {conv_id[:8]} (unique)")
-                            
-                            # Check if we've hit the job limit (only count successful jobs)
-                            self.jobs_processed += 1
-                            if self.max_jobs and self.jobs_processed >= self.max_jobs:
-                                print(f"Reached job limit ({self.max_jobs}), shutting down...")
-                                self.running = False
-                                return
-                    else:
-                        # Mark job failed (don't increment counter)
+                            tokens_per_sec = metadata.get("tokens_per_sec", 0)
+                            print(f"Generated conversation {conversations_generated}/{conversations_per_job} for job {job_id[:8]} ({tokens_per_sec:.1f} tok/s)")
+                    
+                    # Mark job complete after all conversations generated
+                    cur.execute(
+                        "UPDATE jobs SET status = 'completed', completed_at = %s WHERE id = %s",
+                        (datetime.now(), job_id)
+                    )
+                    
+                    print(f"Completed job: {job_id[:8]} -> {conversations_generated} conversations")
+                    
+                    # Check if we've hit the job limit
+                    self.jobs_processed += 1
+                    if self.max_jobs and self.jobs_processed >= self.max_jobs:
+                        print(f"Reached job limit ({self.max_jobs}), starting grading phase...")
+                        await self.grade_completed_conversations()
+                        self.running = False
+                        return
+                        else:
+                            print(f"Failed to generate conversation {conv_num+1}/{conversations_per_job}")
+                    
+                    # If no conversations generated, mark job as failed
+                    if conversations_generated == 0:
                         cur.execute(
                             "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                         )
-                        print(f"Failed job: {job_id[:8]} - not counting toward limit")
+                        print(f"Failed job: {job_id[:8]} - no conversations generated")
                 
                 except Exception as e:
                     print(f"Error processing job {job_id[:8]}: {e}")
                     cur.execute(
                         "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                     )
-                    print(f"Job failed due to exception - not counting toward limit")
                 
                 conn.commit()
+            else:
+                # No jobs available, wait longer
+                await asyncio.sleep(10)
+                continue
             
             cur.close()
             conn.close()
-            await asyncio.sleep(5)  # Check every 5 seconds
+            await asyncio.sleep(1)  # Brief pause between jobs
     
     async def get_available_model(self):
         """Get best available model using ModelManager"""
         return await self.model_manager.get_best_model()
     
     async def generate_conversation(self, scenario_id, parameters):
-        """Generate a conversation using LLM"""
+        """Generate a conversation using LLM with retry logic and performance tracking"""
+        # Check activity and throttle if needed
+        if self.activity_monitor:
+            mode = self.activity_monitor.get_activity_mode()
+            throttle_factor = self.activity_monitor.get_throttle_factor()
+            
+            if self.activity_monitor.should_throttle():
+                limits = self.activity_monitor.get_resource_limits()
+                print(f"Throttling due to {mode} (factor: {throttle_factor:.1f}), waiting {limits.get('delay', 5)}s...")
+                await asyncio.sleep(limits.get('delay', 5))
+            elif throttle_factor < 1.0:
+                # Gradual scaling - add small delay for non-idle modes
+                delay = int((1.0 - throttle_factor) * 5)  # 0-5 second delay
+                if delay > 0:
+                    await asyncio.sleep(delay)
+        
         conn = self.get_db()
         cur = conn.cursor()
         
@@ -427,11 +660,20 @@ class GenerationNode:
         min_turns = parameters.get("min_turns", 20)
         max_turns = parameters.get("max_turns", 40)
         
-        # Get available model
+        # Get and validate model
         model_name = await self.get_available_model()
+        if not await self.model_manager.validate_model(model_name):
+            print(f"Model {model_name} not available, trying alternatives...")
+            await self.model_manager.discover_models()
+            model_name = await self.get_available_model()
         
         # Search for similar conversations
-        rag_examples = self.rag_search(f"{scenario_name} {template}", limit=3)
+        rag_config = self.config.get("rag", {})
+        if rag_config.get("enabled", True):
+            search_limit = rag_config.get("search_limit", 3)
+            rag_examples = self.rag_search(f"{scenario_name} {template}", limit=search_limit)
+        else:
+            rag_examples = ""
         
         # Generate varied prompt using PromptManager
         base_prompt = self.prompt_manager.generate_varied_prompt(
@@ -450,44 +692,68 @@ Now generate a conversation using this guidance:
         else:
             prompt = base_prompt
         
-        start_time = datetime.now()
+        # Get generation config
+        gen_config = self.config.get("generation", {})
+        temperature = gen_config.get("temperature", 0.9)
+        max_tokens = gen_config.get("max_tokens", 2000)
+        timeout = gen_config.get("timeout", 60)
+        max_retries = gen_config.get("max_retries", 3)
         
-        try:
-            # Call LLM
-            async with aiohttp.ClientSession() as session:
-                payload = {
-                    "model": model_name,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "temperature": 0.9,
-                    "max_tokens": 2000
-                }
-                
-                async with session.post(self.llm_endpoint, json=payload, timeout=60) as resp:
-                    end_time = datetime.now()
-                    duration_ms = int((end_time - start_time).total_seconds() * 1000)
+        # Retry logic for LLM calls
+        for attempt in range(max_retries):
+            start_time = datetime.now()
+            
+            try:
+                # Call LLM
+                async with aiohttp.ClientSession() as session:
+                    payload = {
+                        "model": model_name,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "temperature": temperature,
+                        "max_tokens": max_tokens
+                    }
                     
-                    if resp.status == 200:
-                        data = await resp.json()
-                        text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                    async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
+                        end_time = datetime.now()
+                        duration_ms = int((end_time - start_time).total_seconds() * 1000)
                         
-                        # Convert to Contact Lens format and add metadata
-                        conversation = self.format_conversation(text, scenario_name)
-                        conversation["_metadata"] = {
-                            "model_name": model_name,
-                            "start_time": start_time.isoformat(),
-                            "end_time": end_time.isoformat(),
-                            "duration_ms": duration_ms,
-                            "rag_examples_used": bool(rag_examples)
-                        }
-                        
-                        return conversation
-                    else:
-                        print(f"LLM API error: {resp.status}")
-                        return None
+                        if resp.status == 200:
+                            data = await resp.json()
+                            text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                            
+                            # Calculate performance metrics
+                            usage = data.get("usage", {})
+                            completion_tokens = usage.get("completion_tokens", len(text.split()))
+                            tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
+                            
+                            # Convert to Contact Lens format and add metadata
+                            conversation = self.format_conversation(text, scenario_name)
+                            conversation["_metadata"] = {
+                                "model_name": model_name,
+                                "start_time": start_time.isoformat(),
+                                "end_time": end_time.isoformat(),
+                                "duration_ms": duration_ms,
+                                "completion_tokens": completion_tokens,
+                                "tokens_per_sec": tokens_per_sec,
+                                "rag_examples_used": bool(rag_examples),
+                                "attempt": attempt + 1
+                            }
+                            
+                            return conversation
+                        else:
+                            print(f"LLM API error: {resp.status} (attempt {attempt + 1}/{max_retries})")
+                            if attempt == max_retries - 1:
+                                return None
+            
+            except Exception as e:
+                print(f"LLM call failed: {e} (attempt {attempt + 1}/{max_retries})")
+                if attempt == max_retries - 1:
+                    return None
+                
+                # Wait before retry
+                await asyncio.sleep(2 ** attempt)  # Exponential backoff
         
-        except Exception as e:
-            print(f"LLM call failed: {e}")
-            return None
+        return None
     
     def format_conversation(self, text, scenario_name):
         """Convert raw text to Contact Lens format"""
@@ -534,8 +800,32 @@ Now generate a conversation using this guidance:
             
             await asyncio.sleep(30)  # Heartbeat every 30 seconds
     
+    async def grade_completed_conversations(self):
+        """Grade conversations completed by this node"""
+        if not self.grader or not self.completed_jobs:
+            print("No grader available or no conversations to grade")
+            return
+        
+        print(f"Grading {len(self.completed_jobs)} completed conversations...")
+        
+        # Setup grading schema if needed
+        try:
+            self.grader.setup_grading_schema()
+        except Exception as e:
+            print(f"Warning: Could not setup grading schema: {e}")
+        
+        # Grade conversations by this machine
+        graded_count = self.grader.grade_database_conversations(
+            machine_name=self.hostname,
+            limit=len(self.completed_jobs)
+        )
+        
+        print(f"Graded {graded_count} conversations")
+    
     async def shutdown(self):
         """Shutdown the node"""
+        # Grade any remaining conversations before shutdown
+        await self.grade_completed_conversations()
         self.running = False
 
 if __name__ == "__main__":

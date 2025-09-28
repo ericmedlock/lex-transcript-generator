@@ -1,0 +1,23 @@
+{
+  "heartbeat_interval": 10,
+  "failover_timeout": 60,
+  "network_check_timeout": 5,
+  "preferred_master": "EPM_DELL",
+  "db_config": {
+    "host": "EPM_DELL",
+    "port": 5432,
+    "database": "calllab",
+    "user": "postgres",
+    "password": "pass"
+  },
+  "job_creation": {
+    "total_conversations": 1,
+    "conversations_per_job": 1,
+    "pending_queue_size": 1,
+    "check_interval": 10
+  },
+  "health_monitor": {
+    "check_interval": 60,
+    "node_timeout": 300
+  }
+}

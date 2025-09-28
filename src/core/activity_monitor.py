@@ -70,7 +70,7 @@ class ActivityMonitor:
         return False, None
     
     def get_activity_mode(self):
-        """Determine current activity mode"""
+        """Determine current activity mode based on CPU/GPU usage only"""
         if not self.activity_detection:
             return "idle"
         
@@ -81,58 +81,54 @@ class ActivityMonitor:
         
         self.last_activity_check = now
         
-        # Check CPU usage
+        # Check CPU and GPU usage (ignore specific applications)
         cpu_usage = self.get_cpu_usage()
         gpu_usage = self.get_gpu_usage()
-        
-        # Check for gaming/intensive apps
-        gaming_active, proc_name = self.detect_gaming_activity()
-        
-        # Check temperature
         cpu_temp = self.get_cpu_temp()
         
-        # Determine mode
+        # Determine mode based on resource usage thresholds
         if cpu_temp > self.temp_limit:
             self.current_mode = "thermal_throttle"
-        elif gaming_active:
-            self.current_mode = "gaming"
-        elif cpu_usage > 70 or gpu_usage > 50:
+        elif cpu_usage > 80 or gpu_usage > 70:
+            self.current_mode = "heavy_load"
+        elif cpu_usage > 50 or gpu_usage > 40:
             self.current_mode = "active"
+        elif cpu_usage > 20 or gpu_usage > 15:
+            self.current_mode = "light_load"
         else:
             self.current_mode = "idle"
         
         return self.current_mode
     
     def get_resource_limits(self):
-        """Get current resource limits based on activity"""
+        """Get current resource limits with gradual ramp up/down"""
         mode = self.get_activity_mode()
         
+        # Gradual throttling based on current load
         if mode == "thermal_throttle":
-            return {"cpu_limit": 10, "gpu_limit": 5, "delay": 30}
-        elif mode == "gaming":
-            return {
-                "cpu_limit": self.config.get("cpu_limit_active", 20),
-                "gpu_limit": self.config.get("gpu_limit_active", 10),
-                "delay": 10
-            }
+            return {"cpu_limit": 5, "gpu_limit": 5, "delay": 30, "throttle_factor": 0.1}
+        elif mode == "heavy_load":
+            return {"cpu_limit": 15, "gpu_limit": 10, "delay": 15, "throttle_factor": 0.2}
         elif mode == "active":
-            return {
-                "cpu_limit": self.config.get("cpu_limit_active", 30),
-                "gpu_limit": self.config.get("gpu_limit_active", 20),
-                "delay": 5
-            }
+            return {"cpu_limit": 30, "gpu_limit": 25, "delay": 8, "throttle_factor": 0.4}
+        elif mode == "light_load":
+            return {"cpu_limit": 50, "gpu_limit": 40, "delay": 3, "throttle_factor": 0.7}
         else:  # idle
-            return {
-                "cpu_limit": self.config.get("cpu_limit_idle", 80),
-                "gpu_limit": self.config.get("gpu_limit_idle", 70),
-                "delay": 1
-            }
+            return {"cpu_limit": 85, "gpu_limit": 80, "delay": 1, "throttle_factor": 1.0}
     
     def should_throttle(self):
-        """Check if processing should be throttled"""
+        """Check if processing should be throttled with gradual scaling"""
         limits = self.get_resource_limits()
         current_cpu = self.get_cpu_usage()
         current_gpu = self.get_gpu_usage()
         
-        return (current_cpu > limits["cpu_limit"] or 
-                current_gpu > limits["gpu_limit"])
+        # Return throttle status and scaling factor
+        cpu_over = current_cpu > limits["cpu_limit"]
+        gpu_over = current_gpu > limits["gpu_limit"]
+        
+        return cpu_over or gpu_over
+    
+    def get_throttle_factor(self):
+        """Get current throttle factor (0.1 = 10% capacity, 1.0 = full capacity)"""
+        limits = self.get_resource_limits()
+        return limits.get("throttle_factor", 1.0)

@@ -16,8 +16,8 @@ env/
 .env
 .env.*
 
-# Configuration files
-config/config.json
+# Configuration files (per-hostname configs are tracked)
+# config/config.json  # Legacy - now using per-hostname configs
 
 
 
