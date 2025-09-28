@@ -113,7 +113,7 @@ class ConfigManager:
             "job_creation": {
                 "total_conversations": 1000,
                 "conversations_per_job": 10,
-                "pending_queue_size": 5,
+                "pending_queue_size": 10,
                 "check_interval": 30
             },
             "health_monitor": {

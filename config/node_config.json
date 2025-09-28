@@ -26,5 +26,33 @@
     "resource_management": {
       "activity_detection": true
     }
+  },
+  "EPM_Dell": {
+    "db_config": {
+      "host": "EPM_DELL",
+      "port": 5432,
+      "database": "calllab",
+      "user": "postgres",
+      "password": "pass"
+    },
+    "llm_endpoint": "http://127.0.0.1:1234/v1/chat/completions",
+    "generation": {
+      "temperature": 0.9,
+      "max_tokens": 2000
+    },
+    "rag": {
+      "enabled": true
+    },
+    "deduplication": {
+      "enabled": true,
+      "hash_only": true
+    },
+    "grading": {
+      "enabled": true,
+      "openai_api_key": "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"
+    },
+    "resource_management": {
+      "activity_detection": true
+    }
   }
 }

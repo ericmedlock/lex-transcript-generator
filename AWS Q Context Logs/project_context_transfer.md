@@ -1,11 +1,13 @@
 # LLM Transcript Data Generation Platform - Context Transfer
 
 ## System Overview
-**Base Directory**: `C:\Users\ericm\PycharmProjects\LLM-Transcript-Data-Gen\`
+**Base Directory**: `C:\Users\ericm\PycharmProjects\lex-transcript-generator\`
 **Database**: PostgreSQL (EPM_DELL:5432, calllab, postgres/pass)
-**Output**: Amazon Connect Contact Lens v1.1.0 JSON format
-**Architecture**: Distributed master/worker nodes with per-hostname configs, graceful shutdown, interactive setup
-**Target**: 1000 conversations, 10 per job (100 jobs total)
+**Output**: CSV files (trials, summary, gan grading)
+**Architecture**: Model bakeoff system with deduplication and OpenAI grading
+**Config**: `config/config.json` - Single config file with prompt templates
+**Deduplication**: Semantic similarity (0.5 threshold) + hash matching
+**Grading**: OpenAI GPT-4o-mini (realness, coherence, naturalness, overall)
 
 ## Key Components
 - **Master Orchestrator**: `src/master/orchestrator.py` - Job creation, health monitoring, EPM_DELL preference, signal handling
