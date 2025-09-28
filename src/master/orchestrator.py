@@ -516,10 +516,10 @@ class MasterOrchestrator:
             cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'running'")
             running_count = cur.fetchone()[0]
             
-            cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'completed'")
+            cur.execute("SELECT COUNT(*) FROM jobs WHERE status = 'completed' AND parameters::json->>'run_id' = %s", (str(self.current_run_id),))
             completed_count = cur.fetchone()[0]
             
-            cur.execute("SELECT COUNT(*) FROM conversations")
+            cur.execute("SELECT COUNT(*) FROM conversations WHERE run_id = %s", (self.current_run_id,))
             conv_count = cur.fetchone()[0]
             
             # Check if all jobs completed - shutdown orchestrator
