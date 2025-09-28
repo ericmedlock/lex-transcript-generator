@@ -135,11 +135,34 @@ EOF
     LLAMA_CPP_INSTALLED=false
 fi
 
-# Return to project directory
-PROJECT_DIR=$(pwd)
+# Return to project directory and find it
+if [ -n "$OLDPWD" ] && [ -f "$OLDPWD/requirements.txt" ]; then
+    PROJECT_DIR="$OLDPWD"
+else
+    # Try to find project directory
+    PROJECT_DIR=$(find /home -name "LLM-Transcript-Data-Gen" -type d 2>/dev/null | head -1)
+    if [ -z "$PROJECT_DIR" ]; then
+        PROJECT_DIR=$(find /home -name "lex-transcript-generator" -type d 2>/dev/null | head -1)
+    fi
+fi
+
+if [ -z "$PROJECT_DIR" ] || [ ! -f "$PROJECT_DIR/requirements.txt" ]; then
+    echo "❌ Cannot find project directory"
+    echo "Please run this script from the project root directory"
+    exit 1
+fi
+
+cd "$PROJECT_DIR"
+echo "📁 Using project directory: $PROJECT_DIR"
 
 # Activate virtual environment for health check
-source .venv/bin/activate
+if [ -f ".venv/bin/activate" ]; then
+    source .venv/bin/activate
+else
+    echo "❌ Virtual environment not found at $PROJECT_DIR/.venv"
+    echo "Please run this script from the project root directory"
+    exit 1
+fi
 
 echo ""
 echo "🏥 Running health check..."
