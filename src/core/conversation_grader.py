@@ -35,13 +35,14 @@ class ConversationGrader:
         return psycopg2.connect(**self.db_config)
     
     def grade_conversation(self, conversation_text, conversation_id=None):
-        """Grade a single conversation using OpenAI"""
+        """Grade a single conversation using OpenAI with healthcare validation"""
         if not self.openai_client:
             return {
                 "realness_score": None,
                 "coherence_score": None,
                 "naturalness_score": None,
                 "overall_score": None,
+                "healthcare_valid": None,
                 "grading_error": "No OpenAI API key"
             }
         
@@ -52,6 +53,7 @@ class ConversationGrader:
 2. COHERENCE: How well does the conversation flow logically? (1=nonsensical, 10=perfect flow)
 3. NATURALNESS: How natural do the speech patterns sound? (1=robotic, 10=completely natural)
 4. OVERALL: Overall quality for training chatbot systems (1=unusable, 10=excellent training data)
+5. HEALTHCARE_VALID: Is this actually a healthcare appointment conversation? (true/false)
 
 Conversation to grade:
 {conversation_text[:2000]}...
@@ -62,6 +64,7 @@ Respond ONLY with JSON format:
   "coherence_score": X,
   "naturalness_score": X,
   "overall_score": X,
+  "healthcare_valid": true/false,
   "brief_feedback": "one sentence explanation"
 }}"""
             
@@ -86,6 +89,12 @@ Respond ONLY with JSON format:
             try:
                 grades = json.loads(result_text)
                 grades["grading_error"] = None
+                
+                # Delete conversation if not healthcare valid
+                if grades.get("healthcare_valid") == False and conversation_id:
+                    self.delete_invalid_conversation(conversation_id)
+                    grades["deleted"] = True
+                
                 return grades
             except json.JSONDecodeError:
                 return {
@@ -93,6 +102,7 @@ Respond ONLY with JSON format:
                     "coherence_score": None,
                     "naturalness_score": None,
                     "overall_score": None,
+                    "healthcare_valid": None,
                     "grading_error": f"Invalid JSON: {result_text[:100]}"
                 }
                 
@@ -102,6 +112,7 @@ Respond ONLY with JSON format:
                 "coherence_score": None,
                 "naturalness_score": None,
                 "overall_score": None,
+                "healthcare_valid": None,
                 "grading_error": str(e)
             }
     
@@ -237,21 +248,24 @@ Respond ONLY with JSON format:
                 
                 # Store grades in database
                 grade_id = str(uuid.uuid4())
-                cur.execute("""
-                    INSERT INTO conversation_grades 
-                    (id, conversation_id, realness_score, coherence_score, naturalness_score, 
-                     overall_score, brief_feedback, grading_error, graded_at)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-                """, (
-                    grade_id, conv_id,
-                    grades.get("realness_score"),
-                    grades.get("coherence_score"), 
-                    grades.get("naturalness_score"),
-                    grades.get("overall_score"),
-                    grades.get("brief_feedback", ""),
-                    grades.get("grading_error", ""),
-                    datetime.now()
-                ))
+                # Only store grades if conversation wasn't deleted
+                if not grades.get("deleted", False):
+                    cur.execute("""
+                        INSERT INTO conversation_grades 
+                        (id, conversation_id, realness_score, coherence_score, naturalness_score, 
+                         overall_score, healthcare_valid, brief_feedback, grading_error, graded_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        grade_id, conv_id,
+                        grades.get("realness_score"),
+                        grades.get("coherence_score"), 
+                        grades.get("naturalness_score"),
+                        grades.get("overall_score"),
+                        grades.get("healthcare_valid"),
+                        grades.get("brief_feedback", ""),
+                        grades.get("grading_error", ""),
+                        datetime.now()
+                    ))
                 
                 graded_count += 1
                 
@@ -282,11 +296,12 @@ Respond ONLY with JSON format:
         cur.execute("""
             CREATE TABLE IF NOT EXISTS conversation_grades (
                 id UUID PRIMARY KEY,
-                conversation_id UUID REFERENCES conversations(id),
+                conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
                 realness_score INTEGER,
                 coherence_score INTEGER,
                 naturalness_score INTEGER,
                 overall_score INTEGER,
+                healthcare_valid BOOLEAN,
                 brief_feedback TEXT,
                 grading_error TEXT,
                 graded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -305,6 +320,23 @@ Respond ONLY with JSON format:
         conn.close()
         
         print("Grading schema setup complete")
+    
+    def delete_invalid_conversation(self, conversation_id):
+        """Delete conversation that failed healthcare validation"""
+        try:
+            conn = self.get_db()
+            cur = conn.cursor()
+            
+            # Delete from conversations table (cascade will handle grades)
+            cur.execute("DELETE FROM conversations WHERE id = %s", (conversation_id,))
+            
+            conn.commit()
+            cur.close()
+            conn.close()
+            
+            print(f"  Deleted invalid conversation: {conversation_id[:8]}")
+        except Exception as e:
+            print(f"  Error deleting conversation {conversation_id[:8]}: {e}")
 
 def main():
     """CLI interface for grader"""
