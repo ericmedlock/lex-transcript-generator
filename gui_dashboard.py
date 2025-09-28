@@ -645,14 +645,18 @@ class TranscriptDashboard:
                 
                 if metrics_json:
                     try:
-                        metrics = json.loads(metrics_json)
-                        cpu_usage = f"{metrics.get('cpu_percent', 'N/A'):.1f}%" if metrics.get('cpu_percent') is not None else "N/A"
-                        memory_usage = f"{metrics.get('memory_percent', 'N/A'):.1f}%" if metrics.get('memory_percent') is not None else "N/A"
-                        gpu_usage = f"{metrics.get('gpu_usage', 'N/A'):.1f}%" if metrics.get('gpu_usage') is not None else "N/A"
-                        cpu_temp = f"{metrics.get('cpu_temp', 'N/A'):.1f}°C" if metrics.get('cpu_temp') is not None else "N/A"
-                        gpu_temp = f"{metrics.get('gpu_temp', 'N/A'):.1f}°C" if metrics.get('gpu_temp') is not None else "N/A"
-                    except:
-                        pass
+                        if isinstance(metrics_json, str):
+                            metrics = json.loads(metrics_json)
+                        else:
+                            metrics = metrics_json
+                        
+                        cpu_usage = f"{metrics.get('cpu_percent'):.1f}%" if metrics.get('cpu_percent') is not None else "N/A"
+                        memory_usage = f"{metrics.get('memory_percent'):.1f}%" if metrics.get('memory_percent') is not None else "N/A"
+                        gpu_usage = f"{metrics.get('gpu_usage'):.1f}%" if metrics.get('gpu_usage') is not None else "N/A"
+                        cpu_temp = f"{metrics.get('cpu_temp'):.1f}°C" if metrics.get('cpu_temp') is not None else "N/A"
+                        gpu_temp = f"{metrics.get('gpu_temp'):.1f}°C" if metrics.get('gpu_temp') is not None else "N/A"
+                    except Exception as e:
+                        print(f"Error parsing metrics for {hostname}: {e}")
                 
                 # Format last seen
                 if last_seen:
