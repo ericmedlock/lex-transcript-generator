@@ -351,14 +351,11 @@ class GenerationNode:
             has_conversations = cur.fetchone()[0] > 0
             cur.close()
             temp_conn.close()
-            rag_default = "Y/n" if has_conversations else "y/N"
+            rag_default = "Y/n" if has_conversations else "Y/n"
             rag_prompt = f"Use existing conversations as examples [{rag_default}]: "
-            if has_conversations:
-                config["rag"] = {"enabled": input(rag_prompt).lower() != 'n'}
-            else:
-                config["rag"] = {"enabled": input(rag_prompt).lower().startswith('y')}
+            config["rag"] = {"enabled": input(rag_prompt).lower() != 'n'}
         except:
-            config["rag"] = {"enabled": input(f"Use existing conversations as examples [y/N]: ").lower().startswith('y')}
+            config["rag"] = {"enabled": input(f"Use existing conversations as examples [Y/n]: ").lower() != 'n'}
         config["deduplication"] = {
             "enabled": input(f"Check for duplicate conversations [Y/n]: ").lower() != 'n',
             "hash_only": input(f"Fast duplicate check (hash-only, recommended) [Y/n]: ").lower() != 'n'
@@ -367,9 +364,9 @@ class GenerationNode:
         openai_key = os.environ.get('OPENAI_API_KEY', '')
         if openai_key:
             print(f"Found OpenAI API key in environment")
-            grading_enabled = input(f"Grade conversations with OpenAI [y/N]: ").lower().startswith('y')
+            grading_enabled = input(f"Grade conversations with OpenAI [Y/n]: ").lower() != 'n'
         else:
-            grading_enabled = input(f"Grade conversations with OpenAI (requires API key) [y/N]: ").lower().startswith('y')
+            grading_enabled = input(f"Grade conversations with OpenAI (requires API key) [Y/n]: ").lower() != 'n'
             if grading_enabled:
                 openai_key = input(f"OpenAI API key: ").strip()
         
@@ -377,7 +374,7 @@ class GenerationNode:
             "enabled": grading_enabled,
             "openai_api_key": openai_key
         }
-        config["resource_management"] = {"activity_detection": input(f"Monitor system usage and throttle when busy [y/N]: ").lower().startswith('y')}
+        config["resource_management"] = {"activity_detection": input(f"Monitor system usage and throttle when busy [Y/n]: ").lower() != 'n'}
         
         return config
         
