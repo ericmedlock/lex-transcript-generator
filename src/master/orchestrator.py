@@ -472,9 +472,10 @@ class MasterOrchestrator:
                     
                     job_params = {
                         "conversations_per_job": conversations_per_job,
-                        "min_turns": 20,
-                        "max_turns": 40,
-                        "run_id": self.current_run_id
+                        "min_turns": 2,   # Allow very short calls
+                        "max_turns": 40,  # Allow complex calls
+                        "run_id": self.current_run_id,
+                        "variability": "realistic_mix"  # Flag for varied scenarios
                     }
                     
                     cur.execute(

@@ -44,10 +44,8 @@ class DedupeManager:
         
         for model_key, profile in self.model_profiles.items():
             if model_key in model_lower:
-                print(f"[DEDUPE] Using {model_key} profile for {model_name}: hash_only={profile['hash_only']}, threshold={profile['threshold']}")
                 return profile
         
-        print(f"[DEDUPE] Using default profile for {model_name}")
         return self.model_profiles["default"]
         
     def get_db(self):
