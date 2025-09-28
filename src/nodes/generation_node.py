@@ -181,7 +181,10 @@ class GenerationNode:
             'user': 'postgres',
             'password': 'pass'
         })
-        self.llm_endpoint = llm_endpoint or self.config.get("llm_endpoint", "http://127.0.0.1:1234/v1/chat/completions")
+        # Detect if running on Raspberry Pi
+        self.is_pi = self.detect_raspberry_pi()
+        default_endpoint = "http://127.0.0.1:8080/completion" if self.is_pi else "http://127.0.0.1:1234/v1/chat/completions"
+        self.llm_endpoint = llm_endpoint or self.config.get("llm_endpoint", default_endpoint)
         self.node_id = str(uuid.uuid4())
         self.hostname = socket.gethostname()
         self.running = False
@@ -197,6 +200,15 @@ class GenerationNode:
         self.completed_jobs = []  # Track completed jobs for grading
         self.activity_monitor = self.init_activity_monitor()
         self.setup_signal_handlers()
+    
+    def detect_raspberry_pi(self):
+        """Detect if running on Raspberry Pi"""
+        try:
+            with open('/proc/cpuinfo', 'r') as f:
+                cpuinfo = f.read()
+                return 'BCM' in cpuinfo or 'Raspberry Pi' in cpuinfo
+        except:
+            return False
     
     def setup_signal_handlers(self):
         """Setup graceful shutdown handlers"""
@@ -757,7 +769,47 @@ Now generate a conversation using this guidance:
                         "max_tokens": max_tokens
                     }
                     
-                    async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
+                    # Use different API format for Pi (llama.cpp) vs LM Studio
+                    if self.is_pi:
+                        # llama.cpp format
+                        pi_payload = {
+                            "prompt": prompt,
+                            "temperature": temperature,
+                            "n_predict": max_tokens
+                        }
+                        async with session.post(self.llm_endpoint, json=pi_payload, timeout=timeout) as resp:
+                            end_time = datetime.now()
+                            duration_ms = int((end_time - start_time).total_seconds() * 1000)
+                            
+                            if resp.status == 200:
+                                data = await resp.json()
+                                text = data.get("content", "")
+                                print(f"[DEBUG] Pi LLM response: {len(text)} chars")
+                                
+                                # Calculate performance metrics
+                                completion_tokens = len(text.split())
+                                tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
+                                
+                                # Convert to Contact Lens format and add metadata
+                                conversation = self.format_conversation(text, scenario_name)
+                                conversation["_metadata"] = {
+                                    "model_name": "llama.cpp",
+                                    "start_time": start_time.isoformat(),
+                                    "end_time": end_time.isoformat(),
+                                    "duration_ms": duration_ms,
+                                    "completion_tokens": completion_tokens,
+                                    "tokens_per_sec": tokens_per_sec,
+                                    "rag_examples_used": bool(rag_examples),
+                                    "attempt": attempt + 1
+                                }
+                                
+                                return conversation
+                            else:
+                                error_text = await resp.text()
+                                print(f"[DEBUG] Pi LLM error: {resp.status} - {error_text[:200]}")
+                    else:
+                        # LM Studio format
+                        async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
                         end_time = datetime.now()
                         duration_ms = int((end_time - start_time).total_seconds() * 1000)
                         
