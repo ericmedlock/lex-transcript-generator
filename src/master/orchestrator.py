@@ -517,34 +517,56 @@ class MasterOrchestrator:
             cur.execute("SELECT COUNT(*) FROM conversations")
             conv_count = cur.fetchone()[0]
             
-            # Calculate generation rate (conversations per minute)
+            # Get detailed job completion data for rate calculation
             cur.execute(
-                "SELECT COUNT(*) FROM conversations WHERE created_at > NOW() - INTERVAL '1 minute'"
-            )
-            minute_rate = cur.fetchone()[0]
-            
-            # Get node performance data
-            cur.execute(
-                """SELECT hostname, capabilities, last_seen, 
-                   (SELECT COUNT(*) FROM jobs WHERE assigned_node_id = nodes.id AND status = 'completed' AND completed_at > NOW() - INTERVAL '1 minute') as jobs_completed
-                   FROM nodes WHERE status = 'online' AND node_type != 'master'"""
+                """SELECT n.hostname, n.capabilities, n.last_seen,
+                   COUNT(j.id) as jobs_completed,
+                   MIN(j.completed_at) as first_completion,
+                   MAX(j.completed_at) as last_completion
+                   FROM nodes n
+                   LEFT JOIN jobs j ON j.assigned_node_id = n.id AND j.status = 'completed' AND j.completed_at > NOW() - INTERVAL '10 minutes'
+                   WHERE n.status = 'online' AND n.node_type != 'master'
+                   GROUP BY n.hostname, n.capabilities, n.last_seen"""
             )
             node_stats = cur.fetchall()
             
+            # Calculate conversations rate
+            cur.execute(
+                "SELECT COUNT(*), MIN(created_at), MAX(created_at) FROM conversations WHERE created_at > NOW() - INTERVAL '10 minutes'"
+            )
+            conv_data = cur.fetchone()
+            conv_count_recent, first_conv, last_conv = conv_data
+            
+            # Calculate actual rates per minute
+            total_jobs_per_minute = 0
+            total_conversations_per_minute = 0
+            
+            if conv_count_recent and first_conv and last_conv:
+                time_span_minutes = max((last_conv - first_conv).total_seconds() / 60, 1)
+                total_conversations_per_minute = conv_count_recent / time_span_minutes
+            
             # Update node performance tracking
-            for hostname, capabilities, last_seen, jobs_completed in node_stats:
+            for hostname, capabilities, last_seen, jobs_completed, first_completion, last_completion in node_stats:
                 if hostname not in self.nodes:
                     self.nodes[hostname] = {}
+                
+                # Calculate jobs per minute for this node
+                jobs_per_minute = 0
+                if jobs_completed and first_completion and last_completion:
+                    time_span_minutes = max((last_completion - first_completion).total_seconds() / 60, 1)
+                    jobs_per_minute = jobs_completed / time_span_minutes
+                
+                total_jobs_per_minute += jobs_per_minute
                 
                 self.nodes[hostname].update({
                     'last_seen': last_seen,
                     'capabilities': capabilities if isinstance(capabilities, list) else (json.loads(capabilities) if capabilities else []),
-                    'jobs_per_minute': jobs_completed,
+                    'jobs_per_minute': round(jobs_per_minute, 1),
+                    'jobs_completed': jobs_completed,
                     'status': 'healthy' if (datetime.now() - last_seen).seconds < node_timeout else 'stale'
                 })
             
             # Calculate system efficiency
-            total_jobs_per_minute = sum(node.get('jobs_per_minute', 0) for node in self.nodes.values())
             avg_jobs_per_node = total_jobs_per_minute / max(nodes_count, 1)
             
             stats = {
@@ -553,18 +575,19 @@ class MasterOrchestrator:
                 'running_jobs': running_count,
                 'completed_jobs': completed_count,
                 'conversations': conv_count,
-                'minute_rate': minute_rate,
-                'total_jobs_per_minute': total_jobs_per_minute,
-                'avg_jobs_per_node': avg_jobs_per_node
+                'conversations_per_minute': round(total_conversations_per_minute, 1),
+                'total_jobs_per_minute': round(total_jobs_per_minute, 1),
+                'avg_jobs_per_node': round(avg_jobs_per_node, 1)
             }
             
-            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations, {stats['minute_rate']}/min")
+            print(f"Health: {stats['nodes']} nodes, {stats['pending_jobs']} pending, {stats['running_jobs']} running, {stats['conversations']} conversations, {stats['conversations_per_minute']}/min (total: {stats['total_jobs_per_minute']} jobs/min)")
             
             # Log node performance
             for hostname, node_data in self.nodes.items():
                 status = node_data.get('status', 'unknown')
                 jobs_per_minute = node_data.get('jobs_per_minute', 0)
-                print(f"  Node {hostname}: {status}, {jobs_per_minute} jobs/min")
+                jobs_completed = node_data.get('jobs_completed', 0)
+                print(f"  Node {hostname}: {status}, {jobs_per_minute}/min ({jobs_completed} jobs completed)")
             
             cur.close()
             conn.close()
