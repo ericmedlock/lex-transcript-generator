@@ -9,8 +9,13 @@ from pathlib import Path
 class PiStartupManager:
     def __init__(self):
         self.models_dir = Path("/home/ericm/models")
-        self.model_path = self.models_dir / "phi-3-mini-4k-instruct.Q4_K_M.gguf"
-        self.model_url = "https://huggingface.co/microsoft/Phi-3-mini-4K-instruct-gguf/resolve/main/Phi-3-mini-4K-instruct-q4.gguf"
+        # Look for the actual model files you have
+        self.expected_models = [
+            "gemma-2-2b-it-q4_k_m.gguf",
+            "nomic-embed-text-v1.5-q8_0.gguf"
+        ]
+        self.model_path = self.models_dir / "gemma-2-2b-it-q4_k_m.gguf"
+        self.embedding_path = self.models_dir / "nomic-embed-text-v1.5-q8_0.gguf"
     
     def setup(self):
         """Setup Pi environment"""
@@ -19,17 +24,22 @@ class PiStartupManager:
         # Create models directory
         self.models_dir.mkdir(parents=True, exist_ok=True)
         
-        # Download model if not exists
-        if not self.model_path.exists():
-            print(f"[PI] Downloading model to {self.model_path}...")
-            try:
-                urllib.request.urlretrieve(self.model_url, self.model_path)
-                print("[PI] Model downloaded successfully")
-            except Exception as e:
-                print(f"[PI] Model download failed: {e}")
-                return False
-        else:
-            print("[PI] Model already exists")
+        # Check for expected models
+        missing_models = []
+        for model_name in self.expected_models:
+            model_path = self.models_dir / model_name
+            if not model_path.exists():
+                missing_models.append(model_name)
+            else:
+                print(f"[PI] Found model: {model_name}")
+        
+        if missing_models:
+            print(f"[PI] No chat models found in {self.models_dir}")
+            print(f"[PI] Looking for: {self.expected_models}")
+            print("[PI] Environment setup failed")
+            return False
+        
+        print("[PI] All required models found")
         
         # Set CPU governor to performance
         try:
