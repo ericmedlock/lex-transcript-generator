@@ -8,15 +8,17 @@ from pathlib import Path
 
 class PiStartupManager:
     def __init__(self):
-        # Check llama.cpp models directory first
+        # Look in project's pi install scripts/models directory
+        project_root = Path(__file__).parent.parent.parent
         self.models_dirs = [
+            project_root / "pi install scripts" / "models",
             Path("/home/ericm/llama.cpp/models"),
             Path("/home/ericm/models")
         ]
         # Look for the actual model files from setup script
         self.expected_models = [
             "gemma-1.1-2b-it-Q4_K_M.gguf",
-            "nomic-embed-text-v1.5.f16.gguf"
+            "nomic-embed-text-v1.5.Q4_K_M.gguf"
         ]
         self.model_path = None
         self.embedding_path = None

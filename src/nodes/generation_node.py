@@ -847,6 +847,10 @@ Now generate a conversation using this guidance:
                         print(f"[DEBUG] Pi LLM error: {e}")
                         if attempt == max_retries - 1:
                             return None
+                elif self.is_pi:
+                    # Pi without loaded model - fail fast
+                    print(f"[DEBUG] Pi detected but no llama model loaded")
+                    return None
                 else:
                     # LM Studio HTTP format
                     payload = {
