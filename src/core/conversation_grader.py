@@ -228,8 +228,11 @@ Respond ONLY with JSON format:
         graded_count = 0
         
         for conv_id, content, model_name, job_id in conversations:
-            # Extract conversation text from JSON content
+            # Process each conversation in its own transaction
             try:
+                # Start new transaction for each conversation
+                conn.rollback()  # Clear any previous errors
+                
                 content_data = json.loads(content) if isinstance(content, str) else content
                 
                 # Extract conversation from Contact Lens format
@@ -266,6 +269,9 @@ Respond ONLY with JSON format:
                         grades.get("grading_error", ""),
                         datetime.now()
                     ))
+                    
+                    # Commit this conversation's grade
+                    conn.commit()
                 
                 graded_count += 1
                 
@@ -279,9 +285,10 @@ Respond ONLY with JSON format:
                 
             except Exception as e:
                 print(f"  Error processing conversation {conv_id[:8]}: {e}")
+                conn.rollback()  # Rollback failed transaction
                 continue
         
-        conn.commit()
+        # Final commit handled per conversation above
         cur.close()
         conn.close()
         
