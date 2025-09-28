@@ -786,14 +786,6 @@ class MasterOrchestrator:
 async def main():
     """Main entry point"""
     orchestrator = MasterOrchestrator()
-    
-    # Create some sample jobs for testing (only if DB is available)
-    try:
-        orchestrator.create_job("generate", "Healthcare Appointment Scheduling", {"min_turns": 20, "max_turns": 40})
-        orchestrator.create_job("generate", "Pizza Order Placement", {"min_turns": 15, "max_turns": 30})
-    except Exception as e:
-        print(f"Could not create sample jobs: {e}")
-    
     await orchestrator.start()
 
 if __name__ == "__main__":

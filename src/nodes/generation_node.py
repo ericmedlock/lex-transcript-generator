@@ -173,16 +173,16 @@ Generate ONLY the conversation, no commentary:"""
 class GenerationNode:
     def __init__(self, llm_endpoint=None, max_jobs=None, config_path=None):
         self.hostname = socket.gethostname()
+        # Detect if running on Raspberry Pi FIRST
+        self.is_pi = self.detect_raspberry_pi()
         self.config = self.load_config(config_path)
         self.db_config = self.config.get("db_config", {
-            'host': 'EPM_DELL',
+            'host': '192.168.68.60',
             'port': 5432,
             'database': 'calllab',
             'user': 'postgres',
             'password': 'pass'
         })
-        # Detect if running on Raspberry Pi
-        self.is_pi = self.detect_raspberry_pi()
         self.llm_endpoint = llm_endpoint or self.config.get("llm_endpoint", "http://127.0.0.1:1234/v1/chat/completions")
         self.llama_model = None
         self.pi_manager = None
@@ -234,6 +234,12 @@ class GenerationNode:
             # Import and load llama.cpp
             from llama_cpp import Llama
             model_path = self.pi_manager.get_model_path()
+            
+            if not model_path:
+                print("[PI] No model path available")
+                self.llama_model = None
+                return
+            
             print(f"[PI] Loading model from: {model_path}")
             
             self.llama_model = Llama(
@@ -346,7 +352,7 @@ class GenerationNode:
         """Create configuration interactively"""
         defaults = {
             "db_config": {
-                "host": "EPM_DELL",
+                "host": "192.168.68.60",
                 "port": 5432,
                 "database": "calllab",
                 "user": "postgres",
