@@ -636,74 +636,84 @@ class GenerationNode:
                     # Get conversations per job from parameters
                     conversations_per_job = params.get("conversations_per_job", 1)
                     
-                    # Generate multiple conversations for this job
-                    conversations_generated = 0
-                    for conv_num in range(conversations_per_job):
-                        print(f"[DEBUG] Generating conversation {conv_num+1}/{conversations_per_job} for job {job_id[:8]}")
-                        conversation = await self.generate_conversation(scenario_id, params)
-                        
-                        if conversation:
-                            # Extract metadata
-                            metadata = conversation.pop("_metadata", {})
-                            
-                            # Check for duplicates if deduplication enabled
-                            run_id, run_number = self.get_or_create_run()
-                            is_duplicate = False
-                            duplicate_reason = "unique"
-                            
-                            if self.dedupe_manager and run_number:
-                                is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
-                                    run_number, conversation, self.hostname, model_name=metadata.get("model_name")
-                                )
-                            
-                            if is_duplicate:
-                                print(f"[DEBUG] Duplicate detected ({duplicate_reason}), retrying conversation {conv_num+1}/{conversations_per_job}")
-                                continue  # Try next conversation
-                            else:
-                                # Save unique conversation
-                                conv_id = str(uuid.uuid4())
-                                # Store performance metrics
-                                perf_metrics = {
-                                    "realness_score": None,
-                                    "speed_score": metadata.get("tokens_per_sec", 0),
-                                    "gan_score": None,
-                                    "duplicate_status": duplicate_reason,
-                                    "completion_tokens": metadata.get("completion_tokens", 0),
-                                    "rag_used": metadata.get("rag_examples_used", False),
-                                    "retry_attempt": metadata.get("attempt", 1)
-                                }
-                                
-                                # Get run_id from job parameters
-                                run_id = params.get('run_id', 1)
-                                
-                                cur.execute(
-                                    """INSERT INTO conversations 
-                                       (id, job_id, scenario_id, content, quality_score, model_name, 
-                                        generation_start_time, generation_end_time, generation_duration_ms, 
-                                        evaluation_metrics, run_id) 
-                                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                                    (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
-                                     metadata.get("model_name"), metadata.get("start_time"), 
-                                     metadata.get("end_time"), metadata.get("duration_ms"), 
-                                     json.dumps(perf_metrics), run_id)
-                                )
-                                
-                                # Track completed conversation for grading
-                                self.completed_jobs.append(conv_id)
-                                conversations_generated += 1
-                                
-                                tokens_per_sec = metadata.get("tokens_per_sec", 0)
-                                print(f"[DEBUG] Generated conversation {conversations_generated}/{conversations_per_job} for job {job_id[:8]} ({tokens_per_sec:.1f} tok/s)")
-                        else:
-                            print(f"[DEBUG] Failed to generate conversation {conv_num+1}/{conversations_per_job} - conversation is None")
+                    # Generate batch of conversations in single call
+                    print(f"[DEBUG] Generating {conversations_per_job} conversations for job {job_id[:8]}")
+                    conversations_batch = await self.generate_conversation(scenario_id, params)
                     
-                    # Mark job complete after all conversations generated
+                    conversations_generated = 0
+                    
+                    if conversations_batch:
+                        # Handle both single conversation and batch responses
+                        if isinstance(conversations_batch, list):
+                            conversations_list = conversations_batch
+                        else:
+                            conversations_list = [conversations_batch]
+                        
+                        for conv_idx, conversation in enumerate(conversations_list):
+                            if conversation:
+                                # Extract metadata
+                                metadata = conversation.pop("_metadata", {})
+                                
+                                # Check for duplicates if deduplication enabled
+                                run_id, run_number = self.get_or_create_run()
+                                is_duplicate = False
+                                duplicate_reason = "unique"
+                                
+                                if self.dedupe_manager and run_number:
+                                    is_duplicate, duplicate_reason = self.dedupe_manager.is_duplicate(
+                                        run_number, conversation, self.hostname, model_name=metadata.get("model_name")
+                                    )
+                                
+                                if is_duplicate:
+                                    print(f"[DEBUG] Duplicate detected ({duplicate_reason}) for conversation {conv_idx+1}")
+                                    continue
+                                else:
+                                    # Save unique conversation
+                                    conv_id = str(uuid.uuid4())
+                                    # Store performance metrics
+                                    perf_metrics = {
+                                        "realness_score": None,
+                                        "speed_score": metadata.get("tokens_per_sec", 0),
+                                        "gan_score": None,
+                                        "duplicate_status": duplicate_reason,
+                                        "completion_tokens": metadata.get("completion_tokens", 0),
+                                        "rag_used": metadata.get("rag_examples_used", False),
+                                        "retry_attempt": metadata.get("attempt", 1),
+                                        "batch_index": metadata.get("batch_index", 1)
+                                    }
+                                    
+                                    # Get run_id from job parameters
+                                    run_id = params.get('run_id', 1)
+                                    
+                                    cur.execute(
+                                        """INSERT INTO conversations 
+                                           (id, job_id, scenario_id, content, quality_score, model_name, 
+                                            generation_start_time, generation_end_time, generation_duration_ms, 
+                                            evaluation_metrics, run_id) 
+                                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                                        (conv_id, job_id, scenario_id, json.dumps(conversation), 0.8,
+                                         metadata.get("model_name"), metadata.get("start_time"), 
+                                         metadata.get("end_time"), metadata.get("duration_ms"), 
+                                         json.dumps(perf_metrics), run_id)
+                                    )
+                                    
+                                    # Track completed conversation for grading
+                                    self.completed_jobs.append(conv_id)
+                                    conversations_generated += 1
+                        
+                        if conversations_generated > 0:
+                            tokens_per_sec = conversations_list[0].get("_metadata", {}).get("tokens_per_sec", 0)
+                            print(f"[DEBUG] Generated {conversations_generated}/{conversations_per_job} conversations for job {job_id[:8]} ({tokens_per_sec:.1f} tok/s)")
+                    else:
+                        print(f"[DEBUG] Failed to generate conversations batch - result is None")
+                    
+                    # Mark job complete after batch processed
                     cur.execute(
                         "UPDATE jobs SET status = 'completed', completed_at = %s WHERE id = %s",
                         (datetime.now(), job_id)
                     )
                     
-                    print(f"Completed job: {job_id[:8]} -> {conversations_generated} conversations")
+                    print(f"Completed job: {job_id[:8]} -> {conversations_generated} conversations (batch mode)")
                     
                     # Check if we've hit the job limit
                     self.jobs_processed += 1
@@ -718,7 +728,7 @@ class GenerationNode:
                         cur.execute(
                             "UPDATE jobs SET status = 'failed' WHERE id = %s", (job_id,)
                         )
-                        print(f"Failed job: {job_id[:8]} - no conversations generated")
+                        print(f"Failed job: {job_id[:8]} - no conversations generated from batch")
                 
                 except Exception as e:
                     print(f"Error processing job {job_id[:8]}: {e}")
@@ -797,22 +807,39 @@ class GenerationNode:
         else:
             rag_examples = ""
         
-        # Generate varied prompt using PromptManager
-        base_prompt = self.prompt_manager.generate_varied_prompt(
-            template, scenario_name, min_turns, max_turns
-        )
+        # Generate prompt for multiple conversations
+        conversations_count = parameters.get("conversations_per_job", 1)
         
-        # Enhance with RAG examples if available
         if rag_examples:
             prompt = f"""Based on these real conversation examples:
 
 {rag_examples}
 
-Now generate a conversation using this guidance:
+Generate {conversations_count} different healthcare appointment scheduling conversations.
 
-{base_prompt}"""
+Each conversation should:
+- Be {min_turns} to {max_turns} turns long
+- Format: alternating User: and Agent: lines
+- Be realistic and natural
+- Have different scenarios (new patient, reschedule, urgent, etc.)
+
+Separate each conversation with "---CONVERSATION---"
+
+Conversation 1:
+User:"""
         else:
-            prompt = base_prompt
+            prompt = f"""Generate {conversations_count} different healthcare appointment scheduling conversations between patients and receptionists.
+
+Each conversation should:
+- Be {min_turns} to {max_turns} turns long  
+- Format: alternating User: and Agent: lines
+- Be realistic and natural
+- Have different scenarios (new patient, reschedule, urgent, insurance issues, etc.)
+
+Separate each conversation with "---CONVERSATION---"
+
+Conversation 1:
+User:"""
         
         # Get generation config
         gen_config = self.config.get("generation", {})
@@ -844,20 +871,24 @@ Now generate a conversation using this guidance:
                         completion_tokens = len(text.split())
                         tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
                         
-                        # Convert to Contact Lens format and add metadata
-                        conversation = self.format_conversation(text, scenario_name)
-                        conversation["_metadata"] = {
-                            "model_name": "llama.cpp",
-                            "start_time": start_time.isoformat(),
-                            "end_time": end_time.isoformat(),
-                            "duration_ms": duration_ms,
-                            "completion_tokens": completion_tokens,
-                            "tokens_per_sec": tokens_per_sec,
-                            "rag_examples_used": bool(rag_examples),
-                            "attempt": attempt + 1
-                        }
+                        # Parse multiple conversations from response
+                        conversations = self.parse_multiple_conversations(text, scenario_name)
                         
-                        return conversation
+                        # Add metadata to each conversation
+                        for i, conversation in enumerate(conversations):
+                            conversation["_metadata"] = {
+                                "model_name": "llama.cpp",
+                                "start_time": start_time.isoformat(),
+                                "end_time": end_time.isoformat(),
+                                "duration_ms": duration_ms,
+                                "completion_tokens": completion_tokens,
+                                "tokens_per_sec": tokens_per_sec,
+                                "rag_examples_used": bool(rag_examples),
+                                "attempt": attempt + 1,
+                                "batch_index": i + 1
+                            }
+                        
+                        return conversations
                     except Exception as e:
                         print(f"[DEBUG] Pi LLM error: {e}")
                         if attempt == max_retries - 1:
@@ -889,20 +920,24 @@ Now generate a conversation using this guidance:
                                 completion_tokens = usage.get("completion_tokens", len(text.split()))
                                 tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
                                 
-                                # Convert to Contact Lens format and add metadata
-                                conversation = self.format_conversation(text, scenario_name)
-                                conversation["_metadata"] = {
-                                    "model_name": model_name,
-                                    "start_time": start_time.isoformat(),
-                                    "end_time": end_time.isoformat(),
-                                    "duration_ms": duration_ms,
-                                    "completion_tokens": completion_tokens,
-                                    "tokens_per_sec": tokens_per_sec,
-                                    "rag_examples_used": bool(rag_examples),
-                                    "attempt": attempt + 1
-                                }
+                                # Parse multiple conversations from response
+                                conversations = self.parse_multiple_conversations(text, scenario_name)
                                 
-                                return conversation
+                                # Add metadata to each conversation
+                                for i, conversation in enumerate(conversations):
+                                    conversation["_metadata"] = {
+                                        "model_name": model_name,
+                                        "start_time": start_time.isoformat(),
+                                        "end_time": end_time.isoformat(),
+                                        "duration_ms": duration_ms,
+                                        "completion_tokens": completion_tokens,
+                                        "tokens_per_sec": tokens_per_sec,
+                                        "rag_examples_used": bool(rag_examples),
+                                        "attempt": attempt + 1,
+                                        "batch_index": i + 1
+                                    }
+                                
+                                return conversations
                             else:
                                 error_text = await resp.text()
                                 end_time = datetime.now()
@@ -921,6 +956,38 @@ Now generate a conversation using this guidance:
                 await asyncio.sleep(2 ** attempt)  # Exponential backoff
         
         return None
+    
+    def parse_multiple_conversations(self, text, scenario_name):
+        """Parse multiple conversations from single LLM response"""
+        # Split by conversation separator
+        conversation_texts = text.split("---CONVERSATION---")
+        conversations = []
+        
+        for conv_text in conversation_texts:
+            conv_text = conv_text.strip()
+            if not conv_text:
+                continue
+                
+            # Remove conversation number headers
+            lines = conv_text.split('\n')
+            clean_lines = []
+            for line in lines:
+                line = line.strip()
+                if line and not line.startswith("Conversation "):
+                    clean_lines.append(line)
+            
+            if clean_lines:
+                conversation = self.format_conversation('\n'.join(clean_lines), scenario_name)
+                if conversation and conversation.get("Transcript"):
+                    conversations.append(conversation)
+        
+        # If no separator found, treat as single conversation
+        if not conversations:
+            conversation = self.format_conversation(text, scenario_name)
+            if conversation and conversation.get("Transcript"):
+                conversations.append(conversation)
+        
+        return conversations
     
     def format_conversation(self, text, scenario_name):
         """Convert raw text to Contact Lens format"""
