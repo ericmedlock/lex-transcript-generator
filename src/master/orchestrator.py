@@ -550,14 +550,14 @@ class MasterOrchestrator:
             
             # Get detailed job completion data for rate calculation
             cur.execute(
-                """SELECT n.hostname, n.capabilities, n.last_seen,
+                """SELECT n.hostname, n.capabilities, n.last_seen, n.status,
                    COUNT(j.id) as jobs_completed,
                    MIN(j.completed_at) as first_completion,
                    MAX(j.completed_at) as last_completion
                    FROM nodes n
                    LEFT JOIN jobs j ON j.assigned_node_id = n.id AND j.status = 'completed' AND j.completed_at > NOW() - INTERVAL '10 minutes'
-                   WHERE n.status = 'online' AND n.node_type = 'generation'
-                   GROUP BY n.hostname, n.capabilities, n.last_seen"""
+                   WHERE n.node_type = 'generation'
+                   GROUP BY n.hostname, n.capabilities, n.last_seen, n.status"""
             )
             node_stats = cur.fetchall()
             print(f"[DEBUG] Node stats query result: {node_stats}")
@@ -579,7 +579,7 @@ class MasterOrchestrator:
                 total_conversations_per_minute = conv_count_recent / time_span_minutes
             
             # Update node performance tracking
-            for hostname, capabilities, last_seen, jobs_completed, first_completion, last_completion in node_stats:
+            for hostname, capabilities, last_seen, node_status, jobs_completed, first_completion, last_completion in node_stats:
                 if hostname not in self.nodes:
                     self.nodes[hostname] = {}
                 
@@ -591,12 +591,21 @@ class MasterOrchestrator:
                 
                 total_jobs_per_minute += jobs_per_minute
                 
+                # Determine actual node status
+                if node_status != 'online':
+                    actual_status = 'offline'
+                elif (datetime.now() - last_seen).seconds > node_timeout:
+                    actual_status = 'stale'
+                else:
+                    actual_status = 'healthy'
+                
                 self.nodes[hostname].update({
                     'last_seen': last_seen,
                     'capabilities': capabilities if isinstance(capabilities, list) else (json.loads(capabilities) if capabilities else []),
                     'jobs_per_minute': round(jobs_per_minute, 1),
                     'jobs_completed': jobs_completed,
-                    'status': 'healthy' if (datetime.now() - last_seen).seconds < node_timeout else 'stale'
+                    'status': actual_status,
+                    'db_status': node_status
                 })
             
             # Calculate system efficiency
