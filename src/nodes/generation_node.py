@@ -224,9 +224,12 @@ class GenerationNode:
             from pi_startup import PiStartupManager
             
             # Setup Pi environment first
+            print("[PI] Creating PiStartupManager...")
             self.pi_manager = PiStartupManager()
             print("[PI] Setting up Pi environment...")
-            if not self.pi_manager.setup():
+            setup_result = self.pi_manager.setup()
+            print(f"[PI] Setup result: {setup_result}")
+            if not setup_result:
                 print("[PI] Environment setup failed")
                 self.llama_model = None
                 self.pi_manager = None
