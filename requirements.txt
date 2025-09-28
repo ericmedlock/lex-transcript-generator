@@ -4,3 +4,4 @@ requests
 psutil
 openai
 PyYAML
+llama-cpp-python

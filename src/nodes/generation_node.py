@@ -183,8 +183,10 @@ class GenerationNode:
         })
         # Detect if running on Raspberry Pi
         self.is_pi = self.detect_raspberry_pi()
-        default_endpoint = "http://127.0.0.1:8080/completion" if self.is_pi else "http://127.0.0.1:1234/v1/chat/completions"
-        self.llm_endpoint = llm_endpoint or self.config.get("llm_endpoint", default_endpoint)
+        self.llm_endpoint = llm_endpoint or self.config.get("llm_endpoint", "http://127.0.0.1:1234/v1/chat/completions")
+        self.llama_model = None
+        if self.is_pi:
+            self.init_llama_cpp()
         self.node_id = str(uuid.uuid4())
         self.hostname = socket.gethostname()
         self.running = False
@@ -209,6 +211,28 @@ class GenerationNode:
                 return 'BCM' in cpuinfo or 'Raspberry Pi' in cpuinfo
         except:
             return False
+    
+    def init_llama_cpp(self):
+        """Initialize llama.cpp for Pi with auto-setup"""
+        try:
+            from .pi_startup import PiStartupManager
+            from llama_cpp import Llama
+            
+            # Setup Pi environment
+            self.pi_manager = PiStartupManager()
+            if not self.pi_manager.setup():
+                print("[PI] Setup failed")
+                self.llama_model = None
+                return
+            
+            # Load model
+            model_path = self.pi_manager.get_model_path()
+            self.llama_model = Llama(model_path=model_path, n_ctx=2048, verbose=False)
+            print(f"[PI] Loaded llama.cpp model: {model_path}")
+        except Exception as e:
+            print(f"[PI] Failed to load llama.cpp: {e}")
+            self.llama_model = None
+            self.pi_manager = None
     
     def setup_signal_handlers(self):
         """Setup graceful shutdown handlers"""
@@ -769,46 +793,41 @@ Now generate a conversation using this guidance:
                         "max_tokens": max_tokens
                     }
                     
-                    # Use different API format for Pi (llama.cpp) vs LM Studio
-                    if self.is_pi:
-                        # llama.cpp format
-                        pi_payload = {
-                            "prompt": prompt,
-                            "temperature": temperature,
-                            "n_predict": max_tokens
-                        }
-                        async with session.post(self.llm_endpoint, json=pi_payload, timeout=timeout) as resp:
+                    # Use llama.cpp direct calls for Pi, HTTP for others
+                    if self.is_pi and self.llama_model:
+                        # Direct llama.cpp call
+                        try:
+                            response = self.llama_model(prompt, max_tokens=max_tokens, temperature=temperature)
                             end_time = datetime.now()
                             duration_ms = int((end_time - start_time).total_seconds() * 1000)
                             
-                            if resp.status == 200:
-                                data = await resp.json()
-                                text = data.get("content", "")
-                                print(f"[DEBUG] Pi LLM response: {len(text)} chars")
-                                
-                                # Calculate performance metrics
-                                completion_tokens = len(text.split())
-                                tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
-                                
-                                # Convert to Contact Lens format and add metadata
-                                conversation = self.format_conversation(text, scenario_name)
-                                conversation["_metadata"] = {
-                                    "model_name": "llama.cpp",
-                                    "start_time": start_time.isoformat(),
-                                    "end_time": end_time.isoformat(),
-                                    "duration_ms": duration_ms,
-                                    "completion_tokens": completion_tokens,
-                                    "tokens_per_sec": tokens_per_sec,
-                                    "rag_examples_used": bool(rag_examples),
-                                    "attempt": attempt + 1
-                                }
-                                
-                                return conversation
-                            else:
-                                error_text = await resp.text()
-                                print(f"[DEBUG] Pi LLM error: {resp.status} - {error_text[:200]}")
+                            text = response['choices'][0]['text']
+                            print(f"[DEBUG] Pi LLM response: {len(text)} chars")
+                            
+                            # Calculate performance metrics
+                            completion_tokens = len(text.split())
+                            tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
+                            
+                            # Convert to Contact Lens format and add metadata
+                            conversation = self.format_conversation(text, scenario_name)
+                            conversation["_metadata"] = {
+                                "model_name": "llama.cpp",
+                                "start_time": start_time.isoformat(),
+                                "end_time": end_time.isoformat(),
+                                "duration_ms": duration_ms,
+                                "completion_tokens": completion_tokens,
+                                "tokens_per_sec": tokens_per_sec,
+                                "rag_examples_used": bool(rag_examples),
+                                "attempt": attempt + 1
+                            }
+                            
+                            return conversation
+                        except Exception as e:
+                            print(f"[DEBUG] Pi LLM error: {e}")
+                            if attempt == max_retries - 1:
+                                return None
                     else:
-                        # LM Studio format
+                        # LM Studio HTTP format
                         async with session.post(self.llm_endpoint, json=payload, timeout=timeout) as resp:
                         end_time = datetime.now()
                         duration_ms = int((end_time - start_time).total_seconds() * 1000)
@@ -926,6 +945,11 @@ Now generate a conversation using this guidance:
         """Shutdown the node"""
         # Grade any remaining conversations before shutdown
         await self.grade_completed_conversations()
+        
+        # Pi cleanup
+        if self.is_pi and hasattr(self, 'pi_manager') and self.pi_manager:
+            self.pi_manager.teardown()
+        
         self.running = False
 
 if __name__ == "__main__":
