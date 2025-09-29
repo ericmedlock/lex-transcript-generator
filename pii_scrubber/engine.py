@@ -108,7 +108,7 @@ def scrub_text(text: str, mode: str, strategy: str, cfg: Dict[str, Any]) -> str:
     if strategy == "llm":
         try:
             from .llm_client import redact_with_llm
-            endpoint = cfg.get('llm', {}).get('endpoint', 'http://127.0.0.1:11434/api/generate')
+            endpoint = cfg.get('llm', {}).get('endpoint', 'http://127.0.0.1:1234/v1/chat/completions')
             model = cfg.get('llm', {}).get('model', 'redactor-7b-gguf')
             timeout = cfg.get('llm', {}).get('timeout_s', 20)
             

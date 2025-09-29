@@ -143,10 +143,8 @@ class TransformationPipeline:
             # Stage 4: Final validation
             obj = self.validate_stage(obj, "final", output_path.name)
             
-            # Stage 5: Generate compliant filename
-            contact_id = obj.get("CustomerMetadata", {}).get("ContactId", "unknown")
-            compliant_filename = generate_lex_filename(contact_id)
-            final_output_path = output_path.parent / compliant_filename
+            # Stage 5: Use original filename to preserve uniqueness
+            final_output_path = output_path
             
             # Stage 6: Serialize and write
             output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -176,9 +174,8 @@ class TransformationPipeline:
         print()
         
         for input_file in input_files:
-            # Preserve relative directory structure
-            rel_path = input_file.relative_to(input_dir)
-            output_file = output_dir / rel_path
+            # Flatten all files to output directory (no subdirectories)
+            output_file = output_dir / input_file.name
             
             self.transform_file(input_file, output_file, pii_config)
         
