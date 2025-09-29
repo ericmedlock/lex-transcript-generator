@@ -1,0 +1,57 @@
+healthcare_appointment_prompts:
+  - id: "same_day_sick"
+    prompt: |
+      Generate ONLY a conversation in this exact format:
+
+      User: [patient message]
+      Agent: [receptionist response]
+      User: [patient message]
+      Agent: [receptionist response]
+
+      Requirements:
+      - 20-40 total turns (back and forth exchanges)
+      - Same-day sick appointment scenario - patient needs urgent care today
+      - Use only ASCII characters, no special quotes or symbols
+      - NO introductory text, NO formatting marks, NO explanations
+      - Start immediately with "User:" and end with "Agent:"
+      - Realistic dialogue between sick patient calling urgently and medical receptionist
+
+      User:
+
+  - id: "annual_checkup"
+    prompt: |
+      Generate ONLY a conversation in this exact format:
+
+      User: [patient message]
+      Agent: [receptionist response]
+      User: [patient message]
+      Agent: [receptionist response]
+
+      Requirements:
+      - 20-40 total turns (back and forth exchanges)
+      - Annual checkup appointment scheduling scenario
+      - Use only ASCII characters, no special quotes or symbols
+      - NO introductory text, NO formatting marks, NO explanations
+      - Start immediately with "User:" and end with "Agent:"
+      - Realistic dialogue between patient scheduling routine checkup and medical receptionist
+
+      User:
+
+  - id: "specialist_referral"
+    prompt: |
+      Generate ONLY a conversation in this exact format:
+
+      User: [patient message]
+      Agent: [receptionist response]
+      User: [patient message]
+      Agent: [receptionist response]
+
+      Requirements:
+      - 20-40 total turns (back and forth exchanges)
+      - Specialist referral appointment scheduling scenario
+      - Use only ASCII characters, no special quotes or symbols
+      - NO introductory text, NO formatting marks, NO explanations
+      - Start immediately with "User:" and end with "Agent:"
+      - Realistic dialogue between patient with referral and specialist office receptionist
+
+      User:
