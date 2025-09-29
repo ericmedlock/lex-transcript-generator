@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/lex_export" />
       <excludeFolder url="file://$MODULE_DIR$/pi install scripts/models" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.12" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.13 (LLM-Transcript-Data-Gen)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

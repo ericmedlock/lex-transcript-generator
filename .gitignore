@@ -31,4 +31,5 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.log
-/.env
+.env
+*.env
