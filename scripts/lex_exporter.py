@@ -70,7 +70,7 @@ def show_data_menu():
                 return int(choice)
             print("Invalid choice. Please enter 1, 2, 3, or 4.")
         except KeyboardInterrupt:
-            print("\nExiting...")
+            print("\n\nCancelled by user.")
             return None
 
 def get_conversations(db_config, quality_threshold=None, limit=None, data_filter=None):
@@ -407,6 +407,9 @@ def main():
         else:
             print("ERROR: No conversations were exported")
     
+    except KeyboardInterrupt:
+        print("\n\nExport cancelled by user.")
+        return 1
     except Exception as e:
         print(f"ERROR: Export failed: {e}")
         return 1
@@ -414,4 +417,8 @@ def main():
     return 0
 
 if __name__ == "__main__":
-    exit(main())
+    try:
+        exit(main())
+    except KeyboardInterrupt:
+        print("\n\nExport cancelled by user.")
+        exit(1)
