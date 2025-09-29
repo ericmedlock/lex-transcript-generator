@@ -44,7 +44,7 @@ def grade_conversation_local(conversation_text):
         "grading_error": None
     }
 
-def grade_database_conversations():
+def grade_database_conversations(grader_type="local", progress_callback=None):
     """Grade conversations from database using local grading"""
     
     db_config = {
@@ -71,8 +71,9 @@ def grade_database_conversations():
     print(f"Found {len(conversations)} conversations to grade")
     
     graded_count = 0
+    total_conversations = len(conversations)
     
-    for conv_id, content in conversations:
+    for i, (conv_id, content) in enumerate(conversations, 1):
         try:
             # Parse conversation content
             content_data = json.loads(content) if isinstance(content, str) else content
@@ -87,7 +88,7 @@ def grade_database_conversations():
             if not conversation_text.strip():
                 continue
             
-            # Grade conversation locally
+            # Grade conversation locally (simple fallback)
             grades = grade_conversation_local(conversation_text)
             
             # Store grades in database
@@ -111,6 +112,8 @@ def grade_database_conversations():
             
             conn.commit()
             graded_count += 1
+            
+
             
             print(f"  Graded {conv_id[:8]}: R={grades['realness_score']}, O={grades['overall_score']}")
             
