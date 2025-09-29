@@ -146,7 +146,7 @@ class TranscriptDashboard:
         grader_frame = ttk.Frame(grading_frame)
         grader_frame.pack(side=tk.LEFT)
         
-        ttk.Radiobutton(grader_frame, text="Local", variable=self.grader_type, value="local").pack(anchor=tk.W)
+        ttk.Radiobutton(grader_frame, text="Local (5x)", variable=self.grader_type, value="local").pack(anchor=tk.W)
         ttk.Radiobutton(grader_frame, text="Network", variable=self.grader_type, value="network").pack(anchor=tk.W)
         ttk.Radiobutton(grader_frame, text="OpenAI", variable=self.grader_type, value="openai").pack(anchor=tk.W)
         
@@ -655,8 +655,10 @@ class TranscriptDashboard:
                 if grader_type == "local":
                     import sys, os
                     sys.path.insert(0, os.path.dirname(__file__))
-                    from grade_conversations_local import grade_database_conversations
-                    graded_count = grade_database_conversations()
+                    from grade_conversations_threaded import grade_database_conversations_threaded
+                    
+                    # Use threaded grader for better performance
+                    graded_count = grade_database_conversations_threaded(limit=limit, max_workers=5)
                 else:
                     # Use modular grader
                     from src.core.conversation_grader import ConversationGrader
