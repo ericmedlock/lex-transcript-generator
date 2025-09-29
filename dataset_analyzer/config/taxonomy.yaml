@@ -1,0 +1,56 @@
+domains:
+  healthcare:
+    categories:
+      appointments:
+        subcategories:
+          - same_day_sick
+          - annual_checkup
+          - specialist_referral
+          - follow_up
+          - urgent_care
+      billing:
+        subcategories:
+          - insurance_verification
+          - payment_issues
+          - claim_disputes
+      prescriptions:
+        subcategories:
+          - refill_requests
+          - new_prescriptions
+          - medication_questions
+  
+  retail:
+    categories:
+      orders:
+        subcategories:
+          - new_order
+          - order_status
+          - order_modification
+      returns:
+        subcategories:
+          - return_request
+          - exchange_request
+          - refund_inquiry
+      support:
+        subcategories:
+          - product_questions
+          - technical_support
+          - complaint_resolution
+  
+  telecommunications:
+    categories:
+      service:
+        subcategories:
+          - service_activation
+          - service_cancellation
+          - plan_changes
+      technical:
+        subcategories:
+          - connectivity_issues
+          - equipment_problems
+          - troubleshooting
+      billing:
+        subcategories:
+          - bill_inquiry
+          - payment_setup
+          - dispute_resolution

@@ -29,7 +29,7 @@ class TranscriptDashboard:
         
         # Database config
         self.db_config = {
-            'host': '192.168.68.60',
+            'host': 'EPM_DELL',
             'port': 5432,
             'database': 'calllab',
             'user': 'postgres',
@@ -519,52 +519,33 @@ class TranscriptDashboard:
         """Run quality analysis on sample conversations"""
         def analysis_thread():
             try:
+                self.root.after(0, lambda: self.grade_all_btn.config(state='disabled'))
                 self.grading_active = True
-                self.grade_all_btn.config(state='disabled')
                 
                 if limit:
-                    self.status_var.set(f"Running spot check on {limit} conversations...")
+                    self.root.after(0, lambda: self.status_var.set(f"Running spot check on {limit} conversations..."))
                 else:
-                    self.status_var.set("Grading all ungraded conversations...")
-                self.root.update()
+                    self.root.after(0, lambda: self.status_var.set("Grading all ungraded conversations..."))
                 
-                # Import and run quality analysis
+                # Use local grader instead of OpenAI
                 import sys, os
-                sys.path.append(os.path.join(os.path.dirname(__file__), 'src', 'core'))
-                from conversation_grader import ConversationGrader
+                sys.path.insert(0, os.path.dirname(__file__))
+                from grade_conversations_local import grade_database_conversations
                 
-                grader = ConversationGrader(db_config=self.db_config)
-                grader.setup_grading_schema()
+                graded_count = grade_database_conversations()
                 
-                # Set minimum realness score
-                grader.min_realness_score = self.min_realness_score.get()
+                self.root.after(0, lambda: self.status_var.set(f"Quality analysis complete: {graded_count} conversations graded"))
                 
-                if limit:
-                    graded_count = grader.grade_database_conversations(limit=limit)
-                else:
-                    # Grade all - keep going until no more ungraded conversations
-                    total_graded = 0
-                    while True:
-                        batch_count = grader.grade_database_conversations(limit=50)
-                        total_graded += batch_count
-                        if batch_count == 0:
-                            break
-                        self.status_var.set(f"Graded {total_graded} conversations so far...")
-                        self.root.update()
-                    graded_count = total_graded
-                
-                self.status_var.set(f"Quality analysis complete: {graded_count} conversations graded")
-                
-                # Refresh quality chart and stats
-                self.update_quality_chart()
-                self.update_stats()
+                # Refresh charts on main thread
+                self.root.after(0, self.update_quality_chart)
+                self.root.after(0, self.update_stats)
                 
             except Exception as e:
-                self.status_var.set(f"Quality analysis failed: {e}")
-                messagebox.showerror("Error", f"Quality analysis failed: {e}")
+                self.root.after(0, lambda: self.status_var.set(f"Quality analysis failed: {e}"))
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Quality analysis failed: {e}"))
             finally:
                 self.grading_active = False
-                self.grade_all_btn.config(state='normal')
+                self.root.after(0, lambda: self.grade_all_btn.config(state='normal'))
         
         # Run in background thread
         threading.Thread(target=analysis_thread, daemon=True).start()
@@ -732,7 +713,7 @@ class TranscriptDashboard:
                     break
         
         # Initial refresh
-        self.refresh_data()
+        self.root.after(1000, self.refresh_data)
         
         # Start background refresh thread
         threading.Thread(target=auto_refresh, daemon=True).start()

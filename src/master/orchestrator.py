@@ -194,7 +194,7 @@ class MasterOrchestrator:
         self.heartbeat_interval = self.config_manager.get("heartbeat_interval", 10)
         self.failover_timeout = self.config_manager.get("failover_timeout", 60)
         self.network_check_timeout = self.config_manager.get("network_check_timeout", 5)
-        self.preferred_master = self.config_manager.get("preferred_master", 'EPM_DELL')
+        self.preferred_master = self.config_manager.get("preferred_master", "EPM_DELL")
         self.takeover_signal_sent = False
         self.current_run_id = None
         self.target_jobs = 0

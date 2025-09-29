@@ -1,0 +1,28 @@
+processing:
+  batch_size: 100
+  parallel_workers: 4
+  cache_enabled: true
+  incremental_processing: true
+
+llm:
+  default_provider: "openai"
+  classification_model: "gpt-4o-mini"
+  max_retries: 3
+  timeout: 30
+  
+classification:
+  confidence_threshold: 0.7
+  use_llm_fallback: true
+  keyword_weight: 0.3
+  llm_weight: 0.7
+
+templates:
+  max_examples_per_template: 5
+  include_inheritance: true
+  min_conversations_per_template: 3
+
+output:
+  template_format: "yaml"
+  include_examples: true
+  export_confidence_scores: true
+  create_reports: true
