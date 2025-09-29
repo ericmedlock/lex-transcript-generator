@@ -5,6 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/lex_export" />
       <excludeFolder url="file://$MODULE_DIR$/pi install scripts/models" />
+      <excludeFolder url="file://$MODULE_DIR$/Training Datasets" />
+      <excludeFolder url="file://$MODULE_DIR$/data/models" />
+      <excludeFolder url="file://$MODULE_DIR$/dataset_analyzer/output" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.13 (LLM-Transcript-Data-Gen)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

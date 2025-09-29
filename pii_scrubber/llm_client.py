@@ -57,12 +57,13 @@ def redact_with_llm(text: str, endpoint: str, model: str, timeout: int) -> str:
     actual_model = get_first_chat_model(endpoint, timeout)
     
     prompt = (
-        "Replace any personal information in this text with these exact placeholders: "
+        "You are a PII redaction tool. Replace personal information with placeholders: "
         "<NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, "
         "<DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, "
-        "<INSURANCEID> for insurance IDs. Return ONLY the text with replacements, "
-        "no explanations or meta-commentary.\n\n"
-        f"{text}"
+        "<INSURANCEID> for insurance IDs.\n\n"
+        "IMPORTANT: Return ONLY the redacted text. No thinking, no explanations, no commentary.\n\n"
+        f"Text to redact: {text}\n\n"
+        "Redacted text:"
     )
     
     # Use OpenAI-compatible format for LM Studio

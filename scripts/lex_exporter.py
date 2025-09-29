@@ -15,6 +15,12 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Import Lex validator
+from src.core.lex_validator import (
+    LexValidator, serialize_canonical_lex, fix_lex_object, 
+    generate_lex_filename, LexValidationError
+)
+
 try:
     from pii_scrubber.engine import scrub_text, detect_pii_regex
     from pii_scrubber.llm_client import LLMUnavailableError
@@ -139,7 +145,7 @@ def load_pii_config(config_path="pii_scrubber/config.yaml"):
             'report': {'enable': True, 'path': 'out/PII_REPORT.json'}
         }
 
-def export_conversations(conversations, output_dir, batch_size=100, pii_mode="safe", pii_strategy="llm", pii_config=None, dry_run=False):
+def export_conversations(conversations, output_dir, batch_size=100, pii_mode="safe", pii_strategy="llm", pii_config=None, dry_run=False, strict=False, fail_on_artifacts=False, filename_date=None):
     """Export conversations to LEX format with PII scrubbing"""
     output_path = Path(output_dir)
     if not dry_run:
@@ -148,13 +154,18 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
     exported_count = 0
     skipped_count = 0
     scrubbed_count = 0
+    artifact_count = 0
     pii_stats = {}
     
     if pii_config is None:
         pii_config = load_pii_config()
     
+    # Initialize Lex validator
+    validator = LexValidator()
+    
     print(f"Exporting {len(conversations)} conversations to {output_dir}")
     print(f"PII mode: {pii_mode}, strategy: {pii_strategy}")
+    print(f"Strict mode: {strict}, Fail on artifacts: {fail_on_artifacts}")
     
     for i, (conv_id, content, quality_score, created_at, model_name) in enumerate(conversations):
         try:
@@ -164,41 +175,67 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
             else:
                 conversation_data = content
             
-            # Validate LEX format
-            if not validate_lex_format(conversation_data):
-                print(f"Skipping invalid conversation: {conv_id[:8]}")
-                skipped_count += 1
-                continue
+            # Run Lex V2 validation
+            validation_report = validator.run_all_validations(conversation_data)
+            
+            if not validation_report["valid"]:
+                if strict:
+                    print(f"\nSTRICT MODE: Validation failed for {conv_id[:8]}")
+                    for error in validation_report["errors"]:
+                        print(f"  ERROR: {error}")
+                    raise LexValidationError(f"Validation failed in strict mode: {validation_report['errors']}")
+                else:
+                    print(f"Auto-fixing validation issues for {conv_id[:8]}...")
+                    conversation_data = fix_lex_object(conversation_data, pii_mode)
+            
+            # Check for artifacts
+            if validation_report["artifact_count"] > 0:
+                if fail_on_artifacts:
+                    raise LexValidationError(f"Artifact lines found in {conv_id[:8]} (fail-on-artifacts enabled)")
+                else:
+                    print(f"Removing {validation_report['artifact_count']} artifact lines from {conv_id[:8]}...")
+                    conversation_data, removed = validator.remove_artifacts(conversation_data)
+                    artifact_count += removed
             
             # Create date-based subdirectory
             date_str = created_at.strftime("%Y-%m-%d")
             date_dir = output_path / date_str
             date_dir.mkdir(exist_ok=True)
             
-            # Generate filename
-            filename = generate_filename(conv_id, created_at)
+            # Generate Lex-compliant filename
+            contact_id = conversation_data.get("CustomerMetadata", {}).get("ContactId", conv_id)
+            filename = generate_lex_filename(contact_id, filename_date or created_at.strftime("%Y-%m-%d"))
             file_path = date_dir / filename
             
+            # Validate filename has date
+            filename_valid, filename_msg = validator.validate_filename_date(filename)
+            if not filename_valid and strict:
+                raise LexValidationError(f"Filename validation failed: {filename_msg}")
+            
             # Apply PII scrubbing to transcript content
+            scrubbed_any = False
             if pii_mode == "safe":
-                print(f"Processing conversation {i+1}/{len(conversations)} ({conv_id[:8]})...", end=" ")
+                print(f"Processing conversation {i+1}/{len(conversations)} ({conv_id[:8]}) - PII scrubbing...", end=" ")
                 for turn_idx, turn in enumerate(conversation_data.get("Transcript", [])):
                     original_content = turn.get("Content", "")
                     try:
                         # Configure fallback behavior
                         config_with_fallback = pii_config.copy()
-                        config_with_fallback['fallback_to_regex'] = pii_strategy != "llm"  # Only fallback if not explicitly requested LLM
+                        config_with_fallback['fallback_to_regex'] = pii_strategy != "llm"
                         
                         scrubbed_content = scrub_text(original_content, pii_mode, pii_strategy, config_with_fallback)
                         turn["Content"] = scrubbed_content
                         
                         if scrubbed_content != original_content:
                             scrubbed_count += 1
+                            scrubbed_any = True
                             # Track PII types found
-                            pii_found = detect_pii_regex(original_content)
-                            for pii_type, matches in pii_found.items():
-                                if matches:
-                                    pii_stats[pii_type] = pii_stats.get(pii_type, 0) + len(matches)
+                            if PII_AVAILABLE:
+                                from pii_scrubber.engine import detect_pii_regex
+                                pii_found = detect_pii_regex(original_content)
+                                for pii_type, matches in pii_found.items():
+                                    if matches:
+                                        pii_stats[pii_type] = pii_stats.get(pii_type, 0) + len(matches)
                     
                     except LLMUnavailableError as e:
                         if pii_strategy == "llm" and not config_with_fallback.get('fallback_to_regex', True):
@@ -206,22 +243,21 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
                             print("Start LLM server or rerun with --pii-strategy regex or --mode raw.")
                             return 0, len(conversations)
                         else:
-                            # This shouldn't happen due to fallback logic, but handle gracefully
                             print(f"\nWarning: LLM unavailable, using original content: {e}")
-                print("✓")
-                
-                # Update ContentMetadata
+                print("+")
+            
+            # Update ContentMetadata based on actual scrubbing
+            if pii_mode == "safe" and scrubbed_any:
                 conversation_data["ContentMetadata"]["Output"] = "Redacted"
             else:
-                # Raw mode
                 conversation_data["ContentMetadata"]["Output"] = "Raw"
             
             if dry_run:
                 print(f"[DRY RUN] Would write: {file_path}")
             else:
-                # Write conversation file
+                # Write conversation file using canonical serializer
                 with open(file_path, 'w', encoding='utf-8') as f:
-                    json.dump(conversation_data, f, indent=2, ensure_ascii=False)
+                    f.write(serialize_canonical_lex(conversation_data))
             
             exported_count += 1
             
@@ -243,9 +279,11 @@ def export_conversations(conversations, output_dir, batch_size=100, pii_mode="sa
         "exported_count": exported_count,
         "skipped_count": skipped_count,
         "scrubbed_utterances": scrubbed_count,
+        "artifact_lines_removed": artifact_count,
         "pii_mode": pii_mode,
         "pii_strategy": pii_strategy,
         "pii_stats": pii_stats,
+        "strict_mode": strict,
         "output_directory": str(output_path)
     }
     
@@ -337,6 +375,11 @@ def main():
     parser.add_argument("--report", help="Override PII report path")
     parser.add_argument("--force-unsafe", action="store_true", help="Allow strategy=off in safe mode")
     
+    # Lex V2 compliance arguments
+    parser.add_argument("--strict", action="store_true", help="Fail on any validation error instead of auto-fixing")
+    parser.add_argument("--fail-on-artifacts", action="store_true", help="Fail if artifact lines found")
+    parser.add_argument("--filename-date", help="Override filename date (YYYY-MM-DD format)")
+    
     args = parser.parse_args()
     
     # Show menu if no data filter specified
@@ -366,7 +409,7 @@ def main():
     if not PII_AVAILABLE and pii_mode == "safe":
         print("ERROR: PII scrubber not available. Cannot use safe mode without PII protection.")
         print("Options:")
-        print("  1. Install PII scrubber: pip install pyyaml")
+        print("  1. Install PII scrubber dependencies")
         print("  2. Use raw mode explicitly: --mode raw")
         return 1
     
@@ -395,10 +438,11 @@ def main():
         
         print(f"Found {len(conversations)} conversations")
         
-        # Export conversations with PII scrubbing
+        # Export conversations with PII scrubbing and Lex V2 compliance
         exported, skipped = export_conversations(
             conversations, args.output_dir, args.batch_size,
-            pii_mode, pii_strategy, pii_config, args.dry_run
+            pii_mode, pii_strategy, pii_config, args.dry_run,
+            args.strict, args.fail_on_artifacts, args.filename_date
         )
         
         if exported > 0:
@@ -410,6 +454,9 @@ def main():
     except KeyboardInterrupt:
         print("\n\nExport cancelled by user.")
         return 1
+    except LexValidationError as e:
+        print(f"\nLEX VALIDATION ERROR: {e}")
+        return 2
     except Exception as e:
         print(f"ERROR: Export failed: {e}")
         return 1

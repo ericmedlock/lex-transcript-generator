@@ -12,7 +12,10 @@ NAME_ALLOWLIST = {
     'agent', 'customer', 'doctor', 'nurse', 'patient', 'sir', 'madam', 'mister', 'miss',
     'hello', 'thank', 'please', 'sorry', 'okay', 'yes', 'no', 'sure', 'right', 'good',
     'morning', 'afternoon', 'evening', 'today', 'tomorrow', 'yesterday', 'monday',
-    'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+    'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'like', 'make',
+    'appointment', 'help', 'need', 'see', 'pull', 'record', 'moment', 'available',
+    'work', 'perfect', 'fantastic', 'get', 'scheduled', 'confirm', 'birth', 'all',
+    'welcome', 'have', 'day', 'just', 'can', 'what', 'type', 'else', 'anything'
 }
 
 # Regex patterns for PII detection
@@ -21,7 +24,7 @@ PII_PATTERNS = {
     'EMAIL': r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b',
     'DATE': r'\b(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{2,4})\b',
     'ADDRESS': r'\b\d{1,5}\s+[A-Za-z0-9.\s]+(?:St|Street|Rd|Road|Ave|Avenue|Blvd|Lane|Ln|Dr|Drive)\b',
-    'NAME': r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)\b'
+    'NAME': r'\b([A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})+)\b'
 }
 
 # Context patterns for ID detection

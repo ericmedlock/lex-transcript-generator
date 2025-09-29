@@ -1,14 +1,19 @@
 {
-  "export_date": "2025-09-28T13:18:29.116260",
+  "export_date": "2025-09-29T15:59:31.568515",
   "totals": {
-    "files_processed": 1163,
-    "utterances_total": 20546,
-    "scrubbed_utterances": 0,
+    "files_processed": 5,
+    "utterances_total": 62,
+    "scrubbed_utterances": 42,
     "strategy_used": "llm"
   },
   "failures": {
-    "files_failed": 1,
+    "files_failed": 0,
     "reason": "validation_failed"
   },
-  "sample_counts": {}
+  "sample_counts": {
+    "NAME": 95,
+    "ID": 3,
+    "PHONE": 2,
+    "DATE": 1
+  }
 }
