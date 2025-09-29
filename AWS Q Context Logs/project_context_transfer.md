@@ -12,9 +12,28 @@
 
 **Commands**: health_check.py | status.py | Trial: T1 orchestrator T2 "node.py 1" | Prod: T1 orchestrator T2+ node.py | Export: dump_performance_data.py
 
-**Status**: Working system, trial validated (R=8 O=8), syntax errors fixed, performance monitoring /5min, data export ready for analysis LLMs
+**Status**: Working system with three-tier grading (local/network/OpenAI), GUI dashboard operational, LEX export with PII scrubbing ready
 
-**Issues Fixed**: Misleading failure logs, semantic dedupe false positives, indentation syntax errors, Unicode encoding, undefined variables, redundant GAN fields
+**Issues Fixed**: Misleading failure logs, semantic dedupe false positives, indentation syntax errors, Unicode encoding, undefined variables, redundant GAN fields, status bar visibility, grading endpoint discovery
+
+**Prompt Tester**: Standalone benchmarking tool (`prompt_tester/main.py`) - tests models with healthcare prompts, measures performance (tokens/sec), quality scoring via OpenAI API, CSV reports. Current: google/gemma-3-4b @ ~38 tok/s, OpenAI API key needs update (401 error)
+
+**Three-Tier Grading System**: 
+- **Local Grading**: Rule-based fallback (`grade_conversations_local.py`) for offline operation
+- **Network Grading**: LM Studio/Ollama endpoints with automatic discovery
+- **OpenAI Grading**: GPT-4o-mini API with R/C/N/O healthcare-specific scoring
+- **GUI Integration**: Radio button selection in dashboard, endpoint validation, error handling
+
+**LEX Export Pipeline**: 
+- **Modular Architecture**: `src/data/translators/` - lex_converter.py, file_processor.py, pii_processor.py
+- **PII Scrubbing**: LLM-based detection via LM Studio (gemma-3-1b) with regex fallback
+- **Format Support**: JSON, JSONL, CSV, TXT input formats with automatic detection
+- **Training Dataset Processor**: `training_dataset_processor.py` - orchestrates full pipeline
+- **Database Integration**: Exports synthetic conversations with data filters (1=all, 2=last run, 3=today, 4=week)
+
+**GUI Dashboard**: `gui_dashboard.py` - Real-time monitoring, grading system selection, improved status bar (top position), button state management, error messaging
+
+**Enhanced Design Planning**: Discussed sophisticated distributed system with RAG integration, multi-domain models, streaming pipeline, YouTube processing, intelligent activity detection, web dashboard. Ready for implementation when design iteration complete.
 
 
 # Distributed Transcript Intelligence Platform
