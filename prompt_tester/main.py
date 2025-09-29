@@ -62,50 +62,52 @@ class PromptTester:
                 prompt_id = prompt_config["id"]
                 prompt_text = prompt_config["prompt"]
                 
-                print(f"  Running prompt: {prompt_id}")
-                
-                # Start resource monitoring
-                self.resource_monitor.start_monitoring()
-                
-                # Execute prompt
-                conversation, performance_metrics = self.prompt_executor.execute_prompt(
-                    model_id, prompt_text
-                )
-                
-                # Stop resource monitoring
-                resource_metrics = self.resource_monitor.stop_monitoring()
-                
-                if performance_metrics["success"]:
-                    print(f"    Generated {performance_metrics['completion_tokens']} tokens in {performance_metrics['total_time']:.2f}s")
-                    print(f"    Speed: {performance_metrics['tokens_per_second']:.2f} tokens/sec")
+                # Run 3 rounds per prompt
+                for round_num in range(1, 4):
+                    print(f"  Running prompt: {prompt_id} (Round {round_num}/3)")
                     
-                    # Score quality
-                    print("    Scoring quality...")
-                    quality_scores = self.quality_scorer.score_conversation(conversation, prompt_text)
+                    # Start resource monitoring
+                    self.resource_monitor.start_monitoring()
                     
-                    if quality_scores.get("grading_error"):
-                        print(f"    Grading error: {quality_scores['grading_error']}")
+                    # Execute prompt
+                    conversation, performance_metrics = self.prompt_executor.execute_prompt(
+                        model_id, prompt_text
+                    )
+                    
+                    # Stop resource monitoring
+                    resource_metrics = self.resource_monitor.stop_monitoring()
+                    
+                    if performance_metrics["success"]:
+                        print(f"    Generated {performance_metrics['completion_tokens']} tokens in {performance_metrics['total_time']:.2f}s")
+                        print(f"    Speed: {performance_metrics['tokens_per_second']:.2f} tokens/sec")
+                        
+                        # Score quality
+                        print("    Scoring quality...")
+                        quality_scores = self.quality_scorer.score_conversation(conversation, prompt_text)
+                        
+                        if quality_scores.get("grading_error"):
+                            print(f"    Grading error: {quality_scores['grading_error']}")
+                        else:
+                            print(f"    Quality: R={quality_scores.get('realness_score')}, O={quality_scores.get('overall_score')}")
                     else:
-                        print(f"    Quality: R={quality_scores.get('realness_score')}, O={quality_scores.get('overall_score')}")
-                else:
-                    print(f"    Execution failed: {performance_metrics['error']}")
-                    quality_scores = {}
-                
-                # Store results
-                test_results.append({
-                    "model_id": model_id,
-                    "prompt_id": prompt_id,
-                    "prompt_text": prompt_text,
-                    "generated_conversation": conversation,
-                    "grading_prompt": self._build_grading_prompt(conversation, prompt_text),
-                    "performance_metrics": performance_metrics,
-                    "resource_metrics": resource_metrics,
-                    "quality_scores": quality_scores,
-                    "timestamp": datetime.now().isoformat()
-                })
-                
-                # Brief pause between prompts
-                time.sleep(2)
+                        print(f"    Execution failed: {performance_metrics['error']}")
+                        quality_scores = {}
+                    
+                    # Store results
+                    test_results.append({
+                        "model_id": model_id,
+                        "prompt_id": f"{prompt_id}_round_{round_num}",
+                        "prompt_text": prompt_text,
+                        "generated_conversation": conversation,
+                        "grading_prompt": self._build_grading_prompt(conversation, prompt_text),
+                        "performance_metrics": performance_metrics,
+                        "resource_metrics": resource_metrics,
+                        "quality_scores": quality_scores,
+                        "timestamp": datetime.now().isoformat()
+                    })
+                    
+                    # Brief pause between rounds
+                    time.sleep(2)
         
         # Generate CSV report
         print(f"\nGenerating CSV report...")
