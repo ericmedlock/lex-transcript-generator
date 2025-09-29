@@ -1,0 +1,16 @@
+Generate ONLY a conversation in this exact format:
+
+User: [patient message]
+Agent: [receptionist response]
+User: [patient message]
+Agent: [receptionist response]
+
+Requirements:
+- 20-40 total turns (back and forth exchanges)
+- Healthcare appointment scheduling scenario
+- Use only ASCII characters, no special quotes or symbols
+- NO introductory text, NO formatting marks, NO explanations
+- Start immediately with "User:" and end with "Agent:"
+- Realistic dialogue between patient calling to schedule and medical receptionist
+
+User:

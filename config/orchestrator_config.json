@@ -11,9 +11,9 @@
     "password": "pass"
   },
   "job_creation": {
-    "total_conversations": 2000,
-    "conversations_per_job": 10,
-    "pending_queue_size": 10,
+    "total_conversations": 1,
+    "conversations_per_job": 1,
+    "pending_queue_size": 1,
     "check_interval": 30
   },
   "health_monitor": {

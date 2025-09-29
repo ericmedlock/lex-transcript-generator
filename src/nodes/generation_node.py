@@ -135,46 +135,25 @@ class PromptManager:
         ]
     
     def generate_varied_prompt(self, base_scenario, scenario_name, min_turns=20, max_turns=40):
-        """Generate randomized prompt to reduce duplicates"""
+        """Generate strict format prompt (no longer using variations due to formatting issues)"""
         
-        # Determine scenario type
-        scenario_type = "healthcare" if "healthcare" in scenario_name.lower() else "retail"
-        
-        # Add randomization
-        if scenario_type in self.scenario_variations:
-            scenario_detail = random.choice(self.scenario_variations[scenario_type])
-            patient_type = random.choice(self.patient_types)
-            complication = random.choice(self.complications)
-            
-            enhanced_prompt = f"""Generate a realistic {scenario_type} conversation with these details:
+        # Use consistent strict format based on test results
+        enhanced_prompt = f"""Generate ONLY a conversation in this exact format:
 
-Scenario: {scenario_detail}
-Customer type: {patient_type}
-Complication: {complication}
-
-Base scenario: {base_scenario}
+User: [patient message]
+Agent: [receptionist response]
+User: [patient message]
+Agent: [receptionist response]
 
 Requirements:
-- Length: {min_turns} to {max_turns} turns
-- Format: alternating User: and Agent: lines
-- Natural, realistic dialogue
-- Include realistic hesitations and corrections
-- Address the specific complication mentioned
+- {min_turns} to {max_turns} total turns (back and forth exchanges)
+- Healthcare appointment scheduling scenario
+- Use only basic keyboard characters: apostrophes (') not curly quotes, periods (...) not ellipsis
+- NO introductory text, NO formatting marks, NO explanations
+- Start immediately with "User:" and end with "Agent:"
+- Realistic dialogue between patient calling to schedule and medical receptionist
 
-Generate ONLY the conversation, no commentary:"""
-        else:
-            # Fallback to base scenario
-            enhanced_prompt = f"""Generate a realistic conversation for: {scenario_name}
-
-{base_scenario}
-
-Requirements:
-- Length: {min_turns} to {max_turns} turns
-- Format: alternating User: and Agent: lines
-- Natural, realistic dialogue
-- Include realistic hesitations and corrections
-
-Generate ONLY the conversation, no commentary:"""
+User:"""
         
         return enhanced_prompt
 
@@ -807,40 +786,44 @@ class GenerationNode:
         else:
             rag_examples = ""
         
-        # Generate prompt for multiple conversations
-        conversations_count = parameters.get("conversations_per_job", 1)
-        
-        # Keep original batch size
-        
+        # Generate single conversation prompt with strict formatting
         if rag_examples:
             prompt = f"""Based on these real conversation examples:
 
 {rag_examples}
 
-Generate {conversations_count} different healthcare appointment scheduling conversations.
+Generate ONLY a conversation in this exact format:
 
-Each conversation should:
-- Be {min_turns} to {max_turns} turns long
-- Format: alternating User: and Agent: lines
-- Be realistic and natural
-- Have different scenarios (new patient, reschedule, urgent, etc.)
+User: [patient message]
+Agent: [receptionist response]
+User: [patient message]
+Agent: [receptionist response]
 
-Separate each conversation with "---CONVERSATION---"
+Requirements:
+- {min_turns} to {max_turns} total turns (back and forth exchanges)
+- Healthcare appointment scheduling scenario
+- Use only basic keyboard characters: apostrophes (') not curly quotes, periods (...) not ellipsis
+- NO introductory text, NO formatting marks, NO explanations
+- Start immediately with "User:" and end with "Agent:"
+- Realistic dialogue between patient calling to schedule and medical receptionist
 
-Conversation 1:
 User:"""
         else:
-            prompt = f"""Generate {conversations_count} different healthcare appointment scheduling conversations between patients and receptionists.
+            prompt = f"""Generate ONLY a conversation in this exact format:
 
-Each conversation should:
-- Be {min_turns} to {max_turns} turns long  
-- Format: alternating User: and Agent: lines
-- Be realistic and natural
-- Have different scenarios (new patient, reschedule, urgent, insurance issues, etc.)
+User: [patient message]
+Agent: [receptionist response]
+User: [patient message]
+Agent: [receptionist response]
 
-Separate each conversation with "---CONVERSATION---"
+Requirements:
+- {min_turns} to {max_turns} total turns (back and forth exchanges)
+- Healthcare appointment scheduling scenario
+- Use only basic keyboard characters: apostrophes (') not curly quotes, periods (...) not ellipsis
+- NO introductory text, NO formatting marks, NO explanations
+- Start immediately with "User:" and end with "Agent:"
+- Realistic dialogue between patient calling to schedule and medical receptionist
 
-Conversation 1:
 User:"""
         
         # Get generation config
@@ -873,8 +856,9 @@ User:"""
                         completion_tokens = len(text.split())
                         tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
                         
-                        # Parse multiple conversations from response
-                        conversations = self.parse_multiple_conversations(text, scenario_name)
+                        # Parse single conversation from response
+                        conversation = self.format_conversation(text, scenario_name)
+                        conversations = [conversation] if conversation else []
                         
                         # Add metadata to each conversation
                         for i, conversation in enumerate(conversations):
@@ -922,8 +906,9 @@ User:"""
                                 completion_tokens = usage.get("completion_tokens", len(text.split()))
                                 tokens_per_sec = completion_tokens / (duration_ms / 1000) if duration_ms > 0 else 0
                                 
-                                # Parse multiple conversations from response
-                                conversations = self.parse_multiple_conversations(text, scenario_name)
+                                # Parse single conversation from response
+                                conversation = self.format_conversation(text, scenario_name)
+                                conversations = [conversation] if conversation else []
                                 
                                 # Add metadata to each conversation
                                 for i, conversation in enumerate(conversations):
