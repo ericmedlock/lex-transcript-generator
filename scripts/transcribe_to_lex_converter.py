@@ -8,9 +8,12 @@ import json
 import argparse
 import sys
 import os
+import re
+import signal
 from pathlib import Path
 from datetime import datetime
 import uuid
+from typing import Dict, List, Tuple
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -26,6 +29,66 @@ except ImportError:
     PII_AVAILABLE = False
     def scrub_text(text, mode, strategy, config): return text
     class LLMUnavailableError(Exception): pass
+
+# Global flag for graceful shutdown
+shutdown_requested = False
+
+def signal_handler(signum, frame):
+    global shutdown_requested
+    print("\n\nShutdown requested... finishing current file...")
+    shutdown_requested = True
+
+signal.signal(signal.SIGINT, signal_handler)
+
+# PII post-processing patterns
+MISPLACED_PATTERNS = [
+    r'(?:persistent|chronic|severe|mild|nagging|sharp|dull|recurring)\s+<(NAME|PHONE|EMAIL|DATE|ADDRESS|ID|INSURANCEID)>',
+    r'\b(a|an|the)\s+<(NAME|PHONE|EMAIL|DATE|ADDRESS|ID|INSURANCEID)>',
+    r'(pain|cough|rash|fever|symptom|headache|migraine|ache|soreness)\s+(?:in|with|from)?\s*<(NAME|PHONE|EMAIL|DATE|ADDRESS|ID|INSURANCEID)>'
+]
+
+PII_ALLOWLIST = [
+    r'my name is\s+<NAME>', r'this is\s+<NAME>', r'I am\s+<NAME>', r'call me\s+<NAME>',
+    r'phone number\s+(?:is\s+)?<PHONE>', r'contact number\s+(?:is\s+)?<PHONE>',
+    r'email\s+(?:is\s+)?<EMAIL>', r'DOB\s+(?:is\s+)?<DATE>', r'date of birth\s+(?:is\s+)?<DATE>',
+    r'policy number\s+(?:is\s+)?<ID>', r'member ID\s+(?:is\s+)?<ID>', r'MRN\s+(?:is\s+)?<ID>',
+    r'address\s+(?:is\s+)?<ADDRESS>'
+]
+
+def is_in_allowlist(text: str, match_start: int) -> bool:
+    """Check if match is within an allowlisted context"""
+    before_text = text[:match_start].split()[-4:]
+    context = ' '.join(before_text + [text[match_start:match_start+20]])
+    return any(re.search(pattern, context, re.IGNORECASE) for pattern in PII_ALLOWLIST)
+
+def detect_misplaced_pii(content: str) -> List[Tuple[int, int, str, str]]:
+    """Detect misplaced PII placeholders"""
+    fixes = []
+    for pattern in MISPLACED_PATTERNS:
+        for match in re.finditer(pattern, content, re.IGNORECASE):
+            if not is_in_allowlist(content, match.start()):
+                old_text = match.group(0)
+                new_placeholder = '<SYMPTOM>' if any(word in pattern.lower() for word in ['pain', 'cough', 'rash', 'fever', 'symptom', 'headache', 'migraine', 'ache', 'soreness']) else '<ITEM>'
+                
+                if match.group(1) and match.group(1).lower() in ['a', 'an']:
+                    article = 'an' if new_placeholder.startswith('<I') else 'a'
+                    new_text = old_text.replace(f'{match.group(1)} <{match.group(2)}>', f'{article} {new_placeholder}')
+                else:
+                    placeholder_match = re.search(r'<(NAME|PHONE|EMAIL|DATE|ADDRESS|ID|INSURANCEID)>', old_text)
+                    if placeholder_match:
+                        new_text = old_text.replace(placeholder_match.group(0), new_placeholder)
+                    else:
+                        continue
+                fixes.append((match.start(), match.end(), old_text, new_text))
+    return fixes
+
+def fix_misplaced_pii(content: str) -> str:
+    """Fix misplaced PII in content"""
+    fixes = detect_misplaced_pii(content)
+    if fixes:
+        for start, end, old_text, new_text in reversed(fixes):
+            content = content[:start] + new_text + content[end:]
+    return content
 
 def load_pii_config():
     """Load PII scrubbing configuration"""
@@ -81,12 +144,13 @@ def convert_transcribe_to_lex(transcribe_data, pii_mode="safe", pii_strategy="ll
         if not segment_text:
             segment_text = transcript_text
         
-        # Apply PII scrubbing
+        # Apply PII scrubbing and post-processing
         if pii_mode == "safe" and PII_AVAILABLE:
             try:
                 config_with_fallback = pii_config.copy() if pii_config else {}
                 config_with_fallback['fallback_to_regex'] = pii_strategy != "llm"
                 segment_text = scrub_text(segment_text, pii_mode, pii_strategy, config_with_fallback)
+                segment_text = fix_misplaced_pii(segment_text)
             except LLMUnavailableError:
                 pass  # Keep original text if LLM fails
         
@@ -98,13 +162,14 @@ def convert_transcribe_to_lex(transcribe_data, pii_mode="safe", pii_strategy="ll
     
     # If no segments, create single turn from full transcript
     if not transcript_turns and transcript_text:
-        # Apply PII scrubbing to full text
+        # Apply PII scrubbing and post-processing to full text
         content = transcript_text
         if pii_mode == "safe" and PII_AVAILABLE:
             try:
                 config_with_fallback = pii_config.copy() if pii_config else {}
                 config_with_fallback['fallback_to_regex'] = pii_strategy != "llm"
                 content = scrub_text(content, pii_mode, pii_strategy, config_with_fallback)
+                content = fix_misplaced_pii(content)
             except LLMUnavailableError:
                 pass
         
@@ -156,12 +221,12 @@ def process_file(input_path, output_dir, pii_mode, pii_strategy, pii_config):
         else:
             file_date = datetime.now().strftime("%Y-%m-%d")
         
-        # Extract unique ID from filename (after 'call')
+        # Extract unique ID from filename
         id_match = re.search(r'call([a-f0-9-]+)', input_path.name)
         if id_match:
-            unique_id = id_match.group(1)[:8]  # First 8 chars of UUID
+            unique_id = id_match.group(1)[:8]
         else:
-            unique_id = str(uuid.uuid4())[:8]  # Fallback to random UUID
+            unique_id = str(uuid.uuid4())[:8]
         
         output_filename = f"conversation_{file_date}_{unique_id}.json"
         output_path = output_dir / output_filename
@@ -213,22 +278,38 @@ def main():
     processed = 0
     failed = 0
     
-    for json_file in json_files:
-        if args.dry_run:
-            print(f"[DRY RUN] Would convert: {json_file.name}")
-            processed += 1
-        else:
-            if process_file(json_file, output_dir, args.mode, args.pii_strategy, pii_config):
+    try:
+        for json_file in json_files:
+            if shutdown_requested:
+                print("\nShutdown requested, stopping...")
+                break
+                
+            if args.dry_run:
+                print(f"[DRY RUN] Would convert: {json_file.name}")
                 processed += 1
             else:
-                failed += 1
+                if process_file(json_file, output_dir, args.mode, args.pii_strategy, pii_config):
+                    processed += 1
+                else:
+                    failed += 1
+    except KeyboardInterrupt:
+        print("\nInterrupted by user")
+    except Exception as e:
+        print(f"\nUnexpected error: {e}")
+        failed += 1
     
     print(f"\nConversion complete:")
     print(f"  Processed: {processed}")
     print(f"  Failed: {failed}")
     print(f"  Output: {output_dir}")
+    if shutdown_requested:
+        print(f"  Status: Interrupted (partial completion)")
     
-    return 0 if failed == 0 else 1
+    return 1 if (failed > 0 or shutdown_requested) else 0
 
 if __name__ == "__main__":
-    exit(main())
+    try:
+        exit(main())
+    except KeyboardInterrupt:
+        print("\nForced exit")
+        exit(1)

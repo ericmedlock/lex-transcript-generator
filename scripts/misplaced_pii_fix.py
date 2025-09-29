@@ -6,8 +6,19 @@ Misplaced PII Fix - Corrects PII placeholders used as symptoms/objects
 import json
 import re
 import argparse
+import signal
 from pathlib import Path
 from typing import Dict, List, Tuple
+
+# Global flag for graceful shutdown
+shutdown_requested = False
+
+def signal_handler(signum, frame):
+    global shutdown_requested
+    print("\n\nShutdown requested... finishing current file...")
+    shutdown_requested = True
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # Detection patterns for misplaced PII
 MISPLACED_PATTERNS = [
@@ -167,28 +178,40 @@ def main():
     total_scanned = 0
     total_corrected = 0
     
-    for json_file in json_files:
-        if output_dir:
-            rel_path = json_file.relative_to(input_dir)
-            output_file = output_dir / rel_path
-        else:
-            output_file = json_file
-        
-        result = process_file(json_file, output_file, args.dry_run)
-        results.append(result)
-        
-        if 'error' not in result:
-            total_scanned += result['utterances_scanned']
-            total_corrected += result['utterances_corrected']
+    try:
+        for json_file in json_files:
+            if shutdown_requested:
+                print("\nShutdown requested, stopping...")
+                break
+                
+            if output_dir:
+                rel_path = json_file.relative_to(input_dir)
+                output_file = output_dir / rel_path
+            else:
+                output_file = json_file
             
-            if result['utterances_corrected'] > 0:
-                print(f"Fixed {result['utterances_corrected']} utterances in {json_file.name}")
+            result = process_file(json_file, output_file, args.dry_run)
+            results.append(result)
+            
+            if 'error' not in result:
+                total_scanned += result['utterances_scanned']
+                total_corrected += result['utterances_corrected']
+                
+                if result['utterances_corrected'] > 0:
+                    print(f"Fixed {result['utterances_corrected']} utterances in {json_file.name}")
+    except KeyboardInterrupt:
+        print("\nInterrupted by user")
+    except Exception as e:
+        print(f"\nUnexpected error: {e}")
     
     # Summary
+    files_processed = len([r for r in results if 'error' not in r])
     print(f"\nSummary:")
-    print(f"  Files processed: {len([r for r in results if 'error' not in r])}")
+    print(f"  Files processed: {files_processed}")
     print(f"  Total utterances scanned: {total_scanned}")
     print(f"  Total corrections made: {total_corrected}")
+    if shutdown_requested:
+        print(f"  Status: Interrupted (partial completion)")
     
     # Show sample fixes
     if total_corrected > 0:
@@ -203,18 +226,26 @@ def main():
     
     # Write report
     if args.report:
-        with open(args.report, 'w', encoding='utf-8') as f:
-            json.dump({
-                'summary': {
-                    'files_processed': len(results),
-                    'total_scanned': total_scanned,
-                    'total_corrected': total_corrected
-                },
-                'files': results
-            }, f, indent=2, ensure_ascii=False)
-        print(f"Report written to {args.report}")
+        try:
+            with open(args.report, 'w', encoding='utf-8') as f:
+                json.dump({
+                    'summary': {
+                        'files_processed': files_processed,
+                        'total_scanned': total_scanned,
+                        'total_corrected': total_corrected,
+                        'interrupted': shutdown_requested
+                    },
+                    'files': results
+                }, f, indent=2, ensure_ascii=False)
+            print(f"Report written to {args.report}")
+        except Exception as e:
+            print(f"Failed to write report: {e}")
     
-    return 0
+    return 1 if shutdown_requested else 0
 
 if __name__ == '__main__':
-    exit(main())
+    try:
+        exit(main())
+    except KeyboardInterrupt:
+        print("\nForced exit")
+        exit(1)
