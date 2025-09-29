@@ -14,6 +14,7 @@ import time
 from datetime import datetime, timedelta
 import numpy as np
 import psutil
+import requests
 try:
     import GPUtil
 except ImportError:
@@ -39,6 +40,8 @@ class TranscriptDashboard:
         # Grading settings
         self.min_realness_score = tk.IntVar(value=6)
         self.grading_active = False
+        self.grader_type = tk.StringVar(value="openai")  # Default to OpenAI
+        self.last_progress_update = 0
         
         self.setup_ui()
         self.start_auto_refresh()
@@ -57,11 +60,17 @@ class TranscriptDashboard:
         settings_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Settings", menu=settings_menu)
         settings_menu.add_command(label="Grading Settings", command=self.open_grading_settings)
+        settings_menu.add_command(label="Network Grader Config", command=self.configure_network_grader)
         
         # Title
         title_label = ttk.Label(main_frame, text="Transcript Intelligence Dashboard", 
                                font=("Arial", 16, "bold"))
         title_label.pack(pady=(0, 10))
+        
+        # Status bar (moved to top)
+        self.status_var = tk.StringVar(value="Ready")
+        status_bar = ttk.Label(main_frame, textvariable=self.status_var, relief=tk.SUNKEN, wraplength=1000)
+        status_bar.pack(fill=tk.X, pady=(0, 10))
         
         # Stats frame
         stats_frame = ttk.LabelFrame(main_frame, text="System Statistics", padding=10)
@@ -121,17 +130,36 @@ class TranscriptDashboard:
         control_frame = ttk.Frame(main_frame)
         control_frame.pack(fill=tk.X, pady=(10, 0))
         
-        ttk.Button(control_frame, text="Refresh Now", command=self.refresh_data).pack(side=tk.LEFT)
-        ttk.Button(control_frame, text="Node Details", command=self.show_node_details).pack(side=tk.LEFT, padx=(10, 0))
-        ttk.Button(control_frame, text="Spot Check (50)", command=self.run_spot_check).pack(side=tk.LEFT, padx=(10, 0))
-        self.grade_all_btn = ttk.Button(control_frame, text="Grade All", command=self.run_grade_all)
-        self.grade_all_btn.pack(side=tk.LEFT, padx=(10, 0))
-        ttk.Button(control_frame, text="Export Report", command=self.export_report).pack(side=tk.LEFT, padx=(10, 0))
+        # Left side buttons
+        left_buttons = ttk.Frame(control_frame)
+        left_buttons.pack(side=tk.LEFT)
         
-        # Status bar
-        self.status_var = tk.StringVar(value="Ready")
-        status_bar = ttk.Label(main_frame, textvariable=self.status_var, relief=tk.SUNKEN)
-        status_bar.pack(fill=tk.X, pady=(10, 0))
+        ttk.Button(left_buttons, text="Refresh Now", command=self.refresh_data).pack(side=tk.LEFT)
+        ttk.Button(left_buttons, text="Node Details", command=self.show_node_details).pack(side=tk.LEFT, padx=(10, 0))
+        ttk.Button(left_buttons, text="Export Report", command=self.export_report).pack(side=tk.LEFT, padx=(10, 0))
+        
+        # Grading section
+        grading_frame = ttk.LabelFrame(control_frame, text="Grading", padding=5)
+        grading_frame.pack(side=tk.LEFT, padx=(20, 0))
+        
+        # Grader type selection
+        grader_frame = ttk.Frame(grading_frame)
+        grader_frame.pack(side=tk.LEFT)
+        
+        ttk.Radiobutton(grader_frame, text="Local", variable=self.grader_type, value="local").pack(anchor=tk.W)
+        ttk.Radiobutton(grader_frame, text="Network", variable=self.grader_type, value="network").pack(anchor=tk.W)
+        ttk.Radiobutton(grader_frame, text="OpenAI", variable=self.grader_type, value="openai").pack(anchor=tk.W)
+        
+        # Grading buttons
+        grade_buttons = ttk.Frame(grading_frame)
+        grade_buttons.pack(side=tk.LEFT, padx=(10, 0))
+        
+        self.grade_50_btn = ttk.Button(grade_buttons, text="Grade 50", command=self.run_spot_check)
+        self.grade_50_btn.pack(pady=2)
+        self.grade_all_btn = ttk.Button(grade_buttons, text="Grade All", command=self.run_grade_all)
+        self.grade_all_btn.pack(pady=2)
+        
+
     
     def setup_generation_chart(self, parent):
         """Setup generation rate over time chart"""
@@ -499,6 +527,58 @@ class TranscriptDashboard:
         ttk.Button(settings_window, text="Close", 
                   command=settings_window.destroy).pack(pady=10)
     
+    def configure_network_grader(self):
+        """Configure network grader settings"""
+        config_window = tk.Toplevel(self.root)
+        config_window.title("Network Grader Configuration")
+        config_window.geometry("500x200")
+        config_window.transient(self.root)
+        config_window.grab_set()
+        
+        from src.core.conversation_grader import ConversationGrader
+        grader = ConversationGrader()
+        current_url = grader.grader_config.get('network_url', '')
+        
+        ttk.Label(config_window, text="Network Grader URL:").pack(pady=10)
+        ttk.Label(config_window, text="(OpenAI-compatible API endpoint)", font=("Arial", 8)).pack()
+        
+        url_var = tk.StringVar(value=current_url)
+        url_entry = ttk.Entry(config_window, textvariable=url_var, width=60)
+        url_entry.pack(pady=10)
+        
+        def test_and_save():
+            url = url_var.get().strip()
+            if not url:
+                messagebox.showerror("Error", "Please enter a URL")
+                return
+            
+            try:
+                response = requests.get(f"{url}/models", timeout=5)
+                if response.status_code == 200:
+                    config = grader.grader_config.copy()
+                    config['network_url'] = url
+                    grader.save_grader_config(config)
+                    messagebox.showinfo("Success", "Network grader configured and tested successfully!")
+                    config_window.destroy()
+                else:
+                    messagebox.showerror("Error", f"Network grader not responding: HTTP {response.status_code}")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to connect to network grader: {e}")
+        
+        button_frame = ttk.Frame(config_window)
+        button_frame.pack(pady=10)
+        
+        ttk.Button(button_frame, text="Test & Save", command=test_and_save).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="Cancel", command=config_window.destroy).pack(side=tk.LEFT, padx=5)
+    
+    def update_progress(self, current, total):
+        """Update progress in status bar (throttled to every 5 seconds)"""
+        import time
+        current_time = time.time()
+        if current_time - self.last_progress_update >= 5:
+            self.last_progress_update = current_time
+            self.root.after(0, lambda: self.status_var.set(f"Grading {current} of {total} conversations..."))
+    
     def run_spot_check(self):
         """Run quality analysis on 50 conversations"""
         if self.grading_active:
@@ -515,37 +595,88 @@ class TranscriptDashboard:
             
         self.run_quality_analysis(limit=None)
     
+    def check_network_grader_config(self):
+        """Check if network grader is configured, prompt if not"""
+        from src.core.conversation_grader import ConversationGrader
+        grader = ConversationGrader()
+        
+        if not grader.grader_config.get('network_url'):
+            # Prompt for network URL
+            from tkinter import simpledialog
+            url = simpledialog.askstring(
+                "Network Grader Configuration",
+                "Enter OpenAI-compatible API URL for network grader:\n(e.g., http://192.168.1.100:8000/v1)",
+                parent=self.root
+            )
+            
+            if url:
+                # Test the URL
+                try:
+                    response = requests.get(f"{url}/models", timeout=5)
+                    if response.status_code == 200:
+                        # Save configuration
+                        config = grader.grader_config.copy()
+                        config['network_url'] = url
+                        grader.save_grader_config(config)
+                        messagebox.showinfo("Success", "Network grader configured successfully!")
+                        return True
+                    else:
+                        messagebox.showerror("Error", f"Network grader not responding: HTTP {response.status_code}")
+                        return False
+                except Exception as e:
+                    messagebox.showerror("Error", f"Failed to connect to network grader: {e}")
+                    return False
+            else:
+                return False
+        return True
+    
     def run_quality_analysis(self, limit=50):
         """Run quality analysis on sample conversations"""
+        # Check grader type and configuration
+        grader_type = self.grader_type.get()
+        
+        if grader_type == "network" and not self.check_network_grader_config():
+            return
+        
         def analysis_thread():
             try:
-                self.root.after(0, lambda: self.grade_all_btn.config(state='disabled'))
+                # Disable both buttons
+                self.root.after(0, lambda: [btn.config(state='disabled') for btn in [self.grade_50_btn, self.grade_all_btn]])
                 self.grading_active = True
                 
+                grader_name = {"local": "Local LLM", "network": "Network LLM", "openai": "OpenAI API"}[grader_type]
+                
                 if limit:
-                    self.root.after(0, lambda: self.status_var.set(f"Running spot check on {limit} conversations..."))
+                    self.root.after(0, lambda: self.status_var.set(f"Starting spot check on {limit} conversations using {grader_name}..."))
                 else:
-                    self.root.after(0, lambda: self.status_var.set("Grading all ungraded conversations..."))
+                    self.root.after(0, lambda: self.status_var.set(f"Starting grading of all ungraded conversations using {grader_name}..."))
                 
-                # Use local grader instead of OpenAI
-                import sys, os
-                sys.path.insert(0, os.path.dirname(__file__))
-                from grade_conversations_local import grade_database_conversations
+                # Use appropriate grader with progress tracking
+                if grader_type == "local":
+                    import sys, os
+                    sys.path.insert(0, os.path.dirname(__file__))
+                    from grade_conversations_local import grade_database_conversations
+                    graded_count = grade_database_conversations()
+                else:
+                    # Use modular grader
+                    from src.core.conversation_grader import ConversationGrader
+                    grader = ConversationGrader()
+                    graded_count = grader.grade_database_conversations(limit=limit, grader_type=grader_type)
                 
-                graded_count = grade_database_conversations()
-                
-                self.root.after(0, lambda: self.status_var.set(f"Quality analysis complete: {graded_count} conversations graded"))
+                self.root.after(0, lambda: self.status_var.set(f"Quality analysis complete: {graded_count} conversations graded using {grader_name}"))
                 
                 # Refresh charts on main thread
                 self.root.after(0, self.update_quality_chart)
                 self.root.after(0, self.update_stats)
                 
             except Exception as e:
-                self.root.after(0, lambda: self.status_var.set(f"Quality analysis failed: {e}"))
-                self.root.after(0, lambda: messagebox.showerror("Error", f"Quality analysis failed: {e}"))
+                error_msg = str(e)
+                self.root.after(0, lambda: self.status_var.set(f"Quality analysis failed: {error_msg}"))
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Quality analysis failed: {error_msg}"))
             finally:
                 self.grading_active = False
-                self.root.after(0, lambda: self.grade_all_btn.config(state='normal'))
+                # Re-enable both buttons
+                self.root.after(0, lambda: [btn.config(state='normal') for btn in [self.grade_50_btn, self.grade_all_btn]])
         
         # Run in background thread
         threading.Thread(target=analysis_thread, daemon=True).start()
@@ -677,7 +808,7 @@ class TranscriptDashboard:
     def export_report(self):
         """Export dashboard data to file"""
         try:
-            from tkinter import filedialog
+            from tkinter import filedialog, simpledialog
             
             filename = filedialog.asksaveasfilename(
                 defaultextension=".txt",
