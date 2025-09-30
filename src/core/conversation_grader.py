@@ -11,9 +11,23 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from ai_catalyst import LLMProvider, PIIProcessor, ConfigManager
-from ai_catalyst.llm.grader import ConversationGrader as AIGrader
-from ai_catalyst.database.manager import DatabaseManager
+# Work around broken ai-catalyst imports
+try:
+    from ai_catalyst.llm.provider import LLMProvider
+    from ai_catalyst.data.pii.processor import PIIProcessor
+    from ai_catalyst.config.manager import ConfigManager
+    from ai_catalyst.database.manager import DatabaseManager
+except ImportError as e:
+    print(f"Warning: ai-catalyst import failed: {e}")
+    print("Using fallback imports...")
+    # Fallback to basic functionality
+    LLMProvider = None
+    PIIProcessor = None
+    ConfigManager = None
+    DatabaseManager = None
+
+# Remove the broken AIGrader import for now
+# from ai_catalyst.llm.grader import ConversationGrader as AIGrader
 
 
 class ConversationGrader:

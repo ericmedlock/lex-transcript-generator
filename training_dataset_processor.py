@@ -12,7 +12,16 @@ from typing import Dict, Any, List
 import sys
 import os
 
-from ai_catalyst import FileProcessor, PIIProcessor
+# Work around broken ai-catalyst imports
+try:
+    from ai_catalyst.data.processors.file_processor import FileProcessor
+    from ai_catalyst.data.pii.processor import PIIProcessor
+except ImportError as e:
+    print(f"Warning: ai-catalyst import failed: {e}")
+    print("Please fix the ai-catalyst package or use local implementation")
+    FileProcessor = None
+    PIIProcessor = None
+
 from src.data.translators.lex_converter import LexConverter
 
 # Setup logging
