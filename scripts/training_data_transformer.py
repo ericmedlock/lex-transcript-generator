@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Training Data Transformer - Pipeline orchestrator for Lex V2 compliance
-Pipeline: load → validate → scrub → filter artifacts → validate → serialize → write
+Pipeline: load → scrub → validate → serialize → write
 """
 
 import json
@@ -134,13 +134,10 @@ class TransformationPipeline:
             # Stage 1: Load
             obj = self.load_conversation(input_path)
             
-            # Stage 2: Initial validation
-            obj = self.validate_stage(obj, "initial", input_path.name)
-            
-            # Stage 3: PII scrubbing
+            # Stage 2: PII scrubbing
             obj = self.pii_scrub_stage(obj, pii_config)
             
-            # Stage 4: Final validation
+            # Stage 3: Final validation
             obj = self.validate_stage(obj, "final", output_path.name)
             
             # Stage 5: Use original filename to preserve uniqueness
@@ -169,7 +166,7 @@ class TransformationPipeline:
             return self.stats
         
         print(f"Found {len(input_files)} JSON files to process")
-        print(f"Pipeline: load -> validate -> scrub({self.pii_mode}) -> artifacts -> validate -> serialize -> write")
+        print(f"Pipeline: load -> scrub({self.pii_mode}) -> validate -> serialize -> write")
         print(f"Strict mode: {self.strict}, Fail on artifacts: {self.fail_on_artifacts}")
         print()
         
