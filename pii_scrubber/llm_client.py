@@ -114,3 +114,101 @@ def redact_with_llm(text: str, endpoint: str, model: str, timeout: int) -> str:
         raise LLMUnavailableError("Invalid JSON response from LLM")
     except Exception as e:
         raise LLMUnavailableError(f"LLM request failed: {e}")
+
+def batch_redact_with_llm(texts: list, endpoint: str, model: str, timeout: int) -> list:
+    """
+    Batch redact multiple texts using local LLM endpoint.
+    
+    Args:
+        texts: List of input texts to redact
+        endpoint: LLM API endpoint
+        model: Model name (ignored, auto-detected)
+        timeout: Request timeout in seconds
+    
+    Returns:
+        List of redacted texts in same order as input
+        
+    Raises:
+        LLMUnavailableError: If LLM is unavailable or fails
+    """
+    if not texts:
+        return []
+    
+    # Auto-detect first available chat model
+    actual_model = get_first_chat_model(endpoint, timeout)
+    
+    # Create batch prompt with numbered texts
+    batch_prompt = (
+        "You are a PII redaction tool. Replace personal information with placeholders: "
+        "<NAME> for names, <PHONE> for phone numbers, <EMAIL> for emails, "
+        "<DATE> for dates, <ADDRESS> for addresses, <ID> for ID numbers, "
+        "<INSURANCEID> for insurance IDs.\n\n"
+        "IMPORTANT: Return ONLY the redacted texts in the same order, separated by '---NEXT---'. "
+        "No thinking, no explanations, no commentary.\n\n"
+        "Texts to redact:\n\n"
+    )
+    
+    # Add numbered texts
+    for i, text in enumerate(texts, 1):
+        batch_prompt += f"Text {i}: {text}\n\n"
+    
+    batch_prompt += "Redacted texts (separated by '---NEXT---'):"
+    
+    # Use OpenAI-compatible format for LM Studio
+    payload = {
+        "model": actual_model,
+        "messages": [
+            {"role": "user", "content": batch_prompt}
+        ],
+        "temperature": 0.1,
+        "max_tokens": sum(len(text) for text in texts) + 500
+    }
+    
+    try:
+        response = requests.post(endpoint, json=payload, timeout=timeout * 2)  # Double timeout for batch
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        # Handle different LLM API response formats
+        if 'choices' in data and data['choices']:
+            # OpenAI-compatible format (LM Studio)
+            batch_response = data['choices'][0].get('message', {}).get('content', '').strip()
+        elif 'response' in data:
+            # Ollama format
+            batch_response = data['response'].strip()
+        elif 'text' in data:
+            # Generic text response
+            batch_response = data['text'].strip()
+        else:
+            logger.error(f"Unexpected LLM response format: {data}")
+            raise LLMUnavailableError("Unexpected response format from LLM")
+        
+        if not batch_response:
+            raise LLMUnavailableError("Empty response from LLM")
+        
+        # Parse batch response
+        redacted_texts = batch_response.split('---NEXT---')
+        redacted_texts = [text.strip() for text in redacted_texts]
+        
+        # Validate we got the right number of responses
+        if len(redacted_texts) != len(texts):
+            logger.warning(f"Expected {len(texts)} redacted texts, got {len(redacted_texts)}. Falling back to individual processing.")
+            # Fallback to individual processing
+            return [redact_with_llm(text, endpoint, model, timeout) for text in texts]
+        
+        return redacted_texts
+        
+    except requests.exceptions.ConnectionError:
+        raise LLMUnavailableError(f"Cannot connect to LLM endpoint: {endpoint}")
+    except requests.exceptions.Timeout:
+        raise LLMUnavailableError(f"LLM batch request timed out after {timeout * 2}s")
+    except requests.exceptions.HTTPError as e:
+        # Check if it's a 400 error due to no model loaded
+        if response.status_code == 400:
+            raise LLMUnavailableError(f"LLM model not loaded or invalid request (check LM Studio has a model loaded)")
+        raise LLMUnavailableError(f"LLM HTTP error: {e}")
+    except json.JSONDecodeError:
+        raise LLMUnavailableError("Invalid JSON response from LLM")
+    except Exception as e:
+        raise LLMUnavailableError(f"LLM batch request failed: {e}")
