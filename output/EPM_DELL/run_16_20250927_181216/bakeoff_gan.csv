@@ -1,2 +1,0 @@
-trial_id,timestamp,model,trial,realness_score,coherence_score,naturalness_score,overall_score,brief_feedback,grading_error
-google/gemma-3-1b_1_1759011146,2025-09-27T18:12:28.226337,google/gemma-3-1b,1,8,9,8,8,"The conversation is quite realistic and coherent, with natural speech patterns, though some minor adjustments could enhance its believability.",

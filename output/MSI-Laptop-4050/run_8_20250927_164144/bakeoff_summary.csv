@@ -1,2 +1,0 @@
-timestamp,machine_name,gpu_info,gpu_memory,platform,model,trials_run,unique_conversations,duplicates_found,duplicate_rate,avg_latency_s,avg_tokens_per_sec
-2025-09-27T16:42:03.062918,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-10-10.0.26100-SP0,google/gemma-3-1b,1,1,0,0.0,15.435237884521484,33.17085255378121

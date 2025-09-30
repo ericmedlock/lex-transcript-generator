@@ -1,6 +1,0 @@
-trial_id,timestamp,machine_name,gpu_info,gpu_memory,platform,model,trial,latency_s,completion_tokens,tokens_per_sec,unique,duplicate_reason,sample_output
-google/gemma-3-1b_1_1759006337,2025-09-27T16:52:17.147147,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,1,82.6063437461853,0,0,False,error,
-google/gemma-3-1b_2_1759006391,2025-09-27T16:53:11.468129,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,2,53.26942324638367,0,0,False,error,
-google/gemma-3-1b_3_1759006451,2025-09-27T16:54:11.298365,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,3,58.77684235572815,0,0,False,error,
-google/gemma-3-1b_4_1759006508,2025-09-27T16:55:08.719868,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,google/gemma-3-1b,4,56.370476961135864,0,0,False,error,
-phi-3-mini-4k-instruct_1_1759006633,2025-09-27T16:57:13.900970,MSI-Laptop-4050,NVIDIA GeForce RTX 4050 Laptop GPU,6141MB,Windows-11-10.0.26100-SP0,phi-3-mini-4k-instruct,1,122.07421660423279,0,0,False,error,
