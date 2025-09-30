@@ -183,7 +183,11 @@ python scripts/health_check.py
 
 ### Running Tests
 ```bash
+# All tests
 pytest tests/
+
+# Performance tests only
+python run_perf.py test
 ```
 
 ### Code Quality
@@ -199,7 +203,102 @@ mypy src/
 3. Configure specialized models
 4. Update web interface
 
-## 📊 Performance
+## ⚡ Performance Mode
+
+### Enhanced LLM Generator with Dynamic Tuning
+The system includes a high-performance LLM generator with:
+- **Threaded Request Pool**: Bounded worker pool with async queue
+- **Dynamic Concurrency Tuner**: Hill-climbing algorithm with guardrails
+- **Real-time Telemetry**: PostgreSQL metrics storage and live dashboard
+- **Intelligent Backpressure**: Queue management and OOM protection
+- **Retry Logic**: Exponential backoff for 429/5xx errors
+
+### Quick Start - Performance Mode
+
+1. **Setup database and environment**
+```bash
+# Copy and customize configuration
+cp config/perf.example.env .env
+
+# Set your database URL
+export PERF_DB_URL=postgresql://user:pass@localhost:5432/database
+
+# Apply migrations
+python run_perf.py migrate
+```
+
+2. **Run performance generator**
+```bash
+# Start with custom settings
+CONCURRENCY_MIN=2 CONCURRENCY_MAX=6 TARGET_P95_MS=2500 python run_perf.py run
+```
+
+3. **Run benchmark**
+```bash
+# 2-minute benchmark with 9999 job limit
+python run_perf.py bench --duration-sec 120 --jobs 9999
+
+# Custom prompts from file
+python run_perf.py bench --duration-sec 60 --prompt-file my_prompts.txt
+```
+
+4. **Monitor real-time metrics**
+```bash
+# View metrics dashboard
+curl http://localhost:8088/metrics
+
+# WebSocket for live updates
+ws://localhost:8088/ws
+```
+
+### Configuration Options
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CONCURRENCY_MIN` | 2 | Minimum worker threads |
+| `CONCURRENCY_MAX` | 4 | Maximum worker threads |
+| `TARGET_P95_MS` | 2500 | P95 latency target (ms) |
+| `TARGET_ERROR_RATE` | 0.03 | Maximum error rate (3%) |
+| `SAMPLE_WINDOW_SEC` | 30 | Statistics window size |
+| `TUNE_INTERVAL_SEC` | 15 | Tuning frequency |
+| `REQUEST_TIMEOUT_SEC` | 60 | HTTP request timeout |
+| `METRICS_PORT` | 8088 | Metrics server port |
+
+### Performance Metrics
+
+The system tracks and optimizes:
+- **Throughput**: Jobs per second with automatic scaling
+- **Latency**: P50/P95 response times with SLA enforcement
+- **Error Rates**: HTTP 4xx/5xx with retry logic
+- **Resource Usage**: Queue depth and worker utilization
+- **Token Efficiency**: Input/output token rates
+
+### Acceptance Criteria ✅
+
+- ✅ Bounded worker pool with shared async queue
+- ✅ Dynamic concurrency tuning (2-6 workers based on performance)
+- ✅ PostgreSQL telemetry storage (runs, samples, jobs)
+- ✅ Real-time metrics server (HTTP + WebSocket)
+- ✅ Retry logic with jittered exponential backoff
+- ✅ Backpressure handling (HTTP 503 when overloaded)
+- ✅ Graceful shutdown with job draining
+- ✅ Comprehensive test suite
+- ✅ CLI benchmark tool
+- ✅ Performance logging and monitoring
+
+### Testing
+
+```bash
+# Run all performance tests
+python run_perf.py test
+
+# Specific test categories
+pytest tests/perf/test_tuner.py -v
+pytest tests/perf/test_worker_pool.py -v
+pytest tests/perf/test_smoke.py -v
+```
+
+## 📊 System Performance
 
 ### Typical Performance
 - **Generation Rate**: 1,000+ conversations/hour per GPU node, 100+ per Pi

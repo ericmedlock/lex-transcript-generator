@@ -5,3 +5,6 @@ psutil
 openai
 PyYAML
 llama-cpp-python
+asyncpg
+pytest
+pytest-asyncio
