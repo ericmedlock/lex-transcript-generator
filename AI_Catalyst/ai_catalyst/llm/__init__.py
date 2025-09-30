@@ -9,5 +9,6 @@ Three-tier LLM system supporting:
 
 from .provider import LLMProvider
 from .endpoints import EndpointDiscovery
+from .grader import ConversationGrader
 
-__all__ = ["LLMProvider", "EndpointDiscovery"]
+__all__ = ["LLMProvider", "EndpointDiscovery", "ConversationGrader"]

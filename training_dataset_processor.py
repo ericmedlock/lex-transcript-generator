@@ -12,12 +12,12 @@ from typing import Dict, Any, List
 import sys
 import os
 
-# Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+# Add AI_Catalyst to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'AI_Catalyst'))
 
-from src.data.translators.file_processor import FileProcessor
+from ai_catalyst.data.processors.file_processor import FileProcessor
 from src.data.translators.lex_converter import LexConverter
-from src.data.translators.pii_processor import PIIProcessor
+from ai_catalyst.data.pii.processor import PIIProcessor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

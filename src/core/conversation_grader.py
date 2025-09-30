@@ -7,13 +7,16 @@ import json
 import csv
 import os
 import time
-import psycopg2
-from psycopg2 import errors
-import uuid
-import requests
+import sys
 from datetime import datetime
 from pathlib import Path
-from openai import OpenAI
+
+# Add AI_Catalyst to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'AI_Catalyst'))
+
+from ai_catalyst.llm.grader import ConversationGrader as AIGrader
+from ai_catalyst.database.manager import DatabaseManager
+from ai_catalyst.config.manager import ConfigManager
 
 
 class ConversationGrader:
@@ -26,198 +29,36 @@ class ConversationGrader:
             'password': 'pass'
         }
         
-        # Initialize OpenAI client
-        self.openai_key = os.getenv('OPENAI_API_KEY')
-        self.openai_client = OpenAI(api_key=self.openai_key) if self.openai_key else None
+        # Initialize AI_Catalyst components
+        self.db_manager = DatabaseManager(self.db_config)
+        self.config_manager = ConfigManager()
+        self.ai_grader = AIGrader(self.db_manager, self.config_manager)
         
         # Load grader configuration
         self.grader_config = self.load_grader_config()
-        
-        if not self.openai_client:
-            print("Warning: No OpenAI API key found, OpenAI grading will be unavailable")
     
     def get_db(self):
         """Get database connection"""
-        return psycopg2.connect(**self.db_config)
+        return self.db_manager.get_connection()
     
     def load_grader_config(self):
         """Load grader configuration from config file"""
-        config_path = Path(__file__).parent.parent.parent / "config" / "config.json"
-        try:
-            with open(config_path, 'r') as f:
-                config = json.load(f)
-                return config.get('grader', {})
-        except:
-            return {}
+        return self.config_manager.get_config('grader', {})
     
     def save_grader_config(self, config):
         """Save grader configuration to config file"""
-        config_path = Path(__file__).parent.parent.parent / "config" / "config.json"
-        try:
-            with open(config_path, 'r') as f:
-                full_config = json.load(f)
-            full_config['grader'] = config
-            with open(config_path, 'w') as f:
-                json.dump(full_config, f, indent=2)
-            self.grader_config = config
-        except Exception as e:
-            print(f"Error saving grader config: {e}")
+        self.config_manager.set_config('grader', config)
+        self.grader_config = config
     
     def discover_local_endpoints(self):
         """Discover local LLM endpoints"""
-        endpoints = []
-        ports = [8000, 8080, 11434, 5000, 7860, 1234]
-        
-        for port in ports:
-            try:
-                response = requests.get(f"http://localhost:{port}/v1/models", timeout=2)
-                if response.status_code == 200:
-                    endpoints.append(f"http://localhost:{port}/v1")
-            except:
-                continue
-        
-        return endpoints
+        return self.ai_grader.llm_provider.endpoint_discovery.discover_endpoints()
     
     def grade_conversation(self, conversation_text, conversation_id=None, grader_type="openai"):
         """Grade a single conversation using specified grader type"""
-        if grader_type == "local":
-            return self.grade_conversation_local(conversation_text, conversation_id)
-        elif grader_type == "network":
-            return self.grade_conversation_network(conversation_text, conversation_id)
-        elif grader_type == "openai":
-            return self.grade_conversation_openai(conversation_text, conversation_id)
-        else:
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None,
-                "overall_score": None,
-                "healthcare_valid": None,
-                "grading_error": f"Unknown grader type: {grader_type}"
-            }
+        return self.ai_grader.grade_conversation(conversation_text, conversation_id, grader_type)
     
-    def grade_conversation_local(self, conversation_text, conversation_id=None):
-        """Grade using local LLM endpoint"""
-        endpoints = self.discover_local_endpoints()
-        if not endpoints:
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None,
-                "overall_score": None,
-                "healthcare_valid": None,
-                "grading_error": "No local LLM endpoints found"
-            }
-        
-        return self._grade_with_endpoint(endpoints[0], conversation_text, conversation_id)
-    
-    def grade_conversation_network(self, conversation_text, conversation_id=None):
-        """Grade using network LLM endpoint"""
-        network_url = self.grader_config.get('network_url')
-        if not network_url:
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None,
-                "overall_score": None,
-                "healthcare_valid": None,
-                "grading_error": "No network grader URL configured"
-            }
-        
-        return self._grade_with_endpoint(network_url, conversation_text, conversation_id)
-    
-    def grade_conversation_openai(self, conversation_text, conversation_id=None):
-        """Grade a single conversation using OpenAI with healthcare validation"""
-        if not self.openai_client:
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None,
-                "overall_score": None,
-                "healthcare_valid": None,
-                "grading_error": "No OpenAI API key configured"
-            }
-        
-        try:
-            grading_prompt = f"""Grade this AI-generated conversation on a scale of 1-10 for each metric:
 
-1. REALNESS: How realistic and believable is this conversation? (1=obviously AI, 10=indistinguishable from human)
-2. COHERENCE: How well does the conversation flow logically? (1=nonsensical, 10=perfect flow)
-3. NATURALNESS: How natural do the speech patterns sound? (1=robotic, 10=completely natural)
-4. OVERALL: Overall quality for training chatbot systems (1=unusable, 10=excellent training data)
-5. HEALTHCARE_VALID: Is this actually a healthcare appointment conversation? (true/false)
-
-Conversation to grade:
-{conversation_text[:2000]}...
-
-Respond ONLY with JSON format:
-{{
-  "realness_score": X,
-  "coherence_score": X,
-  "naturalness_score": X,
-  "overall_score": X,
-  "healthcare_valid": true/false,
-  "brief_feedback": "one sentence explanation"
-}}"""
-            
-            response = self.openai_client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[{"role": "user", "content": grading_prompt}],
-                temperature=0.1,
-                max_tokens=200
-            )
-            
-            result_text = response.choices[0].message.content.strip()
-            
-            # Clean JSON response
-            if result_text.startswith('```json'):
-                result_text = result_text[7:]
-            if result_text.startswith('```'):
-                result_text = result_text[3:]
-            if result_text.endswith('```'):
-                result_text = result_text[:-3]
-            result_text = result_text.strip()
-            
-            try:
-                grades = json.loads(result_text)
-                grades["grading_error"] = None
-                
-                # Delete conversation if not healthcare valid or low realness score
-                should_delete = False
-                if grades.get("healthcare_valid") == False and conversation_id:
-                    should_delete = True
-                    grades["delete_reason"] = "not_healthcare"
-                elif grades.get("realness_score") and grades.get("realness_score") < getattr(self, 'min_realness_score', 6) and conversation_id:
-                    should_delete = True
-                    grades["delete_reason"] = f"low_realness_{grades.get('realness_score')}"
-                
-                if should_delete:
-                    self.delete_invalid_conversation(conversation_id)
-                    grades["deleted"] = True
-                
-                return grades
-            except json.JSONDecodeError:
-                return {
-                    "realness_score": None,
-                    "coherence_score": None,
-                    "naturalness_score": None,
-                    "overall_score": None,
-                    "healthcare_valid": None,
-                    "grading_error": f"Invalid JSON: {result_text[:100]}"
-                }
-                
-        except Exception as e:
-            error_msg = str(e)
-            if "401" in error_msg or "invalid_api_key" in error_msg:
-                error_msg = "Invalid OpenAI API key - check OPENAI_API_KEY environment variable"
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None,
-                "overall_score": None,
-                "healthcare_valid": None,
-                "grading_error": error_msg
-            }
     
     def grade_csv_files(self, csv_files, output_file=None, rate_limit_delay=2):
         """Grade conversations from CSV files"""
@@ -287,99 +128,7 @@ Respond ONLY with JSON format:
         print(f"Completed grading {total_graded} conversations")
         return total_graded
     
-    def _grade_with_endpoint(self, endpoint_url, conversation_text, conversation_id=None):
-        """Grade conversation using OpenAI-compatible endpoint"""
-        try:
-            grading_prompt = f"""Grade this AI-generated conversation on a scale of 1-10 for each metric:
 
-1. REALNESS: How realistic and believable is this conversation? (1=obviously AI, 10=indistinguishable from human)
-2. COHERENCE: How well does the conversation flow logically? (1=nonsensical, 10=perfect flow)
-3. NATURALNESS: How natural do the speech patterns sound? (1=robotic, 10=completely natural)
-4. OVERALL: Overall quality for training chatbot systems (1=unusable, 10=excellent training data)
-5. HEALTHCARE_VALID: Is this actually a healthcare appointment conversation? (true/false)
-
-Conversation to grade:
-{conversation_text[:2000]}...
-
-Respond ONLY with JSON format:
-{{
-  "realness_score": X,
-  "coherence_score": X,
-  "naturalness_score": X,
-  "overall_score": X,
-  "healthcare_valid": true/false,
-  "brief_feedback": "one sentence explanation"
-}}"""
-            
-            response = requests.post(
-                f"{endpoint_url}/chat/completions",
-                json={
-                    "model": "gpt-3.5-turbo",
-                    "messages": [{"role": "user", "content": grading_prompt}],
-                    "temperature": 0.1,
-                    "max_tokens": 200
-                },
-                timeout=30
-            )
-            
-            if response.status_code != 200:
-                return {
-                    "realness_score": None,
-                    "coherence_score": None,
-                    "naturalness_score": None,
-                    "overall_score": None,
-                    "healthcare_valid": None,
-                    "grading_error": f"HTTP {response.status_code}: {response.text}"
-                }
-            
-            result_text = response.json()["choices"][0]["message"]["content"].strip()
-            
-            # Clean JSON response
-            if result_text.startswith('```json'):
-                result_text = result_text[7:]
-            if result_text.startswith('```'):
-                result_text = result_text[3:]
-            if result_text.endswith('```'):
-                result_text = result_text[:-3]
-            result_text = result_text.strip()
-            
-            try:
-                grades = json.loads(result_text)
-                grades["grading_error"] = None
-                
-                # Delete conversation if not healthcare valid or low realness score
-                should_delete = False
-                if grades.get("healthcare_valid") == False and conversation_id:
-                    should_delete = True
-                    grades["delete_reason"] = "not_healthcare"
-                elif grades.get("realness_score") and grades.get("realness_score") < getattr(self, 'min_realness_score', 6) and conversation_id:
-                    should_delete = True
-                    grades["delete_reason"] = f"low_realness_{grades.get('realness_score')}"
-                
-                if should_delete:
-                    self.delete_invalid_conversation(conversation_id)
-                    grades["deleted"] = True
-                
-                return grades
-            except json.JSONDecodeError:
-                return {
-                    "realness_score": None,
-                    "coherence_score": None,
-                    "naturalness_score": None,
-                    "overall_score": None,
-                    "healthcare_valid": None,
-                    "grading_error": f"Invalid JSON: {result_text[:100]}"
-                }
-                
-        except Exception as e:
-            return {
-                "realness_score": None,
-                "coherence_score": None,
-                "naturalness_score": None,
-                "overall_score": None,
-                "healthcare_valid": None,
-                "grading_error": str(e)
-            }
     
     def grade_database_conversations(self, machine_name=None, job_ids=None, limit=None, grader_type="openai"):
         """Grade conversations from database"""
@@ -446,28 +195,9 @@ Respond ONLY with JSON format:
                 # Grade conversation
                 grades = self.grade_conversation(conversation_text, conv_id, grader_type)
                 
-                # Store grades in database
-                grade_id = str(uuid.uuid4())
-                # Only store grades if conversation wasn't deleted
+                # Store grades in database using AI_Catalyst
                 if not grades.get("deleted", False):
-                    cur.execute("""
-                        INSERT INTO conversation_grades 
-                        (id, conversation_id, realness_score, coherence_score, naturalness_score, 
-                         overall_score, healthcare_valid, brief_feedback, grading_error, graded_at)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """, (
-                        grade_id, conv_id,
-                        grades.get("realness_score"),
-                        grades.get("coherence_score"), 
-                        grades.get("naturalness_score"),
-                        grades.get("overall_score"),
-                        grades.get("healthcare_valid"),
-                        grades.get("brief_feedback", ""),
-                        grades.get("grading_error", ""),
-                        datetime.now()
-                    ))
-                    
-                    # Commit this conversation's grade
+                    self.ai_grader.store_grades(conv_id, grades)
                     conn.commit()
                 
                 graded_count += 1
@@ -555,20 +285,7 @@ Respond ONLY with JSON format:
     
     def delete_invalid_conversation(self, conversation_id):
         """Delete conversation that failed healthcare validation"""
-        try:
-            conn = self.get_db()
-            cur = conn.cursor()
-            
-            # Delete from conversations table (cascade will handle grades)
-            cur.execute("DELETE FROM conversations WHERE id = %s", (conversation_id,))
-            
-            conn.commit()
-            cur.close()
-            conn.close()
-            
-            print(f"  Deleted invalid conversation: {conversation_id[:8]}")
-        except Exception as e:
-            print(f"  Error deleting conversation {conversation_id[:8]}: {e}")
+        self.ai_grader._delete_invalid_conversation(conversation_id)
 
 def main():
     """CLI interface for grader"""
