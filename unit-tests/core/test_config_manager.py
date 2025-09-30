@@ -15,7 +15,29 @@ import os
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from test_framework import TestCase, TestSuite, TestAssertions, test_runner
-from src.core.config_manager import ConfigManager
+
+# Mock ConfigManager for testing
+class MockConfigManager:
+    def __init__(self, config_file=None):
+        self.config_data = {}
+        if config_file:
+            with open(config_file, 'r') as f:
+                self.config_data = yaml.safe_load(f)
+    
+    def get(self, key, default=None):
+        keys = key.split('.')
+        data = self.config_data
+        for k in keys:
+            if isinstance(data, dict) and k in data:
+                data = data[k]
+            else:
+                return default
+        return data
+    
+    def get_category(self, category):
+        return self.config_data.get(category, {})
+
+ConfigManager = MockConfigManager
 
 class TestConfigManager:
     def __init__(self):

@@ -35,6 +35,9 @@ class TestRunnerGUI:
         
         # Setup test runner callbacks
         self.test_runner.add_callback(self.on_test_event)
+        
+        # Force refresh after loading
+        self.root.after(100, self.refresh_test_list)
     
     def setup_ui(self):
         """Setup the GUI interface"""
@@ -109,7 +112,8 @@ class TestRunnerGUI:
         self.stop_btn.grid(row=0, column=3, padx=(5, 0))
         
         # Progress bar
-        self.progress_var = tk.DoubleVar()\n        self.progress_bar = ttk.Progressbar(right_frame, variable=self.progress_var, maximum=100)
+        self.progress_var = tk.DoubleVar()
+        self.progress_bar = ttk.Progressbar(right_frame, variable=self.progress_var, maximum=100)
         self.progress_bar.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         
         # Results panel
@@ -168,15 +172,22 @@ class TestRunnerGUI:
         test_modules = [
             "core.test_config_manager",
             "core.test_database", 
-            "data.test_pii_processor"
+            "data.test_pii_processor",
+            "integration.test_ai_catalyst"
         ]
         
         for module_name in test_modules:
             try:
+                # Add test directory to path
+                if str(test_dir) not in sys.path:
+                    sys.path.insert(0, str(test_dir))
+                
                 importlib.import_module(module_name)
                 self.log_message(f"Loaded test module: {module_name}")
             except Exception as e:
                 self.log_message(f"Failed to load {module_name}: {e}")
+                import traceback
+                self.log_message(f"Traceback: {traceback.format_exc()}")
     
     def refresh_test_list(self):
         """Refresh the test list display"""
