@@ -11,12 +11,9 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-# Add AI_Catalyst to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'AI_Catalyst'))
-
+from ai_catalyst import LLMProvider, PIIProcessor, ConfigManager
 from ai_catalyst.llm.grader import ConversationGrader as AIGrader
 from ai_catalyst.database.manager import DatabaseManager
-from ai_catalyst.config.manager import ConfigManager
 
 
 class ConversationGrader:

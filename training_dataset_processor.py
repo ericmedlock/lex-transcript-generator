@@ -12,12 +12,8 @@ from typing import Dict, Any, List
 import sys
 import os
 
-# Add AI_Catalyst to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'AI_Catalyst'))
-
-from ai_catalyst.data.processors.file_processor import FileProcessor
+from ai_catalyst import FileProcessor, PIIProcessor
 from src.data.translators.lex_converter import LexConverter
-from ai_catalyst.data.pii.processor import PIIProcessor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

@@ -8,3 +8,4 @@ llama-cpp-python
 asyncpg
 pytest
 pytest-asyncio
+ai-catalyst
